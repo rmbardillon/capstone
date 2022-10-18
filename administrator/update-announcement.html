@@ -1,0 +1,80 @@
+<?php 
+    session_start();
+    $page = "announcement";
+    include("header.html");
+    $id = $_GET['edit'];
+    require_once 'includes/dbh.inc.php';
+    require_once 'includes/functions.inc.php';
+    $announcement = getUserData($connection, "announcement", "id", $id);
+    if (!isset($_SESSION['admin-data'])) {
+        header("location: index.html");
+        exit();
+    }
+?>
+                <div class="container-fluid">
+                    <h3 class="text-dark mb-4">Announcements</h3>
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-md-8 col-lg-6 col-xl-5 col-xxl-4">
+                            <div class="card mb-5">
+                                <div class="card-body p-sm-5">
+                                    <h2 class="text-center mb-4">Announcement</h2>
+                                    <form action="includes/add-announcement.inc.php?edit=<?php echo($id); ?>" method="post">
+                                        <?php foreach($announcement as $user): ?>
+                                        <div class="mb-3"><input class="form-control" type="text" id="announcement" name="announcement" placeholder="Announcement Title" value="<?php echo($user['title']); ?>"></div>
+                                        <div class="mb-3">
+                                            <select class="form-select" id="announcementFor" name="announcementFor" required>
+                                                <option disabled selected value="">Announcement For?</option>
+                                                <?php 
+                                                    $selected = $user['announcement_for'];
+                                                    $options = array('Administrator','PWD','Senior Citizen','Solo Parent');
+                                                    foreach($options as $option) {
+                                                        if($selected == $option) {
+                                                            echo '<option selected value="'; echo $option; echo'">'; echo $option; echo'</option>';
+                                                        } else {
+                                                            echo '<option value="'; echo $option; echo'">'; echo $option; echo'</option>';
+                                                        }
+                                                    }
+                                                ?>
+                                                <option value="Administrator">Administrators</option>
+                                                <option value="Solo Parent">Solo Parent</option>
+                                                <option value="Senior Citizen">Senior Citizen</option>
+                                                <option value="PWD">PWD</option>
+                                            </select></div>
+                                        <div class="mb-3">
+                                            <select class="form-select" id="barangay" name="barangay" required>
+                                                <option disabled selected value="">Please Select Barangay</option>
+                                                <?php 
+                                                    $selected = $user['barangay'];
+                                                    $barangay = array('City Hall','Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz'
+                                                    ,'Santo Domingo','Sinalhan','Tagapo');
+                                                    foreach($barangay as $option) {
+                                                        if($selected == $option) {
+                                                            echo '<option selected value="'; echo $option; echo'">'; echo $option; echo'</option>';
+                                                        } else {
+                                                            echo '<option value="'; echo $option; echo'">'; echo $option; echo'</option>';
+                                                        }
+                                                    }
+                                                ?>
+                                            </select></div>
+                                        <div class="mb-3"><textarea class="form-control" id="announcementMessage" name="announcementMessage" rows="6" placeholder="Announcement Message" ><?php echo($user['message']); ?></textarea></div>
+                                        <div><button class="btn btn-primary d-block w-100" type="submit" name="update-announcement-submit">Update Announcement</button></div>
+                                        <?php endforeach; ?>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span>Copyright © Brand 2022</span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>

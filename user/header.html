@@ -1,0 +1,56 @@
+<?php
+    require_once 'includes/dbh.inc.php';
+    require_once 'includes/functions.inc.php';
+    $username = $_SESSION['username'];
+    $userData = loginCredentialsExists($connection, $username, $username);
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>CSWD User</title>
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Basic-icons.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script defer type="text/javascript" src="includes/funtion.inc.js"></script>
+    <link rel="shortcut icon" href="assets/img/santarosa-logo.ico" type="image/x-icon">
+</head>
+<body>
+    <div>
+        <nav class="navbar navbar-light navbar-expand-md py-3" style="background: #bce784;">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="index.html">
+                    <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon" style="background: rgb(255,255,255);">
+                        <img src="assets/img/santarosa-logo.png" width="50px" height="50px">
+                    </span>
+                    <span id="cswd-header" style="padding-left: 9px;">City Social Welfare Development</span>
+                </a>
+                <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2" style="margin-top: 6px;">
+                    <span class="visually-hidden">Toggle navigation</span>
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navcol-2">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"><a class="nav-link <?php if ($page == 'home') {echo 'active';} ?>" href="home.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link <?php if ($page == 'id-applications') {echo 'active';} ?>" href="id-application.html">Services<br></a></li>
+                        <li class="nav-item"><a class="nav-link <?php if ($page == 'applications') {echo 'active';} ?>" href="applications.html">Applications</a></li>
+                        <li class="nav-item"><a class="nav-link <?php if ($page == 'announcements') {echo 'active';} ?>" href="announcements.html">Announcements</a></li>
+                    </ul><a class="btn btn-primary ms-md-2" role="button" href="includes/logout.inc.php">Logout</a>
+                </div>
+            </div>
+        </nav>

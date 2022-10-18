@@ -1,0 +1,280 @@
+<?php 
+    session_start();
+    $page = "rejected-requests";
+    include("header.html");
+    if (!isset($_SESSION['admin-data'])) {
+        header("location: index.html");
+        exit();
+    }
+?>
+            <?php if($adminData['admin_type'] == "Main Administrator"){
+                echo <<<HTML
+                <div class="container-fluid">
+                    <h3 class="text-dark mb-4">Pending Requests</h3>
+                    <div class="card shadow">
+                        <div class="card-header py-3">
+                            <p class="text-primary m-0 fw-bold">Recent Registrants : Person With Disability&nbsp;</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table mt-2" id="dataTable-1" role="grid" aria-describedby="dataTable_info">
+                                <table class="table my-0" id="pwdDataTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">Name</th>
+                                            <th style="text-align: center;">Address</th>
+                                            <th style="text-align: center;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                HTML; ?>
+                                        <?php foreach($rejectedPWD as $userPWDData): $profilePic = getUserData($connection, 'media', 'username', $userPWDData['username']); ?>
+                                        <tr>
+                                            <td style="text-align: left;">
+                                                <?php if(!empty($profilePic)) foreach($profilePic as $image): ?>
+                                                <img class="rounded-circle me-2" width="30" height="30" src="../uploads/<?php echo($image['image_location']); ?>">
+                                                <?php endforeach; ?>
+                                                <?php if(empty($profilePic)) {?>
+                                                <img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/default profile picture.png">
+                                                <?php } ?>
+                                                <?php echo($userPWDData['pwd_first_name']." ".$userPWDData['pwd_middle_name']." ".$userPWDData['pwd_last_name']); ?></td>
+                                            <td style="text-align: center;">Barangay <?php echo($userPWDData['barangay']); ?>&nbsp;</td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="pwd-registration.html?id=<?php echo($userPWDData['id']); ?>">View Information</a></td>
+                                        </tr>
+                                        <?php endforeach; 
+                echo <<<HTML
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                HTML;
+                echo <<<HTML
+                <div class="container-fluid">
+                    <h3 class="text-dark mb-4"></h3>
+                    <div class="card shadow">
+                        <div class="card-header py-3">
+                            <p class="text-primary m-0 fw-bold">Recent Registrants : Senior Citizen</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table mt-2" id="dataTable-3" role="grid" aria-describedby="dataTable_info">
+                                <table class="table my-0" id="scDataTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">Name</th>
+                                            <th style="text-align: center;">Address</th>
+                                            <th style="text-align: center;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                HTML; ?>
+                                        <?php foreach($rejectedSrCitizen as $user): $profilePic = getUserData($connection, 'media', 'username', $user['username']); ?>
+                                        <tr>
+                                            <td style="text-align: left;">
+                                                <?php if(!empty($profilePic)) foreach($profilePic as $image): ?>
+                                                <img class="rounded-circle me-2" width="30" height="30" src="../uploads/<?php echo($image['image_location']); ?>">
+                                                <?php endforeach; ?>
+                                                <?php if(empty($profilePic)) {?>
+                                                <img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/default profile picture.png">
+                                                <?php } ?>
+                                                <?php echo($user['sr_citizen_first_name']." ".$user['sr_citizen_middle_name']." ".$user['sr_citizen_last_name']); ?></td>
+                                            <td style="text-align: center;">Barangay <?php echo($user['barangay']); ?>&nbsp;</td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="sr-citizen-registration.html?id=<?php echo($user['id']); ?>&username=<?php echo($user['username']); ?>">View Information</a></td>
+                                        </tr>
+                                        <?php endforeach; 
+                echo <<<HTML
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                HTML;
+                echo <<<HTML
+                <div class="container-fluid">
+                    <h3 class="text-dark mb-4"></h3>
+                    <div class="card shadow">
+                        <div class="card-header py-3">
+                            <p class="text-primary m-0 fw-bold">Recent Registrants : Solo Parent</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table mt-2" id="dataTable-2" role="grid" aria-describedby="dataTable_info">
+                                <table class="table my-0" id="spDataTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">Name</th>
+                                            <th style="text-align: center;">Address</th>
+                                            <th style="text-align: center;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                HTML; ?>
+                                        <?php foreach($rejectedSoloParent as $user): $profilePic = getUserData($connection, 'media', 'username', $user['username']); ?>
+                                        <tr>
+                                            <td style="text-align: left;">
+                                                <?php if(!empty($profilePic)) foreach($profilePic as $image): ?>
+                                                <img class="rounded-circle me-2" width="30" height="30" src="../uploads/<?php echo($image['image_location']); ?>">
+                                                <?php endforeach; ?>
+                                                <?php if(empty($profilePic)) {?>
+                                                <img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/default profile picture.png">
+                                                <?php } ?>
+                                                <?php echo($user['solo_parent_name']); ?></td>
+                                            <td style="text-align: center;">Barangay <?php echo($user['barangay']); ?>&nbsp;</td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="solo-parent-registration.html?id=<?php echo($user['id']); ?>&username=<?php echo($user['username']); ?>">View Information</a></td>
+                                        </tr>
+                                        <?php endforeach; 
+                echo <<<HTML
+                                    </tbody>
+                                    
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                HTML; }
+                ?>
+            <?php if($adminData['admin_type'] == "PWD Administrator"){
+                echo <<<HTML
+                <div class="container-fluid">
+                    <h3 class="text-dark mb-4">Pending Requests</h3>
+                    <div class="card shadow">
+                        <div class="card-header py-3">
+                            <p class="text-primary m-0 fw-bold">Recent Registrants : Person With Disability&nbsp;</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table mt-2" id="dataTable-1" role="grid" aria-describedby="dataTable_info">
+                                <table class="table my-0" id="pwdDataTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">Name</th>
+                                            <th style="text-align: center;">Address</th>
+                                            <th style="text-align: center;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                HTML; ?>
+                                        <?php foreach($rejectedPWD as $userPWDData): $profilePic = getUserData($connection, 'media', 'username', $userPWDData['username']); ?>
+                                        <tr>
+                                            <td style="text-align: left;">
+                                                <?php if(!empty($profilePic)) foreach($profilePic as $image): ?>
+                                                <img class="rounded-circle me-2" width="30" height="30" src="../uploads/<?php echo($image['image_location']); ?>">
+                                                <?php endforeach; ?>
+                                                <?php if(empty($profilePic)) {?>
+                                                <img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/default profile picture.png">
+                                                <?php } ?>
+                                                <?php echo($userPWDData['pwd_first_name']." ".$userPWDData['pwd_middle_name']." ".$userPWDData['pwd_last_name']); ?></td>
+                                            <td style="text-align: center;">Barangay <?php echo($userPWDData['barangay']); ?>&nbsp;</td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="pwd-registration.html?id=<?php echo($userPWDData['id']); ?>">View Information</a></td>
+                                        </tr>
+                                        <?php endforeach; 
+                echo <<<HTML
+                                    </tbody>
+                                    
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                HTML; }
+                ?>
+                <?php if($adminData['admin_type'] == "Senior Citizen Administrator"){
+                echo <<<HTML
+                <div class="container-fluid">
+                    <h3 class="text-dark mb-4"></h3>
+                    <div class="card shadow">
+                        <div class="card-header py-3">
+                            <p class="text-primary m-0 fw-bold">Recent Registrants : Senior Citizen</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table mt-2" id="dataTable-3" role="grid" aria-describedby="dataTable_info">
+                                <table class="table my-0" id="scDataTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">Name</th>
+                                            <th style="text-align: center;">Address</th>
+                                            <th style="text-align: center;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                HTML; ?>
+                                        <?php foreach($rejectedSrCitizen as $user): $profilePic = getUserData($connection, 'media', 'username', $user['username']); ?>
+                                        <tr>
+                                            <td style="text-align: left;">
+                                                <?php if(!empty($profilePic)) foreach($profilePic as $image): ?>
+                                                <img class="rounded-circle me-2" width="30" height="30" src="../uploads/<?php echo($image['image_location']); ?>">
+                                                <?php endforeach; ?>
+                                                <?php if(empty($profilePic)) {?>
+                                                <img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/default profile picture.png">
+                                                <?php } ?>
+                                                <?php echo($user['sr_citizen_first_name']." ".$user['sr_citizen_middle_name']." ".$user['sr_citizen_last_name']); ?></td>
+                                            <td style="text-align: center;">Barangay <?php echo($user['barangay']); ?>&nbsp;</td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="sr-citizen-registration.html?id=<?php echo($user['id']); ?>&username=<?php echo($user['username']); ?>">View Information</a></td>
+                                        </tr>
+                                        <?php endforeach; 
+                echo <<<HTML
+                                    </tbody>
+                                    
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                HTML; }
+                ?>
+                <?php if($adminData['admin_type'] == "Solo Parent Administrator"){
+                echo <<<HTML
+                <div class="container-fluid">
+                    <h3 class="text-dark mb-4"></h3>
+                    <div class="card shadow">
+                        <div class="card-header py-3">
+                            <p class="text-primary m-0 fw-bold">Recent Registrants : Solo Parent</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table mt-2" id="dataTable-2" role="grid" aria-describedby="dataTable_info">
+                                <table class="table my-0" id="spDataTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">Name</th>
+                                            <th style="text-align: center;">Address</th>
+                                            <th style="text-align: center;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                HTML; ?>
+                                        <?php foreach($rejectedSoloParent as $user): $profilePic = getUserData($connection, 'media', 'username', $user['username']); ?>
+                                        <tr>
+                                            <td style="text-align: left;">
+                                                <?php if(!empty($profilePic)) foreach($profilePic as $image): ?>
+                                                <img class="rounded-circle me-2" width="30" height="30" src="../uploads/<?php echo($image['image_location']); ?>">
+                                                <?php endforeach; ?>
+                                                <?php if(empty($profilePic)) {?>
+                                                <img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/default profile picture.png">
+                                                <?php } ?>
+                                                <?php echo($user['solo_parent_name']); ?></td>
+                                            <td style="text-align: center;">Barangay <?php echo($user['barangay']); ?>&nbsp;</td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="solo-parent-registration.html?id=<?php echo($user['id']); ?>&username=<?php echo($user['username']); ?>">View Information</a></td>
+                                        </tr>
+                                        <?php endforeach; 
+                echo <<<HTML
+                                    </tbody>
+                                    
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                HTML; }
+                ?>
+            </div>
+                <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span>Copyright © Brand 2022</span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>

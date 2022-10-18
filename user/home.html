@@ -1,0 +1,616 @@
+<?php 
+    session_start();
+    $page = "home";
+    include "header.html";
+    if(!isset($_SESSION['username'])) {
+        header("location: index.html");
+        exit();
+    }
+?>
+
+        <div class="container">
+            <h3 style="padding-top: 12px;padding-bottom: 10px;margin-top: -5px;">Common Information</h3>
+        </div>
+        <div class="card container">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                    <li class="nav-item"><a class="nav-link active" id="item-1-1-tab" role="tab" aria-controls="item-1-1" aria-selected="true" href="#item-1-1" data-bs-toggle="tab">Persons with Disability</a></li>
+                    <li class="nav-item"><a class="nav-link" id="item-1-2-tab" role="tab" aria-controls="item-1-2" aria-selected="false" href="#item-1-2" data-bs-toggle="tab">Solo Parent</a></li>
+                    <li class="nav-item"><a class="nav-link" id="item-1-3-tab" role="tab" aria-controls="item-1-3" aria-selected="false" href="#item-1-3" data-bs-toggle="tab">Senior Citizen</a></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div id="nav-tabContent" class="tab-content">
+                    <div id="item-1-1" class="tab-pane fade show active" role="tabpanel" aria-labelledby="item-1-1-tab">
+                        <p><span></span></p><p align="center">[ REPUBLIC ACT NO.   9442 ]</p>
+                        <p align="center"><strong>AN ACT AMENDING   REPUBLIC ACT NO. 7277, OTHERWISE KNOWN AS THE "MAGNA CARTA FOR DISABLED PERSONS,   AND FOR OTHER PURPOSES"</strong></p>
+                        <p>Be it   enacted by the Senate and House of Representatives of the   Philippines in Congress   assembled: </p>
+                        <p>SECTION 1.   a new chapter, to be denominated as "Chapter 8. Other   privileges and Incentives" is hereby added to Title Two of Republic Act No.   7277, otherwise known as the "Magna Carta for Disabled Persons", with new   Sections 32 and 33, to read as follows: </p>
+                        <p><strong>CHAPTER   8. Other Privileges and Incentives</strong> </p>
+                        <p>SEC. 32.   Persons with disability shall be entitled to the   following:</p>
+                        <p>(a) At   least twenty percent (20%) discount from all establishments relative to the   utilization of all services in hotels and similar lodging establishments;   restaurants and recreation centers for the exclusive use or enjoyment of persons   with disability;</p>
+                        <p>(b) A   minimum of twenty percent (20%) discount on admission fees charged by theaters,   cinema houses, concert halls, circuses, carnivals and other similar places of   culture, leisure and amusement for the exclusive use of enjoyment of persons   with disability;</p>
+                        <p>(c) At   least twenty percent (20%) discount for the purchase of medicines in all   drugstores for the exclusive use or enjoyment of persons with   disability;</p>
+                        <p>(d) At   least twenty percent (20%) discount on medical and dental services including   diagnostic and laboratory fees such as, but not limited to, x-rays, computerized   tomography scans and blood tests, in all government facilities, subject to   guidelines to be issued by the Department of Health (DOH), in coordination with   the Philippine Health Insurance Corporation (PHILHEALTH)</p>
+                        <p>(e) At   least twenty percent (20%) discount on medical and dental services including   diagnostic and laboratory fees, and professional fees of attending doctors in   all private hospitals and medical facilities, in accordance with the rules and   regulations to be issued by the DOH, in coordination with the   PHILHEALTH;</p>
+                        <p>(f) At   least twenty percent (20%) discount on fare for domestic air and sea travel for   the exclusive use or enjoyment of persons with disability;</p>
+                        <p>(g) At   least twenty percent (20%) discount in public railways, skyways and bus fare for   the exclusive use and enjoyment of person with disability;</p>
+                        <p>(h)   Educational assistance to persons with disability, for them to pursue primary,   secondary, tertiary, post tertiary, as well as vocational or technical   education, in both public and private schools, through the provision of   scholarships, grants, financial aids, subsidies and other incentives to   qualified persons with disability, including support for books, learning   material, and uniform allowance to the extent feasible: Provided, That persons   with disability shall meet minimum admission requirements;</p>
+                        <p>(i) To the   extent practicable and feasible, the continuance of the same benefits and   privileges given by the Government Service Insurance System (GSIS), Social   Security System (SSS), and PAG-IBIG, as the case may be, as are enjoyed by those   in actual service;</p>
+                        <p>(j) To the   extent possible, the government may grant special discounts in special programs   for persons with disability on purchase of basic commodities, subject to   guidelines to be issued for the purpose by the Department of Trade and Industry   (DTI) and the Department of Agricultural (DA); and </p>
+                        <p>(k)   Provision of express lanes for persons with disability in all commercial and   government establishments; in the absence thereof, priority shall be given to   them.</p>
+                        <p>The   abovementioned privileges are available only to persons with disability who are   Filipino citizens upon submission of any of the following as proof of his/her   entitlement thereto:</p>
+                        <p>(I) An   identification card issued by the city or municipal mayor or the barangay   captain of the place where the persons with disability resides; </p>
+                        <p>(II) The   passport of the persons with disability concerned; or</p>
+                        <p>(III)   Transportation discount fare Identification Card (ID) issued by the National   Council for the Welfare of Disabled Persons (NCWDP).</p>
+                        <p>The privileges may   not be claimed if the persons with disability claims a higher discount sa may be   granted by the commercial establishment and/or under other existing laws or in   combination with other discount programs/s. </p>
+                        <p>The   establishments may claim the discounts granted in sub-sections (a), (b), (c),   (f) and (g) as tax deductions based on the net cost of the goods sold or   services rendered: Provided, further, That the total amount of the claimed tax   deduction net of value-added tax if applicable, shall be included in their gross   sales receipts for tax purposes and shall be subject to proper documentation and   to the provisions of the National Internal Revenue Code (NIRC), as   amended.</p>
+                        <p>SEC. 33.   Incentives. - Those caring for and living with a person with disability shall be   granted the following incentives:</p>
+                        <p>(a) Persons   with disability shall be treated as dependents under the Section 35 (A) of the   National Internal Revenue Code, as amended and as such, individual taxpayers   caring for them shall be accorded the privileges granted by the code insofar as   having dependents under the same section are concerned;   and</p>
+                        <p>(b)   Individuals or nongovernmental institutions establishing homes, residential   communities or retirement villages solely to suit the needs and requirements of   persons with disability shall be accorded the following:</p>
+                        <p>(i) Realty   tax holiday for the first five years of operation; and</p>
+                        <p>(ii)   Priority in the building and/or maintenance of provincial or municipal roads   leading to the aforesaid home, residential community or retirement   village.</p>
+                        <p>SEC. 2.   Republic Act No. 7277 is hereby amended inserting a new title, chapter and   section after Section 38 be denominated as title 4, chapters 1 and 2 and   Sections 40, 41 and 42 to read as follows:</p>
+                        <p>Title   Four<br>
+                            Prohibitions on Verbal, Non-verbal Ridicule<br>
+                            and Vilification Against   Persons with Disability </p>
+                        <p><strong>CHAPTER   1. Deliverance from Public Ridicule</strong> </p>
+                        <p>SEC. 39.   Public Ridicule. - For purposes of this chapter, public ridicule shall be   defined as an act of making fun or contemptuous imitating or making mockery of   persons with disability whether in writing, or in words, or in action due to   their impairment/s.</p>
+                        <p>SEC. 40. No   individual, group or community shall execute any of these acts of ridicule   against persons with disability in any time and place which could intimidate or   result in loss of self-esteem of the latter.</p>
+                        <p><strong>CHAPTER   2. Deliverance from Vilification</strong> </p>
+                        <p>SEC 41.   Vilification. - For purposes of this Chapter, vilification shall be defined   as:</p>
+                        <p>(a) The   utterance of slanderous and abusive statements against a person with disability;   and/or</p>
+                        <p>(b) An   activity in public which incites hatred towards, serious contempt for, or severe   ridicule of persons with disability.</p>
+                        <p>SEC. 42.   Any individual, group or community is hereby prohibited from vilifying any   person with disability which could result into loss of self-esteem of the   latter.</p>
+                        <p>SEC. 3.   Section 46 of Republic Act No. 7277 is hereby amended to read as   follows:</p>
+                        <p>SEC. 46.   Penal Clause. - (a) Any person who violates any provision of this Act shall   suffer the following penalties:</p>
+                        <p>(1) For the   first violation, a fine of not less than Fifty Thousand pesos (P50,000.00) but   not exceeding One hundred thousand pesos (P100,000.00) or imprisonment of not   less than six months but not more than two years, or both at the discretion of   the court; and</p>
+                        <p>(2) For any   subsequent violation, a fine of not less than One hundred thousand pesos   (P100,000.00) but not exceeding Two hundred thousand pesos (P200,000.00) or   imprisonment for not less than two years but not more than six years, or both at   the discretion of the court.</p>
+                        <p>(b) Any   person who abuses the privileges granted herein shall be punished with   imprisonment of not less than six months or a fine of not less than Five   thousand pesos (P5,000.00), but not more than Fifty thousand pesos (P50,000.00),   or both, at the discretion of the court.</p>
+                        <p>(c) If the   violator is a corporation, organization or any similar entity, the officials   thereof directly involved shall be liable therefore.</p>
+                        <p>(d) If the   violator is an alien or a foreigner, he shall be deported immediately after   service of sentence without further deportation   proceedings.</p>
+                        <p>Upon filing   of an appropriate complaint, and after due notice and hearing, the proper   authorities may also cause the cancellation or revocation of the business   permit, permit to operate, franchise and other similar privileges granted to any   business entity that fails to abide by the provisions of this   Act."</p>
+                        <p>SEC. 4. The   title of Republic Act No. 7277 is hereby amended to read as the "Magna Carta for   Persons with Disability", and all references on the said law to "Disabled   persons" shall likewise be amended to read as "persons with   disability.</p>
+                        <p>SEC. 5. The   Department of Social Welfare and Development, the National Council for the   Welfare of Disabled Persons, and the Bureau of Internal Revenue, in consultation   with the concerned Senate and House committees and other agencies,   organizations, establishments shall formulate implementing rules and regulations   pertinent to the provision of this Act within six months after the effectivity   of this Act.</p>
+                        <p>SEC. 6.   This Act shall take effect fifteen (15) days after its publication in any two   newspapers of general circulation.</p>
+                        <p>Approved, </p>
+                        <p>(Sgd.) JOSE   DE VENECIA JR.<br>
+                            (Sgd.) MANNY VILLAR </p>
+                        <p>Speakier of   the House of Representatives<br>
+                            President of the Senate </p>
+                        <p>This Act   which is a consolidation of Senate Bill No. 2580 and House Bill No. 1214 was   finally passed by the Senate and the House of Representatives on   February 8,   2007 and   February 7,   2008   respectively.</p>
+                        <p>(Sgd.)   ROBERTO P. NAZARENO<br>
+                            (Sgd.) OSCAR G. YABES </p>
+                        <p>Secretary   General House of Representatives<br>
+                            Secretary of the Senate </p>
+                        <p>Approved:   30 APRIL   2007 </p>
+                        <p><strong>(Sgd.) GLORIA   MACAPAGAL – ARROYO</strong><br>
+                            President of the   Philippines </p>
+                    </div>
+                    <div id="item-1-2" class="tab-pane fade" role="tabpanel" aria-labelledby="item-1-2-tab">
+                        <article id="post-7417" class="post-7417 post type-post status-publish format-standard hentry category-republic-act">
+                            <div class="entry-content">
+                                <div class="entry-meta">
+                                <span class="posted-on">
+                                    Posted on
+                                    <a href="https://pcw.gov.ph/republic-act-8972-solo-parents-welfare-act-of-2000/" title="9:16 am" rel="bookmark">
+                                    <time class="entry-date published" datetime="2000-11-07T09:16:00+08:00">
+                                        November 7, 2000
+                                    </time>
+                                    </a>
+                                </span>
+                                <span class="byline"></span>
+                                <p></p>
+                                </div>
+                                <br />
+                                <br />
+                                <p style="font-size: 32px;">
+                                <strong>Republic Act 8972: Solo Parents’ Welfare Act of 2000</strong>
+                                </p>
+                                <br />
+                                <p class="has-text-align-center">
+                                <strong>
+                                    AN ACT PROVIDING FOR BENEFITS AND PRIVILEGES TO SOLO PARENTS AND THEIR
+                                    CHILDREN, APPROPRIATING FUNDS THEREFOR AND FOR OTHER PURPOSES.
+                                </strong>
+                                </p>
+                                <br />
+                                <p>
+                                <strong>Section 1</strong>
+                                .
+                                <strong>&nbsp;Title.&nbsp;</strong>
+                                – This Act shall be known as the “
+                                <strong>Solo Parents’ Welfare Act of 2000.</strong>
+                                “
+                                </p>
+                                <br />
+                                <p>
+                                <strong>Section 2</strong>
+                                .&nbsp;
+                                <strong>Declaration of Policy.</strong>
+                                &nbsp;– It is the policy of the State to promote the family as the
+                                foundation of the nation, strengthen its solidarity and ensure its total
+                                development. Towards this end, it shall develop a comprehensive program of
+                                services for solo parents and their children to be carried out by the
+                                Department of Social Welfare and Development (DSWD), the Department of
+                                Health (DOH), the Department of Education, Culture and Sports (DECS), the
+                                Department of the Interior and Local Government (DILG), the Commission on
+                                Higher Education (CHED), the Technical Education and Skills Development
+                                Authority (TESDA), the National Housing Authority (NHA), the Department of
+                                Labor and Employment (DOLE) and other related government and nongovernment
+                                agencies.
+                                </p>
+                                <br />
+                                <p>
+                                <strong>Section 3</strong>
+                                .
+                                <strong>&nbsp;Definition of Terms.&nbsp;</strong>
+                                – Whenever used in this Act, the following terms shall mean as follows:
+                                <br />
+                                <strong>(a) “Solo parent</strong>
+                                ” – any individual who falls under any of the following categories:
+                                <br />
+                                &nbsp;
+                                <br />
+                                (1) A woman who gives birth as a result of rape and other crimes against
+                                chastity even without a final conviction of the offender: Provided, That
+                                the mother keeps and raises the child;
+                                </p>
+                                <p>
+                                (2) Parent left solo or alone with the responsibility of parenthood due to
+                                death of spouse;
+                                </p>
+                                <p>
+                                (3) Parent left solo or alone with the responsibility of parenthood while
+                                the spouse is detained or is serving sentence for a criminal conviction
+                                for at least one (1) year;
+                                <br />
+                                (4) Parent left solo or alone with the responsibility of parenthood due to
+                                physical and/or mental incapacity of spouse as certified by a public
+                                medical practitioner;
+                                </p>
+                                <p>
+                                (5) Parent left solo or alone with the responsibility of parenthood due to
+                                legal separation or de facto separation from spouse for at least one (1)
+                                year, as long as he/she is entrusted with the custody of the children;
+                                </p>
+                                <p>
+                                (6) Parent left solo or alone with the responsibility of parenthood due to
+                                declaration of ‘ity or annulment of marriage as decreed by a court or by a
+                                church as long as he/she is entrusted with the custody of the children;
+                                </p>
+                                <p>
+                                (7) Parent left solo or alone with the responsibility of parenthood due to
+                                abandonment of spouse for at least one (1) year;
+                                </p>
+                                <p>
+                                (8) Unmarried mother/father who has preferred to keep and rear her/his
+                                child/children instead of having others care for them or give them up to a
+                                welfare institution;
+                                </p>
+                                <p>
+                                (9) Any other person who solely provides parental care and support to a
+                                child or children;
+                                </p>
+                                <p>
+                                (10) Any family member who assumes the responsibility of head of family as
+                                a result of the death, abandonment, disappearance or prolonged absence of
+                                the parents or solo parent.
+                                </p>
+                                <p>
+                                A change in the status or circumstance of the parent claiming benefits
+                                under this Act, such that he/she is no longer left alone with the
+                                responsibility of parenthood, shall terminate his/her eligibility for
+                                these benefits.
+                                <br />
+                                &nbsp;
+                                <br />
+                                <strong>(b) “Children</strong>
+                                ” – refer to those living with and dependent upon the solo parent for
+                                support who are unmarried, unemployed and not more than eighteen (18)
+                                years of age, or even over eighteen (18) years but are incapable of
+                                self-support because of mental and/or physical defect/disability.
+                                </p>
+                                <p>
+                                <strong>(c) “Parental responsibility</strong>
+                                ” – with respect to their minor children shall refer to the rights and
+                                duties of the parents as defined in Article 220 of Executive Order No.
+                                209, as amended, otherwise known as the “Family Code of the Philippines.”
+                                </p>
+                                <p>
+                                <strong>(d) “Parental leave</strong>
+                                ” – shall mean leave benefits granted to a solo parent to enable him/her
+                                to perform parental duties and responsibilities where physical presence is
+                                required.
+                                </p>
+                                <p>
+                                <strong>(e) “Flexible work schedule”</strong>
+                                &nbsp;– is the right granted to a solo parent employee to vary his/her
+                                arrival and departure time without affecting the core work hours as
+                                defined by the employer.
+                                </p>
+                                <br />
+                                <p>
+                                <strong>Section 4. Criteria for Support.</strong>
+                                &nbsp;– Any solo parent whose income in the place of domicile falls below
+                                the poverty threshold as set by the National Economic and Development
+                                Authority (NEDA) and subject to the assessment of the DSWD worker in the
+                                area shall be eligible for assistance: Provided, however, That any solo
+                                parent whose income is above the poverty threshold shall enjoy the
+                                benefits mentioned in Sections 6, 7 and 8 of this Act.
+                                </p>
+                                <br />
+                                <p>
+                                <strong>
+                                    Section 5. Comprehensive Package of Social Development and Welfare
+                                    Services.
+                                </strong>
+                                &nbsp;– A comprehensive package of social development and welfare services
+                                for solo parents and their families will be developed by the DSWD, DOH,
+                                DECS, CHED, TESDA, DOLE, NHA and DILG, in coordination with local
+                                government units and a nongovernmental organization with proven track
+                                record in providing services for solo parents.
+                                </p>
+                                <p>
+                                The DSWD shall coordinate with concerned agencies the implementation of
+                                the comprehensive package of social development and welfare services for
+                                solo parents and their families. The package will initially include:
+                                <br />
+                                (a) Livelihood development services which include trainings on livelihood
+                                skills, basic business management, value orientation and the provision of
+                                seed capital or job placement.
+                                </p>
+                                <p>
+                                (b) Counseling services which include individual, peer group or family
+                                counseling. This will focus on the resolution of personal relationship and
+                                role conflicts.
+                                </p>
+                                <p>
+                                (c) Parent effectiveness services which include the provision and
+                                expansion of knowledge and skills of the solo parent on early childhood
+                                development, behavior management, health care, rights and duties of
+                                parents and children.
+                                </p>
+                                <p>
+                                (d) Critical incidence stress debriefing which includes preventive stress
+                                management strategy designed to assist solo parents in coping with crisis
+                                situations and cases of abuse.
+                                </p>
+                                <p>
+                                (e) Special projects for individuals in need of protection which include
+                                temporary shelter, counseling, legal assistance, medical care,
+                                self-concept or ego-building, crisis management and spiritual enrichment.
+                                </p>
+                                <br />
+                                <p>
+                                <strong>Section 6. Flexible Work Schedule.</strong>
+                                &nbsp;– The employer shall provide for a flexible working schedule for
+                                solo parents: Provided, That the same shall not affect individual and
+                                company productivity: Provided, further, That any employer may request
+                                exemption from the above requirements from the DOLE on certain meritorious
+                                grounds.
+                                </p>
+                                <br />
+                                <p>
+                                <strong>Section 7. Work Discrimination.</strong>
+                                &nbsp;– No employer shall discriminate against any solo parent employee
+                                with respect to terms and conditions of employment on account of his/her
+                                status.
+                                </p>
+                                <br />
+                                <p>
+                                <strong>Section 8. Parental Leave</strong>
+                                . – In addition to leave privileges under existing laws, parental leave of
+                                not more than seven (7) working days every year shall be granted to any
+                                solo parent employee who has rendered service of at least one (1) year.
+                                </p>
+                                <br />
+                                <p>
+                                <strong>Section 9. Educational Benefits.&nbsp;</strong>
+                                – The DECS, CHED and TESDA shall provide the following benefits and
+                                privileges:
+                                <br />
+                                (1) Scholarship programs for qualified solo parents and their children in
+                                institutions of basic, tertiary and technical/skills education; and
+                                </p>
+                                <p>
+                                (2) Nonformal education programs appropriate for solo parents and their
+                                children.
+                                <br />
+                                The DECS, CHED and TESDA shall promulgate rules and regulations for the
+                                proper implementation of this program.
+                                </p>
+                                <br />
+                                <p>
+                                <strong>Section 10. Housing Benefits.&nbsp;</strong>
+                                – Solo parents shall be given allocation in housing projects and shall be
+                                provided with liberal terms of payment on said government low-cost housing
+                                projects in accordance with housing law provisions prioritizing applicants
+                                below the poverty line as declared by the NEDA.
+                                </p>
+                                <br />
+                                <p>
+                                <strong>Section 11. Medical Assistance.</strong>
+                                &nbsp;– The DOH shall develop a comprehensive health care program for solo
+                                parents and their children. The program shall be implemented by the DOH
+                                through their retained hospitals and medical centers and the local
+                                government units (LGUs) through their provincial/district/city/municipal
+                                hospitals and rural health units (RHUs).
+                                </p>
+                                <br />
+                                <p>
+                                <strong>Section 12. Additional Powers and Functions of the DSWD</strong>
+                                . — The DSWD shall perform the following additional powers and functions
+                                relative to the welfare of solo parents and their families:
+                                <br />
+                                (a) Conduct research necessary to: (1) develop a new body of knowledge on
+                                solo parents; (2) define executive and legislative measures needed to
+                                promote and protect the interest of solo parents and their children; and
+                                (3) assess the effectiveness of programs designed for disadvantaged solo
+                                parents and their children;
+                                </p>
+                                <p>
+                                (b) Coordinate the activities of various governmental and nongovernmental
+                                organizations engaged in promoting and protecting the interests of solo
+                                parents and their children; and
+                                </p>
+                                <p>
+                                (c) Monitor the implementation of the provisions of this Act and suggest
+                                mechanisms by which such provisions are effectively implemented.
+                                </p>
+                                <br />
+                                <p>
+                                <strong>Section 13. Implementing Rules and Regulations.</strong>
+                                &nbsp;– An interagency committee headed by the DSWD, in coordination with
+                                the DOH, DECS, CHED, TESDA, DOLE, NHA, and DILG is hereby established
+                                which shall formulate, within ninety (90) days upon the effectivity of
+                                this Act, the implementing rules and regulations in consultation with the
+                                local government units, nongovernment organizations and people’s
+                                organizations.
+                                </p>
+                                <br />
+                                <p>
+                                <strong>Section 14. Appropriations.&nbsp;</strong>
+                                – The amount necessary to carry out the provisions of this Act shall be
+                                included in the budget of concerned government agencies in the General
+                                Appropriations Act of the year following its enactment into law and
+                                thereafter.
+                                </p>
+                                <br />
+                                <p>
+                                <strong>Section 15. Repealing Clause</strong>
+                                . – All laws, decrees, executive orders, administrative orders or parts
+                                thereof inconsistent with the provisions of this Act are hereby repealed,
+                                amended or modified accordingly.
+                                </p>
+                                <br />
+                                <p>
+                                <strong>Section 16. Separability Clause.</strong>
+                                &nbsp;– If any provision of this Act is held invalid or unconstitutional,
+                                other provisions not affected thereby shall continue to be in full force
+                                and effect.
+                                </p>
+                                <br />
+                                <p>
+                                <strong>Section 17. Effectivity Clause.</strong>
+                                &nbsp;– This Act shall take effect fifteen (15) days following its
+                                complete publication in the Official Gazette or in at least two (2)
+                                newspaper of general circulation.&nbsp;&nbsp;
+                                </p>
+                                <br />
+                                <p>
+                                (Sgd.)
+                                <br />
+                                <strong>JOSEPH EJERCITO ESTRADA</strong>
+                                <br />
+                                President of the Philippines
+                                </p>
+                                <p>Approved: November 7, 2000</p>
+                                <br />
+                                <br />
+                                <div style="height: 100px;" aria-hidden="true" class="wp-block-spacer"></div>
+                                <div class="ss-inline-share-wrapper ss-right-inline-content ss-small-icons ss-with-spacing ss-rounded-icons">
+                                <p class="ss-social-share-label"></p>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <div id="item-1-3" class="tab-pane fade" role="tabpanel" aria-labelledby="item-1-3-tab">
+                        <p><b>REPUBLIC ACT No. 9994</b></p><b>
+                        </b><p align="justify"><b>AN ACT GRANTING ADDITIONAL BENEFITS AND PRIVILEGES TO SENIOR CITIZENS, FURTHER AMENDING REPUBLIC ACT NO. 7432, AS AMENDED, OTHERWISE KNOWN AS "AN ACT TO MAXIMIZE THE CONTRIBUTION OF SENIOR CITIZENS TO NATION BUILDING, GRANT BENEFITS AND SPECIAL PRIVILEGES AND FOR OTHER PURPOSES"</b></p>
+                        <p align="center"><i>Be it enacted by the Senate and House of Representatives of the Philippine Congress Assembled:</i></p>
+                        <p align="justify"><b>Section 1.</b> <i>Title.</i> - This Act Shall be known as the <b><i>"Expanded Senior Citizens Act of 2010."</i></b></p> 
+                        <p align="justify"><b>Section 2.</b> Section 1 of Republic Act No. 7432, as amended by Republic Act No. 9257, otherwise known as the "Expanded Senior Citizens Act of 2003", is hereby further amended to read as follows:</p>
+                        <blockquote>
+                        <p align="justify">"SECTION 1. <i>Declaration of Policies and Objectives.</i> - As provided in the Constitution of the Republic of the Philippines, it is the declared policy of the State to promote a just and dynamic social order that will ensure the prosperity and independence of the nation and free the people from poverty through policies that provide adequate social services, promote full employment, a rising standard of living and an improved quality of life. In the Declaration of Principles and State Policies in Article II, Sections 10 and 11, it is further declared that the State shall provide social justice in all phases of national development and that the State values the dignity of every human person and guarantees full respect for human rights.</p>
+                        <p align="justify">"Article XIII, Section 11 of the Constitution provides that the Sate shall adopt an integrated and comprehensive approach to health development which shall endeavor to make essential goods, health and other social services available to all the people at affordable cost. There shall be priority for the needs of the underprivileged, sick, elderly, disabled, women and children. Article XV, Section 4 of the Constitution Further declares that it is the duty of the family to take care of its elderly members while the State may design programs of social security for them.</p>
+                        <p>"Consistent with these constitutional principles, this Act shall serve the following objectives:</p>
+                        <dir>
+                        <p align="justify">"(a) To recognize the rights of senior citizens to take their proper place in society and make it a concern of the family, community, and government;</p>
+                        <p align="justify">"(b) To give full support to the improvement of the total well-being of the elderly and their full participation in society, considering that senior citizens are integral part of Philippine society;</p>
+                        <p align="justify">"(c) To motivate and encourage the senior citizens to contribute to nation building;</p>
+                        <p align="justify">"(d) To encourage their families and the communities they live with to reaffirm the valued Filipino tradition of caring for the senior citizens;</p>
+                        <p align="justify">"(e) To provide a comprehensive health care and rehabilitation system for disabled senior citizens to foster their capacity to attain a more meaningful and productive ageing; and</p>
+                        <p align="justify">"(f) To recognize the important role of the private sector in the improvement of the welfare of senior citizens and to actively seek their partnership.</p>
+                        </dir>
+                        <p align="justify">"In accordance with these objectives, this Act shall:</p>
+                        <dir>
+                        <p align="justify">"(1) establish mechanisms whereby the contributions of the senior citizens are maximized;</p>
+                        <p align="justify">"(2) adopt measures whereby our senior citizens are assisted and appreciated by the community as a whole;</p>
+                        <p align="justify">"(3) establish a program beneficial to the senior citizens, their families and the rest of the community they serve: and </p>
+                        <p align="justify">"(4) establish community-based health and rehabilitation programs for senior citizens in every political unit of society."</p>
+                        </dir>
+                        </blockquote>
+                        <p align="justify"><b>Section 3.</b> Section 2 of Republic Act No. 7432, as amended by Republic Act No. 9257, otherwise known as the Expanded Senior Citizens Act of 2003", is hereby further amended to read as follows:</p>
+                        <blockquote>
+                        <p>SEC. 2. <i>Definition of terms.</i> - For purposes of this Act, these terms are defined as follows:</p>
+                        <dir>
+                        <p>"(a) <i>Senior citizen</i> or <i>elderly</i> refers to any resident citizen of the Philippines at least sixty (60) years old;</p>
+                        <p align="justify">"(b) <i>Geriatrics</i> refer to the branch of medical science devoted to the study of the biological and physical changes and the diseases of old age;</p>
+                        <p align="justify">"(c) <i>Lodging establishment</i> refers to a building, edifice, structure, apartment or house including tourist inn, apartelle, motorist hotel, and pension house engaged in catering, leasing or providing facilities to transients, tourists or travelers;</p>
+                        <p align="justify">"(d) <i>Medical Services</i> refer to hospital services, professional  services of physicians and other health care professionals and diagnostics and laboratory tests that the necessary for the diagnosis or treatment of an illness or injury;</p>
+                        <p align="justify">"(e) <i>Dental services</i> to oral examination, cleaning, permanent and temporary filling, extractions and gum treatments, restoration, replacement or repositioning of teeth, or alteration of the alveolar or periodontium process of the maxilla and the mandible that are necessary for the diagnosis or treatment of an illness or injury;</p>
+                        <p align="justify">"(f) <i>Nearest surviving relative</i> refers to the legal spouse who survives the deceased senior citizen: Provided, That where no spouse survives the decedent, this shall be limited to relatives in the following order of degree of kinship: children, parents, siblings, grandparents, grandchildren, uncles and aunts;</p>
+                        <p align="justify">"(g) <i>Home health care service</i> refers to health or supportive care provided to the senior citizen patient at home by licensed health care professionals to include, but not limited to, physicians, nurses, midwives, physical therapist and caregivers; and</p>
+                        <p align="justify">"(h) <i>Indigent senior citizen,</i> refers to any elderly who is frail, sickly or with disability, and without pension or permanent source of income, compensation or financial assistance from his/her relatives to support his/her basic needs, as determined by the Department of Social Welfare and development  (DSWD) in consultation with the National Coordinating and Monitoring Board."</p>
+                        </dir>
+                        </blockquote>
+                        <p align="justify"><b>Section 4</b> Section 4 of Republic Act No. 7432, as amended by Republic Act No. 9257, otherwise known as the "Expanded Senior Citizens Act of 2003", is hereby further amended to read as follows:</p>
+                        <blockquote>
+                        <p>"SEC. 4. Privileges for the Senior Citizens. -</p>
+                        <p>The senior citizens shall be entitled to the following:</p>
+                        <p align="justify">"(a) the grant of twenty percent (20%) discount and exemption from the value -added tax (VAT), if applicable, on the sale of the following goods and services from all establishments, for the exclusive use and enjoyment or availment of the senior citizen </p>
+                        <dir>
+                        <p align="justify">"(1) on the purchase of medicines, including the purchase of influenza and pnuemococcal vaccines, and such other essential medical supplies, accessories and equipment to be determined by the Department of  Health  (DOH).</p>
+                        <p align="justify">"The DOH shall establish guidelines and mechanism of compulsory rebates in the sharing of burden of discounts among retailers, manufacturers and distributors, taking into consideration their respective margins;</p>
+                        <p align="justify">"(2) on the professional fees of attending physician/s in all private hospitals, medical facilities, outpatient clinics and home health care services;</p>
+                        <p align="justify">"(3) on the professional fees of licensed professional health providing home health care services as endorsed by private hospitals or employed through home health care employment agencies;</p>
+                        <p align="justify">"(4) on medical and dental services, diagnostic and laboratory fees in all private hospitals, medical facilities, outpatient clinics, and home health care services, in accordance with the rules and regulations to be issued by the DOH, in coordination with the Philippine Health Insurance Corporation (PhilHealth);</p>
+                        <p align="justify">"(5) in actual fare for land transportation travel in public utility buses (PUBs), public utility jeepneys (PUJs), taxis, Asian utility vehicles (AUVs), shuttle services and public railways, including Light Rail Transit (LRT), Mass Rail Transit (MRT), and Philippine National Railways (PNR);</p>
+                        <p align="justify">"(6) in actual transportation fare for domestic air transport services and sea shipping vessels and the like, based on the actual fare and advanced booking;</p>
+                        <p align="justify">"(7) on the utilization of services in hotels and similar lodging establishments, restaurants and recreation centers;</p>
+                        <p align="justify">"(8) on admission fees charged by theaters, cinema houses and concert halls, circuses, leisure and amusement; and</p>
+                        <p align="justify">"(9) on funeral and burial services for the death of senior citizens;</p>
+                        </dir>
+                        <p align="justify">"(b) exemption from the payment of individual income taxes of senior citizens who are considered to be minimum wage earners in accordance with Republic Act No. 9504;</p>
+                        <p align="justify">"(c) the grant of a minimum of five percent (5%) discount relative to the monthly utilization of water and electricity supplied by the public utilities: <i>Provided,</i> That the individual meters for the foregoing utilities are registered in the name of the senior citizen residing therein: <i>Provided, further,</i> That the monthly consumption does not exceed one hundred kilowatt hours (100 kWh) of electricity and thirty cubic meters (30 m3) of water: <i>Provided, furthermore,</i> That the privilege is granted per household regardless of the number of senior citizens residing therein;</p>
+                        <p align="justify">"(d) exemption from training fees for socioeconomic programs;</p>
+                        <p align="justify">"(e) free medical and dental services, diagnostic and laboratory fees such as, but not limited to, x-rays, computerized tomography scans and blood tests, in all government facilities, subject to the guidelines to be issued by the DOH in coordination with the PhilHealth;</p>
+                        <p align="justify">"(f) the DOH shall administer free vaccination against the influenza virus and pneumococcal disease for indigent senior citizen patients;</p>
+                        <p align="justify">"(g) educational assistance to senior citizens to pursue post secondary, tertiary, post tertiary, vocational and technical education, as well as short-term courses for retooling in both public and private schools through provision of scholarships, grants, financial aids, subsides and other incentives to qualified senior citizens, including support for books, learning materials, and uniform allowances, to the extent feasible: <i>Provided,</i> That senior citizens shall meet minimum admission requirements;</p>
+                        <p align="justify">"(h) to the extent practicable and feasible, the continuance of the same benefits and privileges given by the Government Service Insurance System (GSIS), the Social Security System (SSS) and the PAG-IBIG, as the case may be, as are enjoyed by those in actual service;</p>
+                        <p align="justify">"(i) retirement benefits of retirees from both the government and the private sector shall be regularly reviewed to ensure their continuing responsiveness and sustainability, and to the extent practicable and feasible, shall be upgraded to be at par with the current scale enjoyed by those in actual service;</p>
+                        <p align="justify">"(j) to the extent possible, the government may grant special discounts in special programs for senior citizens on purchase of basic commodities, subject to the guidelines to be issued for the purpose by the Department of Trade and Industry (DTI) and the Department of Agriculture (DA);</p>
+                        <p align="justify">"(k) provision of express lanes for senior citizens in all commercial and government establishments; in the absence thereof, priority shall be given to them; and</p>
+                        <p align="justify">"(l) death benefit assistance of a minimum of Two thousand pesos (Php2, 000.00) shall be given to the nearest surviving relative of a deceased senior citizen which amount shall be subject to adjustments due to inflation in accordance with the guidelines to be issued by the DSWD.<cite>1avvphi1</cite></p>
+                        <p align="justify">"In the availment of the privileges mentioned above, the senior citizen, or his/her duly authorized representative, may submit as proof of his/her entitled thereto any of the following:</p>
+                        <dir>
+                        <p align="justify">"(1) an identification card issued by the Office of the Senior Citizen Affairs (OSCA) of the place where the senior citizen resides: Provided, That the identification card issued by the particular OSCA shall be honored nationwide;</p>
+                        <p align="justify">"(2) the passport of the senior citizen concerned; and</p>
+                        <p align="justify">"(3) other documents that establish that the senior citizen is a citizen of the Republic and is at least sixty (60) years of age as further provided in the implementing rules and regulations.</p>
+                        </dir>
+                        <p align="justify">"In the purchase of goods and services which are on promotional discount, the senior citizen can avail of the promotional discount or the discount provided herein, whichever is higher.</p>
+                        <p align="justify">"The establishment may claim the discounts granted under subsections (a) and (c) of this section as tax deduction based on the cost of the goods sold or services rendered: Provided, That the cost of the discount shall be allowed as deduction from gross income for the same taxable year that the discount is granted: Provided, further, That the total amount of the claimed tax deduction net of VAT, if applicable, shall be included in their gross sales receipts for tax purposes and shall be subject to proper documentation and to the provisions of the National Internal Revenue Code (NICR), as amended."</p>
+                        </blockquote>
+                        <p><b>Section 5.</b> Section 5 of the same Act, as amended, is hereby further amended to read as follows:</p>
+                        <blockquote>
+                        <p>"SEC. 5. <i>Government Assistance.</i> - The government shall provide the following:</p>
+                        <p>"(a) Employment</p>
+                        <p align="justify">"Senior citizens who have the capacity and desire to work, or be re-employed, shall be provided information and matching services to enable them to be productive members of society. Terms of employment shall conform with the provisions of the Labor Code, as amended, and other laws, rules and regulations.</p>
+                        <p align="justify">"Private entities that will employ senior citizens as employees, upon the effectivity of this Act, shall be entitled to an additional deduction from their gross income, equivalent to fifteen percent (15%) of the total amount paid as salaries and wages to senior citizens, subject to the provision of Section 34 of the NIRC, as amended: Provided, however, That such employment shall continue for a period of at least six (6) months: Provided, further, That the annual income of the senior citizen does not exceed the latest poverty threshold as determined by the National Statistical Coordination Board (NSCB) of the National Economic and Development Authority (NEDA) for that year.</p>
+                        <p align="justify">"The Department of Labor and Employment (DOLE), in coordination with other government agencies such as, but not limited to, the Technology and Livelihood Resource Center (TLRC) and the Department of Trade and Industry (DTI), shall assess, design and implement training programs that will provide skills and welfare or livelihood support for senior citizens.</p>
+                        <p>"(b) Education</p>
+                        <p align="justify">"The Department of Education (DepED), the Technical Education and Skills Development Authority (TESDA) and the Commission on Higher Education (CHED), in consultation with nongovernmental organizations (NGOs) and people's organizations (POs) for senior citizens, shall institute programs that will ensure access to formal and nonformal education.</p>
+                        <p>"(c) Health</p>
+                        <p align="justify">"The DOH, in coordination with local government units (LGUs), NGOs and POs for senior citizens, shall institute a national health program and shall provide an integrated health service for senior citizens. It shall train community-based health workers among senior citizens and health personnel to specialize in the geriatric care and health problems of senior citizens.</p>
+                        <p align="justify">"The national health program for senior citizens shall, among others, be harmonized with the National Prevention of Blindness Program of the DOH. </p>
+                        <p align="justify">"Throughout the country, there shall be established a "senior citizens' ward" in every government hospital. This geriatric ward shall be for the exclusive use of senior citizens who are in need of hospital confinement by reason of their health conditions. However, when urgency of public necessity purposes so require, such geriatric ward may be used for emergency purposes, after which, such "senior citizens' ward" shall be reverted to its nature as geriatric ward.</p>
+                        <p>"(d) Social Services</p>
+                        <p align="justify">"At least fifty percent (50%) discount shall be granted on the consumption of electricity, water, and telephone by the senior citizens center and residential care/group homes that are government-run or non-stock, non-profit domestic corporation organized and operated primarily for the purpose of promoting the well-being of abandoned, neglected, unattached, or homeless senior citizens, subject to the guidelines formulated by the DSWD.</p>
+                        <dir>
+                        <p align="justify">"(1) "self and social enhancement services" which provide senior citizens opportunities for socializing, organizing, creative expression, and self-improvement;</p>
+                        <p align="justify">"(2) "after care and follow-up services" for citizens who are discharged from the homes or institutions for the aged, especially those who have problems of reintegration with family and community, wherein both the senior citizens and their families are provided with counseling;</p>
+                        <p align="justify">"(3) "neighborhood support services" wherein the community or family members provide caregiving services to their frail, sick, or bedridden senior citizens; and</p>
+                        <p align="justify">"(4) "substitute family care " in the form of residential care or group homes for the abandoned, neglected, unattached or homeless senior citizens and those incapable of self-care.</p>
+                        </dir>
+                        <p align="justify">"(e) Housing</p>
+                        <p align="justify">"The national government shall include in its national shelter program the special housing needs of senior citizens, such as establishment of housing units for the elderly.</p>
+                        <p align="justify">"(f) Access to Public Transport</p>
+                        <p align="justify">"The Department of Transportation and Communications (DOTC) shall develop a program to assist senior citizens to fully gain access to public transport facilities.</p>
+                        <p align="justify">"(g) Incentive for Foster Care</p>
+                        <p align="justify">"The government shall provide incentives to individuals or nongovernmental institution caring for or establishing homes, residential communities or retirement villages solely for, senior citizens, as follows:</p>
+                        <dir>
+                        <p align="justify">"(1) realty tax holiday for the first five (5) years starting from the first year of operation; and</p>
+                        <p align="justify">"(2) priority in the construction or maintenance of provincial or municipal roads leading to the aforesaid home, residential community or retirement village.</p>
+                        </dir>
+                        <p align="justify">"(h) Additional Government Assistance</p>
+                        <dir>
+                        <p align="justify">"(1) Social Pension</p>
+                        <p align="justify">"Indigent senior citizens shall be entitled to a monthly stipend amounting to Five hundred pesos (Php500.00) to augment the daily subsistence and other medical needs of senior citizens, subject to a review every two (2) years by Congress, in consultation with the DSWD.</p>
+                        <p align="justify">"(2) Mandatory PhilHealth Coverage</p>
+                        <p align="justify">"All indigent senior citizens shall be covered by the national health insurance program of PhilHealth. The LGUs where the indigent senior citizens resides shall allocate the necessary funds to ensure the enrollment of their indigent senior citizens in accordance with the pertinent laws and regulations.</p>
+                        <p align="justify">"(3) Social Safety Nets</p>
+                        </dir>
+                        <p align="justify">"Social safety assistance intended to cushion the effects of economics shocks, disasters and calamities shall be available for senior citizens. The social safety assistance which shall include, but not limited to, food, medicines, and financial assistance for domicile repair, shall be sourced from the disaster/calamity funds of LGUs where the senior citizens reside, subject to the guidelimes to be issued by the DSWD."</p>
+                        </blockquote>
+                        <p><b>Section 6.</b> Section 6 of the same Act, as amended, is heeby further amended to read as follows:</p>
+                        <blockquote>
+                        <p align="justify">SEC. 6. <i>The Office for Senior Citizens Affairs (OSCA).</i> - There shall be established in all cities and municipalities an OSCA to be headed by a senior citizen who shall be appointed by the mayor for a term of three (3) years without reappointment but without prejudice to an extension if exigency so requires. Said appointee shall be chosen from a list of three (3) nominees as recommended by a general assembly of senior citizens organizations in the city or municipality.</p>
+                        <p align="justify">"The head of the OSCA shall be appointed to serve the interest of senior citizens and shall not be removed or replaced except for reasons of death permanent disability or ineffective performance of his duties to the detriment of fellow senior citizens.</p>
+                        <p align="justify">"The head of the OSCA shall be entitled to receive an honorarium of an amount at least equivalent to Salary Grade 10 to be approved by the LGU concerned.</p>
+                        <p align="justify">"The head of the OSCA shall be assisted by the City Social Welfare and Development officer or by the Municipal Social Welfare and Development Officer, in coordination with the Social Welfare and Development Office.</p>
+                        <p align="justify">"The Office of the Mayor shall exercise supervision over the OSCA relative to their plans, activities and programs for senior citizens. The OSCA shall work together and establish linkages with accredited NGOs Pos and the barangays in their respective areas.</p>
+                        <p>"The OSCA shall have the following functions:</p>
+                        <dir>
+                        <p>"(a) To plan, implement and monitor yearly work programs in pursuance of the objectives of this Act;</p>
+                        <p>"(b) To draw up a list of available and required services which can be provided by the senior citizens;</p>
+                        <p align="justify">"(c) To maintain and regularly update on a quarterly basis the list of senior citizens and to issue national individual identification cards, free of charge, which shall be valid anywhere in the country;</p>
+                        <p>"(d) To serve as a general information and liason center for senior citizens;</p>
+                        <p align="justify">"(e) To monitor compliance of the provisions of this Act particularly the grant of special discounts and privileges to senior citizens;</p>
+                        <p align="justify">"(f) To report to the mayor, any individual, establishments, business entity, institutions or agency found violating any provision of this Act; and</p>
+                        <p align="justify">"(g) To assist the senior citizens in filing complaints or charges against any individual, establishments, business entity, institution, or agency refusing to comply with the privileges under this Act before the Department of Justice (DOJ), the Provincial Prosecutor's Office, the regional or the municipal trial court, the municipal trial court in cities, or the municipal circuit trial court."</p>
+                        </dir>
+                        </blockquote>
+                        <p><b>Section 7.</b> Section 10 of the same Act, as amended, is hereby further amended to read as follows:</p>
+                        <blockquote>
+                        <p align="justify">"SEC. 10. Penalties. - Any person who refuses to honor the senior citizen card issued by this the government or violates any provision of this Act shall suffer the following penalties:</p>
+                        <dir>
+                        <p align="justify">"(a) For the first violation, imprisonment of not less than two (2) years but not more than six (6) years and a fine of not less than Fifty thousand pesos (Php50,000.00) but not exceeding One hundred thousand pesos (Php100,000.00);</p>
+                        <p align="justify">"(b) For any subsequent violation, imprisonment of not less than two (2) years but not more than six (6) years and a fine of not less than One Hundred thousand pesos (Php100,000.00) but not exceeding Two hundred thousand pesos (Php200,000.00); and</p>
+                        <p align="justify">"(c) Any person who abuses the privileges granted herein shall be punished with imprisonment of not less than six (6) months and a fine of not less than Fifty thousand pesos (Php50,000.00) but not more than One hundred thousand pesos (Php100,000.00).</p>
+                        </dir>
+                        <p align="justify">"If the offender is a corporation, partnership, organization or any similar entity, the officials thereof directly involved such as the president, general manager, managing partner, or such other officer charged with the management of the business affairs shall be liable therefor.</p>
+                        <p align="justify">"If the offender is an alien or a foreigner, he/she shall be deported immediately after service of sentence.</p>
+                        <p align="justify">"Upon filing of an appropriate complaint, and after due notice and hearing, the proper authorities may also cause the cancellation or revocation of the business permit, permit to operate, franchise and other similar privileges granted to any person, establishment or business entity that fails to abide by the provisions of this Act."</p>
+                        </blockquote>
+                        <p><b>Section 8.</b> Section 11 of the same Act, as amended, is hereby further amended to read as follows:</p>
+                        <blockquote>
+                        <p align="justify">"SEC. 11. Monitoring and Coordinating Mechanism. - A National Coordinating and Monitoring Board shall be established which shall be composed of the following:</p>
+                        <dir>
+                        <p align="justify">"(a) Chairperson - the Secretary of the DSWD or an authorized representative;</p>
+                        <p align="justify">"(b) Vice Chairperson - the Secretary of the Department of the Interior and Local Government (DILG) or an authorized representative; and </p>
+                        <p>"(c) Members:</p>
+                        <dir>
+                        <p>"(1) the Secretary of the DOJ or an authorized representative;</p>
+                        <p>"(2) the Secretary of the DOH or an authorized representative;</p>
+                        <p>"(3) the Secretary of the DTI or an authorized representative; and</p>
+                        <p align="justify">(4) representatives from five (5) NGOs for senior citizens which are duly  accredited  by the DSWD and have service primarily for senior citizens. Representatives of NGOs shall serve a period of tree  (3) years.</p>
+                        </dir>
+                        </dir>
+                        <p align="justify">"The Board may call on other government agencies, NGOs and Pos to serve as resource persons as the need arises. Resource person have no right to vote in the National Coordinating and Monitoring Board."</p>
+                        </blockquote>
+                        <p align="justify"><b>Section 9.</b> <i>Implementing Rules and Regulations.</i> - Within sixty (60) days from theeffectivity of this Act, the Secretary of the DSWD shall formulate and adopt amendments to the existing rules and regulations implementing Republic Act No. 7432, as amended by Republic Act No. 9257, to carry out the objectives of this Act, in consultation with the Department of Finance, the Department of Tourism, the Housing and Urban Development Coordinating Council (HUDCC), the DOLE, the DOJ, the DILG, the DTI, the DOH, the DOTC, the NEDA, the DepED, the TESDA, the CHED, and five (5) NGOs or POs for the senior citizens duly accredited by the DSWD. The guidelines pursuant to Section 4(a)(i) shall be established by the DOH within sixty (60) days upon the effectivity of this Act.</p>
+                        <p align="justify"><b>Section 10.</b> <i>Appropriations.</i> - The Necessary appropriations for the operation and maintenance of the OSCA shall be appropriated and approved by the LGUs concerned. For national government agencies, the requirements to implement the provisions of this Act shall be included in their respective budgets: Provided, That the funds to be used for the national health program and for the vaccination of senior citizens in the first year of the DOH and thereafter, as a line item under the under the DOH budget in the subsequent General Appropriations Act (GAA): Provided, further, That the monthly social pension for indigent senior citizens in the first year of implementation shall be added to the regular appropriations of the DSWD budget in the subsequent GAA.</p>
+                        <p align="justify"><b>Section 11.</b> <i>Repealing Clause.</i> - All law, executive orders, rules and regulations or any part hereof inconsistent herewith are deemed repealed or modified accordingly.</p>
+                        <p align="justify"><b>Section 12.</b> <i>Separability Clause.</i> - If any part or provision of this Act shall be declared unconstitutional and invalid, such 18 declaration shall not invalidate other parts thereof which shall remain in full force and effect.</p>
+                        <p align="justify"><b>Section 13.</b> <i>Effectivity.</i> - This Act shall take effect fifteen (15) days its complete publication n the Official Gazette or in at least two (2) newspapers of general circulation, whichever comes earlier.</p>
+                        <p><b>Approved</b></p>
+                        <br>
+                        <table align="center" cellspacing="0" border="0" cellpadding="3" width="90%">
+                        <tbody><tr>
+                        <td width="50%" valign="top" align="center">(Sgd.) <b>PROSPERO C. NOGRALES</b><br>Speaker of the House of Representatives</td>
+                        <td width="50%" valign="top" align="center">(Sgd.) <b>JUAN PONCE ENRILE</b><br>President of the Senate</td>
+                        </tr>
+                        </tbody></table>
+                        <p align="justify">This Act which is a consolidation of Senate Bill No. 3561 and House Bill No. 6390 was finally passed by the Senate and the House of Representatives on January 27, 2010.</p>
+                        <br>
+                        <table align="center" cellspacing="0" border="0" cellpadding="3" width="90%">
+                        <tbody><tr><td width="50%" valign="top" height="13"><p align="center">(Sgd.) <b>MARILYN B. BARUA-YAP</b><br>Secretary General<br>House of Represenatives</p></td>
+                        <td width="50%" valign="top" height="13"><p align="center">(Sgd.) <b>EMMA LIRIO-REYES</b><br>Secretary of Senate</p></td>
+                        </tr>
+                        </tbody></table>
+                        <br>
+                        <p>Approved: <b>FEB 15, 2010</b></p>
+                        <p>(Sgd.) <b>GLORIA MACAPAGAL-ARROYO</b><br><i>President of the Philippines</i></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+        include "footer.html";
+    ?>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>

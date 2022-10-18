@@ -1,0 +1,158 @@
+<?php 
+    session_start();
+    if(isset($_SESSION['username'])) {
+        header("location: home.html");
+        exit();
+    }
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>CSWD User</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Basic-icons.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="shortcut icon" href="assets/img/santarosa-logo.ico" type="image/x-icon">
+</head>
+
+<body>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+        </symbol>
+        <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+        </symbol>
+        <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+        </symbol>
+    </svg>
+    <div class="container" style="position:absolute; left:0; right:0; top: 50%; transform: translateY(-50%); -ms-transform: translateY(-50%); -moz-transform: translateY(-50%); -webkit-transform: translateY(-50%); -o-transform: translateY(-50%);">
+        <div class="row d-flex d-xl-flex justify-content-center justify-content-xl-center">
+            <div class="col-sm-12 col-lg-10 col-xl-9 col-xxl-7 bg-white shadow-lg" style="border-radius: 5px;">
+                <div class="p-5">
+                    <div class="text-center">
+                        <h4 class="text-dark mb-4">Create an Account</h4>
+                    </div>
+                    <form class="user" action="includes/sign-up.inc.php" method="post">
+                        <div class="row mb-3">
+                            <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" placeholder="First Name" required="" autofocus="" name="firstName"></div>
+                            <div class="col-sm-6"><input class="form-control form-control-user" type="text" placeholder="Last Name" required="" name="lastName"></div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" placeholder="MiddleName" name="middleName"></div>
+                            <div class="col-sm-6"><input class="form-control form-control-user" type="text" placeholder="Suffix" name="suffix"></div>
+                        </div>
+                        <div class="mb-3"><input class="form-control form-control-user" type="email" id="email" placeholder="Email Address" required="" name="email"></div>
+                        <div class="row mb-3">
+                            <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="password" id="password" placeholder="Password" required="" name="password"></div>
+                            <div class="col-sm-6"><input class="form-control form-control-user" type="password" id="verifyPassword" placeholder="Repeat Password" required="" name="confirmPassword"></div>
+                        </div>
+                        <div class="row mb-3 justify-content-md-center">
+                            <div class="col col-sm-6">
+                                <div class="g-recaptcha" data-sitekey="6LfVLT4gAAAAADdM5VWP-MuEDD4FVtcMB1gIZQve"></div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <p id="emailErrorMsg" class="text-danger" style="display:none;">Paragraph</p>
+                            <p id="passwordErrorMsg" class="text-danger" style="display:none;">Paragraph</p>
+                        </div><button class="btn btn-primary d-block btn-user w-100" id="submitBtn" type="submit" name="register">Register Account</button>
+                        <hr>
+                    </form>
+                    <div class="text-center"><a class="small" href="index.html">Already have an account? Login</a></div>
+                </div>
+            </div>
+        </div>
+        <script>
+            window.onload = function() {
+                var $recaptcha = document.querySelector('#g-recaptcha-response');
+
+                if($recaptcha) {
+                    $recaptcha.setAttribute("required", "required");
+                }
+            };
+            let email = document.getElementById("email")
+            let password = document.getElementById("password")
+            let verifyPassword = document.getElementById("verifyPassword")
+            let submitBtn = document.getElementById("submitBtn")
+            let emailErrorMsg = document.getElementById('emailErrorMsg')
+            let passwordErrorMsg = document.getElementById('passwordErrorMsg')
+
+            function displayErrorMsg(type, msg) {
+                if(type == "email") {
+                    emailErrorMsg.style.display = "block"
+                    emailErrorMsg.innerHTML = msg
+                    submitBtn.disabled = true
+                }
+                else {
+                    passwordErrorMsg.style.display = "block"
+                    passwordErrorMsg.innerHTML = msg
+                    submitBtn.disabled = true
+                }
+            }
+
+            function hideErrorMsg(type) {
+                if(type == "email") {
+                    emailErrorMsg.style.display = "none"
+                    emailErrorMsg.innerHTML = ""
+                    submitBtn.disabled = true
+                    if(passwordErrorMsg.innerHTML == "")
+                        submitBtn.disabled = false
+                }
+                else {
+                    passwordErrorMsg.style.display = "none"
+                    passwordErrorMsg.innerHTML = ""
+                    if(emailErrorMsg.innerHTML == "")
+                        submitBtn.disabled = false
+                }
+            }
+            
+            // Validate password upon change
+            password.addEventListener("change", function() {
+
+                // If password has no value, then it won't be changed and no error will be displayed
+                if(password.value.length == 0 && verifyPassword.value.length == 0) hideErrorMsg("password")
+                
+                // If password has a value, then it will be checked. In this case the passwords don't match
+                else if(password.value !== verifyPassword.value) displayErrorMsg("password", "Passwords do not match")
+                
+                // When the passwords match, we check the length
+                else {
+                    // Check if the password has 8 characters or more
+                    if(password.value.length >= 8)
+                        hideErrorMsg("password")
+                    else
+                        displayErrorMsg("password", "Password must be at least 8 characters long")
+                }
+            })
+            
+            verifyPassword.addEventListener("change", function() {
+                if(password.value !== verifyPassword.value)
+                    displayErrorMsg("password", "Passwords do not match")
+                else {
+                    // Check if the password has 8 characters or more
+                    if(password.value.length >= 8)
+                        hideErrorMsg("password")
+                    else
+                        displayErrorMsg("password", "Password must be at least 8 characters long")
+                }
+            })
+
+            // Validate email upon change
+            email.addEventListener("change", function() {
+                // Check if the email is valid using a regular expression (string@string.string)
+                if(email.value.match(/^[^@]+@[^@]+\.[^@]+$/))
+                    hideErrorMsg("email")
+                else
+                    displayErrorMsg("email", "Invalid email")
+            });
+        </script>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+</body>
+
+</html>

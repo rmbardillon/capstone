@@ -1,0 +1,70 @@
+<?php 
+    session_start();
+    $page = "announcement";
+    include("header.html");
+    if (!isset($_SESSION['admin-data'])) {
+        header("location: index.html");
+        exit();
+    }
+?>
+                <div class="container-fluid">
+                    <h3 class="text-dark mb-4">Announcements</h3>
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-md-8 col-lg-6 col-xl-5 col-xxl-4">
+                            <div class="card mb-5">
+                                <div class="card-body p-sm-5">
+                                    <h2 class="text-center mb-4">Announcement</h2>
+                                    <form action="includes/add-announcement.inc.php" method="post">
+                                        <div class="mb-3"><input class="form-control" type="text" id="announcement" name="announcement" placeholder="Announcement Title"></div>
+                                        <div class="mb-3">
+                                            <select class="form-select" id="announcementFor" name="announcementFor" required>
+                                                <option disabled selected value="">Announcement For?</option>
+                                                <option value="Administrator">Administrators</option>
+                                                <option value="Solo Parent">Solo Parent</option>
+                                                <option value="Senior Citizen">Senior Citizen</option>
+                                                <option value="PWD">PWD</option>
+                                            </select></div>
+                                        <div class="mb-3">
+                                            <select class="form-select" id="barangay" name="barangay" required>
+                                                <option disabled selected value="">Please Select Barangay</option>
+                                                <option value="City Hall">City Hall</option>
+                                                <option value="Aplaya">Aplaya</option>
+                                                <option value="Balibago">Balibago</option>
+                                                <option value="Caingin">Caingin</option>
+                                                <option value="Dila">Dila</option>
+                                                <option value="Dita">Dita</option>
+                                                <option value="Don Jose">Don Jose</option>
+                                                <option value="Ibaba">Ibaba</option>
+                                                <option value="Kalnuran">Kanluran</option>
+                                                <option value="Labas">Labas</option>
+                                                <option value="Macabling">Macabling</option>
+                                                <option value="Malitlit">Malitlit</option>
+                                                <option value="Malusak">Malusak</option>
+                                                <option value="Market Area">Market Area</option>
+                                                <option value="Pook">Pook</option>
+                                                <option value="Pulong Santa Cruz">Pulong Santa Cruz</option>
+                                                <option value="Santo Domingo">Santo Domingo</option>
+                                                <option value="Sinalhan">Sinalhan</option>
+                                                <option value="Tagapo">Tagapo</option>
+                                            </select></div>
+                                        <div class="mb-3"><textarea class="form-control" id="announcementMessage" name="announcementMessage" rows="6" placeholder="Announcement Message"></textarea></div>
+                                        <div><button class="btn btn-primary d-block w-100" type="submit" name="add-announcement-submit">Add Announcement</button></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span>Copyright © Brand 2022</span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>

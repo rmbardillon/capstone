@@ -1,0 +1,289 @@
+<?php
+    session_start();
+    require_once 'includes/dbh.inc.php';
+    require_once 'includes/functions.inc.php';
+    $id = $_GET['id'];
+    $username = $_GET['username'];
+    $_SESSION['id'] = $id;
+    $userdata = getUserData($connection, 'senior_citizen_data', 'id', $id);
+    $_SESSION['username'] = $_SESSION['admin-data']['username'];
+    $loginCredentialsExists = loginCredentialsExists($connection, $_SESSION['username'], $_SESSION['username']);
+    $adminData = $loginCredentialsExists;
+    $admin_name = $adminData['first_name']." ".$adminData['last_name'];
+    $familyComposition = getUserData($connection, "senior_citizen_family_composition", "username", $username);
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Administrator</title>
+    <link rel="shortcut icon" href="assets/img/icons/santarosa-logo.ico" type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script defer type="text/javascript" src="assets/js/function.js"></script>
+    <link rel="stylesheet" href="assets/bootstrap/css/custom.css">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="background: var(--bs-pink);">
+            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="index.html"><img width="53" height="58" src="assets/img/icons/santarosa-logo.png" style="padding-top: 5px;">
+                    <div class="sidebar-brand-text mx-3"><span>CSWD</span></div>
+                </a>
+                <hr class="sidebar-divider my-0" style="background: rgba(0,0,0,0.99);">
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link" href="dashboard.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="profile.html"><i class="fas fa-user"></i><span>Profile</span></a></li>
+                    <?php 
+                        if($adminData['admin_type'] == "Main Administrator"){
+                        echo'<li class="nav-item"><a class="nav-link '; if ($page == 'admin-list') {echo 'active';} echo'" href="administrator-list.html" style="height: 52.4px;"><i class="fas fa-user"></i><span>List of Administrators</span></a></li>';
+                        }
+                    ?>
+                    <li class="nav-item"><a class="nav-link active" href="pending-requests.html" style="height: 52.4px;"><i class="fas fa-users"></i><span>Pending Requests</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="announcement.html" style="height: 52.4px;"><i class="fas fa-volume-up"></i><span>Announcements</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="table.html" style="height: 52.4px;"><i class="fas fa-download"></i><span>Generate Report</span></a></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button" style="background: rgba(255, 255, 255, 0.2);"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <div class="d-none d-sm-block topbar-divider"></div>
+                            <li class="nav-item dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small"><?php echo($admin_name) ?></span>
+                                    <?php if(!empty($profile)) foreach($profile as $image): ?><img class="border rounded-circle img-profile" src="uploads/<?php echo($image['image_location']); ?>"><?php endforeach; ?>
+                                    <?php if(empty($profile)) {?><img class="border rounded-circle img-profile" src="assets/img/avatars/default profile picture.png"><?php }?></a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="includes/logout.inc.php"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container registration-containers mt-5" id="sr-citizen">
+                    <form class="registration-form" action="includes/approved.inc.php" method="post">
+                        <center><h1>Aplikasyon sa Pagsapi</h1></center>
+                    <!-- Radio Btn -->
+                        <div class="row align-items-start">
+                            <div class="col form-group">
+                                <div>
+                                    <input class="form-check-input" type="radio" name="typeOfApplication" id="bago" value="Bago" <?php if($userdata[0]['registration_type']== 'Bago') echo 'checked' ?> disabled>
+                                    <label class="" for="bago">Bago</label>
+                                </div>    
+                                <div>
+                                    <input class="form-control" type="text" id="IDnum" name="IDnum" placeholder="Numero ng ID (Bago)" value="<?php echo($userdata[0]['sr_citizen_num']); ?>"  disabled>
+                                </div>
+                            </div>
+                            <div class="col form-group">
+                                <div>
+                                    <input class="form-check-input" type="radio" name="typeOfApplication" id="lumipat" value="Lumipat" <?php if($userdata[0]['registration_type']== 'Lumipat') echo 'checked' ?> disabled>
+                                    <label class="" for="lumipat">Lumipat</label>
+                                </div>    
+                            </div>
+                            <div class="col form-group">
+                                <div>
+                                    <input class="form-check-input" type="radio" name="typeOfApplication" id="magpapalit" value="Magpapalit" <?php if($userdata[0]['registration_type']== 'Magpapalit') echo 'checked' ?> disabled>
+                                    <label class="" for="magpapalit">Magpapalit</label>
+                                </div>    
+                            </div>
+                            <div class="col form-group">
+                                <div>
+                                    <input class="form-check-input" type="radio" name="typeOfApplication" id="nawala" value="Nawala" <?php if($userdata[0]['registration_type']== 'Nawala') echo 'checked' ?> disabled>
+                                    <label class="" for="nawala">Nawala</label>
+                                    <input class="form-control" type="text" name="lostNumber" id="lostNumber" placeholder="Numero ng ID (Nawala)" value="<?php echo($userdata[0]['lost_number']); ?>"  disabled>
+                                </div>    
+                            </div>
+                        </div>
+                            <!-- Name -->
+                            <div class="row align-items-start">
+                                <div class="col form-group">
+                                    <label class="" for="FName">First Name (Pangalan)</label>
+                                    <input class="form-control" type="text" id="FName" name="FName" value="<?php echo($userdata[0]['sr_citizen_first_name']); ?>" readonly>
+                                </div>
+                                <div class="col form-group">
+                                    <label class="" for="MName">Middle Name (Gitnang Pangalan)</label>
+                                    <input class="form-control" type="text" id="MName" name="MName" value="<?php echo($userdata[0]['sr_citizen_middle_name']); ?>" readonly>
+                                </div>
+                                <div class="col form-group">
+                                    <label class="" for="LName">Last Name (Apelyido) </label>
+                                    <input class="form-control" type="text" id="LName" name="LName" value="<?php echo($userdata[0]['sr_citizen_last_name']); ?>" readonly>
+                                </div>
+                                <div class="col form-group">
+                                    <label class="" for="suffix">Suffix</label>
+                                    <input class="form-control" type="text" id="suffix" name="suffix" value="<?php echo($userdata[0]['sr_citizen_suffix']); ?>" readonly>
+                                </div>
+                            </div>
+                            <!-- Address -->
+                            <div class="row align-items-start">
+                                <div class="col form-group">
+                                    <label class="" for="barangay">Barangay</label>
+                                    <select class="form-select" id="barangay" name="barangay" readonly>
+                                        <?php 
+                                            $selected = $userdata[0]['barangay'];
+                                            $barangay = array('Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz'
+                                            ,'Santo Domingo','Sinalhan','Tagapo');
+                                            foreach($barangay as $option) {
+                                                if($selected == $option) {
+                                                    echo '<option selected value="'; echo $option; echo'" disabled>'; echo $option; echo'</option>';
+                                                }
+                                            }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col form-group">
+                                    <label class="" for="tirahan">Tirahan</label>
+                                    <input class="form-control" type="text" id="tirahan" name="tirahan" value="<?php echo($userdata[0]['tirahan']); ?>" readonly>
+                                </div>
+                            </div>
+                            <!-- S/M/A -->
+                            <div class="row align-items-start">
+                                <div class="col">
+                                    <label for="sex">Sex (Kasarian noong Kapanganakan)</label>
+                                        <select class="form-select" id="sex" name="sex">
+                                            <?php 
+                                                $selected = $userdata[0]['sex'];
+                                                $sex = array('Male','Female');
+                                                foreach($sex as $option) {
+                                                    if($selected == $option) {
+                                                        echo '<option selected value="'; echo $option; echo'" disabled>'; echo $option; echo'</option>';
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
+                                </div>
+                                <div class="col">
+                                    <label for="status">Marital Status</label>
+                                    <div class="dropdown">
+                                        <select class="form-select" id="status" name="status">
+                                            <?php 
+                                                $selected = $userdata[0]['marital_status'];
+                                                $marital_status = array('Single','Married','Widowed','Separated','Divorced');
+                                                foreach($marital_status as $option) {
+                                                    if($selected == $option) {
+                                                        echo '<option selected value="'; echo $option; echo'" disabled>'; echo $option; echo'</option>';
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col form-group">
+                                    <label class="" for="edad">Edad</label>
+                                    <input class="form-control" type="text" id="edad" name="edad" value="<?php echo($userdata[0]['edad']); ?>" readonly>
+                                </div>
+                            </div>
+                            <div class="row align-items-start">
+                                <div class="col">
+                                    <label for="dob">Date of Birth</label>
+                                    <input class="form-control" type="date" id="srCitizenDOB" name="srCitizenDOB" value="<?php echo($userdata[0]['date_of_birth']); ?>" readonly>
+                                </div>
+                                <div class="col form-group">
+                                    <label class="" for="birthplace">Lugar ng Kapanganakan</label>
+                                    <input class="form-control" type="text" id="birthplace" name="birthplace" value="<?php echo($userdata[0]['lugar_ng_kapanganakan']); ?>" readonly>
+                                </div>
+                            </div>
+                            <div class="row align-items-start">
+                                <div class="col form-group">
+                                    <label class="" for="telepono">Telepono</label>
+                                    <input class="form-control" type="text" id="telepono" name="telepono" value="<?php echo($userdata[0]['telepono']); ?>" readonly>
+                                </div>
+                                <div class="col form-group">
+                                    <label class="" for="relihiyon">Relihiyon</label>
+                                    <input class="form-control" type="text" id="relihiyon" name="relihiyon" value="<?php echo($userdata[0]['relihiyon']); ?>" readonly>
+                                </div>
+                                <div class="col form-group">
+                                    <label class="" for="hanapbuhay">Hanabuhay</label>
+                                    <input class="form-control" type="text" id="hanapbuhay" name="hanapbuhay" value="<?php echo($userdata[0]['hanapbuhay']); ?>" readonly>
+                                </div>
+                            </div>
+                            <!-- Pensyon -->
+                            <div class="row align-items-start">
+                                <div class="col">
+                                    <label for="pensyon">May pensyon na tinatanggap</label>
+                                    <select class="form-select" id="pensyon" name="pensyon">
+                                        <?php 
+                                            $selected = $userdata[0]['pensyon'];
+                                            $pensyon = array('Oo','Wala');
+                                            foreach($pensyon as $option) {
+                                                if($selected == $option) {
+                                                    echo '<option selected value="'; echo $option; echo'" disabled>'; echo $option; echo'</option>';
+                                                }
+                                            }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col form-group">
+                                    <label class="" for="saan">Saan</label>
+                                    <input class="form-control" type="text" id="saan" name="saan" value="<?php echo($userdata[0]['saan']); ?>" disabled>
+                                </div>
+                                <div class="col form-group">
+                                    <label class="" for="magkano">Magkano</label>
+                                    <input class="form-control" type="text" id="magkano" name="magkano" value="<?php echo($userdata[0]['magkano']); ?>" disabled>
+                                </div>
+                            </div>
+                            <!-- Asawa -->
+                            <div class="row align-items-start">
+                                <div class="col form-group">
+                                    <label class="" for="asawa">Pangalan ng Asawa</label>
+                                    <input class="form-control" type="text" id="asawa" name="asawa" value="<?php echo($userdata[0]['pangalan_ng_asawa']); ?>" readonly>
+                                </div>
+                                <div class="col form-group">
+                                    <label class="" for="edad-asawa">Edad ng Asawa</label>
+                                    <input class="form-control" type="text" id="edad-asawa" name="edad-asawa" value="<?php echo($userdata[0]['edad_asawa']); ?>" readonly>
+                                </div>
+                            </div>
+                            <!-- Anak -->
+                            <div class="row align-items-start">
+                                <div class="col form-group">
+                                    <label class="" for="anak">Ilan ang anak</label>
+                                    <input class="form-control" type="text" id="anak" name="anak" value="<?php echo($userdata[0]['ilan_ang_anak']); ?>" readonly>
+                                </div>
+                                <div class="col form-group">
+                                    <label class="" for="kasama">Kasama sa bahay?</label>
+                                    <input class="form-control" type="text" id="kasama" name="kasama" value="<?php echo($userdata[0]['kasama']); ?>" readonly>
+                                </div>
+                            </div>
+                            <div class="row align-items-start">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                        <th scope="col">Pangalan ng Anak</th>
+                                        <th scope="col">Edad</th>
+                                        <th scope="col">Tirahan</th>
+                                        <th scope="col">Telepono</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="relative">
+                                        <?php foreach($familyComposition as $data): ?>
+                                        <tr id="duplicaterow">
+                                            <input type="hidden" name="id[]" value="<?php echo($data['id']); ?>">
+                                            <td><input class="form-control" type="text" name="relativeName[]" value="<?php echo($data['name']); ?>" readonly></td>
+                                            <td><input class="form-control" type="text" name="relativeAge[]" value="<?php echo($data['age']); ?>" readonly></td>
+                                            <td><input class="form-control" type="text" name="relativeAddress[]" value="<?php echo($data['address']); ?>" readonly></td>
+                                            <td><input class="form-control" type="text" name="relativeContact[]" value="<?php echo($data['contact']); ?>" readonly></td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <input class="mt-4 btn btn-lr btn-primary w-100" type="submit" value="Approved" id="senior-citizen-approve" name="senior-citizen-approve">
+                            <input class="mt-4 btn btn-lr btn-danger w-100" type="submit" value="Reject" id="senior-citizen-reject" name="senior-citizen-reject">
+                    </form>
+                </div>
+                <footer class="bg-white sticky-footer">
+                    <div class="container my-auto">
+                        <div class="text-center my-auto copyright"><span>Copyright © Brand 2022</span></div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+.profile-pic{
+    height: 150px;
+    width: 150px;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid grey;
+}
+
+#photo{
+    height: 100%;
+    width: 100%;
+}
+
+#uploadButton{
+    height: 40px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    color: wheat;
+    line-height: 30px;
+    font-family: sans-serif;
+    font-size: 15px;
+    cursor: pointer;
+    display: none;
+}
+
+#partitioned1 {
+  padding-left: 15px;
+  letter-spacing: 42px;
+  border: 0;
+  background: transparent;
+  background-image: linear-gradient(to left, black 70%, rgba(255, 255, 255, 0) 0%);
+  background-position: bottom;
+  background-size: 50px 1px;
+  background-repeat: repeat-x;
+  background-position-x: 35px;
+  width: 90px;
+  min-width: 90px;
+}
+
+#partitioned {
+  padding-left: 15px;
+  letter-spacing: 42px;
+  border: 0;
+  background: transparent;
+  background-image: linear-gradient(to left, black 70%, rgba(255, 255, 255, 0) 0%);
+  background-position: bottom;
+  background-size: 50px 1px;
+  background-repeat: repeat-x;
+  background-position-x: 35px;
+  width: 300px;
+  min-width: 300px;
+}
+
+#partitioned:focus, #partitioned1:focus {
+    outline: none
+}
+
+#divInner{
+    left: 0;
+    position: sticky;
+}
+
+#divOuter{
+  width: 365px; 
+  overflow: hidden;
+}
+
+.registration-containers {
+  border-style: solid;
+  border-radius: 15px;
+  height: auto;
+  margin: auto;
+}
+
+.registration-form {
+  margin: auto;
+  padding: 20px;
+}
+
+.row {
+  margin: 3px;
+  padding: 3px;
+}
+
+.col {
+  margin: 3px;
+  padding: 3px;
+}
+
+hr {
+  border-top: 1px dashed black;
+}
+
+.required:after {
+    content: "*";
+    color: red;
+}

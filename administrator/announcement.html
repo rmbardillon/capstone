@@ -1,0 +1,73 @@
+<?php 
+    session_start();
+    $page = "announcement";
+    include("header.html");
+    if (!isset($_SESSION['admin-data'])) {
+        header("location: index.html");
+        exit();
+    }
+?>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col">
+                            <h3 class="text-dark mb-4">Announcements</h3>
+                        </div>
+                        <div class="col"><a class="float-end btn btn-primary" href="create-announcement.html">Add Announcement</a></div>
+                    </div>
+                    <div class="card shadow">
+                        <div class="card-header py-3">
+                            <p class="text-primary m-0 fw-bold">List of Announcements</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table mt-2" id="dataTable-1" role="grid" aria-describedby="dataTable_info">
+                                <table class="table my-0" id="dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">Announcement</th>
+                                            <th style="text-align: center;">Message</th>
+                                            <th style="text-align: center;">Announcement For</th>
+                                            <th style="text-align: center;">Address</th>
+                                            <th style="text-align: center;">Edit</th>
+                                            <th style="text-align: center;">Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach($announcements as $announcement): ?>
+                                        <tr>
+                                            <td style="text-align: center;"><?php echo($announcement['title']) ?></td>
+                                            <td style="text-align: center;"><?php echo($announcement['message']) ?></td>
+                                            <td style="text-align: center;"><?php echo($announcement['announcement_for']) ?></td>
+                                            <td style="text-align: center;">Barangay <?php echo($announcement['barangay']) ?>&nbsp;</td>
+                                            <td style="text-align: center;"><a class="btn btn-primary" href="update-announcement.html?edit=<?php echo($announcement['id']) ?>">Edit</a></td>
+                                            <td style="text-align: center;"><a class="btn btn-danger" href="includes/delete-announcement.inc.php?delete=<?php echo($announcement['id']) ?>">Delete</a></td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td><strong></strong></td>
+                                            <td><strong></strong></td>
+                                            <td></td>
+                                            <td><strong></strong></td>
+                                            <td><strong></strong></td>
+                                            <td><strong></strong></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span>Copyright © Brand 2022</span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>

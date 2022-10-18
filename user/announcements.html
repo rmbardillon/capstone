@@ -1,0 +1,20 @@
+<?php 
+    session_start();
+    $page = "announcements";
+    include "header.html";
+    if(!isset($_SESSION['username'])) {
+        header("location: index.html");
+        exit();
+    }
+?>
+        <div class="container">
+            <h3 style="padding-top: 12px;padding-bottom: 10px;margin-top: -5px;">Announcements</h3>
+        </div>
+    </div>
+    <?php
+        include "footer.html";
+    ?>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>

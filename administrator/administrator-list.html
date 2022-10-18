@@ -1,0 +1,181 @@
+<?php 
+    session_start();
+    $page = "admin-list";
+    include("header.html");
+    if (!isset($_SESSION['admin-data'])) {
+        header("location: index.html");
+        exit();
+    }
+?>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col">
+                            <h3 class="text-dark mb-4">List of Adminisrators</h3>
+                        </div>
+                        <div class="col"><a class="float-end btn btn-primary" href="add-administrator.html">Add Administrator</a></div>
+                    </div>
+                    <div class="card shadow">
+                        <div class="card-header py-3">
+                            <p class="text-primary m-0 fw-bold">Main Administrators</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table mt-2" id="dataTable-1" role="grid" aria-describedby="dataTable_info">
+                                <table class="" id="mainAdministrators">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">Name</th>
+                                            <th style="text-align: center;">Admin Type</th>
+                                            <th style="text-align: center;">Barangay</th>
+                                            <th style="text-align: center;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach($mainAdmin as $admin): $profilePic = getUserData($connection, 'media', 'username', $admin['username']); ?>
+                                        <tr>
+                                            <td>
+                                                <?php if(!empty($profilePic)) foreach($profilePic as $image): ?>
+                                                    <img class="rounded-circle me-2" width="30" height="30" src="uploads/<?php echo($image['image_location']); ?>">
+                                                <?php endforeach; ?>
+                                                <?php if(empty($profilePic)) {?>
+                                                <img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/default profile picture.png">
+                                                <?php } ?>
+                                                <?php echo($admin['first_name']." ".$admin['last_name']); ?>
+                                            </td>
+                                            <td style="text-align: center;"><?php echo($admin['admin_type']); ?></td>
+                                            <td style="text-align: center;"><?php echo($admin['barangay']); ?></td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="employee-profile.html?id=<?php echo($admin['id']); ?>">View Profile</a></td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="card shadow">
+                        <div class="card-header py-3">
+                            <p class="text-primary m-0 fw-bold">Persons with Disability Administrators</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table mt-2" id="dataTable-1" role="grid" aria-describedby="dataTable_info">
+                                <table class="table my-0" id="pwdAdministrators">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">Name</th>
+                                            <th style="text-align: center;">Admin Type</th>
+                                            <th style="text-align: center;">Barangay</th>
+                                            <th style="text-align: center;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach($pwdAdmin as $admin): $profilePic = getUserData($connection, 'media', 'username', $admin['username']); ?>
+                                        <tr>
+                                            <td>
+                                                <?php if(!empty($profilePic)) foreach($profilePic as $image): ?>
+                                                    <img class="rounded-circle me-2" width="30" height="30" src="uploads/<?php echo($image['image_location']); ?>">
+                                                <?php endforeach; ?>
+                                                <?php if(empty($profilePic)) {?>
+                                                <img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/default profile picture.png">
+                                                <?php } ?>
+                                                <?php echo($admin['first_name']." ".$admin['last_name']); ?>
+                                            </td>
+                                            <td style="text-align: center;"><?php echo($admin['admin_type']); ?></td>
+                                            <td style="text-align: center;"><?php echo($admin['barangay']); ?></td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="employee-profile.html?id=<?php echo($admin['id']); ?>">View Profile</a></td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="card shadow">
+                        <div class="card-header py-3">
+                            <p class="text-primary m-0 fw-bold">Solo Parent Administrators</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table mt-2" id="dataTable-3" role="grid" aria-describedby="dataTable_info">
+                                <table class="table my-0" id="soloparentAdministrators">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">Name</th>
+                                            <th style="text-align: center;">Admin Type</th>
+                                            <th style="text-align: center;">Barangay</th>
+                                            <th style="text-align: center;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach($soloParentAdmin as $admin): $profilePic = getUserData($connection, 'media', 'username', $admin['username']); ?>
+                                        <tr>
+                                            <td>
+                                                <?php if(!empty($profilePic)) foreach($profilePic as $image): ?>
+                                                    <img class="rounded-circle me-2" width="30" height="30" src="uploads/<?php echo($image['image_location']); ?>">
+                                                <?php endforeach; ?>
+                                                <?php if(empty($profilePic)) {?>
+                                                <img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/default profile picture.png">
+                                                <?php } ?>
+                                                <?php echo($admin['first_name']." ".$admin['last_name']); ?>
+                                            </td>
+                                            <td style="text-align: center;"><?php echo($admin['admin_type']); ?></td>
+                                            <td style="text-align: center;"><?php echo($admin['barangay']); ?></td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="employee-profile.html?id=<?php echo($admin['id']); ?>">View Profile</a></td>
+                                        </tr>
+                                        <?php endforeach;?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="card shadow">
+                        <div class="card-header py-3">
+                            <p class="text-primary m-0 fw-bold">Senior Citizens Adminisrators</p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table mt-2" id="dataTable-2" role="grid" aria-describedby="dataTable_info">
+                                <table class="table my-0" id="srCitizenAdministrators">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center;">Name</th>
+                                            <th style="text-align: center;">Admin Type</th>
+                                            <th style="text-align: center;">Barangay</th>
+                                            <th style="text-align: center;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach($srCitizenAdmin as $admin): $profilePic = getUserData($connection, 'media', 'username', $admin['username']); ?>
+                                        <tr>
+                                            <td>
+                                                <?php if(!empty($profilePic)) foreach($profilePic as $image): ?>
+                                                    <img class="rounded-circle me-2" width="30" height="30" src="uploads/<?php echo($image['image_location']); ?>">
+                                                <?php endforeach; ?>
+                                                <?php if(empty($profilePic)) {?>
+                                                <img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/default profile picture.png">
+                                                <?php } ?>
+                                                <?php echo($admin['first_name']." ".$admin['last_name']); ?>
+                                            </td>
+                                            <td style="text-align: center;"><?php echo($admin['admin_type']); ?></td>
+                                            <td style="text-align: center;"><?php echo($admin['barangay']); ?></td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="employee-profile.html?id=<?php echo($admin['id']); ?>">View Profile</a></td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="bg-white sticky-footer">
+                <div class="container my-auto">
+                    <div class="text-center my-auto copyright"><span>Copyright © Brand 2022</span></div>
+                </div>
+            </footer>
+        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>

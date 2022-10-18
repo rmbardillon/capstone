@@ -1,0 +1,347 @@
+<?php
+    session_start();
+    require_once 'includes/dbh.inc.php';
+    require_once 'includes/functions.inc.php';
+    $id = $_GET['id'];
+    $username = $_GET['username'];
+    $_SESSION['id'] = $id;
+    $userdata = getUserData($connection, 'solo_parent_data', 'id', $id);
+    $_SESSION['username'] = $_SESSION['admin-data']['username'];
+    $loginCredentialsExists = loginCredentialsExists($connection, $_SESSION['username'], $_SESSION['username']);
+    $adminData = $loginCredentialsExists;
+    $admin_name = $adminData['first_name']." ".$adminData['last_name'];
+    $familyComposition = getUserData($connection, "solo_parent_family_composition", "username", $username);
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Administrator</title>
+    <link rel="shortcut icon" href="assets/img/icons/santarosa-logo.ico" type="image/x-icon">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script defer type="text/javascript" src="assets/js/function.js"></script>
+    <link rel="stylesheet" href="assets/bootstrap/css/custom.css">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="background: var(--bs-pink);">
+            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="index.html"><img width="53" height="58" src="assets/img/icons/santarosa-logo.png" style="padding-top: 5px;">
+                    <div class="sidebar-brand-text mx-3"><span>CSWD</span></div>
+                </a>
+                <hr class="sidebar-divider my-0" style="background: rgba(0,0,0,0.99);">
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link" href="dashboard.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="profile.html"><i class="fas fa-user"></i><span>Profile</span></a></li>
+                    <?php 
+                        if($adminData['admin_type'] == "Main Administrator"){
+                        echo'<li class="nav-item"><a class="nav-link '; if ($page == 'admin-list') {echo 'active';} echo'" href="administrator-list.html" style="height: 52.4px;"><i class="fas fa-user"></i><span>List of Administrators</span></a></li>';
+                        }
+                    ?>
+                    <li class="nav-item"><a class="nav-link active" href="pending-requests.html" style="height: 52.4px;"><i class="fas fa-users"></i><span>Pending Requests</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="announcement.html" style="height: 52.4px;"><i class="fas fa-volume-up"></i><span>Announcements</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="table.html" style="height: 52.4px;"><i class="fas fa-download"></i><span>Generate Report</span></a></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button" style="background: rgba(255, 255, 255, 0.2);"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <div class="d-none d-sm-block topbar-divider"></div>
+                            <li class="nav-item dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small"><?php echo($admin_name) ?></span>
+                                    <?php if(!empty($profile)) foreach($profile as $image): ?><img class="border rounded-circle img-profile" src="uploads/<?php echo($image['image_location']); ?>"><?php endforeach; ?>
+                                    <?php if(empty($profile)) {?><img class="border rounded-circle img-profile" src="assets/img/avatars/default profile picture.png"><?php }?></a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="includes/logout.inc.php"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container registration-containers mt-5 mb-5">
+                    <form class="registration-form" action="includes/approved.inc.php" method="post">
+                        <div class="row m-1">
+                            <h2 class="display-20">APPLICATION FORM:</h2>
+                        </div>
+                        <div class="row m-1">
+                            <div class="">
+                                <h2 class="display-20 text-center" >SOLO PARENT IDENTIFICATION CARD</h2>
+                            </div>
+                        </div>
+                        <div class="row align-items-start">
+                            <div class="col form-group">
+                                <label class="readonly" for="name">Name</label>
+                                <input class="form-control" type="text" id="name" name="name" value="<?php echo($userdata[0]['solo_parent_name']); ?>" readonly>
+                            </div>
+                            <div class="col-2 form-group">
+                                <label class="readonly" for="age">Age</label>
+                                <input class="form-control" type="text" id="age" name="age" value="<?php echo($userdata[0]['age']); ?>" readonly>
+                            </div>
+                            <div class="col-2 form-group">
+                                <label class="readonly" for="sex">Sex </label>
+                                <select class="form-select" id="sex" name="sex" readonly>
+                                    <?php 
+                                        $selected = $userdata[0]['sex'];
+                                        $sex = array('Male','Female');
+                                        foreach($sex as $option) {
+                                            if($selected == $option) {
+                                                echo '<option selected value="'; echo $option; echo'" disabled>'; echo $option; echo'</option>';
+                                            }
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row align-items-start">
+                            <div class="col form-group">
+                                <label class="readonly" for="birth">Date of Birth </label>
+                                <input class="form-control" type="date" id="birth" name="birth" value="<?php echo($userdata[0]['date_of_birth']); ?>" readonly>
+                            </div>
+                            <div class="col form-group">
+                                <label class="readonly" for="birthplace">Place of Birth </label>
+                                <input class="form-control" type="text" id="birthplace" name="birthplace" value="<?php echo($userdata[0]['place_of_birth']); ?>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="row align-items-start">
+                            <div class="col">
+                                <label class="readonly" for="soloParentAddress">Address</label>
+                                <input class="form-control" type="text" id="soloParentAddress" name="soloParentAddress" value="<?php echo($userdata[0]['address']); ?>" readonly>
+                            </div>
+                            <div class="col">
+                                <label class="readonly" for="soloParentBarangay">Barangay</label>
+                                <select class="form-select" id="soloParentBarangay" name="soloParentBarangay" readonly>
+                                    <?php 
+                                        $selected = $userdata[0]['barangay'];
+                                        $barangay = array('Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz'
+                                        ,'Santo Domingo','Sinalhan','Tagapo');
+                                        foreach($barangay as $option) {
+                                            if($selected == $option) {
+                                                echo '<option selected value="'; echo $option; echo'" disabled>'; echo $option; echo'</option>';
+                                            }
+                                        }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row align-items-start">
+                            <div class="col">
+                                <label class="readonly" for="educational">Highest Educational Attainment</label>
+                                <input class="form-control" type="text" id="educational" name="educational" value="<?php echo($userdata[0]['educ_attainment']); ?>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="row align-items-start">
+                            <div class="col">
+                                <label class="readonly" for="occupation">Occupation</label>
+                                <input class="form-control" type="text" id="occupation" name="occupation" value="<?php echo($userdata[0]['occupation']); ?>" readonly>
+                            </div>
+                            <div class="col">
+                                <label class="readonly" for="income">Monthly Income</label>
+                                <input class="form-control" type="text" id="income" name="income" value="<?php echo($userdata[0]['income']); ?>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="row align-items-start">
+                            <div class="col">
+                                <label class="readonly" for="famincome">Total Monthly Family Income</label>
+                                <input class="form-control" type="text" id="famincome" name="famincome" value="<?php echo($userdata[0]['fam_income']); ?>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="row align-items-start">
+                            <div class="col">
+                                <label class="readonly" for="tenurial">Tenurial Status</label>
+                                <input class="form-control" type="text" id="tenurial" name="tenurial" value="<?php echo($userdata[0]['tenurial']); ?>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="row align-items-start">
+                            <div class="col">
+                                <label class="readonly" for="soloParentReligion">Religion</label>
+                                <input class="form-control" type="text" id="soloParentReligion" name="soloParentReligion" value="<?php echo($userdata[0]['religion']); ?>" readonly>
+                            </div>
+                            <div class="col">
+                                <label class="readonly" for="contact">Contact no.</label>
+                                <input class="form-control" type="text" id="contact" name="contact" value="<?php echo($userdata[0]['contact_number']); ?>" readonly>
+                            </div>
+                        </div>
+                        <div class="row m-1">
+                            <div class="">
+                                <h5 class="readonly" >Marital Status (Please check):</h5>
+                            </div>
+                        </div>
+                        <div class="row align-items-start">
+                            <div class="col ml-5">
+                                <input class="form-check-input" type="radio" value="Single" name="marital-status" id="soloParentSingle" <?php if($userdata[0]['marital_status']== 'Single') echo 'checked' ?> disabled>
+                                <label class="form-check-label" for="soloParentSingle">
+                                Single
+                                </label>
+                            </div>
+                            <div class="col ml-5">
+                                <input class="form-check-input" type="radio" value="Annulled" name="marital-status" id="soloParentAnnulled"<?php if($userdata[0]['marital_status']== 'Annulled') echo 'checked' ?> disabled>
+                                <label class="form-check-label" for="soloParentAnnulled">
+                                Annulled
+                                </label>
+                            </div>
+                            <div class="col ml-5">
+                                <input class="form-check-input" type="radio" value="Widow/Widower" name="marital-status" id="soloParentWidow"<?php if($userdata[0]['marital_status']== 'Widow') echo 'checked' ?> disabled>
+                                <label class="form-check-label" for="soloParentWidow">
+                                    Widow/Widower
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row align-items-start">
+                            <div class="col ml-5">
+                                <input class="form-check-input" type="radio" value="Married" name="marital-status" id="soloParentMarried"<?php if($userdata[0]['marital_status']== 'Married') echo 'checked' ?> disabled>
+                                <label class="form-check-label" for="soloParentMarried">
+                                Married
+                                </label>
+                            </div>
+                            
+                            <div class="col ml-5">
+                                <input class="form-check-input" type="radio" value="Separated" name="marital-status" id="soloParentSeparated"<?php if($userdata[0]['marital_status']== 'Separated') echo 'checked' ?> disabled>
+                                <label class="form-check-label" for="soloParentSeparated">
+                                    Separated(w/certificate of Legal Separation)
+                                </label>
+                            </div>
+                            <div class="col"></div>
+                        </div>
+
+                        <div class="row align-items-start">
+                            <div class="col">
+                                <h5 class="" >I.Family Composition</h5>
+                            </div>
+                            <div class="row">
+                                <label class="form-check-label col" for="">
+                                    <b>Name</b>
+                                </label>
+                                <label class="form-check-label col" for="">
+                                    <b>Relationship</b>
+                                </label>
+                                <label class="form-check-label col" for="">
+                                    <b>Age</b>
+                                </label>
+                                <label class="form-check-label col" for="">
+                                    <b>Civil Status</b>
+                                </label>
+                                <label class="form-check-label col" for="">
+                                    <b>Educational Attainment</b>
+                                </label>
+                                <label class="form-check-label col" for="">
+                                    <b>Occupation</b>
+                                </label>
+                                <label class="form-check-label col" for="">
+                                    <b>Monthly Income</b>
+                                </label>
+                            </div>
+                            <div class="family-list" id="new">
+                                <?php foreach($familyComposition as $data): ?>
+                                <div class="row family-data" id="duplicater">
+                                    <input type="hidden" name="id[]" value="<?php echo($data['id']); ?>">
+                                    <input type="text" class="form-control col" name="family-composition-name[]" id="" value="<?php echo($data['name']); ?>" readonly>
+                                    <input type="text" class="form-control col" name="family-composition-relationship[]" id="" value="<?php echo($data['relationship']); ?>" readonly>
+                                    <input type="text" class="form-control col" name="family-composition-age[]" id="" value="<?php echo($data['age']); ?>" readonly>
+                                    <select class="col form-select" id="id-type" name="family-composition-civil-status[]" id="" readonly>
+                                        <?php 
+                                            $selected = $data['civil_status'];
+                                            $civilStatus = array('Single','Annulled','Widow','Married','Separated');
+                                            foreach($civilStatus as $option) {
+                                                if($selected == $option) {
+                                                    echo '<option selected value="'; echo $option; echo'" disabled>'; echo $option; echo'</option>';
+                                                }
+                                            }
+                                        ?>
+                                    </select>
+                                    <input type="text" class="form-control col" name="family-composition-educ-attainment[]" id="" value="<?php echo($data['educ_attainment']); ?>" readonly>
+                                    <input type="text" class="form-control col" name="family-composition-occupation[]" id="" value="<?php echo($data['occupation']); ?>" readonly>
+                                    <input type="text" class="form-control col" name="family-composition-monthly-income[]" id="" value="<?php echo($data['monthly_income']); ?>" readonly>
+                                </div>
+                                <?php endforeach; ?>
+                            </div>
+                            <div class="text-center ins">
+                                <h6>(Include all family members and other members of the household.)</h6>
+                            </div>
+                        </div>
+                        <div class="row align-items-start">
+                            <div class="col">
+                                <h5 class="readonly" >II. Classification/ Circumstances of being a Solo Parent:</h5>
+                            </div>
+                            <div class="row align-items-start">
+                                <div class="col">
+                                    <label class="readonly" for="incidence">Incidence</label>
+                                    <input class="form-control" type="text" id="incidence" name="incidence" value="<?php echo($userdata[0]['classification_incidence']); ?>" readonly>
+                                </div>
+                            </div>
+                            <div class="row align-items-start">
+                                <div class="col">
+                                    <label class="readonly" for="when">When</label>
+                                    <input class="form-control" type="text" id="when" name="when" value="<?php echo($userdata[0]['classification_when']); ?>" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row align-items-start">
+                            <div class="col">
+                                <label class="readonly" for="problem"><h5>III. Needs/Problems of Solo Parent</h5></label>
+                            </div>
+                            <div class="row align-items-start">
+                                <div class="col">
+                                    <input class="form-control" type="text" id="problem" name="problem" value="<?php echo($userdata[0]['problems']); ?>" readonly>
+                                </div>
+                            </div>
+                        </div>   
+                        <div class="row align-items-start">
+                            <div class="col">
+                                <label class="readonly" for="resources"><h5>IV. Family Resources:</h5></label>
+                                <div class="row align-items-start">
+                                    <div class="col">
+                                        <input class="form-control" type="text" id="resources" name="resources" value="<?php echo($userdata[0]['family_resources']); ?>" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="row align-items-start">
+                            <div class="col">
+                                <p class="font-weight-normal">I hereby certify that the information given above are true and correct. I further UNDERSTAND that any misinterpretations that may have made will subject me to criminal and civil liabilities provided by the existing laws.</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="text-center">
+                                    <input class="form-control " type="date" name="date" id="date" value ="<?php echo date('Y-m-d') ?>" readonly>
+                                    <label for="date"><b>Date</b></label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="text-center">
+                                    <input class="form-control " type="file" name="signature" id="signature">
+                                    <label for="signature"><b>Signature/ Thumbmark over Printed Name</b></label>
+                                </div>
+                            </div>
+                        </div>
+                        <input class="mt-4 btn btn-lr btn-primary w-100" type="submit" value="Approve" id="solo-parent-approve" name="solo-parent-approve">
+                        <input class="mt-4 btn btn-lr btn-danger w-100" type="submit" value="Reject" id="solo-parent-reject" name="solo-parent-reject">
+                    </form>
+                </div>
+                <footer class="bg-white sticky-footer">
+                    <div class="container my-auto">
+                        <div class="text-center my-auto copyright"><span>Copyright © Brand 2022</span></div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+</html>

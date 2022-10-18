@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>CSWD User</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Basic-icons.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="shortcut icon" href="assets/img/santarosa-logo.ico" type="image/x-icon">
+</head>
+
+<body>
+    <section class="position-relative py-4 py-xl-5">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-md-8 col-xl-6 text-center mx-auto">
+                    <h2>City Social Welfare Development</h2>
+                    <?php
+                        if(isset($_GET['verified'])) {
+                            if($_GET['verified'] == "success") {
+                                echo'<p class="text-center w-lg-50"><strong>Your email is verified </strong><a href="index.html">Go to login</a></p>';
+                            } else {
+                                echo'<p class="text-center w-lg-50"><strong>Your verification key is invalid </strong><a href="index.html">Go to login</a></p>';
+                            }
+                        }
+                    ?>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+</body>
+
+</html>
