@@ -1,6 +1,6 @@
 <?php 
     
-    require ('assets/fpdf/fpdf.php');
+    require ('fpdf/fpdf.php');
     $pdf = new fpdf();
     $pdf -> AddPage();
 
