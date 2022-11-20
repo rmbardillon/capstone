@@ -3,7 +3,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 function insertUser($connection, $firstName, $middleName, $lastName, $suffix, $username, $email, $vkey, $password){
-    $message = "<a href='http://localhost/cswduser/includes/verify.inc.php?vkey=$vkey'>Click here to verify email</a>";
+    $message = "<a href='http://localhost/capstone/user/includes/verify.inc.php?vkey=$vkey'>Click here to verify email</a>";
     $sql = "INSERT INTO user (username, last_name, suffix, first_name, middle_name, email, vkey, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
     $stmt = $connection->prepare($sql);
 
