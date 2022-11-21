@@ -24,21 +24,26 @@
       crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap2.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="assets/css/Login-Form-Basic-icons.css">
     <link rel="stylesheet" href="assets/css/styles.css">
     <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script defer type="text/javascript" src="includes/funtion.inc.js"></script>
+    <script defer src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script defer src="assets/bootstrap/js/bootstrap2.min.js"></script>
     <link rel="shortcut icon" href="assets/img/santarosa-logo.ico" type="image/x-icon">
 </head>
 <body>
     <div>
-        <nav class="navbar navbar-light navbar-expand-md py-3" style="background: #bce784;">
+        <nav class="navbar navbar-dark navbar-expand bg-dark shadow mb-4 topbar static-top">
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center" href="index.html">
-                    <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon" style="background: rgb(255,255,255);">
-                        <img src="assets/img/santarosa-logo.png" width="50px" height="50px">
-                    </span>
-                    <span id="cswd-header" style="padding-left: 9px;">City Social Welfare Development</span>
+                <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon" style="background: rgb(255,255,255);">
+                    <img src="assets/img/santarosa-logo.png" width="50px" height="50px">
+                </span>
+                <span id="cswd-header" style="padding-left: 9px;">City Social Welfare Development</span>
                 </a>
                 <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2" style="margin-top: 6px;">
                     <span class="visually-hidden">Toggle navigation</span>
@@ -50,7 +55,16 @@
                         <li class="nav-item"><a class="nav-link <?php if ($page == 'id-applications') {echo 'active';} ?>" href="id-application.html">Services<br></a></li>
                         <li class="nav-item"><a class="nav-link <?php if ($page == 'applications') {echo 'active';} ?>" href="applications.html">Applications</a></li>
                         <li class="nav-item"><a class="nav-link <?php if ($page == 'announcements') {echo 'active';} ?>" href="announcements.html">Notifications</a></li>
-                    </ul><a class="btn btn-primary ms-md-2" role="button" href="includes/logout.inc.php">Logout</a>
+                    <button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                    <ul class="navbar-nav flex-nowrap ms-auto">
+                        <div class="d-none d-sm-block topbar-divider"></div>
+                        <li class="nav-item dropdown no-arrow">
+                            <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small"><?php echo($userData['first_name']." ".$userData['last_name']) ?></span>
+                                <img class="border rounded-circle img-profile" src="assets/img/default profile picture.png"></a>
+                                <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="includes/logout.inc.php"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a></div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </nav>
