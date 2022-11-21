@@ -354,11 +354,14 @@ $(window).on('load', function() {
     var subCheckboxChronicIllnes = document.querySelector('#chronicIllness');
     var subCheckboxAcquiredCerebralPalsy = document.querySelector('#acquiredCerebralPalsy');
     var subCheckboxInjury = document.querySelector('#injury');
-    if (subCheckboxAutism.checked || subCheckboxADHD.checked || subCheckboxCerebralPalsy.checked || subCheckboxDownSyndrome.checked || subCheckboxChronicIllnes.checked || subCheckboxAcquiredCerebralPalsy.checked || subCheckboxInjury.checked) {
-        for (i = 0; i < el.length; i++) {
-            el[i].required = false;
+    if (subCheckboxAutism) {
+        if (subCheckboxAutism.checked || subCheckboxADHD.checked || subCheckboxCerebralPalsy.checked || subCheckboxDownSyndrome.checked || subCheckboxChronicIllnes.checked || subCheckboxAcquiredCerebralPalsy.checked || subCheckboxInjury.checked) {
+            for (i = 0; i < el.length; i++) {
+                el[i].required = false;
+            }
         }
     }
+    
 });
 
 // ID Type
