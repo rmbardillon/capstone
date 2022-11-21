@@ -2,14 +2,14 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-function insertUser($connection, $firstName, $middleName, $lastName, $suffix, $username, $email, $vkey, $password){
+function insertUser($connection, $firstName, $middleName, $lastName, $suffix, $username, $email, $barangay, $vkey, $password){
     $message = "<a href='http://localhost/capstone/user/includes/verify.inc.php?vkey=$vkey'>Click here to verify email</a>";
-    $sql = "INSERT INTO user (username, last_name, suffix, first_name, middle_name, email, vkey, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+    $sql = "INSERT INTO user (username, last_name, suffix, first_name, middle_name, email, barangay, vkey, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
     $stmt = $connection->prepare($sql);
 
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    mysqli_stmt_bind_param($stmt, "ssssssss", $username, $lastName, $suffix, $firstName, $middleName, $email, $vkey, $hashedPassword);
+    mysqli_stmt_bind_param($stmt, "sssssssss", $username, $lastName, $suffix, $firstName, $middleName, $email, $barangay, $vkey, $hashedPassword);
     mysqli_stmt_execute($stmt); 
     mysqli_stmt_close($stmt);
     email("CSWDO Santa Rosa", "Email verification", "populationmanagementsystem@gmail.com", "$firstName $middleName $lastName", $email, $message);

@@ -7,6 +7,7 @@
         $email = $_POST["email"];
         $password = $_POST["password"];
         $confirmPassword = $_POST["confirmPassword"];
+        $barangay = $_POST["barangay"];
         $currentUsername = str_replace(" ", "", strtolower($firstName[0].$middleName[0].$lastName.$suffix));
         $username = $currentUsername;
         $i = 0;
@@ -28,7 +29,7 @@
             header("location: ../sign-up.html?error=emailtaken");
             exit();
         }
-        insertUser($connection, $firstName, $middleName, $lastName, $suffix, $currentUsername, $email, $vkey, $password);
+        insertUser($connection, $firstName, $middleName, $lastName, $suffix, $currentUsername, $email, $barangay, $vkey, $password);
     
     }
     else {
