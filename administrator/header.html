@@ -4,8 +4,8 @@
     require_once 'includes/functions.inc.php';
 
     if(isset($_SESSION['admin-data'])) {
-        $_SESSION['username'] = $_SESSION['admin-data']['username'];
-        $loginCredentialsExists = loginCredentialsExists($connection, $_SESSION['username'], $_SESSION['username']);
+        $_SESSION['admin-username'] = $_SESSION['admin-data']['username'];
+        $loginCredentialsExists = loginCredentialsExists($connection, $_SESSION['admin-username'], $_SESSION['admin-username']);
         $adminData = $loginCredentialsExists;
         $admin_name = $adminData['first_name']." ".$adminData['last_name'];
         $profile = getUserData($connection, "media", "username", $adminData['username']);
