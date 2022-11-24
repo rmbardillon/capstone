@@ -6,6 +6,7 @@ $(document).ready( function () {
     $('#pwdDataTable').DataTable();
     $('#spDataTable').DataTable();
     $('#scDataTable').DataTable();
+    $('#announcements').DataTable();
 });
 
 // Profile Picture

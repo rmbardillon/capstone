@@ -9,7 +9,7 @@
             <?php if($adminData['admin_type'] == "Main Administrator"){
                 echo <<<HTML
                 <div class="container-fluid">
-                    <h3 class="text-dark mb-4">Pending Requests</h3>
+                    <h3 class="text-dark mb-4">Approved Requests</h3>
                     <div class="card shadow">
                         <div class="card-header py-3">
                             <p class="text-primary m-0 fw-bold">Recent Registrants : Person With Disability&nbsp;</p>
@@ -260,16 +260,6 @@
                 </div>
                 HTML; }
                 ?>
-            </div>
-                <footer class="bg-white sticky-footer">
-                <div class="container my-auto">
-                    <div class="text-center my-auto copyright"><span>Copyright © Brand 2022</span></div>
-                </div>
-            </footer>
-        </div><a class="border rounded d-inline scroll-to-top" href="#page-top"><i class="fas fa-angle-up"></i></a>
-    </div>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/theme.js"></script>
-</body>
-
-</html>
+<?php
+    include "footer.html";
+?>
