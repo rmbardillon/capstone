@@ -61,7 +61,7 @@ function deRequire(elClass) {
 }
 
 function updateFamily() {
-    var parent = document.getElementById('newRow');
+    var parent = document.getElementById('new');
     var tr = document.createElement('tr');
     tr.setAttribute("id", "duplicaterow");
     var td1 = document.createElement('td');
@@ -73,18 +73,22 @@ function updateFamily() {
     inputName.setAttribute("class", "form-control");
     inputName.setAttribute("type", "text");
     inputName.setAttribute("name", "relativeName[]");
+    inputName.setAttribute("required", "true");
     var inputAge = document.createElement('input');
     inputAge.setAttribute("class", "form-control");
     inputAge.setAttribute("type", "text");
     inputAge.setAttribute("name", "relativeAge[]");
+    inputAge.setAttribute("required", "true");
     var inputAddress = document.createElement('input');
     inputAddress.setAttribute("class", "form-control");
     inputAddress.setAttribute("type", "text");
     inputAddress.setAttribute("name", "relativeAddress[]");
+    inputAddress.setAttribute("required", "true");
     var inputContact = document.createElement('input');
     inputContact.setAttribute("class", "form-control");
     inputContact.setAttribute("type", "text");
     inputContact.setAttribute("name", "relativeContact[]");
+    inputContact.setAttribute("required", "true");
     var deleteButton = document.createElement('button');
     deleteButton.setAttribute("class", "btn btn-danger delete");
     deleteButton.setAttribute("type", "button");
@@ -104,7 +108,7 @@ function updateFamily() {
 }
 
 function duplicate() {
-    var parent = document.getElementById('new');
+    var parent = document.getElementById('newRow');
     var div = document.createElement('div');
     div.setAttribute("class", "row family-data");
     div.setAttribute("id", "duplicater");
@@ -112,21 +116,25 @@ function duplicate() {
     inputName.setAttribute("type", "text");
     inputName.setAttribute("class", "form-control col");
     inputName.setAttribute("name", "family-composition-name[]");
+    inputName.setAttribute("required", "true");
     var inputRelationship = document.createElement('input');
     inputRelationship.setAttribute("type", "text");
     inputRelationship.setAttribute("class", "form-control col");
     inputRelationship.setAttribute("name", "family-composition-relationship[]");
+    inputRelationship.setAttribute("required", "true");
     var inputAge = document.createElement('input');
     inputAge.setAttribute("type", "text");
     inputAge.setAttribute("class", "form-control col");
     inputAge.setAttribute("name", "family-composition-age[]");
+    inputAge.setAttribute("required", "true");
     var selectCivilStatus = document.createElement('select');
     selectCivilStatus.setAttribute("class","col form-select");
     selectCivilStatus.setAttribute("name","family-composition-civil-status[]");
+    selectCivilStatus.setAttribute("required","true");
     var option = document.createElement('option');
     option.setAttribute("disabled","disabled");
     option.setAttribute("selected","selected");
-    option.textContent = "Please Select";
+    // option.textContent = "Please Select";
     var single = document.createElement('option');
     single.setAttribute("value","Single");
     single.textContent = "Single";
@@ -146,14 +154,17 @@ function duplicate() {
     inputEducationalAttainment.setAttribute("type", "text");
     inputEducationalAttainment.setAttribute("class", "form-control col");
     inputEducationalAttainment.setAttribute("name", "family-composition-educ-attainment[]");
+    inputEducationalAttainment.setAttribute("required", "true");
     var inputOccupation = document.createElement('input');
     inputOccupation.setAttribute("type", "text");
     inputOccupation.setAttribute("class", "form-control col");
     inputOccupation.setAttribute("name", "family-composition-occupation[]");
+    inputOccupation.setAttribute("required", "true");
     var inputIncome = document.createElement('input');
     inputIncome.setAttribute("type", "text");
     inputIncome.setAttribute("class", "form-control col");
     inputIncome.setAttribute("name", "family-composition-monthly-income[]");
+    inputIncome.setAttribute("required", "true");
     var button = document.createElement('button');
     button.textContent = "Delete";
     button.setAttribute("type","button");
@@ -277,18 +288,48 @@ if(birth) {
 $(window).load(function()
 {
     $('#staticBackdrop').modal('show');
-    if ($('#pensyon').val() == "Oo") {
-        $("#saan").removeAttr("disabled");
-        $("#magkano").removeAttr("disabled");
-    }
-    if ($("#bago").is(":checked")) {
-        $("#IDnum").removeAttr("disabled");
-        $("#IDnum").prop('required',true);
-    }
-    if ($("#nawala").is(":checked")) {
-        $("#lostNumber").removeAttr("disabled");
-        $("#lostNumber").prop('required',true);
-    }
+    $("#pensyon").on('change', function() {
+        if ($('#pensyon').val() == "Oo") {
+            $("#saan").prop("required", true);
+            $("#saan").removeAttr("disabled");
+            $(".saan").addClass("required");
+            $("#magkano").prop("required", true);
+            $("#magkano").removeAttr("disabled");
+            $(".magkano").addClass("required");
+        } else {
+            $("#saan").prop("required", false);
+            $("#saan").attr("disabled", "disabled");
+            $(".saan").removeClass("required");
+            $("#magkano").prop("required", false);
+            $("#magkano").attr("disabled", "disabled");
+            $(".magkano").removeClass("required");
+        }
+    });
+    $("input[name='typeOfApplication']").click(function () {
+        $("#bago").removeAttr("required");
+        $("#lumipat").removeAttr("required");
+        $("#magpapalit").removeAttr("required");
+        $("#nawala").removeAttr("required");
+
+        if ($("#bago").is(":checked")) {
+            $("#IDnum").removeAttr("disabled");
+            $("#IDnum").focus();
+            $("#IDnum").prop('required',true);
+        } else {
+            $("#IDnum").attr("disabled", "disabled");
+            $("#IDnum").removeAttr("required");
+            $('#IDnum').val(""); 
+        }
+        if ($("#nawala").is(":checked")) {
+            $("#lostNumber").removeAttr("disabled");
+            $("#lostNumber").focus();
+            $("#lostNumber").prop('required',true);
+        } else {
+            $("#lostNumber").attr("disabled", "disabled");
+            $("#lostNumber").removeAttr("required");
+            $('#lostNumber').val(""); 
+        }
+    });
 });
 
 $(document).ready(function(){
@@ -326,7 +367,10 @@ $('#guardianLastName').change(function(){
         $("#guardianContactNumber").val("");
     } else {
         $("#guardianRelationship").attr("disabled", false);
+        $("#guardianRelationship").prop("required", true);
         $("#guardianContactNumber").attr("disabled", false);
+        $("#guardianContactNumber").prop("required", true);
+
     }
 });
 
@@ -382,34 +426,87 @@ $("input[name='idType']").click(function () {
     }
 });
 
-$("input[name='typeOfApplication']").click(function () {
-    if ($("#bago").is(":checked")) {
-        $("#IDnum").removeAttr("disabled");
-        $("#IDnum").focus();
-        $("#IDnum").prop('required',true);
-    } else {
-        $("#IDnum").attr("disabled", "disabled");
-        // $('#IDnum').val(""); 
-    }
-    if ($("#nawala").is(":checked")) {
-        $("#lostNumber").removeAttr("disabled");
-        $("#lostNumber").focus();
-        $("#lostNumber").prop('required',true);
-    } else {
-        $("#lostNumber").attr("disabled", "disabled");
-        // $('#lostNumber').val(""); 
-    }
-});
+window.onload = function() {
+    var $recaptcha = document.querySelector('#g-recaptcha-response');
 
-$('#pensyon').change(function() {
-    if ($('#pensyon').val() == "Oo") {
-        $("#saan").removeAttr("disabled");
-        $("#saan").focus();
-        $("#magkano").removeAttr("disabled");
-    } else {
-        $("#saan").attr("disabled", "disabled");
-        $('#saan').val(""); 
-        $("#magkano").attr("disabled", "disabled");
-        $('#magkano').val(""); 
+    if($recaptcha) {
+        $recaptcha.setAttribute("required", "required");
     }
-})
+};
+let email = document.getElementById("email")
+let password = document.getElementById("password")
+let verifyPassword = document.getElementById("verifyPassword")
+let submitBtn = document.getElementById("submitBtn")
+let emailErrorMsg = document.getElementById('emailErrorMsg')
+let passwordErrorMsg = document.getElementById('passwordErrorMsg')
+
+function displayErrorMsg(type, msg) {
+    if(type == "email") {
+        emailErrorMsg.style.display = "block"
+        emailErrorMsg.innerHTML = msg
+        submitBtn.disabled = true
+    }
+    else {
+        passwordErrorMsg.style.display = "block"
+        passwordErrorMsg.innerHTML = msg
+        submitBtn.disabled = true
+    }
+}
+
+function hideErrorMsg(type) {
+    if(type == "email") {
+        emailErrorMsg.style.display = "none"
+        emailErrorMsg.innerHTML = ""
+        submitBtn.disabled = true
+        if(passwordErrorMsg.innerHTML == "")
+            submitBtn.disabled = false
+    }
+    else {
+        passwordErrorMsg.style.display = "none"
+        passwordErrorMsg.innerHTML = ""
+        if(emailErrorMsg.innerHTML == "")
+            submitBtn.disabled = false
+    }
+}
+
+// Validate password upon change
+if(password) {
+    password.addEventListener("change", function() {
+
+        // If password has no value, then it won't be changed and no error will be displayed
+        if(password.value.length == 0 && verifyPassword.value.length == 0) hideErrorMsg("password")
+        
+        // If password has a value, then it will be checked. In this case the passwords don't match
+        else if(password.value !== verifyPassword.value) displayErrorMsg("password", "Passwords do not match")
+        
+        // When the passwords match, we check the length
+        else {
+            // Check if the password has 8 characters or more
+            if(password.value.length >= 8)
+                hideErrorMsg("password")
+            else
+                displayErrorMsg("password", "Password must be at least 8 characters long")
+        }
+    })
+
+    verifyPassword.addEventListener("change", function() {
+        if(password.value !== verifyPassword.value)
+            displayErrorMsg("password", "Passwords do not match")
+        else {
+            // Check if the password has 8 characters or more
+            if(password.value.length >= 8)
+                hideErrorMsg("password")
+            else
+                displayErrorMsg("password", "Password must be at least 8 characters long")
+        }
+    })
+
+    // Validate email upon change
+    email.addEventListener("change", function() {
+        // Check if the email is valid using a regular expression (string@string.string)
+        if(email.value.match(/^[^@]+@[^@]+\.[^@]+$/))
+            hideErrorMsg("email")
+        else
+            displayErrorMsg("email", "Invalid email")
+    });
+}

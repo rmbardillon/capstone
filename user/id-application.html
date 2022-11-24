@@ -1275,7 +1275,7 @@
                                     </label>
                                     <label for="" class="col"></label>                    
                                 </div>
-                                <div id="new">
+                                <div id="newRow">
                                     <div class="row family-data" id="duplicater">
                                         <input type="text" class="form-control col" name="family-composition-name[]" id="" required>
                                         <input type="text" class="form-control col" name="family-composition-relationship[]" id="" required>
@@ -1349,12 +1349,6 @@
                                         <label for="date"><b>Date</b></label>
                                     </div>
                                 </div>
-                                <div class="col">
-                                    <div class="text-center">
-                                        <input class="form-control " type="file" name="signature" id="signature">
-                                        <label for="signature"><b>Signature/ Thumbmark over Printed Name</b></label>
-                                    </div>
-                                </div>
                             </div>
                             <input class="mt-4 btn btn-lr btn-primary w-100" type="submit" value="Register" id="solo-parent-register" name="solo-parent-register">
                         </form>
@@ -1372,7 +1366,7 @@
                             <div class="row align-items-start">
                                 <div class="col form-group">
                                     <div>
-                                        <input class="form-check-input" type="radio" name="typeOfApplication" id="bago" value="Bago">
+                                        <input class="form-check-input" type="radio" name="typeOfApplication" id="bago" value="Bago" required>
                                         <label class="" for="bago">Bago</label>
                                     </div>    
                                     <div>
@@ -1381,19 +1375,19 @@
                                 </div>
                                 <div class="col form-group">
                                     <div>
-                                        <input class="form-check-input" type="radio" name="typeOfApplication" id="lumipat" value="Lumipat">
+                                        <input class="form-check-input" type="radio" name="typeOfApplication" id="lumipat" value="Lumipat" required>
                                         <label class="" for="lumipat">Lumipat</label>
                                     </div>    
                                 </div>
                                 <div class="col form-group">
                                     <div>
-                                        <input class="form-check-input" type="radio" name="typeOfApplication" id="magpapalit" value="Magpapalit">
+                                        <input class="form-check-input" type="radio" name="typeOfApplication" id="magpapalit" value="Magpapalit" required>
                                         <label class="" for="magpapalit">Magpapalit</label>
                                     </div>    
                                 </div>
                                 <div class="col form-group">
                                     <div>
-                                        <input class="form-check-input" type="radio" name="typeOfApplication" id="nawala" value="Nawala">
+                                        <input class="form-check-input" type="radio" name="typeOfApplication" id="nawala" value="Nawala" required>
                                         <label class="" for="nawala">Nawala</label>
                                         <input class="form-control" type="text" name="lostNumber" id="lostNumber" placeholder="Numero ng ID (Nawala)" disabled>
                                     </div>    
@@ -1402,7 +1396,7 @@
                                 <!-- Name -->
                                 <div class="row align-items-start">
                                     <div class="col form-group">
-                                        <label class="" for="FName">First Name (Pangalan)</label>
+                                        <label class="required" for="FName">First Name (Pangalan)</label>
                                         <input class="form-control" type="text" id="FName" name="FName" required>
                                     </div>
                                     <div class="col form-group">
@@ -1410,7 +1404,7 @@
                                         <input class="form-control" type="text" id="MName" name="MName">
                                     </div>
                                     <div class="col form-group">
-                                        <label class="" for="LName">Last Name (Apelyido) </label>
+                                        <label class="required" for="LName">Last Name (Apelyido) </label>
                                         <input class="form-control" type="text" id="LName" name="LName" required>
                                     </div>
                                     <div class="col form-group">
@@ -1421,7 +1415,7 @@
                                 <!-- Address -->
                                 <div class="row align-items-start">
                                     <div class="col form-group">
-                                        <label class="" for="barangay">Barangay</label>
+                                        <label class="required" for="barangay">Barangay</label>
                                         <select class="form-select" id="barangay" name="barangay" required>
                                             <option disabled selected value="">Please Select</option>
                                             <option value="Aplaya">Aplaya</option>
@@ -1445,24 +1439,24 @@
                                         </select>
                                     </div>
                                     <div class="col form-group">
-                                        <label class="" for="tirahan">Tirahan</label>
-                                        <input class="form-control" type="text" id="tirahan" name="tirahan">
+                                        <label class="required" for="tirahan">Tirahan</label>
+                                        <input class="form-control" type="text" id="tirahan" name="tirahan" required>
                                     </div>
                                 </div>
                                 <!-- S/M/A -->
                                 <div class="row align-items-start">
                                     <div class="col">
-                                        <label for="sex">Sex (Kasarian noong Kapanganakan)</label>
-                                            <select class="form-select" id="sex" name="sex">
+                                        <label class="required" for="sex">Sex (Kasarian noong Kapanganakan)</label>
+                                            <select class="form-select" id="sex" name="sex" required>
                                                 <option disabled selected value="">Please Select</option>
                                                 <option value="Male">Male</option>
                                                 <option value="Female">Female</option>
                                             </select>
                                     </div>
                                     <div class="col">
-                                        <label for="status">Marital Status</label>
+                                        <label class="required" for="status">Marital Status</label>
                                         <div class="dropdown">
-                                            <select class="form-select" id="status" name="status">
+                                            <select class="form-select" id="status" name="status" required>
                                                 <option disabled selected value="">Please Select</option>
                                                 <option value="Single">Single</option>
                                                 <option value="Married">Married</option>
@@ -1479,67 +1473,67 @@
                                 </div>
                                 <div class="row align-items-start">
                                     <div class="col">
-                                        <label for="dob">Date of Birth</label>
+                                        <label class="required" for="dob">Date of Birth</label>
                                         <input class="form-control" type="date" id="srCitizenDOB" name="srCitizenDOB" required>
                                     </div>
                                     <div class="col form-group">
-                                        <label class="" for="birthplace">Lugar ng Kapanganakan</label>
+                                        <label class="required" for="birthplace">Lugar ng Kapanganakan</label>
                                         <input class="form-control" type="text" id="birthplace" name="birthplace" required>
                                     </div>
                                 </div>
                                 <div class="row align-items-start">
                                     <div class="col form-group">
-                                        <label class="" for="telepono">Telepono</label>
+                                        <label class="required" for="telepono">Telepono</label>
                                         <input class="form-control" type="text" id="telepono" name="telepono" required>
                                     </div>
                                     <div class="col form-group">
-                                        <label class="" for="relihiyon">Relihiyon</label>
+                                        <label class="required" for="relihiyon">Relihiyon</label>
                                         <input class="form-control" type="text" id="relihiyon" name="relihiyon" required>
                                     </div>
                                     <div class="col form-group">
-                                        <label class="" for="hanapbuhay">Hanabuhay</label>
+                                        <label class="required" for="hanapbuhay">Hanabuhay</label>
                                         <input class="form-control" type="text" id="hanapbuhay" name="hanapbuhay" required>
                                     </div>
                                 </div>
                                 <!-- Pensyon -->
                                 <div class="row align-items-start">
                                     <div class="col">
-                                        <label for="pensyon">May pensyon na tinatanggap</label>
-                                        <select class="form-select" id="pensyon" name="pensyon">
+                                        <label class="required" for="pensyon">May pensyon na tinatanggap</label>
+                                        <select class="form-select" id="pensyon" name="pensyon" required>
                                             <option disabled selected value="">Please Select</option>
                                             <option value="Oo">Oo</option>
                                             <option value="Wala">Wala</option>
                                         </select>
                                     </div>
                                     <div class="col form-group">
-                                        <label class="" for="saan">Saan</label>
+                                        <label class="saan" for="saan">Saan</label>
                                         <input class="form-control" type="text" id="saan" name="saan" disabled>
                                     </div>
                                     <div class="col form-group">
-                                        <label class="" for="magkano">Magkano</label>
+                                        <label class="magkano" for="magkano">Magkano</label>
                                         <input class="form-control" type="text" id="magkano" name="magkano" disabled>
                                     </div>
                                 </div>
                                 <!-- Asawa -->
                                 <div class="row align-items-start">
                                     <div class="col form-group">
-                                        <label class="" for="asawa">Pangalan ng Asawa</label>
-                                        <input class="form-control" type="text" id="asawa" name="asawa">
+                                        <label class="required" for="asawa">Pangalan ng Asawa</label>
+                                        <input class="form-control" type="text" id="asawa" name="asawa" required>
                                     </div>
                                     <div class="col form-group">
-                                        <label class="" for="edad-asawa">Edad ng Asawa</label>
-                                        <input class="form-control" type="text" id="edad-asawa" name="edad-asawa">
+                                        <label class="required" for="edad-asawa">Edad ng Asawa</label>
+                                        <input class="form-control" type="text" id="edad-asawa" name="edad-asawa" required>
                                     </div>
                                 </div>
                                 <!-- Anak -->
                                 <div class="row align-items-start">
                                     <div class="col form-group">
-                                        <label class="" for="anak">Ilan ang anak (Ilagay ang 0 kung wala)</label>
+                                        <label class="required" for="anak">Ilan ang anak (Ilagay ang 0 kung wala)</label>
                                         <input class="form-control" type="text" id="anak" name="anak" required>
                                     </div>
                                     <div class="col form-group">
-                                        <label class="" for="kasama">Kasama sa bahay?</label>
-                                        <input class="form-control" type="text" id="kasama" name="kasama">
+                                        <label class="required" for="kasama">Kasama sa bahay?</label>
+                                        <input class="form-control" type="text" id="kasama" name="kasama" required>
                                     </div>
                                 </div>
                                 <div class="row align-items-start">
@@ -1555,10 +1549,10 @@
                                         </thead>
                                         <tbody id="new">
                                             <tr id="duplicaterow">
-                                                <td><input class="form-control" type="text" name="relativeName[]"></td>
-                                                <td><input class="form-control" type="text" name="relativeAge[]"></td>
-                                                <td><input class="form-control" type="text" name="relativeAddress[]"></td>
-                                                <td><input class="form-control" type="text" name="relativeContact[]"></td>
+                                                <td><input class="form-control required" type="text" name="relativeName[]" required></td>
+                                                <td><input class="form-control required" type="text" name="relativeAge[]" required></td>
+                                                <td><input class="form-control required" type="text" name="relativeAddress[]" required></td>
+                                                <td><input class="form-control required" type="text" name="relativeContact[]" required></td>
                                                 <td><button type="button" class="btn btn-danger delete" onclick="deleteRow(this);">Delete</button></td>
                                             </tr>
                                         </tbody>
@@ -1590,7 +1584,6 @@
                 if (!form.checkValidity()) {
                     e.preventDefault();
                 }
-
                 form.classList.add('was-validated');
             });
         });
