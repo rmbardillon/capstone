@@ -39,6 +39,12 @@ $(document).ready( function () {
         buttons:['copy', 'csv', 'excel', 'pdf', 'print']
         
     });
+    var generateReport = $('#exampleTable').DataTable({
+        
+        buttons:['copy', 'csv', 'excel', 'pdf', 'print']
+        
+    });
+    generateReport.buttons().container().appendTo('#exampleTable_wrapper .col-md-6:eq(0)');
     mainAdministratorsTable.buttons().container().appendTo('#mainAdministrators_wrapper .col-md-6:eq(0)');
     pwdAdministratorsTable.buttons().container().appendTo('#pwdAdministrators_wrapper .col-md-6:eq(0)');
     soloparentAdministratorsTable.buttons().container().appendTo('#soloparentAdministrators_wrapper .col-md-6:eq(0)');

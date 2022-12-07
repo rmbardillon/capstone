@@ -1,25 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Data Table </title>
-    <meta content="" name="description">
-    <meta content="Author" name="MJ Maraz">
-    <!-- <link href="assets/images/favicon.png" rel="icon"> -->
-    <!-- <link href="assets/images/favicon.png" rel="apple-touch-icon"> -->
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <!-- ========================================================= -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/datatables.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-</head>
-<!-- =============== Design & Develop By = MJ MARAZ   ====================== -->
-
-<body>
-    <div class="container">
+<?php 
+    $page = "generate-report";
+    require_once 'includes/functions.inc.php';
+    include("header.html");
+    if (!isset($_SESSION['admin-data'])) {
+        header("location: index.html");
+        exit();
+    }
+?>
+    <div class="container-fluid">
         <h3 class="text-dark mb-4">Team</h3>
         <div class="card shadow">
             <div class="card-header py-3">
@@ -125,16 +113,6 @@
             </div>
         </div>
     </div>
-    <script src="assets/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/datatables.min.js"></script>
-    <script src="assets/js/pdfmake.min.js"></script>
-    <script src="assets/js/vfs_fonts.js"></script>
-    <script src="assets/js/custom.js"></script>
-
-
-
-
-</body>
-
-</html>
+<?php
+    include "footer.html";
+?>
