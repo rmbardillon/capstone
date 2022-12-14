@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    
     require_once 'includes/dbh.inc.php';
     require_once 'includes/functions.inc.php';
     $username = $_SESSION['username'];
@@ -30,42 +30,42 @@
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="assets/css/Login-Form-Basic-icons.css">
     <link rel="stylesheet" href="assets/css/styles.css">
-    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script defer type="text/javascript" src="includes/funtion.inc.js"></script>
-    <script defer src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script defer src="assets/bootstrap/js/bootstrap2.min.js"></script>
     <link rel="shortcut icon" href="assets/img/santarosa-logo.ico" type="image/x-icon">
 </head>
 <body>
-    <div>
-        <nav class="navbar navbar-dark navbar-expand bg-dark shadow mb-4 topbar static-top">
-            <div class="container">
-                <a class="navbar-brand d-flex align-items-center" href="index.html">
-                <span class="bs-icon-sm bs-icon-rounded bs-icon-primary d-flex justify-content-center align-items-center me-2 bs-icon" style="background: rgb(255,255,255);">
-                    <img src="assets/img/santarosa-logo.png" width="50px" height="50px">
-                </span>
-                <span id="cswd-header" style="padding-left: 9px;">City Social Welfare Development</span>
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0" style="background: rgb(58,59,69);">
+            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="index.html"><img width="53" height="58" src="assets/img/santarosa-logo.png" style="padding-top: 5px;">
+                    <div class="sidebar-brand-text mx-3"><span>CSWD</span></div>
                 </a>
-                <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2" style="margin-top: 6px;">
-                    <span class="visually-hidden">Toggle navigation</span>
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navcol-2">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link <?php if ($page == 'home') {echo 'active';} ?>" href="home.html">Home</a></li>
-                        <li class="nav-item"><a class="nav-link <?php if ($page == 'id-applications') {echo 'active';} ?>" href="id-application.html">Services<br></a></li>
-                        <li class="nav-item"><a class="nav-link <?php if ($page == 'applications') {echo 'active';} ?>" href="applications.html">Applications</a></li>
-                        <li class="nav-item"><a class="nav-link <?php if ($page == 'announcements') {echo 'active';} ?>" href="announcements.html">Notifications</a></li>
-                    <button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
-                    <ul class="navbar-nav flex-nowrap ms-auto">
-                        <div class="d-none d-sm-block topbar-divider"></div>
-                        <li class="nav-item dropdown no-arrow">
-                            <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="d-none d-lg-inline me-2 text-gray-600 small"><?php echo($userData['first_name']." ".$userData['last_name']) ?></span>
-                                <img class="border rounded-circle img-profile" src="assets/img/default profile picture.png"></a>
-                                <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in"><a class="dropdown-item" href="includes/logout.inc.php"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a></div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                <hr class="sidebar-divider my-0" style="background: rgba(0,0,0,0.99);">
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link <?php if ($page == 'home') {echo 'active';} ?>" href="home.html"><i class="fas fa-tachometer-alt"></i><span>Home</span></a></li>
+                    <!-- <li class="nav-item"><a class="nav-link <?php if ($page == 'id-applications') {echo 'active';} ?>" href="id-application.html"><i class="fas fa-user"></i><span>Services</span></a></li> -->
+                    <li class="nav-item"><a class="nav-link <?php if ($page == 'applications') {echo 'active';} ?>" href="applications.html"><i class="fas fa-users"></i><span>Applications</span></a></li>
+                    <li class="nav-item"><a class="nav-link <?php if ($page == 'announcement') {echo 'active';} ?>" href="announcements.html" style="height: 52.4px;"><i class="fas fa-volume-up"></i><span>Announcements</span></a></li>
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button" style="background: rgba(255, 255, 255, 0.2);"></button></div>
             </div>
         </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid">
+                        <button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <div class="d-none d-sm-block topbar-divider"></div>
+                            <li class="nav-item dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow">
+                                    <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
+                                        <span class="d-none d-lg-inline me-2 text-gray-600 small"><?php echo($userData['first_name']." ".$userData['last_name']) ?></span>
+                                        <img class="border rounded-circle img-profile" src="assets/img/default profile picture.png">
+                                    </a>
+                                    <div class="dropdown-menu shadow dropdown-menu-end animated--grow-in">
+                                        <a class="dropdown-item" href="includes/logout.inc.php"><i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>&nbsp;Logout</a>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>

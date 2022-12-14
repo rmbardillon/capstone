@@ -1,16 +1,17 @@
 <?php 
     $page = "home";
-    include "header.html";
+    session_start();
     if(!isset($_SESSION['username'])) {
         header("location: index.html");
         exit();
-    }
+    } 
+    include "header.html";
 ?>
 
         <div class="container">
             <h3 style="padding-top: 12px;padding-bottom: 10px;margin-top: -5px;">Common Information</h3>
         </div>
-        <div class="card container">
+        <div class="card container-fluid">
             <div class="card-header">
                 <ul class="nav nav-tabs card-header-tabs" role="tablist">
                     <li class="nav-item"><a class="nav-link active" id="item-1-1-tab" role="tab" aria-controls="item-1-1" aria-selected="true" href="#item-1-1" data-bs-toggle="tab">Persons with Disability</a></li>
@@ -605,7 +606,6 @@
                 </div>
             </div>
         </div>
-    </div>
     <?php
         include "footer.html";
     ?>

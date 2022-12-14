@@ -510,3 +510,27 @@ if(password) {
             displayErrorMsg("email", "Invalid email")
     });
 }
+// Form validation
+$('input[type="text"]').keydown(function(event) {
+    this.value = this.value.toUpperCase()
+});
+$('input[type="text"]').change(function(event) {
+    this.value = this.value.toUpperCase()
+});
+const forms = document.querySelectorAll("form");
+
+forms.forEach(function(form) {
+    form.addEventListener('submit', e => {
+        if (!form.checkValidity()) {
+            e.preventDefault();
+        }
+        form.classList.add('was-validated');
+    });
+});
+
+$.getJSON("https://worldtimeapi.org/api/ip",function(json){
+    var now = new Date(json.datetime);
+    var day = now.toLocaleDateString();
+    var time = now.toLocaleTimeString();
+    $(".date").val(day);
+});
