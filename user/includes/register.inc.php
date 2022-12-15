@@ -73,7 +73,7 @@ if (isset($_POST['pwd-register'])) {
         $mobileNumber = NULL;
     }
     $email = $_POST['email'];
-    $dateOfBirth = date('Y-m-d', strtotime($_POST['dob']));
+    $dateOfBirth = date('Y-m-d', strtotime($_POST['PWDDob']));
     $sex = $_POST['sex'];
     $religion = $_POST['religion'];
     $civilStatus = $_POST['civilStatus'];
@@ -325,7 +325,7 @@ else if (isset($_POST['pwd-update'])) {
         $mobileNumber = NULL;
     }
     $email = $_SESSION['email'];
-    $dateOfBirth = date('Y-m-d', strtotime($_POST['dob']));
+    $dateOfBirth = date('Y-m-d', strtotime($_POST['PWDDob']));
     $sex = $_POST['sex'];
     $religion = $_POST['religion'];
     $civilStatus = $_POST['civilStatus'];
@@ -600,7 +600,7 @@ else if(isset($_POST['solo-parent-register'])) {
     $solo_parent_name = $_POST['name'];
     $age = $_POST['age'];
     $sex = $_POST['sex'];
-    $date_of_birth = date('Y-m-d', strtotime($_POST['birth']));
+    $date_of_birth = date('Y-m-d', strtotime($_POST['soloParentDOB']));
     $place_of_birth = $_POST['birthplace'];
     $address = $_POST['soloParentAddress'];
     $barangay = $_POST['soloParentBarangay'];
@@ -642,7 +642,7 @@ else if(isset($_POST['solo-parent-update'])) {
     $solo_parent_name = $_POST['name'];
     $age = $_POST['age'];
     $sex = $_POST['sex'];
-    $date_of_birth = date('Y-m-d', strtotime($_POST['birth']));
+    $date_of_birth = date('Y-m-d', strtotime($_POST['soloParentDOB']));
     $place_of_birth = $_POST['birthplace'];
     $address = $_POST['soloParentAddress'];
     $barangay = $_POST['soloParentBarangay'];

@@ -235,19 +235,20 @@ if(imgDiv) {
         }
     });
 }
-    
 // Date Of Birth and Age
-var dob = document.getElementById('dob');
-if(dob) {
-    dob.max = new Date().toISOString().split("T")[0];
+function getDataFromAPI() {
+  // Make the API call using jQuery's $.getJSON() method
+  return $.getJSON('https://worldtimeapi.org/api/ip');
 }
-var srCitizenDOB = document.getElementById('srCitizenDOB');
-if(srCitizenDOB) {
-    srCitizenDOB.max = new Date().toISOString().split("T")[0];
+getDataFromAPI().then(function(data) {
+    var now = new Date(data.datetime);
+    var dobNow = new Date(data.datetime);
+    var birthNow = new Date(data.datetime);
+    var srCitizenDOBNow = new Date(data.datetime);
     $('#srCitizenDOB').change(function () {
         var dateOfBirth = new Date($('#srCitizenDOB').val())
         //calculate month difference from current date in time
-        var month_diff = Date.now() - dateOfBirth.getTime()
+        var month_diff = now - dateOfBirth.getTime()
 
         //convert the calculated difference in date format
         var age_dt = new Date(month_diff)
@@ -261,14 +262,10 @@ if(srCitizenDOB) {
         //display the calculated age
         $('#edad').val(age)
     });
-}
-var birth = document.getElementById('birth');
-if(birth) {
-    birth.max = new Date().toISOString().split("T")[0];
-    $('#birth').change(function () {
-        var dateOfBirth = new Date($('#birth').val())
+    $('#soloParentDOB').change(function () {
+        var dateOfBirth = new Date($('#soloParentDOB').val())
         //calculate month difference from current date in time
-        var month_diff = Date.now() - dateOfBirth.getTime()
+        var month_diff = now - dateOfBirth.getTime()
 
         //convert the calculated difference in date format
         var age_dt = new Date(month_diff)
@@ -282,7 +279,18 @@ if(birth) {
         //display the calculated age
         $('#age').val(age)
     });
-}
+    var day = dobNow.toLocaleDateString();
+    $(".date").val(day);
+    const srCitizenDOBMaxDate = new Date(srCitizenDOBNow.setFullYear(srCitizenDOBNow.getFullYear() - 60));
+    const birthMaxDate = new Date(birthNow.setFullYear(birthNow.getFullYear() - 6));
+    const dobMaxDate = new Date(dobNow.setFullYear(dobNow.getFullYear() - 1));
+    srCitizenDOBMaxDate.toISOString().split('T')[0];
+    birthMaxDate.toISOString().split('T')[0];
+    dobMaxDate.toISOString().split('T')[0];
+    srCitizenDOB.max = srCitizenDOBMaxDate.toISOString().split('T')[0];
+    soloParentDOB.max = birthMaxDate.toISOString().split('T')[0];
+    PWDDob.max = dobMaxDate.toISOString().split('T')[0];
+});
 
 // Registration Changer
 $(window).load(function()
@@ -526,11 +534,4 @@ forms.forEach(function(form) {
         }
         form.classList.add('was-validated');
     });
-});
-
-$.getJSON("https://worldtimeapi.org/api/ip",function(json){
-    var now = new Date(json.datetime);
-    var day = now.toLocaleDateString();
-    var time = now.toLocaleTimeString();
-    $(".date").val(day);
 });
