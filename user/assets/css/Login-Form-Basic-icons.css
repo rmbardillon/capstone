@@ -55,3 +55,6 @@
   border-radius: 50%;
 }
 
+.login-bg {
+    background: url(../img/sta-rosa-arch3.jpg) no-repeat center center fixed;
+}
