@@ -3,11 +3,11 @@
     require_once 'includes/functions.inc.php';
     $page = "admin-list";
     $id = $_GET['id'];
-    include("header.html");
     $adminData = getUserData($connection, "administrator", "id", $id);
     $profile = getUserData($connection, "media", "username", $adminData[0]['username']);
+    include("header.html");
     if (!isset($_SESSION['admin-data'])) {
-        header("location: index.html");
+        header("location: ../login/index.html");
         exit();
     }
 ?>

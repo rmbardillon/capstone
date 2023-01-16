@@ -1,0 +1,35 @@
+.form-group {
+  position: relative;
+}
+
+.input-group {
+  padding-bottom: 20px;
+}
+
+.citizen-wrapper {
+  height: 100vh;
+  background: url("../../assets/img/sta-rosa-arch2.jpg") center / cover space;
+}
+
+.admin-wrapper {
+  height: 100vh;
+  background: url("../../assets/img/sta-rosa-arch3.jpg") center / cover space;
+}
+
+.index-wrapper {
+  height: 100vh;
+  background: url("../../assets/img/Santa-Rosa-Laguna.jpg") center / cover space;
+}
+
+#login-box {
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(20px) saturate(168%);
+  color: rgb(0,0,0);
+}
+
+@media (max-width: 768px) {
+  #gallery {
+    display: none;
+  }
+}
+

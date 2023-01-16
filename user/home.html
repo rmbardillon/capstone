@@ -1,11 +1,10 @@
 <?php 
     $page = "home";
-    session_start();
+    include "header.html";
     if(!isset($_SESSION['username'])) {
-        header("location: index.html");
+        header("location: ../login/citizen.html");
         exit();
     } 
-    include "header.html";
 ?>
 
         <div class="container">

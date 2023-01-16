@@ -156,14 +156,14 @@ function loginCredentialsExists($connection, $username, $email) {
 function loginUser($connection, $username, $password){
     $loginCredentialsExists = loginCredentialsExists($connection, $username, $username);
     if ($loginCredentialsExists === false) {
-        header("location: ../index.html?error=wrongaccount");
+        header("location: ../../login/admin.html?error=wrongaccount");
         exit();
     }
     $passwordhashed = $loginCredentialsExists['password'];
     $checkPassword = password_verify($password, $passwordhashed);
 
     if ($checkPassword === false) {
-        header("location: ../index.html?error=wrongpassword");
+        header("location: ../../login/admin.html?error=wrongpassword");
         exit();
     }
     else if($checkPassword === true) {

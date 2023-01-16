@@ -137,10 +137,10 @@ function loginCredentialsExists($connection, $username, $email) {
 function loginUser($connection, $username, $password){
     $loginCredentialsExists = loginCredentialsExists($connection, $username, $username);
     if ($loginCredentialsExists === false) {
-        header("location: ../index.html?error=wrongaccount");
+        header("location: ../../login/citizen.html?error=wrongaccount");
         exit();
     } else if ($loginCredentialsExists['is_verified'] == "0") {
-        header("location: ../index.html?error=notverified");
+        header("location: ../../login/citizen.html?error=notverified");
         exit();
     }
     
@@ -148,7 +148,7 @@ function loginUser($connection, $username, $password){
     $checkPassword = password_verify($password, $passwordhashed);
 
     if ($checkPassword === false) {
-        header("location: ../index.html?error=wrongpassword");
+        header("location: ../../login/citizen.html?error=wrongpassword");
         exit();
     }
     else if($checkPassword === true) {

@@ -1,12 +1,12 @@
 <?php 
     $page = "announcement";
-    include("header.html");
     $id = $_GET['edit'];
     require_once 'includes/dbh.inc.php';
     require_once 'includes/functions.inc.php';
     $announcement = getUserData($connection, "announcement", "id", $id);
+    include("header.html");
     if (!isset($_SESSION['admin-data'])) {
-        header("location: index.html");
+        header("location: ../login/index.html");
         exit();
     }
 ?>

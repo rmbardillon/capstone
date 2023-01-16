@@ -2,5 +2,5 @@
 
 session_start();
 unset($_SESSION['admin-data']);
-header("location: ../index.html");
+header("location: ../../login/index.html");
 exit();

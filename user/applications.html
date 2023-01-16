@@ -1,11 +1,10 @@
 <?php 
-    session_start();
     $page = "applications";
+    include "header.html";
     if(!isset($_SESSION['username'])) {
-        header("location: index.html");
+        header("location: ../login/citizen.html");
         exit();
     }
-    include "header.html";
 ?>
         <div class="container py-4 py-xl-5">
             <div class="row mb-5">

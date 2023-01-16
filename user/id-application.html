@@ -1,11 +1,11 @@
 <?php 
     session_start();
     $page = "id-applications";
+    include "header.html";
     if(!isset($_SESSION['username'])) {
-        header("location: index.html");
+        header("location: ../login/citizen.html");
         exit();
     }
-    include "header.html";
 ?>
     <div class="container">
         <h3 style="padding-top: 12px;padding-bottom: 10px;margin-top: -5px;">ID Application</h3>
