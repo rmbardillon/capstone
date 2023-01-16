@@ -1,0 +1,40 @@
+<?php 
+    include("header.html");
+    if (!isset($_SESSION['admin-data'])) {
+        header("location: index.html");
+        exit();
+    }
+?>
+    <div class="container">
+        <div class="printPage">
+            <h1>Welcome to our website!</h1>
+            <p>You have successfully registered as a user on our website. Your login credentials are as follows:</p>
+            <ul>
+                <li>Username: [insert your username here]</li>
+                <li>Password: [insert your password here]</li>
+            </ul>
+            <p>Please keep these credentials safe and do not share them with anyone.</p>
+
+            <h2>To login to our website</h2>
+            <ol>
+                <li>Go to the login page by clicking on the "login" button on the top right corner of the homepage.</li>
+                <li>Enter your username and password in the appropriate fields.</li>
+                <li>Click on the "login" button.</li>
+            </ol>
+
+            <h2>To Renew your ID</h2>
+            <ol>
+                <li>Go to the "Renew ID" page by clicking on the appropriate link.</li>
+                <li>Fill out the form with the required information.</li>
+                <li>Submit the form.</li>
+                <li>Wait for the confirmation email about your renewed ID.</li>
+            </ol>
+
+            <p>If you have any issues logging in or renewing your ID, please contact our customer support team for assistance.</p>
+            <p>Thank you for using our website!</p>
+        </div>
+        <button class="btn btn-primary" id="printBtn">Print</button>
+    </div>
+<?php
+    include "footer.html";
+?>

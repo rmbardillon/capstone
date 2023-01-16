@@ -57,7 +57,7 @@ $(document).ready( function () {
 });
 
 // Profile Picture
-const imgDiv = document.querySelector('.profile-pic-div');
+const imgDiv = document.querySelector('#profilePicDiv');
 if (imgDiv !== null) {
     const img = document.querySelector('.photo');
     const file = document.querySelector('#file');
@@ -88,535 +88,8 @@ if (imgDiv !== null) {
     });
 }
 
-// Application Forms functions
-function congenitalCheckboxChecker(elClass) {
-    el = document.getElementsByClassName(elClass);
-    var mainCheckbox = document.querySelector('#inborn');
-    var subCheckbox1 = document.querySelector('#autism');
-    var subCheckbox2 = document.querySelector('#adhd');
-    var subCheckbox3 = document.querySelector('#cerebralPalsy');
-    var subCheckbox4 = document.querySelector('#downSyndrome');
-
-    if (subCheckbox1.checked || subCheckbox2.checked || subCheckbox3.checked || subCheckbox4.checked) {
-        mainCheckbox.checked = true;
-        for (i = 0; i < el.length; i++) {
-        el[i].required = false;
-        }
-    } else {
-        mainCheckbox.checked = false;
-        for (i = 0; i < el.length; i++) {
-        el[i].required = true;
-        }
-    }
-}
-
-function acquiredCheckboxChecker(elClass) {
-    el = document.getElementsByClassName(elClass);
-    var mainCheckbox = document.querySelector('#acquired');
-    var subCheckbox1 = document.querySelector('#chronicIllness');
-    var subCheckbox2 = document.querySelector('#acquiredCerebralPalsy');
-    var subCheckbox3 = document.querySelector('#injury');
-
-    if (subCheckbox1.checked || subCheckbox2.checked || subCheckbox3.checked) {
-        mainCheckbox.checked = true;
-        for (i = 0; i < el.length; i++) {
-        el[i].required = false;
-        }
-    } else {
-        mainCheckbox.checked = false;
-        for (i = 0; i < el.length; i++) {
-        el[i].required = true;
-        }
-    }
-}
-// Cause of disability checker
-function deRequire(elClass) {
-    el = document.getElementsByClassName(elClass);
-
-    var atLeastOneChecked = false; //at least one cb is checked
-    for (i = 0; i < el.length; i++) {
-        if (el[i].checked === true) {
-        atLeastOneChecked = true;
-        }
-    }
-
-    if (atLeastOneChecked === true) {
-        for (i = 0; i < el.length; i++) {
-        el[i].required = false;
-        }
-    } else {
-        for (i = 0; i < el.length; i++) {
-        el[i].required = true;
-        }
-    }
-}
-
-function updateFamily() {
-    var parent = document.getElementById('new');
-    var tr = document.createElement('tr');
-    tr.setAttribute("id", "duplicaterow");
-    var td1 = document.createElement('td');
-    var td2 = document.createElement('td');
-    var td3 = document.createElement('td');
-    var td4 = document.createElement('td');
-    var td5 = document.createElement('td');
-    var inputName = document.createElement('input');
-    inputName.setAttribute("class", "form-control");
-    inputName.setAttribute("type", "text");
-    inputName.setAttribute("name", "relativeName[]");
-    inputName.setAttribute("required", "true");
-    var inputAge = document.createElement('input');
-    inputAge.setAttribute("class", "form-control");
-    inputAge.setAttribute("type", "text");
-    inputAge.setAttribute("name", "relativeAge[]");
-    inputAge.setAttribute("required", "true");
-    var inputAddress = document.createElement('input');
-    inputAddress.setAttribute("class", "form-control");
-    inputAddress.setAttribute("type", "text");
-    inputAddress.setAttribute("name", "relativeAddress[]");
-    inputAddress.setAttribute("required", "true");
-    var inputContact = document.createElement('input');
-    inputContact.setAttribute("class", "form-control");
-    inputContact.setAttribute("type", "text");
-    inputContact.setAttribute("name", "relativeContact[]");
-    inputContact.setAttribute("required", "true");
-    var deleteButton = document.createElement('button');
-    deleteButton.setAttribute("class", "btn btn-danger delete");
-    deleteButton.setAttribute("type", "button");
-    deleteButton.setAttribute("onclick", "deleteRow(this);");
-    deleteButton.textContent = "Delete";
-    td1.appendChild(inputName);
-    td2.appendChild(inputAge);
-    td3.appendChild(inputAddress);
-    td4.appendChild(inputContact);
-    td5.appendChild(deleteButton);
-    tr.appendChild(td1);
-    tr.appendChild(td2);
-    tr.appendChild(td3);
-    tr.appendChild(td4);
-    tr.appendChild(td5);
-    parent.appendChild(tr);
-}
-
-function duplicate() {
-    var parent = document.getElementById('newRow');
-    var div = document.createElement('div');
-    div.setAttribute("class", "row family-data");
-    div.setAttribute("id", "duplicater");
-    var inputName = document.createElement('input');
-    inputName.setAttribute("type", "text");
-    inputName.setAttribute("class", "form-control col");
-    inputName.setAttribute("name", "family-composition-name[]");
-    inputName.setAttribute("required", "true");
-    var inputRelationship = document.createElement('input');
-    inputRelationship.setAttribute("type", "text");
-    inputRelationship.setAttribute("class", "form-control col");
-    inputRelationship.setAttribute("name", "family-composition-relationship[]");
-    inputRelationship.setAttribute("required", "true");
-    var inputAge = document.createElement('input');
-    inputAge.setAttribute("type", "text");
-    inputAge.setAttribute("class", "form-control col");
-    inputAge.setAttribute("name", "family-composition-age[]");
-    inputAge.setAttribute("required", "true");
-    var selectCivilStatus = document.createElement('select');
-    selectCivilStatus.setAttribute("class","col form-select");
-    selectCivilStatus.setAttribute("name","family-composition-civil-status[]");
-    selectCivilStatus.setAttribute("required","true");
-    var option = document.createElement('option');
-    option.setAttribute("disabled","disabled");
-    option.setAttribute("selected","selected");
-    // option.textContent = "Please Select";
-    var single = document.createElement('option');
-    single.setAttribute("value","Single");
-    single.textContent = "Single";
-    var annuled = document.createElement('option');
-    annuled.setAttribute("value","Annuled");
-    annuled.textContent = "Annuled";
-    var widow = document.createElement('option');
-    widow.setAttribute("value","Widow");
-    widow.textContent = "Widow";
-    var married = document.createElement('option');
-    married.setAttribute("value","Married");
-    married.textContent = "Married";
-    var separated = document.createElement('option');
-    separated.setAttribute("value","Separated");
-    separated.textContent = "Separated";
-    var inputEducationalAttainment = document.createElement('input');
-    inputEducationalAttainment.setAttribute("type", "text");
-    inputEducationalAttainment.setAttribute("class", "form-control col");
-    inputEducationalAttainment.setAttribute("name", "family-composition-educ-attainment[]");
-    inputEducationalAttainment.setAttribute("required", "true");
-    var inputOccupation = document.createElement('input');
-    inputOccupation.setAttribute("type", "text");
-    inputOccupation.setAttribute("class", "form-control col");
-    inputOccupation.setAttribute("name", "family-composition-occupation[]");
-    inputOccupation.setAttribute("required", "true");
-    var inputIncome = document.createElement('input');
-    inputIncome.setAttribute("type", "text");
-    inputIncome.setAttribute("class", "form-control col");
-    inputIncome.setAttribute("name", "family-composition-monthly-income[]");
-    inputIncome.setAttribute("required", "true");
-    var button = document.createElement('button');
-    button.textContent = "Delete";
-    button.setAttribute("type","button");
-    button.setAttribute("class","btn btn-danger delete col");
-    button.setAttribute("onclick","deleteDiv(this);");
-    selectCivilStatus.appendChild(option);
-    selectCivilStatus.appendChild(single);
-    selectCivilStatus.appendChild(annuled);
-    selectCivilStatus.appendChild(widow);
-    selectCivilStatus.appendChild(married);
-    selectCivilStatus.appendChild(separated);
-    div.appendChild(inputName);
-    div.appendChild(inputRelationship);
-    div.appendChild(inputAge);
-    div.appendChild(selectCivilStatus);
-    div.appendChild(inputEducationalAttainment);
-    div.appendChild(inputOccupation);
-    div.appendChild(inputIncome);
-    div.appendChild(button);
-    parent.appendChild(div);
-}
-
-function deleteDiv(button) {
-    const countAll = document.querySelectorAll('#duplicater').length;
-    if (countAll > 1) {
-        $(button).parent().closest('div').remove();
-    }
-}
-
-function deleteRow(button) {
-    $(button).parent().closest('tr').remove();
-}
-
-// Prohibit Special Characters 
-function alpha(e) {
-    var k;
-    document.all ? k = e.keyCode : k = e.which;
-    return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
-}
-
-// Profile Picture
-const imgDiv2 = document.querySelector('.profile-pic-div');
-const img = document.querySelector('#photo');
-const file = document.querySelector('#file');
-const uploadBtn = document.querySelector('#uploadBtn');
-
-if(imgDiv2) {
-    imgDiv2.addEventListener('mouseenter', function(){
-        uploadBtn.style.display = "block";
-    });
-
-    imgDiv2.addEventListener('mouseleave', function(){
-        uploadBtn.style.display = "none";
-    });
-
-    file.addEventListener('change', function(){
-        const choosedFile = this.files[0];
-
-        if (choosedFile) {
-
-            const reader = new FileReader();
-
-            reader.addEventListener('load', function(){
-                img.setAttribute('src', reader.result);
-            });
-
-            reader.readAsDataURL(choosedFile);
-        }
-    });
-}
-// Date Of Birth and Age
-function getDataFromAPI() {
-  // Make the API call using jQuery's $.getJSON() method
-  return $.getJSON('https://worldtimeapi.org/api/ip');
-}
-getDataFromAPI().then(function(data) {
-    var now = new Date(data.datetime);
-    var dobNow = new Date(data.datetime);
-    var birthNow = new Date(data.datetime);
-    var srCitizenDOBNow = new Date(data.datetime);
-    $('#srCitizenDOB').change(function () {
-        var dateOfBirth = new Date($('#srCitizenDOB').val())
-        //calculate month difference from current date in time
-        var month_diff = now - dateOfBirth.getTime()
-
-        //convert the calculated difference in date format
-        var age_dt = new Date(month_diff)
-
-        //extract year from date
-        var year = age_dt.getUTCFullYear()
-
-        //now calculate the age of the user
-        var age = Math.abs(year - 1970)
-
-        //display the calculated age
-        $('#edad').val(age)
-    });
-    $('#soloParentDOB').change(function () {
-        var dateOfBirth = new Date($('#soloParentDOB').val())
-        //calculate month difference from current date in time
-        var month_diff = now - dateOfBirth.getTime()
-
-        //convert the calculated difference in date format
-        var age_dt = new Date(month_diff)
-
-        //extract year from date
-        var year = age_dt.getUTCFullYear()
-
-        //now calculate the age of the user
-        var age = Math.abs(year - 1970)
-
-        //display the calculated age
-        $('#age').val(age)
-    });
-    var day = dobNow.toLocaleDateString();
-    $(".date").val(day);
-    const srCitizenDOBMaxDate = new Date(srCitizenDOBNow.setFullYear(srCitizenDOBNow.getFullYear() - 60));
-    const birthMaxDate = new Date(birthNow.setFullYear(birthNow.getFullYear() - 6));
-    const dobMaxDate = new Date(dobNow.setFullYear(dobNow.getFullYear() - 1));
-    srCitizenDOBMaxDate.toISOString().split('T')[0];
-    birthMaxDate.toISOString().split('T')[0];
-    dobMaxDate.toISOString().split('T')[0];
-    srCitizenDOB.max = srCitizenDOBMaxDate.toISOString().split('T')[0];
-    soloParentDOB.max = birthMaxDate.toISOString().split('T')[0];
-    PWDDob.max = dobMaxDate.toISOString().split('T')[0];
-});
-
-// Registration Changer
-$(document).ready( function () {
-    $('#staticBackdrop').modal('show');
-    $("#pensyon").on('change', function() {
-        if ($('#pensyon').val() == "Oo") {
-            $("#saan").prop("required", true);
-            $("#saan").removeAttr("disabled");
-            $(".saan").addClass("required");
-            $("#magkano").prop("required", true);
-            $("#magkano").removeAttr("disabled");
-            $(".magkano").addClass("required");
-        } else {
-            $("#saan").prop("required", false);
-            $("#saan").attr("disabled", "disabled");
-            $(".saan").removeClass("required");
-            $("#magkano").prop("required", false);
-            $("#magkano").attr("disabled", "disabled");
-            $(".magkano").removeClass("required");
-        }
-    });
-    $("input[name='typeOfApplication']").click(function () {
-        $("#bago").removeAttr("required");
-        $("#lumipat").removeAttr("required");
-        $("#magpapalit").removeAttr("required");
-        $("#nawala").removeAttr("required");
-
-        if ($("#bago").is(":checked")) {
-            $("#IDnum").removeAttr("disabled");
-            $("#IDnum").focus();
-            $("#IDnum").prop('required',true);
-        } else {
-            $("#IDnum").attr("disabled", "disabled");
-            $("#IDnum").removeAttr("required");
-            $('#IDnum').val(""); 
-        }
-        if ($("#nawala").is(":checked")) {
-            $("#lostNumber").removeAttr("disabled");
-            $("#lostNumber").focus();
-            $("#lostNumber").prop('required',true);
-        } else {
-            $("#lostNumber").attr("disabled", "disabled");
-            $("#lostNumber").removeAttr("required");
-            $('#lostNumber').val(""); 
-        }
-    });
-});
-
-$(document).ready(function(){
-    $("#id-type").on('change', function(){
-        $(".registration-container").hide();
-        $("#" + $(this).val()).fadeIn(700);
-    });
-}).change();
-
-$("input[name='employmentStatus']").click(function () {
-    if ($('#employed').is(':checked') || $('#selfEmployed').is(':checked')) {
-        $(".disable").removeClass('disableDiv');
-    } else {
-        $(".disable").addClass('disableDiv');
-        $('input:radio[name=income]').each(function () { $(this).prop('checked', false); });
-        $('input:radio[name=categoryOfEmployment]').each(function () { $(this).prop('checked', false); });
-        $('input:radio[name=natureOfEmployment]').each(function () { $(this).prop('checked', false); });
-        $('input:radio[name=occupation]').each(function () { $(this).prop('checked', false); });
-        $('#organization').val(""); 
-        $('#contactPerson').val(""); 
-        $('#officeAddress').val(""); 
-        $('#telNumber').val("");
-        $('#otherOccupation').val("");
-    }
-    if ($('#others').is(':checked')) {
-        $('#otherOccupation').attr("disabled", false);
-    }
-});
-
-$('#guardianLastName').change(function(){
-    if($(this).val() == "") {
-        $("#guardianRelationship").attr("disabled", true);
-        $("#guardianContactNumber").attr("disabled", true);
-        $("#guardianRelationship").val("");
-        $("#guardianContactNumber").val("");
-    } else {
-        $("#guardianRelationship").attr("disabled", false);
-        $("#guardianRelationship").prop("required", true);
-        $("#guardianContactNumber").attr("disabled", false);
-        $("#guardianContactNumber").prop("required", true);
-
-    }
-});
-
-// Cause of disability checker
-$(window).on('load', function() {
-    if ($("#change-info").is(":checked")) {
-        $("#textChangeInfo").removeAttr("disabled");
-        $("#textChangeInfo").focus();
-    } else {
-        $("#textChangeInfo").attr("disabled", "disabled");
-        // $('#textChangeInfo').val(""); 
-    }
-    if ($("#transfer").is(":checked")) {
-        $("#textTransfer").removeAttr("disabled");
-        $("#textTransfer").focus();
-    } else {
-        $("#textTransfer").attr("disabled", "disabled");
-        // $('#textTransfer').val(""); 
-    }
-    el = document.getElementsByClassName('cod');
-    var subCheckboxAutism = document.querySelector('#autism');
-    var subCheckboxADHD = document.querySelector('#adhd');
-    var subCheckboxCerebralPalsy = document.querySelector('#cerebralPalsy');
-    var subCheckboxDownSyndrome = document.querySelector('#downSyndrome');
-    var subCheckboxChronicIllnes = document.querySelector('#chronicIllness');
-    var subCheckboxAcquiredCerebralPalsy = document.querySelector('#acquiredCerebralPalsy');
-    var subCheckboxInjury = document.querySelector('#injury');
-    if (subCheckboxAutism) {
-        if (subCheckboxAutism.checked || subCheckboxADHD.checked || subCheckboxCerebralPalsy.checked || subCheckboxDownSyndrome.checked || subCheckboxChronicIllnes.checked || subCheckboxAcquiredCerebralPalsy.checked || subCheckboxInjury.checked) {
-            for (i = 0; i < el.length; i++) {
-                el[i].required = false;
-            }
-        }
-    }
-    
-});
-
-// ID Type
-$("input[name='idType']").click(function () {
-    if ($("#transfer").is(":checked")) {
-        $("#textTransfer").removeAttr("disabled");
-        $("#textTransfer").focus();
-    } else {
-        $("#textTransfer").attr("disabled", "disabled");
-        // $('#textTransfer').val(""); 
-        }
-        if ($("#change-info").is(":checked")) {
-        $("#textChangeInfo").removeAttr("disabled");
-        $("#textChangeInfo").focus();
-    } else {
-        $("#textChangeInfo").attr("disabled", "disabled");
-        // $('#textChangeInfo').val(""); 
-    }
-});
-
-window.onload = function() {
-    var $recaptcha = document.querySelector('#g-recaptcha-response');
-
-    if($recaptcha) {
-        $recaptcha.setAttribute("required", "required");
-    }
-};
-let email = document.getElementById("email")
-let password = document.getElementById("password")
-let verifyPassword = document.getElementById("verifyPassword")
-let submitBtn = document.getElementById("submitBtn")
-let emailErrorMsg = document.getElementById('emailErrorMsg')
-let passwordErrorMsg = document.getElementById('passwordErrorMsg')
-
-function displayErrorMsg(type, msg) {
-    if(type == "email") {
-        emailErrorMsg.style.display = "block"
-        emailErrorMsg.innerHTML = msg
-        submitBtn.disabled = true
-    }
-    else {
-        passwordErrorMsg.style.display = "block"
-        passwordErrorMsg.innerHTML = msg
-        submitBtn.disabled = true
-    }
-}
-
-function hideErrorMsg(type) {
-    if(type == "email") {
-        emailErrorMsg.style.display = "none"
-        emailErrorMsg.innerHTML = ""
-        submitBtn.disabled = true
-        if(passwordErrorMsg.innerHTML == "")
-            submitBtn.disabled = false
-    }
-    else {
-        passwordErrorMsg.style.display = "none"
-        passwordErrorMsg.innerHTML = ""
-        if(emailErrorMsg.innerHTML == "")
-            submitBtn.disabled = false
-    }
-}
-
-// Validate password upon change
-if(password) {
-    password.addEventListener("change", function() {
-
-        // If password has no value, then it won't be changed and no error will be displayed
-        if(password.value.length == 0 && verifyPassword.value.length == 0) hideErrorMsg("password")
-        
-        // If password has a value, then it will be checked. In this case the passwords don't match
-        else if(password.value !== verifyPassword.value) displayErrorMsg("password", "Passwords do not match")
-        
-        // When the passwords match, we check the length
-        else {
-            // Check if the password has 8 characters or more
-            if(password.value.length >= 8)
-                hideErrorMsg("password")
-            else
-                displayErrorMsg("password", "Password must be at least 8 characters long")
-        }
-    })
-
-    verifyPassword.addEventListener("change", function() {
-        if(password.value !== verifyPassword.value)
-            displayErrorMsg("password", "Passwords do not match")
-        else {
-            // Check if the password has 8 characters or more
-            if(password.value.length >= 8)
-                hideErrorMsg("password")
-            else
-                displayErrorMsg("password", "Password must be at least 8 characters long")
-        }
-    })
-
-    // Validate email upon change
-    email.addEventListener("change", function() {
-        // Check if the email is valid using a regular expression (string@string.string)
-        if(email.value.match(/^[^@]+@[^@]+\.[^@]+$/))
-            hideErrorMsg("email")
-        else
-            displayErrorMsg("email", "Invalid email")
-    });
-}
-// Form validation
-$('input[type="text"]').keydown(function(event) {
-    this.value = this.value.toUpperCase()
-});
-$('input[type="text"]').change(function(event) {
-    this.value = this.value.toUpperCase()
-});
+// Forms Validation
 const forms = document.querySelectorAll("form");
-
 forms.forEach(function(form) {
     form.addEventListener('submit', e => {
         if (!form.checkValidity()) {
@@ -624,4 +97,279 @@ forms.forEach(function(form) {
         }
         form.classList.add('was-validated');
     });
+});
+// Print Button
+$("#printBtn").click(function() {
+    var divToPrint = $(".printPage").html();
+    var newWin = window.open("");
+    newWin.document.write(divToPrint);
+    newWin.print();
+    newWin.close();
+});
+
+
+$(document).on('keyup change', 'input[type="text"]', function() {
+    $(this).val($(this).val().toUpperCase());
+});
+$(document).on('keypress', '.numbers', function(e) {
+    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        return false;
+    }
+});
+$(document).on('paste', '.numbers', function(e) {
+    e.preventDefault();
+});
+$(document).on('keyup', '.telephone', function() {
+    if ($(this).val().length > 11) {
+        $(this).val($(this).val().substring(0, 11));
+    }
+});
+
+// World Time API
+function getDataFromAPI() {
+    return $.getJSON('https://worldtimeapi.org/api/ip');
+}
+// Senior Citizen Application Form
+var counter = 0;
+var newId;
+$(document).ready(function() {
+    getDataFromAPI().then(function(data) {
+        var srCitizenDOBNow = new Date(data.datetime);
+        var srCitizenChildDOBNow = new Date(data.datetime);
+        var srCitizenSpouseDOBNow = new Date(data.datetime);
+        var now = new Date(data.datetime);
+        const srCitizenDOBMaxDate = new Date(srCitizenDOBNow.setFullYear(srCitizenDOBNow.getFullYear() - 60));
+        const childSrCitizenDOBMaxDate = new Date(srCitizenChildDOBNow.setFullYear(srCitizenChildDOBNow.getFullYear() - 15));
+        const spouseSrCitizenDOBMaxDate = new Date(srCitizenSpouseDOBNow.setFullYear(srCitizenSpouseDOBNow.getFullYear() - 18));
+        const srCitizenDOBMax = srCitizenDOBMaxDate.toISOString().split('T')[0];
+        const childSrCitizenDOBMax = childSrCitizenDOBMaxDate.toISOString().split('T')[0];
+        const spouseSrCitizenDOBMax = spouseSrCitizenDOBMaxDate.toISOString().split('T')[0];
+        $("#srCitizenDOB").attr("max", srCitizenDOBMax);
+        $("#srCitizenChildDOB").attr("max", childSrCitizenDOBMax);
+        $("#spouseDOB").attr("max", spouseSrCitizenDOBMax);
+        $('#srCitizenDOB').change(function(){
+            var dateOfBirth = new Date($('#srCitizenDOB').val())
+            var month_diff = now - dateOfBirth.getTime()
+            var age_dt = new Date(month_diff)
+            var year = age_dt.getUTCFullYear()
+            var age = Math.abs(year - 1970)
+            $('#age').val(age)
+        });
+    });
+    $('input[name="applicationType"]').click(function() {
+        $("input[name='applicationType']").removeAttr("required");
+        if ($('#srApplicationOption1').is(':checked')) {
+            $("#idNumber").hide();
+            $('#IDNumber').prop('disabled', true);
+            $('#IDNumber').prop("required", false);
+            $('#IDNumber').val("");
+            $(".IDNumber").removeClass("required");
+        } else {
+            $("#idNumber").show();
+            $('#IDNumber').prop('disabled', false);
+            $('#IDNumber').prop("required", true);
+            $('#IDNumber').focus();
+            $(".IDNumber").addClass("required");
+        }
+    });
+    $('#IDNumber').keyup(function() {
+        if ($(this).val().length > 6) {
+          $(this).val($(this).val().substring(0, 6));
+        }
+    });
+    $('#textBoxMissing').keyup(function() {
+        if ($(this).val().length > 6) {
+          $(this).val($(this).val().substring(0, 6));
+        }
+    });
+    $("#hasPension").on('change', function() {
+        if ($('#hasPension').val() == "Meron") {
+            $("#whatPension").prop("required", true);
+            $("#whatPension").removeAttr("disabled");
+            $(".whatPension").addClass("required");
+            $("#whatPension").focus();
+            $("#howMuchPension").prop("required", true);
+            $("#howMuchPension").removeAttr("disabled");
+            $(".howMuchPension").addClass("required");
+        } else {
+            $("#whatPension").prop("required", false);
+            $("#whatPension").attr("disabled", "disabled");
+            $("#whatPension").val("");
+            $(".whatPension").removeClass("required");
+            $("#howMuchPension").prop("required", false);
+            $("#howMuchPension").attr("disabled", "disabled");
+            $("#howMuchPension").val("");
+            $(".howMuchPension").removeClass("required");
+        }
+    });
+    $("#seniorCitizenDuplicateButton").click(function() {
+        var originalDiv = $("#child").parent().clone();
+        newId = "srCitizenRelative" + (++counter);
+        originalDiv.attr('id', newId);
+        originalDiv.find('input[type="text"],input[type="date"],input[type="tel"],select').val('');
+        if(counter == 1) {
+            originalDiv.insertAfter($("#srCitizenRelative"));
+        } else {
+            var id = newId.replace(counter, counter - 1);
+            originalDiv.insertAfter($("#" + id));
+        }
+    });
+});
+function srCitizenRemoveRelative(button) {
+    if ($(button).parent().parent().parent().attr('id') !== 'srCitizenRelative' && $(button).parent().parent().parent().attr('id') == newId) {
+        newId = "srCitizenRelative" + (--counter);
+        $(button).parent().parent().parent().remove();
+    }
+}
+// Solo Parent Application Form
+var soloParentRelativeCounter = 0;
+var soloParentNewId;
+$(document).ready(function() {
+    getDataFromAPI().then(function(data) {
+        var soloParentDOBNow = new Date(data.datetime);
+        var soloParentChildDOBNow = new Date(data.datetime);
+        var now = new Date(data.datetime);
+        const soloParentDOBMaxDate = new Date(soloParentDOBNow.setFullYear(soloParentDOBNow.getFullYear() - 6));
+        const soloParentChildDOBMaxDate = new Date(soloParentChildDOBNow.setFullYear(soloParentChildDOBNow.getFullYear() - 1));
+        const soloParentDOBMax = soloParentDOBMaxDate.toISOString().split('T')[0];
+        const soloParentChildDOBMax = soloParentChildDOBMaxDate.toISOString().split('T')[0];
+        $("#soloParentDOB").attr("max", soloParentDOBMax);
+        $("#soloParentChildDOB").attr("max", soloParentChildDOBMax);
+        $('#soloParentDOB').change(function(){
+            var dateOfBirth = new Date($('#soloParentDOB').val())
+            var month_diff = now - dateOfBirth.getTime()
+            var age_dt = new Date(month_diff)
+            var year = age_dt.getUTCFullYear()
+            var age = Math.abs(year - 1970)
+            $('#age').val(age)
+        });
+    });
+    $("#soloParentDuplicateButton").click(function() {
+        var originalDiv = $("#child").parent().clone();
+        soloParentNewId = "soloParentRelative" + (++soloParentRelativeCounter);
+        originalDiv.attr('id', soloParentNewId);
+        originalDiv.find('input[type="text"],input[type="date"],input[type="tel"],select').val('');
+        if(soloParentRelativeCounter == 1) {
+            originalDiv.insertAfter($("#soloParentRelative"));
+        } else {
+            var id = soloParentNewId.replace(soloParentRelativeCounter, soloParentRelativeCounter - 1);
+            originalDiv.insertAfter($("#" + id));
+        }
+    });
+});
+function soloParentRemoveRelative(button) {
+    if ($(button).parent().parent().parent().attr('id') !== 'soloParentRelative' && $(button).parent().parent().parent().attr('id') == soloParentNewId) {
+        soloParentNewId = "soloParentRelative" + (--soloParentRelativeCounter);
+        $(button).parent().parent().parent().remove();
+    }
+}
+// PWD Application Form
+$('input[name="applicationType"]').click(function() {
+    $("input[name='applicationType']").removeAttr("required");
+    if ($(this).attr("id") == "pwdApplicationOption4") {
+        $("#transfereeAddress").show();
+    } else {
+        $("#transfereeAddress").hide();
+    }
+});
+getDataFromAPI().then(function(data) {
+    var pwdDOBNow = new Date(data.datetime);
+    var now = new Date(data.datetime);
+    const pwdDOBMaxDate = new Date(pwdDOBNow.setFullYear(pwdDOBNow.getFullYear() - 1));
+    const pwdMax = pwdDOBMaxDate.toISOString().split('T')[0];
+    $("#pwdDOB").attr("max", pwdMax);
+    $('#pwdDOB').change(function(){
+        var dateOfBirth = new Date($('#pwdDOB').val())
+        var month_diff = now - dateOfBirth.getTime()
+        var age_dt = new Date(month_diff)
+        var year = age_dt.getUTCFullYear()
+        var age = Math.abs(year - 1970)
+        $('#age').val(age)
+    });
+});
+$("#employmentStatus").change(function() {
+    if ($(this).val() == "Employed" || $(this).val() == "Self-employed") {
+        $("#categoryOfEmploymentDiv").show();
+        $("#natureOfEmploymentDiv").show();
+        $("#occupationDiv").show();
+        $("#incomeDiv").show();
+    } else {
+        $("#categoryOfEmploymentDiv").hide();
+        $("#natureOfEmploymentDiv").hide();
+        $("#occupationDiv").hide();
+        $("#incomeDiv").hide();
+    }
+});
+$("#occupation").change(function() {
+    if ($(this).val() == "Others") {
+        $("#otherOccupation").show();
+        $("#otherOccupation").focus();
+    } else {
+        $("#otherOccupation").hide();
+    }
+});
+$("#isPhilhealthMember").change(function() {
+    if ($(this).val() != "No") {
+        $("#philhealthNumber").show();
+        $("#philhealthNumber").focus();
+    } else {
+        $("#philhealthNumber").hide();
+    }
+});
+$("#guardianSurname").keyup(function() {
+    if ($(this).val().trim() !== "") {
+        $("#guardian").show();
+    } else {
+        $("#guardian").hide();
+    }
+});
+$("#accomplishedBy").change(function() {
+    if ($(this).val() == "Representative") {
+        $("#accomplisherName").show();
+        $("#accomplisherName").focus();
+    } else {
+        $("#accomplisherName").hide();
+    }
+});
+$('input[name="typeOfDisability[]"]').click(function() {
+    if($("input[name='typeOfDisability[]']:checked").length > 0){
+        $("input[name='typeOfDisability[]']").removeAttr("required");
+        $("#medicalCondition").removeAttr("required");
+    } else {
+        $("input[name='typeOfDisability[]']").prop('required', true);
+        $("#medicalCondition").prop('required', true);
+    }
+    
+});
+$('#medicalCondition').on("keyup", function() {
+   if($('#medicalCondition').val().trim() == "") {
+       $("input[name='typeOfDisability[]']").prop('required', true);
+   } else {
+       $("input[name='typeOfDisability[]']").prop('required', false);
+   }
+});
+$('input[name="inborn[]"]').click(function() {
+    if($("input[name='inborn[]']:checked").length > 0){
+        $("input[name='inborn[]']").removeAttr("required");
+        $("#congenital").prop('checked', true);
+        $("input[name='acquired[]']").prop('disabled', true);
+    } else {
+        $("input[name='inborn[]']").prop('required', true);
+        $("#congenital").prop('checked', false);
+        $("input[name='acquired[]']").prop('disabled', false);
+    }
+});
+$('input[name="acquired[]"]').click(function() {
+    if($("input[name='acquired[]']:checked").length > 0){
+        $("input[name='acquired[]']").removeAttr("required");
+        $("#acquired").prop('checked', true);
+        $("input[name='inborn[]']").prop('disabled', true);
+    } else {
+        $("input[name='acquired[]']").prop('required', true);
+        $("#acquired").prop('checked', false);
+        $("input[name='inborn[]']").prop('disabled', false);
+    }
+});
+$('input[name="statusOfDisability"]').click(function() {
+    $("input[name='statusOfDisability']").removeAttr("required");
 });

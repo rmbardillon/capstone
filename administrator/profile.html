@@ -24,13 +24,13 @@
                 <div class="card mb-3">
                     <div class="card-body text-center shadow profile">
                         <?php if(!empty($profile)) foreach($profile as $image): ?>
-                        <div class="profile-pic-div">
+                        <div id="profilePicDiv">
                             <img src="uploads/<?php echo($image['image_location']); ?>" class="photo" width="200" height="200">
                             <label class="required" for="file" id="uploadBtn">Choose Photo</label>
                         </div>
                         <?php endforeach; ?>
                         <?php if(empty($profile)) {?>
-                            <div class="profile-pic-div">
+                            <div id="profilePicDiv">
                                 <img src="assets/img/avatars/default profile picture.png" class="photo" width="200" height="200">
                                 <label class="required" for="file" id="uploadBtn">Choose Photo</label>
                             </div>

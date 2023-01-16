@@ -8,7 +8,7 @@ html {
     scroll-behavior: smooth;
 }
 
-.profile-pic-div{
+#profilePicDiv{
     height: 200px;
     width: 200px;
     position: absolute;
@@ -51,7 +51,7 @@ th, td {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-
+/* Datatables */
 .data_table .btn{
     padding: 5px 10px;
     margin: 10px 3px 10px 0;
@@ -59,4 +59,27 @@ th, td {
 
 .dt-buttons {
     margin-top: 5px;
+}
+/* Application Form */
+.form {
+  margin-top: 15vh;
+  margin-bottom: 15vh;
+  padding: 20px;
+  border: 1px solid black;
+  border-radius: 30px;
+  min-height: 70vh;
+}
+
+.row {
+  margin: 15px;
+}
+
+.required:after {
+  content: " *";
+  color: red;
+}
+
+.soloParentRelative, .srCitizenRelative {
+  border: 1px solid black;
+  padding: 15px;
 }
