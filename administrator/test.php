@@ -5,7 +5,7 @@ $id_number = "SC" . substr(microtime(true), -6);
 // echo($id_number);
 function generateUniqueNumbers() {
     $numbers = array();
-    while (count($numbers) < 6) {
+    while (count($numbers) < 5) {
         $random = mt_rand(1, 999999);
         if (!in_array($random, $numbers)) {
             $numbers[] = $random;
@@ -15,4 +15,6 @@ function generateUniqueNumbers() {
 }
 
 $unique_numbers = generateUniqueNumbers();
-echo($unique_numbers[0]);
+
+$id_number = date("Y") . " - " . generateUniqueNumbers()[0];
+echo($id_number);

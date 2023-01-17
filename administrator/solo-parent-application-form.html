@@ -8,7 +8,7 @@
 ?>
     <div class="container form">
         <h1 class="heading">Solo Parent Application</h1>
-      <form action="register.php" method="post" novalidate="">
+      <form action="includes/register.inc.php" method="post" novalidate="">
         <!-- <h5 class="text-center">APPLICATION&nbsp;FORM FOR SOLO PARENT</h5> -->
         <div class="row">
           <div class="col">
@@ -222,6 +222,19 @@
               placeholder="09##-###-####"
             />
           </div>
+          <div class="col">
+            <label class="form-label required" for="email">
+              EMAIL ADDRESS
+            </label>
+            <input
+              class="form-control"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="email@example.com"
+              required
+            />
+          </div>
         </div>
         <div class="row">
           <div class="col-md-12">
@@ -240,6 +253,7 @@
                 id="childLastName"
                 name="childLastName[]"
                 placeholder="SURNAME"
+                required
               />
             </div>
             <div class="col">
@@ -249,6 +263,7 @@
                 id="childFirstName"
                 name="childFirstName[]"
                 placeholder="FIRST NAME"
+                required
               />
             </div>
             <div class="col">
@@ -289,6 +304,7 @@
                 type="date"
                 name="soloParentChildDOB[]"
                 min="1900-01-01"
+                required
               />
             </div>
             <div class="col col-2 d-flex align-items-center">
@@ -299,6 +315,7 @@
                 id="maritalStatus"
                 class="form-select"
                 name="maritalStatus[]"
+                required
               >
                 <option disabled selected value="">Please Select</option>
                 <option value="Single">Single</option>
@@ -319,6 +336,7 @@
                 type="text"
                 id="childEducationalAttainment"
                 name="childEducationalAttainment[]"
+                required
               />
             </div>
             <div class="col col-3 d-flex align-items-center">
@@ -330,6 +348,7 @@
                 type="text"
                 id="childIncome"
                 name="childIncome[]"
+                required
               />
             </div>
           </div>

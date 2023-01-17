@@ -347,6 +347,17 @@ function generateSrID() {
     return $numbers;
 }
 
+function generateSoloParentID() {
+    $numbers = array();
+    while (count($numbers) < 5) {
+        $random = mt_rand(1, 999999);
+        if (!in_array($random, $numbers)) {
+            $numbers[] = $random;
+        }
+    }
+    return $numbers;
+}
+
 function generateRandomPassword() {
     $uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     $lowercase = "abcdefghijklmnopqrstuvwxyz";
@@ -807,7 +818,7 @@ function insertSoloParentLongText($connection, $personId, $classificationCircums
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO solo_parent_long_text (SOLO_PARENT_LONG_TEXT_ID, PERSON_ID, CLASSIFICATION_CIRCUMSTANCES, NEEDS_PROBLEMS, FAMILY_RESOURCES, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, CURDATE(), CURDATE(), 'N', $getActiveUser)");
+    $stmt = $connection->prepare("INSERT INTO solo_parent_long_text (SOLO_PARENT_LONG_TEXT_ID, PERSON_ID, CLASSIFICATION_CIRCUMSTANCES, NEEDS_PROBLEMS, FAMILY_RESOURCES, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, CURDATE(), CURDATE(), 'N', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("ssss", $personId, $classificationCircumstances, $needsProblems, $familyResources);

@@ -35,6 +35,7 @@
         $spouseDOB = $_POST['spouseDOB'];
         $spouseRelationshipType = "Spouse";
         $noOfChildren = $_POST['noOfChildren'];
+        $childRelationshipType = "Child";
         $childLastName = $_POST['childLastName'];
         $childFirstName = $_POST['childFirstName'];
         $childMiddleName = $_POST['childMiddleName'];
@@ -68,13 +69,17 @@
                 insertTelephone($connection, $childId, $childTelephone[$i]);
                 insertAddress($connection, $childBarangayId, $childBarangay[$i], $childAddress[$i]);
                 insertPersonAddress($connection, $childId, $childBarangayId);
+                insertRelationship($connection, $personId, $childId, $childRelationshipType);
             }
         }
         insertUserAccount($connection, $id_number, $applicantType, $personId, $email, $id_number);
     }
     // Solo Parent
     if(isset($_POST['soloParentSubmit'])) {
-        $id_number = "SP" . substr(str_pad(round(microtime(true) * 1000), 16, "0", STR_PAD_LEFT), -16);
+        $applicationType = "New Application";
+        $personId = generateUUID();
+        $id_number = date("Y") . " - " . generateSoloParentID()[0];
+        $applicantType = "Solo Parent";
         $surname = $_POST['surname'];
         $firstName = $_POST['firstName'];
         $middlename = $_POST['middlename'];
@@ -83,6 +88,7 @@
         $age = $_POST['age'];
         $placeOfBirth = $_POST['placeOfBirth'];
         $gender = $_POST['gender'];
+        $barangayId = generateUUID();
         $barangay = $_POST['barangay'];
         $address = $_POST['address'];
         $educationalAttainment = $_POST['educationalAttainment'];
@@ -91,7 +97,8 @@
         $monthlyIncome = $_POST['monthlyIncome'];
         $totalFamilyIncome = $_POST['totalFamilyIncome'];
         $telephone = $_POST['telephone'];
-
+        $email = $_POST['email'];
+        $childRelationshipType = "Family Member";
         $childLastName = $_POST['childLastName'];
         $childFirstName = $_POST['childFirstName'];
         $childMiddleName = $_POST['childMiddleName'];
@@ -104,6 +111,33 @@
         $soloParentClassification = $_POST['soloParentClassification'];
         $soloParentNeeds = $_POST['soloParentNeeds'];
         $soloParentFamilyResources = $_POST['soloParentFamilyResources'];
+
+        insertPerson($connection, $personId, $soloParentDOB);
+        insertApplicant($connection, $personId, $applicantType, $id_number, $placeOfBirth);
+        insertTransactionType($connection, $personId, $applicationType);
+        insertName($connection, $personId, $firstName, $middleName, $surname, $suffix);
+        insertAddress($connection, $barangayId, $barangay, $address);
+        insertPersonAddress($connection, $personId, $barangayId);
+        insertGender($connection, $personId, $gender);
+        insertEducationalAttainment($connection, $personId, $educationalAttainment);
+        insertCompany($connection, $personId, $company);
+        insertIncome($connection, $personId, $monthlyIncome, $totalFamilyIncome);
+        insertTelephone($connection, $personId, $telephone);
+        insertJob($connection, $personId, $job);
+        if (count($childFirstName) > 1) {
+            for ($i=0; $i < count($childFirstName); $i++) {
+                $childId = generateUUID();
+                $childBarangayId = generateUUID();
+                insertPerson($connection, $childId, $soloParentChildDOB[$i]);
+                insertName($connection, $childId, $childFirstName[$i], $childMiddleName[$i], $childLastName[$i], $childSuffix[$i]);
+                insertMaritalStatus($connection, $childId, $maritalStatus);
+                insertEducationalAttainment($connection, $childId, $childEducationalAttainment);
+                insertIncome($connection, $childId, $childIncome, "0");
+                insertRelationship($connection, $personId, $childId, $childRelationshipType);
+            }
+        }
+        insertSoloParentLongText($connection, $personId, $soloParentClassification, $soloParentNeeds, $soloParentFamilyResources);
+        insertUserAccount($connection, $id_number, $applicantType, $personId, $email, $id_number);
     }
     // Person with Disability
     if (isset($_POST['pwdSubmit'])) {
