@@ -30,7 +30,7 @@
         $howMuchPension = $_POST['howMuchPension'];
         $spouseLastName = $_POST['spouseLastName'];
         $spouseFirstName = $_POST['spouseFirstName'];
-        $spouseMiddleName = $_POST['spouseMiddleName'];
+        $spouseMiddleName = $_POST['spouseMiddlename'];
         $spouseSuffix = $_POST['spouseSuffix'];
         $spouseDOB = $_POST['spouseDOB'];
         $spouseRelationshipType = "Spouse";
@@ -38,7 +38,7 @@
         $childRelationshipType = "Child";
         $childLastName = $_POST['childLastName'];
         $childFirstName = $_POST['childFirstName'];
-        $childMiddleName = $_POST['childMiddleName'];
+        $childMiddleName = $_POST['childMiddlename'];
         $childSuffix = $_POST['childSuffix'];
         $childDOB = $_POST['srCitizenChildDOB'];
         $childTelephone = $_POST['childTelephone'];
@@ -48,7 +48,7 @@
         insertPerson($connection, $personId, $srCitizenDOB);
         insertApplicant($connection, $personId, $applicantType, $id_number, $placeOfBirth);
         insertTransactionType($connection, $personId, $applicationType);
-        insertName($connection, $personId, $firstName, $middleName, $surname, $suffix);
+        insertName($connection, $personId, $firstName, $middlename, $surname, $suffix);
         insertAddress($connection, $barangayId, $barangay, $address);
         insertPersonAddress($connection, $personId, $barangayId);
         insertGender($connection, $personId, $gender);
@@ -153,7 +153,7 @@
         $old_barangay = $_POST['barangay_text'];
         $surname = $_POST['surname'];
         $firstName = $_POST['firstName'];
-        $middleName = $_POST['middleName'];
+        $middlename = $_POST['middlename'];
         $suffix = $_POST['suffix'];
         $address = $_POST['address'];
         $barangayId = generateUUID();
@@ -187,17 +187,17 @@
         $fatherId = generateUUID();
         $fatherSurname = $_POST['fatherSurname'];
         $fatherFirstName = $_POST['fatherFirstName'];
-        $fatherMiddleName = $_POST['fatherMiddleName'];
+        $fatherMiddleName = $_POST['fatherMiddlename'];
         $fatherSuffix = $_POST['fatherSuffix'];
         $motherId = generateUUID();
         $motherSurname = $_POST['motherSurname'];
         $motherFirstName = $_POST['motherFirstName'];
-        $motherMiddleName = $_POST['motherMiddleName'];
+        $motherMiddleName = $_POST['motherMiddlename'];
         $motherSuffix = $_POST['motherSuffix'];
         $guardianId = generateUUID();
         $guardianSurname = $_POST['guardianSurname'];
         $guardianFirstName = $_POST['guardianFirstName'];
-        $guardianMiddleName = $_POST['guardianMiddleName'];
+        $guardianMiddleName = $_POST['guardianMiddlename'];
         $guardianSuffix = $_POST['guardianSuffix'];
         $guardianRelationship = $_POST['guardianRelationship'];
         $guardianContactNumber = $_POST['guardianContactNumber'];
@@ -236,7 +236,7 @@
         $physicianLicence = $_POST['physicianLicence'];
         $accomplishedBy = $_POST['accomplishedBy'];
         if ($accomplishedBy == "Applicant") {
-            $accomplisherName = $firstName . " " . $middleName . " " . $surname . " " . $suffix;
+            $accomplisherName = $firstName . " " . $middlename . " " . $surname . " " . $suffix;
         } else if ($accomplishedBy == "Guardian") {
             $accomplisherName = $guardianFirstName . " " . $guardianMiddleName . " " . $guardianSurname . " " . $guardianSuffix;
         } else {
@@ -247,7 +247,7 @@
         insertApplicant($connection, $personId, $applicantType, $id_number, NULL);
         insertTransactionType($connection, $personId, $applicationType);
         insertPreviousAddress($connection, $personId, $old_region, $old_province, $old_city, $old_barangay, $previousAddress);
-        insertName($connection, $personId, $firstName, $middleName, $surname, $suffix);
+        insertName($connection, $personId, $firstName, $middlename, $surname, $suffix);
         insertAddress($connection, $barangayId, $barangay, $address);
         insertPersonAddress($connection, $personId, $barangayId);
         insertTelephone($connection, $personId, $landline);
