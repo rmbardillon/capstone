@@ -1,0 +1,42 @@
+<?php 
+    $page = "print-id";
+    require_once 'includes/functions.inc.php';
+    include("header.html");
+    if (!isset($_SESSION['admin-data'])) {
+        header("location: ../login/index.html");
+        exit();
+    }
+?>
+    <div class="container-fluid">
+        <h3 class="text-dark mb-4">Team</h3>
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <p class="text-primary m-0 fw-bold">Employee Info</p>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                    <table class="table my-0" id="exampleTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Application Type</th>
+                                <th>Print</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Romeo Jr Bardillon</td>
+                                <td>PWD</td>
+                                <td><a class="btn btn-secondary" href="pwd-id.html" target="_blank">Print this ID</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php
+    include "footer.html";
+?>

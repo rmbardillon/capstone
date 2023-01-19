@@ -5,7 +5,7 @@
 
     if (isset($_POST['update-profile'])) {
         session_start();
-        $username = $_SESSION['username'];
+        $username = $_SESSION['admin-data']['username'];
         $firstName = $_POST['first_name'];
         $lastName = $_POST['last_name']; 
         $barangay = $_POST['barangay'];

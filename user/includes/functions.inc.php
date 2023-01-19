@@ -159,6 +159,35 @@ function loginUser($connection, $username, $password){
     }
 }
 
+function changePassword($connection, $oldPassword, $newPassword, $confirmPassword) {
+    session_start();
+    $username = $_SESSION['username'];
+    $loginCredentialsExists = loginCredentialsExists($connection, $username, $username);
+    $passwordhashed = $loginCredentialsExists['PASSWORD'];
+    $checkPassword = password_verify($oldPassword, $passwordhashed);
+
+    if ($checkPassword === false) {
+        header("location: ../change-password.html?error=wrongpassword");
+        exit();
+    } else {
+        if ($confirmPassword != $newPassword) {
+            header("location: ../change-password.html?error=passwordcheck");
+            exit();
+        } else {
+            $sql = "UPDATE user_account SET PASSWORD=? WHERE USERNAME=?";
+            $stmt = $connection->prepare($sql);
+
+            $hashedPassword = password_hash($confirmPassword, PASSWORD_DEFAULT);
+
+            mysqli_stmt_bind_param($stmt, "ss", $hashedPassword, $username);
+            mysqli_stmt_execute($stmt); 
+            mysqli_stmt_close($stmt);
+            header("location: ../change-password.html?success=passwordchanged");
+            exit();
+        }
+    }
+}
+
 function insertPWDData($connection, $username, $registrationType, $transferID, $changeInfoID, $pwdNumber, $dateApplied, $pwdLastName, $pwdFirstName, $pwdMiddleName, $pwdSuffix, $typeOfDisability, $medicalCondition,
                 $causeOfDisability, $congenitalInborn, $acquired, $statusOfDisability, $address, $barangay, $landline, $mobileNumber, $email, $dateOfBirth, $sex, $religion, $civilStatus,
                 $educationalAttainment, $isVoter, $employmentStatus, $income, $categoryOfEmployment, $natureOfEmployment, $occupation, $otherOccupation, $is4PsBeneficiary, $bloodType,

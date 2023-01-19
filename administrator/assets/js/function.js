@@ -183,7 +183,7 @@ $(document).ready(function() {
         }
     });
     $("#hasPension").on('change', function() {
-        if ($('#hasPension').val() == "Meron") {
+        if ($('#hasPension').val() == "Y") {
             $("#whatPension").prop("required", true);
             $("#whatPension").removeAttr("disabled");
             $(".whatPension").addClass("required");
@@ -356,6 +356,12 @@ $("#accomplishedBy").change(function() {
     } else {
         $("#accomplisherName").hide();
         $("#accomplisherName").prop("required", false);
+    }
+
+    if ($(this).val() == "Guardian") {
+        $("#guardianSurname").prop("required", true);
+        $("#guardianFirstName").prop("required", true);
+
     }
 });
 $('input[name="typeOfDisability[]"]').click(function() {

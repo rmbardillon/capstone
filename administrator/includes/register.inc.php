@@ -1,7 +1,4 @@
 <?php
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
     session_start();
     require_once 'dbh.inc.php';
     require_once 'functions.inc.php';
@@ -10,7 +7,7 @@
         $personId = generateUUID();
         $spouseId = generateUUID();
         $applicantType = "Senior Citizen";
-        $id_number = "SC - " . generateSrID()[0];
+        $id_number = "SC-" . generateSrID()[0];
         $applicationType = $_POST['applicationType'];
         $barangayId = generateUUID();
         $IDNumber = $_POST['IDNumber'];
@@ -81,7 +78,7 @@
     if(isset($_POST['soloParentSubmit'])) {
         $applicationType = "New Application";
         $personId = generateUUID();
-        $id_number = date("Y") . " - " . generateSoloParentID()[0];
+        $id_number = date("Y") . "-" . generateSoloParentID()[0];
         $applicantType = "Solo Parent";
         $surname = $_POST['surname'];
         $firstName = $_POST['firstName'];
@@ -238,7 +235,13 @@
         $physicianName = $_POST['physicianName'];
         $physicianLicence = $_POST['physicianLicence'];
         $accomplishedBy = $_POST['accomplishedBy'];
-        $accomplisherName = $_POST['accomplisherName'];
+        if ($accomplishedBy == "Applicant") {
+            $accomplisherName = $firstName . " " . $middleName . " " . $surname . " " . $suffix;
+        } else if ($accomplishedBy == "Guardian") {
+            $accomplisherName = $guardianFirstName . " " . $guardianMiddleName . " " . $guardianSurname . " " . $guardianSuffix;
+        } else {
+            $accomplisherName = $_POST['accomplisherName'];
+        }
 
         insertPerson($connection, $personId, $pwdDOB);
         insertApplicant($connection, $personId, $applicantType, $id_number, NULL);
