@@ -268,8 +268,16 @@ $('input[name="applicationType"]').click(function() {
     $("input[name='applicationType']").removeAttr("required");
     if ($(this).attr("id") == "pwdApplicationOption4") {
         $("#transfereeAddress").show();
+        $("#region").prop("required", true);
+        $("#province").prop("required", true);
+        $("#city").prop("required", true);
+        $("#barangay").prop("required", true);
     } else {
         $("#transfereeAddress").hide();
+        $("#region").prop("required", false);
+        $("#province").prop("required", false);
+        $("#city").prop("required", false);
+        $("#barangay").prop("required", false);
     }
 });
 getDataFromAPI().then(function(data) {
@@ -293,42 +301,61 @@ $("#employmentStatus").change(function() {
         $("#natureOfEmploymentDiv").show();
         $("#occupationDiv").show();
         $("#incomeDiv").show();
+        $("#categoryOfEmployment").prop("required", true);
+        $("#natureOfEmployment").prop("required", true);
+        $("#occupation").prop("required", true);
+        $("#income").prop("required", true);
     } else {
         $("#categoryOfEmploymentDiv").hide();
         $("#natureOfEmploymentDiv").hide();
         $("#occupationDiv").hide();
         $("#incomeDiv").hide();
+        $("#categoryOfEmployment").prop("required", false);
+        $("#natureOfEmployment").prop("required", false);
+        $("#occupation").prop("required", false);
+        $("#income").prop("required", false);
     }
 });
 $("#occupation").change(function() {
     if ($(this).val() == "Others") {
         $("#otherOccupation").show();
         $("#otherOccupation").focus();
+        $("#otherOccupation").prop("required", true);
     } else {
         $("#otherOccupation").hide();
+        $("#otherOccupation").prop("required", false);
     }
 });
 $("#isPhilhealthMember").change(function() {
     if ($(this).val() != "No") {
         $("#philhealthNumber").show();
         $("#philhealthNumber").focus();
+        $("#philhealthNumber").prop("required", true);
     } else {
         $("#philhealthNumber").hide();
+        $("#philhealthNumber").prop("required", false);
     }
 });
 $("#guardianSurname").keyup(function() {
     if ($(this).val().trim() !== "") {
         $("#guardian").show();
+        $("guardianRelationship").prop("required", true);
+        $("guardianContactNumber").prop("required", true);
     } else {
         $("#guardian").hide();
+        $("guardianRelationship").prop("required", false);
+        $("guardianContactNumber").prop("required", false);
+
     }
 });
 $("#accomplishedBy").change(function() {
     if ($(this).val() == "Representative") {
         $("#accomplisherName").show();
         $("#accomplisherName").focus();
+        $("#accomplisherName").prop("required", true);
     } else {
         $("#accomplisherName").hide();
+        $("#accomplisherName").prop("required", false);
     }
 });
 $('input[name="typeOfDisability[]"]').click(function() {
@@ -352,22 +379,32 @@ $('input[name="inborn[]"]').click(function() {
     if($("input[name='inborn[]']:checked").length > 0){
         $("input[name='inborn[]']").removeAttr("required");
         $("#congenital").prop('checked', true);
+        $("#congenital").removeAttr("disabled");
+        $("#acquired").prop('required', false);
         $("input[name='acquired[]']").prop('disabled', true);
+        $("input[name='acquired[]']").prop('required', false);
     } else {
         $("input[name='inborn[]']").prop('required', true);
         $("#congenital").prop('checked', false);
+        $("#congenital").prop("disabled", true);
         $("input[name='acquired[]']").prop('disabled', false);
+        $("input[name='acquired[]']").prop('required', true);
     }
 });
 $('input[name="acquired[]"]').click(function() {
     if($("input[name='acquired[]']:checked").length > 0){
         $("input[name='acquired[]']").removeAttr("required");
         $("#acquired").prop('checked', true);
+        $("#acquired").removeAttr("disabled");
+        $("#inborn").prop('required', false);
         $("input[name='inborn[]']").prop('disabled', true);
+        $("input[name='inborn[]']").prop('required', false);
     } else {
         $("input[name='acquired[]']").prop('required', true);
         $("#acquired").prop('checked', false);
+        $("#acquired").prop("disabled", true);
         $("input[name='inborn[]']").prop('disabled', false);
+        $("input[name='inborn[]']").prop('required', true);
     }
 });
 $('input[name="statusOfDisability"]').click(function() {

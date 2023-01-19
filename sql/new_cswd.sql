@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 17, 2023 at 03:20 PM
+-- Generation Time: Jan 19, 2023 at 05:27 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -245,8 +245,8 @@ CREATE TABLE `employment_status` (
   `EMPLOYMENT_STATUS_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
   `EMPLOYMENT_STATUS` varchar(64) NOT NULL,
-  `CATEGORY_OF_EMPLOYMENT` varchar(64) NOT NULL,
-  `NATURE_OF_EMPLOYMENT` varchar(64) NOT NULL,
+  `CATEGORY_OF_EMPLOYMENT` varchar(64) DEFAULT NULL,
+  `NATURE_OF_EMPLOYMENT` varchar(64) DEFAULT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
@@ -315,7 +315,7 @@ CREATE TABLE `id_reference_number` (
 CREATE TABLE `income` (
   `INCOME_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
-  `MONTHLY_INCOME` varchar(128) NOT NULL,
+  `MONTHLY_INCOME` varchar(128) DEFAULT NULL,
   `TOTAL_FAMILY_INCOME` decimal(19,6) DEFAULT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
@@ -332,7 +332,7 @@ CREATE TABLE `income` (
 CREATE TABLE `job` (
   `JOB_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
-  `JOB` varchar(300) NOT NULL,
+  `JOB` varchar(300) DEFAULT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
@@ -431,7 +431,7 @@ CREATE TABLE `pension` (
 
 CREATE TABLE `person` (
   `PERSON_ID` varchar(16) NOT NULL,
-  `DATE_OF_BIRTH` datetime(6) NOT NULL,
+  `DATE_OF_BIRTH` datetime(6) DEFAULT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
@@ -463,7 +463,6 @@ CREATE TABLE `previous_address` (
   `PROVINCE` varchar(128) NOT NULL,
   `CITY` varchar(128) NOT NULL,
   `BARANGAY` varchar(128) DEFAULT NULL,
-  `PREVIOUS_ADDRESScol` varchar(45) DEFAULT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
@@ -487,6 +486,23 @@ CREATE TABLE `pwdreset` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `pwd_application_accomplisher`
+--
+
+CREATE TABLE `pwd_application_accomplisher` (
+  `PWD_APLICATION_ACCOMPLISHER_ID` varchar(16) NOT NULL,
+  `PERSON_ID` varchar(16) NOT NULL,
+  `ACCOMPLISHED_BY` varchar(128) NOT NULL,
+  `ACCOMPLISHER_NAME` varchar(128) NOT NULL,
+  `DATE_CREATED` datetime(6) NOT NULL,
+  `DATE_UPDATED` datetime(6) NOT NULL,
+  `IS_DELETED` char(1) NOT NULL,
+  `UPDATED_BY` varchar(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `pwd_disease`
 --
 
@@ -494,7 +510,7 @@ CREATE TABLE `pwd_disease` (
   `PWD_DISEASE_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
   `TYPE_OF_DISABILITY` set('Deaf/Hard of Hearing','Intellectual Disability','Learning Disability','Mental Disability','Physical Disablity (Orthopedic)','Psychosocial Disability','Speech & Language Impairment','Visual Disability','Cancer (RA11215)','Rare Disease (RA10747)') DEFAULT NULL,
-  `MEDICAL_CONDITION/DIAGNOSIS` varchar(128) DEFAULT NULL,
+  `MEDICAL_CONDITION` varchar(128) DEFAULT NULL,
   `CAUSE_OF_DISABILITY` enum('CONGENITAL/INBORN','ACQUIRED') NOT NULL,
   `CONGENITAL_INBORN` set('Autism','ADHD','Cerebral Palsy','Down Syndrome') DEFAULT NULL,
   `ACQUIRED` set('Chronic Illness','Cerebral Palsy','Injury') DEFAULT NULL,
@@ -516,7 +532,6 @@ CREATE TABLE `pwd_physician` (
   `PERSON_ID` varchar(16) NOT NULL,
   `PWD_PHYSICIAN_NAME` varchar(128) NOT NULL,
   `PHYSICIAN_LICENSE_NUMBER` varchar(128) NOT NULL,
-  `ACCOMPLISHED_BY` varchar(128) NOT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
@@ -749,6 +764,13 @@ ALTER TABLE `previous_address`
   ADD KEY `FK_PERSON_PREVIOUS_ADDRESS_idx` (`PERSON_ID`);
 
 --
+-- Indexes for table `pwd_application_accomplisher`
+--
+ALTER TABLE `pwd_application_accomplisher`
+  ADD PRIMARY KEY (`PWD_APLICATION_ACCOMPLISHER_ID`),
+  ADD KEY `FK_PERSON_PWD_APLICATION_ACCOMPLISHER` (`PERSON_ID`);
+
+--
 -- Indexes for table `pwd_disease`
 --
 ALTER TABLE `pwd_disease`
@@ -904,6 +926,12 @@ ALTER TABLE `person_address`
 --
 ALTER TABLE `previous_address`
   ADD CONSTRAINT `FK_PERSON_PREVIOUS_ADDRESS` FOREIGN KEY (`PERSON_ID`) REFERENCES `person` (`PERSON_ID`);
+
+--
+-- Constraints for table `pwd_application_accomplisher`
+--
+ALTER TABLE `pwd_application_accomplisher`
+  ADD CONSTRAINT `FK_PERSON_PWD_APLICATION_ACCOMPLISHER` FOREIGN KEY (`PERSON_ID`) REFERENCES `person` (`PERSON_ID`);
 
 --
 -- Constraints for table `pwd_disease`

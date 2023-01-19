@@ -714,14 +714,14 @@ function insertPension($connection, $personId, $hasPension, $type, $amount) {
     $stmt->close();
 }
 
-function insertPreviousAddress($connection, $personId, $region, $province, $city, $barangay, $previousAddress) {
+function insertPreviousAddress($connection, $personId, $region, $province, $city, $barangay) {
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO previous_address (PREVIOUS_ADDRESS_ID, PERSON_ID, REGION, PROVINCE, CITY, BARANGAY, PREVIOUS_ADDRESScol, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO previous_address (PREVIOUS_ADDRESS_ID, PERSON_ID, REGION, PROVINCE, CITY, BARANGAY, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
-    $stmt->bind_param("ssssss", $personId, $region, $province, $city, $barangay, $previousAddress);
+    $stmt->bind_param("sssss", $personId, $region, $province, $city, $barangay);
 
     // Execute the query
     if($stmt->execute() === TRUE){
@@ -738,7 +738,7 @@ function insertPWDDisease($connection, $personId, $typeOfDisability, $medicalCon
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO pwd_disease (PWD_DISEASE_ID, PERSON_ID, TYPE_OF_DISABILITY, MEDICAL_CONDITION/DIAGNOSIS, CAUSE_OF_DISABILITY, CONGENITAL_INBORN, ACQUIRED, STATUS_OF_DISABILITY, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO pwd_disease (PWD_DISEASE_ID, PERSON_ID, TYPE_OF_DISABILITY, MEDICAL_CONDITION, CAUSE_OF_DISABILITY, CONGENITAL_INBORN, ACQUIRED, STATUS_OF_DISABILITY, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("sssssss", $personId, $typeOfDisability, $medicalCondition, $causeOfDisability, $congenitalInborn, $acquired, $statusOfDisability);
@@ -754,14 +754,14 @@ function insertPWDDisease($connection, $personId, $typeOfDisability, $medicalCon
     $stmt->close();
 }
 
-function insertPWDPhysician($connection, $personId, $pwdPhysicianName, $physicianLicenseNumber, $accomplishedBy) {
+function insertPWDPhysician($connection, $personId, $pwdPhysicianName, $physicianLicenseNumber) {
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO pwd_physician (PWD_PHYSICIAN_ID, PERSON_ID, PWD_PHYSICIAN_NAME, PHYSICIAN_LICENSE_NUMBER, ACCOMPLISHED_BY, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO pwd_physician (PWD_PHYSICIAN_ID, PERSON_ID, PWD_PHYSICIAN_NAME, PHYSICIAN_LICENSE_NUMBER, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
-    $stmt->bind_param("ssss", $personId, $pwdPhysicianName, $physicianLicenseNumber, $accomplishedBy);
+    $stmt->bind_param("sss", $personId, $pwdPhysicianName, $physicianLicenseNumber);
 
     // Execute the query
     if($stmt->execute() === TRUE){
@@ -888,6 +888,27 @@ function insertTransactionType($connection, $personId, $transactionType) {
 
     // Bind the values to the placeholders
     $stmt->bind_param("ss", $personId, $transactionType);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully inserted";
+    } else {
+        echo "Error: " . $stmt . "<br>" . $connection->error;
+    }
+
+    // Close the statement
+    $stmt->close();
+
+}
+
+function insertPWDApplicationAccomplisher($connection, $personId, $accomplishedBy, $accomplisherName) {
+    // Prepare the SQL query
+    global $isDeleted;
+    global $getActiveUser;
+    $stmt = $connection->prepare("INSERT INTO pwd_application_accomplisher (PWD_APLICATION_ACCOMPLISHER_ID, PERSON_ID, ACCOMPLISHED_BY, ACCOMPLISHER_NAME, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("sss", $personId, $accomplishedBy, $accomplisherName);
 
     // Execute the query
     if($stmt->execute() === TRUE){

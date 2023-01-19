@@ -112,7 +112,7 @@ function emailExists($connection, $email) {
 }
 
 function loginCredentialsExists($connection, $username, $email) {
-    $sql = "SELECT * FROM user WHERE username=? OR email=?";
+    $sql = "SELECT * FROM user_account WHERE USERNAME=? OR EMAIL=?";
     $stmt = mysqli_stmt_init($connection);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../index.html?error=stmterror");
@@ -144,7 +144,7 @@ function loginUser($connection, $username, $password){
         exit();
     }
     
-    $passwordhashed = $loginCredentialsExists['password'];
+    $passwordhashed = $loginCredentialsExists['PASSWORD'];
     $checkPassword = password_verify($password, $passwordhashed);
 
     if ($checkPassword === false) {
@@ -153,7 +153,7 @@ function loginUser($connection, $username, $password){
     }
     else if($checkPassword === true) {
         session_start();
-        $_SESSION['username'] = $loginCredentialsExists['username'];
+        $_SESSION['username'] = $loginCredentialsExists['USERNAME'];
         header("location: ../home.html");
         exit();
     }

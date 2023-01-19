@@ -1,4 +1,7 @@
 <?php
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
     session_start();
     require_once 'dbh.inc.php';
     require_once 'functions.inc.php';
@@ -132,7 +135,7 @@
                 insertName($connection, $childId, $childFirstName[$i], $childMiddleName[$i], $childLastName[$i], $childSuffix[$i]);
                 insertMaritalStatus($connection, $childId, $maritalStatus);
                 insertEducationalAttainment($connection, $childId, $childEducationalAttainment);
-                insertIncome($connection, $childId, $childIncome, "0");
+                insertIncome($connection, $childId, $childIncome, NULL);
                 insertRelationship($connection, $personId, $childId, $childRelationshipType);
             }
         }
@@ -144,20 +147,19 @@
         $timestamp = microtime(true);
         $timestamp = substr($timestamp, -4);
         $id_number =  "043428023-" . $timestamp;
+        $personId = generateUUID();
         $applicationType = $_POST['applicationType'];
-        $region = $_POST['region'];
-        $region_text = $_POST['region_text'];
-        $province = $_POST['province'];
-        $province_text = $_POST['province_text'];
-        $city = $_POST['city'];
-        $city_text = $_POST['city_text'];
-        $barangay = $_POST['barangay'];
-        $barangay_text = $_POST['barangay_text'];
+        $applicantType = "PWD";
+        $old_region = $_POST['region_text'];
+        $old_province = $_POST['province_text'];
+        $old_city = $_POST['city_text'];
+        $old_barangay = $_POST['barangay_text'];
         $surname = $_POST['surname'];
         $firstName = $_POST['firstName'];
         $middleName = $_POST['middleName'];
         $suffix = $_POST['suffix'];
         $address = $_POST['address'];
+        $barangayId = generateUUID();
         $barangay = $_POST['barangay'];
         $landline = $_POST['landline'];
         $mobileNumber = $_POST['mobileNumber'];
@@ -169,7 +171,7 @@
         $bloodType = $_POST['bloodType'];
         $educationalAttainment = $_POST['educationalAttainment'];
         $isActiveVoter = $_POST['isActiveVoter'];
-        $is4PS = $_POST['is4PS'];
+        $is4psMember = $_POST['is4PS'];
         $employmentStatus = $_POST['employmentStatus'];
         $categoryOfEmployment = $_POST['categoryOfEmployment'];
         $natureOfEmployment = $_POST['natureOfEmployment'];
@@ -185,14 +187,17 @@
         $PSNNo = $_POST['PSNNo'];
         $isPhilhealthMember = $_POST['isPhilhealthMember'];
         $philhealthNumber = $_POST['philhealthNumber'];
+        $fatherId = generateUUID();
         $fatherSurname = $_POST['fatherSurname'];
         $fatherFirstName = $_POST['fatherFirstName'];
         $fatherMiddleName = $_POST['fatherMiddleName'];
         $fatherSuffix = $_POST['fatherSuffix'];
+        $motherId = generateUUID();
         $motherSurname = $_POST['motherSurname'];
         $motherFirstName = $_POST['motherFirstName'];
         $motherMiddleName = $_POST['motherMiddleName'];
         $motherSuffix = $_POST['motherSuffix'];
+        $guardianId = generateUUID();
         $guardianSurname = $_POST['guardianSurname'];
         $guardianFirstName = $_POST['guardianFirstName'];
         $guardianMiddleName = $_POST['guardianMiddleName'];
@@ -200,15 +205,75 @@
         $guardianRelationship = $_POST['guardianRelationship'];
         $guardianContactNumber = $_POST['guardianContactNumber'];
 
-        $typeOfDisability = $_POST['typeOfDisability'];
-        $medicalCondition = $_POST['medicalCondition'];
-        $causeOfDisability = $_POST['causeOfDisability'];
-        $acquired = $_POST['acquired'];
-        $inborn = $_POST['inborn'];
-        $statusOfDisabiity = $_POST['statusOfDisabiity'];
+        if (isset($_POST['typeOfDisability'])) {
+            $str = $_POST['typeOfDisability'];
+            $typeOfDisability = implode (",", $str);
+        } else {
+            $typeOfDisability = NULL;
+        }
+        if (!empty($_POST['medicalCondition'])) {
+            $medicalCondition = $_POST['medicalCondition'];
+        } else {
+            $medicalCondition = NULL;
+        }
+        if (isset($_POST['causeOfDisability'])) {
+            $str = $_POST['causeOfDisability'];
+            $causeOfDisability = implode (",", $str);
+        } else {
+            $causeOfDisability = NULL;
+        }
+        if (isset($_POST['inborn'])) {
+            $str = $_POST['inborn'];
+            $inborn = implode (",", $str);
+        } else {
+            $inborn = NULL;
+        }
+        if (isset($_POST['acquired'])) {
+            $str = $_POST['acquired'];
+            $acquired = implode (",", $str);
+        } else {
+            $acquired = NULL;
+        }
+        $statusOfDisability = $_POST['statusOfDisabiity'];
         $physicianName = $_POST['physicianName'];
         $physicianLicence = $_POST['physicianLicence'];
         $accomplishedBy = $_POST['accomplishedBy'];
+        $accomplisherName = $_POST['accomplisherName'];
+
+        insertPerson($connection, $personId, $pwdDOB);
+        insertApplicant($connection, $personId, $applicantType, $id_number, NULL);
+        insertTransactionType($connection, $personId, $applicationType);
+        insertPreviousAddress($connection, $personId, $old_region, $old_province, $old_city, $old_barangay, $previousAddress);
+        insertName($connection, $personId, $firstName, $middleName, $surname, $suffix);
+        insertAddress($connection, $barangayId, $barangay, $address);
+        insertPersonAddress($connection, $personId, $barangayId);
+        insertTelephone($connection, $personId, $landline);
+        insertTelephone($connection, $personId, $mobileNumber);
+        insertGender($connection, $personId, $gender);
+        insertReligion($connection, $personId, $religion);
+        insertMaritalStatus($connection, $personId, $maritalStatus);
+        insertBloodType($connection, $personId, $bloodType);
+        insertEducationalAttainment($connection, $personId, $educationalAttainment);
+        insertGovernmentMembership($connection, $personId, $isActiveVoter, $is4psMember);
+        insertEmploymentStatus($connection, $personId, $employmentStatus, $categoryOfEmployment, $natureOfEmployment);
+        insertJob($connection, $personId, $occupation);
+        insertIncome($connection, $personId, $income, NULL);
+        insertOrganization($connection, $personId, $organization, $organizationContactPerson, $organizationOfficeAddress, $organizationTelephoneNumber);
+        insertIdReferenceNumber($connection, $personId, $SSSNo, $GSISNo, $PSNNo, $isPhilhealthMember, $philhealthNumber);
+        insertPerson($connection, $fatherId, NULL);
+        insertName($connection, $fatherId, $fatherFirstName, $fatherMiddleName, $fatherSurname, $fatherSuffix);
+        insertRelationship($connection, $personId, $fatherId, "Father");
+        insertPerson($connection, $motherId, NULL);
+        insertName($connection, $motherId, $motherFirstName, $motherMiddleName, $motherSurname, $motherSuffix);
+        insertRelationship($connection, $personId, $motherId, "Mother");
+        insertPerson($connection, $guardianId, NULL);
+        insertName($connection, $guardianId, $guardianFirstName, $guardianMiddleName, $guardianSurname, $guardianSuffix);
+        insertRelationship($connection, $personId, $guardianId, $guardianRelationship);
+        insertTelephone($connection, $guardianId, $guardianContactNumber);
+        insertPWDDisease($connection, $personId, $typeOfDisability, $medicalCondition, $causeOfDisability, $inborn, $acquired, $statusOfDisability);
+        insertPWDPhysician($connection, $personId, $physicianName, $physicianLicence);
+        insertPWDApplicationAccomplisher($connection, $personId, $accomplishedBy, $accomplisherName);
+        insertUserAccount($connection, $id_number, $applicantType, $personId, $emailAddress, $id_number);
     }
 
 ?>
