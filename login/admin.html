@@ -1,7 +1,6 @@
 <?php
     session_start();
     if (isset($_SESSION['admin-data'])) {
-        echo("Logged in");
         header("location: ../administrator/dashboard.html");
         exit();
     }

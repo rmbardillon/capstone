@@ -2,6 +2,7 @@
     session_start();
     require_once 'dbh.inc.php';
     require_once 'functions.inc.php';
+    require_once 'sql.inc.php';
     // Senior Citizen
     if(isset($_POST['srCitizenSubmit'])) {
         $personId = generateUUID();
