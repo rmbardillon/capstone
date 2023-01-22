@@ -58,10 +58,12 @@
         insertReligion($connection, $personId, $religion);
         insertJob($connection, $personId, $job);
         insertPension($connection, $personId, $hasPension, $whatPension, $howMuchPension);
-        insertPerson($connection, $spouseId, $spouseDOB);
-        insertName($connection, $spouseId, $spouseFirstName, $spouseMiddleName, $spouseLastName, $spouseSuffix);
-        insertRelationship($connection, $personId, $spouseId, $spouseRelationshipType);
-        if (count($childFirstName) > 1) {
+        if (!empty($spouseFirstName)) {
+            insertPerson($connection, $spouseId, $spouseDOB);
+            insertName($connection, $spouseId, $spouseFirstName, $spouseMiddleName, $spouseLastName, $spouseSuffix);
+            insertRelationship($connection, $personId, $spouseId, $spouseRelationshipType);
+        }
+        if (count($childFirstName) >= 1) {
             for ($i=0; $i < count($childFirstName); $i++) {
                 $childId = generateUUID();
                 $childBarangayId = generateUUID();
@@ -116,7 +118,7 @@
         insertPerson($connection, $personId, $soloParentDOB);
         insertApplicant($connection, $personId, $applicantType, $id_number, $placeOfBirth);
         insertTransactionType($connection, $personId, $applicationType);
-        insertName($connection, $personId, $firstName, $middleName, $surname, $suffix);
+        insertName($connection, $personId, $firstName, $middlename, $surname, $suffix);
         insertAddress($connection, $barangayId, $barangay, $address);
         insertPersonAddress($connection, $personId, $barangayId);
         insertGender($connection, $personId, $gender);
@@ -125,18 +127,19 @@
         insertIncome($connection, $personId, $monthlyIncome, $totalFamilyIncome);
         insertTelephone($connection, $personId, $telephone);
         insertJob($connection, $personId, $job);
-        if (count($childFirstName) > 1) {
+        if (count($childFirstName) >= 1) {
             for ($i=0; $i < count($childFirstName); $i++) {
                 $childId = generateUUID();
                 $childBarangayId = generateUUID();
                 insertPerson($connection, $childId, $soloParentChildDOB[$i]);
                 insertName($connection, $childId, $childFirstName[$i], $childMiddleName[$i], $childLastName[$i], $childSuffix[$i]);
-                insertMaritalStatus($connection, $childId, $maritalStatus);
-                insertEducationalAttainment($connection, $childId, $childEducationalAttainment);
-                insertIncome($connection, $childId, $childIncome, NULL);
+                insertMaritalStatus($connection, $childId, $maritalStatus[$i]);
+                insertEducationalAttainment($connection, $childId, $childEducationalAttainment[$i]);
+                insertIncome($connection, $childId, $childIncome[$i], NULL);
                 insertRelationship($connection, $personId, $childId, $childRelationshipType);
             }
         }
+        
         insertSoloParentLongText($connection, $personId, $soloParentClassification, $soloParentNeeds, $soloParentFamilyResources);
         insertUserAccount($connection, $id_number, $applicantType, $personId, $email, $id_number);
     }

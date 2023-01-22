@@ -154,6 +154,7 @@ function loginUser($connection, $username, $password){
     else if($checkPassword === true) {
         session_start();
         $_SESSION['username'] = $loginCredentialsExists['USERNAME'];
+        $_SESSION['userData'] = $loginCredentialsExists;
         header("location: ../home.html");
         exit();
     }
