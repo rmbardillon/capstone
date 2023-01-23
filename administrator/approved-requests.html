@@ -1,6 +1,9 @@
 <?php 
     $page = "approved-requests";
     include("header.html");
+    $approvedPWD = getPWDStatus($connection, "APPROVED");
+    $approvedSoloParent = getSoloParentStatus($connection, "APPROVED");
+    $approvedSrCitizen = getSeniorCitizenStatus($connection, "APPROVED");
     if (!isset($_SESSION['admin-data'])) {
         header("location: ../login/index.html");
         exit();
@@ -26,18 +29,12 @@
                                     </thead>
                                     <tbody>
                 HTML; ?>
-                                        <?php foreach($approvedPWD as $userPWDData): $profilePic = getUserData($connection, 'media', 'username', $userPWDData['username']); ?>
+                                        <?php foreach($approvedPWD as $userPWDData): ?>
                                         <tr>
                                             <td style="text-align: left;">
-                                                <?php if(!empty($profilePic)) foreach($profilePic as $image): ?>
-                                                <img class="rounded-circle me-2" width="30" height="30" src="../uploads/<?php echo($image['image_location']); ?>">
-                                                <?php endforeach; ?>
-                                                <?php if(empty($profilePic)) {?>
-                                                <img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/default profile picture.png">
-                                                <?php } ?>
-                                                <?php echo($userPWDData['pwd_first_name']." ".$userPWDData['pwd_middle_name']." ".$userPWDData['pwd_last_name']); ?></td>
-                                            <td style="text-align: center;">Barangay <?php echo($userPWDData['barangay']); ?>&nbsp;</td>
-                                            <td style="text-align: center;"><a class="btn btn-secondary" href="pwd-registration.html?id=<?php echo($userPWDData['id']); ?>">View Information</a></td>
+                                                <?php echo($userPWDData['FIRST_NAME']." ".$userPWDData['MIDDLE_NAME']." ".$userPWDData['LAST_NAME']); ?></td>
+                                            <td style="text-align: center;">Barangay <?php echo($userPWDData['BARANGAY']); ?>&nbsp;</td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="pwd-application-form-filled-up.html?id=<?php echo($userPWDData['PERSON_ID']); ?>">View Information</a></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -67,18 +64,12 @@
                                     </thead>
                                     <tbody>
                 HTML; ?>
-                                        <?php foreach($approvedSrCitizen as $user): $profilePic = getUserData($connection, 'media', 'username', $user['username']); ?>
+                                        <?php foreach($approvedSrCitizen as $user): ?>
                                         <tr>
                                             <td style="text-align: left;">
-                                                <?php if(!empty($profilePic)) foreach($profilePic as $image): ?>
-                                                <img class="rounded-circle me-2" width="30" height="30" src="../uploads/<?php echo($image['image_location']); ?>">
-                                                <?php endforeach; ?>
-                                                <?php if(empty($profilePic)) {?>
-                                                <img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/default profile picture.png">
-                                                <?php } ?>
-                                                <?php echo($user['sr_citizen_first_name']." ".$user['sr_citizen_middle_name']." ".$user['sr_citizen_last_name']); ?></td>
-                                            <td style="text-align: center;">Barangay <?php echo($user['barangay']); ?>&nbsp;</td>
-                                            <td style="text-align: center;"><a class="btn btn-secondary" href="sr-citizen-registration.html?id=<?php echo($user['id']); ?>&username=<?php echo($user['username']); ?>">View Information</a></td>
+                                                <?php echo($user['FIRST_NAME']." ".$user['MIDDLE_NAME']." ".$user['LAST_NAME']); ?></td>
+                                            <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="senior-citizen-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>">View Information</a></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -108,18 +99,12 @@
                                     </thead>
                                     <tbody>
                 HTML; ?>
-                                        <?php foreach($approvedSoloParent as $user): $profilePic = getUserData($connection, 'media', 'username', $user['username']); ?>
+                                        <?php foreach($approvedSoloParent as $user): ?>
                                         <tr>
                                             <td style="text-align: left;">
-                                                <?php if(!empty($profilePic)) foreach($profilePic as $image): ?>
-                                                <img class="rounded-circle me-2" width="30" height="30" src="../uploads/<?php echo($image['image_location']); ?>">
-                                                <?php endforeach; ?>
-                                                <?php if(empty($profilePic)) {?>
-                                                <img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/default profile picture.png">
-                                                <?php } ?>
-                                                <?php echo($user['solo_parent_name']); ?></td>
-                                            <td style="text-align: center;">Barangay <?php echo($user['barangay']); ?>&nbsp;</td>
-                                            <td style="text-align: center;"><a class="btn btn-secondary" href="solo-parent-registration.html?id=<?php echo($user['id']); ?>&username=<?php echo($user['username']); ?>">View Information</a></td>
+                                                <?php echo($user['FIRST_NAME']." ".$user['MIDDLE_NAME']." ".$user['LAST_NAME']); ?></td>
+                                            <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="solo-parent-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>">View Information</a></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -134,7 +119,7 @@
             <?php if($adminData['admin_type'] == "PWD Administrator"){
                 echo <<<HTML
                 <div class="container-fluid">
-                    <h3 class="text-dark mb-4">Pending Requests</h3>
+                    <h3 class="text-dark mb-4">Approved Requests</h3>
                     <div class="card shadow">
                         <div class="card-header py-3">
                             <p class="text-primary m-0 fw-bold">Recent Registrants : Person With Disability&nbsp;</p>
@@ -151,18 +136,12 @@
                                     </thead>
                                     <tbody>
                 HTML; ?>
-                                        <?php foreach($approvedPWD as $userPWDData): $profilePic = getUserData($connection, 'media', 'username', $userPWDData['username']); ?>
+                                        <?php foreach($approvedPWD as $userPWDData): ?>
                                         <tr>
                                             <td style="text-align: left;">
-                                                <?php if(!empty($profilePic)) foreach($profilePic as $image): ?>
-                                                <img class="rounded-circle me-2" width="30" height="30" src="../uploads/<?php echo($image['image_location']); ?>">
-                                                <?php endforeach; ?>
-                                                <?php if(empty($profilePic)) {?>
-                                                <img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/default profile picture.png">
-                                                <?php } ?>
-                                                <?php echo($userPWDData['pwd_first_name']." ".$userPWDData['pwd_middle_name']." ".$userPWDData['pwd_last_name']); ?></td>
-                                            <td style="text-align: center;">Barangay <?php echo($userPWDData['barangay']); ?>&nbsp;</td>
-                                            <td style="text-align: center;"><a class="btn btn-secondary" href="pwd-registration.html?id=<?php echo($userPWDData['id']); ?>">View Information</a></td>
+                                                <?php echo($userPWDData['FIRST_NAME']." ".$userPWDData['MIDDLE_NAME']." ".$userPWDData['LAST_NAME']); ?></td>
+                                            <td style="text-align: center;">Barangay <?php echo($userPWDData['BARANGAY']); ?>&nbsp;</td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="pwd-application-form-filled-up.html?id=<?php echo($userPWDData['PERSON_ID']); ?>">View Information</a></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -194,18 +173,12 @@
                                     </thead>
                                     <tbody>
                 HTML; ?>
-                                        <?php foreach($approvedSrCitizen as $user): $profilePic = getUserData($connection, 'media', 'username', $user['username']); ?>
+                                        <?php foreach($approvedSrCitizen as $user): ?>
                                         <tr>
                                             <td style="text-align: left;">
-                                                <?php if(!empty($profilePic)) foreach($profilePic as $image): ?>
-                                                <img class="rounded-circle me-2" width="30" height="30" src="../uploads/<?php echo($image['image_location']); ?>">
-                                                <?php endforeach; ?>
-                                                <?php if(empty($profilePic)) {?>
-                                                <img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/default profile picture.png">
-                                                <?php } ?>
-                                                <?php echo($user['sr_citizen_first_name']." ".$user['sr_citizen_middle_name']." ".$user['sr_citizen_last_name']); ?></td>
-                                            <td style="text-align: center;">Barangay <?php echo($user['barangay']); ?>&nbsp;</td>
-                                            <td style="text-align: center;"><a class="btn btn-secondary" href="sr-citizen-registration.html?id=<?php echo($user['id']); ?>&username=<?php echo($user['username']); ?>">View Information</a></td>
+                                                <?php echo($user['FIRST_NAME']." ".$user['MIDDLE_NAME']." ".$user['LAST_NAME']); ?></td>
+                                            <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="senior-citizen-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>">View Information</a></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -237,20 +210,14 @@
                                     </thead>
                                     <tbody>
                 HTML; ?>
-                                        <?php foreach($approvedSoloParent as $user): $profilePic = getUserData($connection, 'media', 'username', $user['username']); ?>
+                                        <?php foreach($approvedSoloParent as $user): ?>
                                         <tr>
                                             <td style="text-align: left;">
-                                                <?php if(!empty($profilePic)) foreach($profilePic as $image): ?>
-                                                <img class="rounded-circle me-2" width="30" height="30" src="../uploads/<?php echo($image['image_location']); ?>">
-                                                <?php endforeach; ?>
-                                                <?php if(empty($profilePic)) {?>
-                                                <img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/default profile picture.png">
-                                                <?php } ?>
-                                                <?php echo($user['solo_parent_name']); ?></td>
-                                            <td style="text-align: center;">Barangay <?php echo($user['barangay']); ?>&nbsp;</td>
-                                            <td style="text-align: center;"><a class="btn btn-secondary" href="solo-parent-registration.html?id=<?php echo($user['id']); ?>&username=<?php echo($user['username']); ?>">View Information</a></td>
+                                                <?php echo($user['FIRST_NAME']." ".$user['MIDDLE_NAME']." ".$user['LAST_NAME']); ?></td>
+                                            <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="solo-parent-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>">View Information</a></td>
                                         </tr>
-                                        <?php endforeach; 
+                                        <?php endforeach;
                 echo <<<HTML
                                     </tbody>
                                 </table>

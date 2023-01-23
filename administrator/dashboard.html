@@ -1,9 +1,12 @@
 <?php 
     $page = "dashboard";
-    require_once 'includes/functions.inc.php';
-    require_once 'includes/sql.inc.php';
     include("header.html");
-    $pwdData = getPWDData($connection);
+    $pwdData = getPWDData($connection, "");
+    $seniorCitizenData = getSeniorCitizenData($connection, "");
+    $soloParentData = getSoloParentData($connection, "");
+    $pwdDataPerBarangay = getPWDPerBarangay($connection, $_SESSION['admin-data']['barangay']);
+    $seniorCitizenDataPerBarangay = getSeniorCitizenPerBarangay($connection, $_SESSION['admin-data']['barangay']);
+    $soloParentDataPerBarangay = getSoloParentPerBarangay($connection, $_SESSION['admin-data']['barangay']);
     if (!isset($_SESSION['admin-data'])) {
         header("location: ../login/index.html");
         exit();
@@ -40,7 +43,7 @@
                                             <td style="text-align: center;"><?php echo(ageCalculator($userPWDData['DATE_OF_BIRTH'])); ?></td>
                                             <td style="text-align: center;"><?php echo($userPWDData['DATE_UPDATED']); ?></td>
                                             <td style="text-align: center;"><?php echo($userPWDData['MONTHLY_INCOME']); ?></td>
-                                            <td style="text-align: center;"><?php echo($userPWDData['status']); ?></td>
+                                            <td style="text-align: center;"><?php echo($userPWDData['STATUS']); ?></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -72,21 +75,15 @@
                                     </thead>
                                     <tbody>
                 HTML; ?>
-                                        <?php foreach($soloParentData as $user): $profilePic = getUserData($connection, 'media', 'username', $user['username']); ?>
+                                        <?php foreach($soloParentData as $user): ?>
                                         <tr>
                                             <td style="text-align: left;">
-                                                <?php if(!empty($profilePic)) foreach($profilePic as $image): ?>
-                                                <img class="rounded-circle me-2" width="30" height="30" src="../uploads/<?php echo($image['image_location']); ?>">
-                                                <?php endforeach; ?>
-                                                <?php if(empty($profilePic)) {?>
-                                                <img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/default profile picture.png">
-                                                <?php } ?>
-                                                <?php echo($user['solo_parent_name']); ?></td>
-                                            <td style="text-align: center;">Barangay <?php echo($user['barangay']); ?>&nbsp;</td>
-                                            <td style="text-align: center;"><?php echo(ageCalculator($user['date_of_birth'])); ?></td>
-                                            <td style="text-align: center;"><?php echo($user['date_applied']); ?></td>
-                                            <td style="text-align: center;"><?php echo($user['income']); ?></td>
-                                            <td style="text-align: center;"><?php echo($user['status']); ?></td>
+                                                <?php echo($user['FIRST_NAME']." ".$user['MIDDLE_NAME']." ".$user['LAST_NAME']); ?></td>
+                                            <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
+                                            <td style="text-align: center;"><?php echo(ageCalculator($user['DATE_OF_BIRTH'])); ?></td>
+                                            <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
+                                            <td style="text-align: center;"><?php echo($user['MONTHLY_INCOME']); ?></td>
+                                            <td style="text-align: center;"><?php echo($user['STATUS']); ?></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -118,21 +115,15 @@
                                     </thead>
                                     <tbody>
                 HTML; ?>
-                                        <?php foreach($srCitizenData as $user): $profilePic = getUserData($connection, 'media', 'username', $user['username']); ?>
+                                        <?php foreach($seniorCitizenData as $user): ?>
                                         <tr>
                                             <td style="text-align: left;">
-                                                <?php if(!empty($profilePic)) foreach($profilePic as $image): ?>
-                                                <img class="rounded-circle me-2" width="30" height="30" src="../uploads/<?php echo($image['image_location']); ?>">
-                                                <?php endforeach; ?>
-                                                <?php if(empty($profilePic)) {?>
-                                                <img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/default profile picture.png">
-                                                <?php } ?>
-                                                <?php echo($user['sr_citizen_first_name']." ".$user['sr_citizen_middle_name']." ".$user['sr_citizen_last_name']); ?></td>
-                                            <td style="text-align: center;">Barangay <?php echo($user['barangay']); ?>&nbsp;</td>
-                                            <td style="text-align: center;"><?php echo(ageCalculator($user['date_of_birth'])); ?></td>
-                                            <td style="text-align: center;"><?php echo($user['application_date']); ?></td>
-                                            <td style="text-align: center;"><?php echo($user['magkano']); ?></td>
-                                            <td style="text-align: center;"><?php echo($user['status']); ?></td>
+                                                <?php echo($user['FIRST_NAME']." ".$user['MIDDLE_NAME']." ".$user['LAST_NAME']); ?></td>
+                                            <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
+                                            <td style="text-align: center;"><?php echo(ageCalculator($user['DATE_OF_BIRTH'])); ?></td>
+                                            <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
+                                            <td style="text-align: center;"><?php echo($user['MONTHLY_INCOME']); ?></td>
+                                            <td style="text-align: center;"><?php echo($user['STATUS']); ?></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -168,21 +159,15 @@
                                     </thead>
                                     <tbody>
                 HTML; ?>
-                                        <?php foreach($pwdData as $userPWDData): $profilePic = getUserData($connection, 'media', 'username', $userPWDData['username']); ?>
+                                        <?php foreach($pwdDataPerBarangay as $userPWDData): ?>
                                         <tr>
                                             <td style="text-align: left;">
-                                                <?php if(!empty($profilePic)) foreach($profilePic as $image): ?>
-                                                <img class="rounded-circle me-2" width="30" height="30" src="../uploads/<?php echo($image['image_location']); ?>">
-                                                <?php endforeach; ?>
-                                                <?php if(empty($profilePic)) {?>
-                                                <img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/default profile picture.png">
-                                                <?php } ?>
-                                                <?php echo($userPWDData['pwd_first_name']." ".$userPWDData['pwd_middle_name']." ".$userPWDData['pwd_last_name']); ?></td>
-                                            <td style="text-align: center;">Barangay <?php echo($userPWDData['barangay']); ?>&nbsp;</td>
-                                            <td style="text-align: center;"><?php echo(ageCalculator($userPWDData['date_of_birth'])); ?></td>
-                                            <td style="text-align: center;"><?php echo($userPWDData['application_date']); ?></td>
-                                            <td style="text-align: center;"><?php echo($userPWDData['income']); ?></td>
-                                            <td style="text-align: center;"><?php echo($userPWDData['status']); ?></td>
+                                            <?php echo($userPWDData['FIRST_NAME']." ".$userPWDData['MIDDLE_NAME']." ".$userPWDData['LAST_NAME']); ?></td>
+                                            <td style="text-align: center;">Barangay <?php echo($userPWDData['BARANGAY']); ?>&nbsp;</td>
+                                            <td style="text-align: center;"><?php echo(ageCalculator($userPWDData['DATE_OF_BIRTH'])); ?></td>
+                                            <td style="text-align: center;"><?php echo($userPWDData['DATE_UPDATED']); ?></td>
+                                            <td style="text-align: center;"><?php echo($userPWDData['MONTHLY_INCOME']); ?></td>
+                                            <td style="text-align: center;"><?php echo($userPWDData['STATUS']); ?></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -217,21 +202,15 @@
                                     </thead>
                                     <tbody>
                 HTML; ?>
-                                        <?php foreach($soloParentData as $user): $profilePic = getUserData($connection, 'media', 'username', $user['username']); ?>
+                                        <?php foreach($soloParentDataPerBarangay as $user): ?>
                                         <tr>
                                             <td style="text-align: left;">
-                                                <?php if(!empty($profilePic)) foreach($profilePic as $image): ?>
-                                                <img class="rounded-circle me-2" width="30" height="30" src="../uploads/<?php echo($image['image_location']); ?>">
-                                                <?php endforeach; ?>
-                                                <?php if(empty($profilePic)) {?>
-                                                <img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/default profile picture.png">
-                                                <?php } ?>
-                                                <?php echo($user['solo_parent_name']); ?></td>
-                                            <td style="text-align: center;">Barangay <?php echo($user['barangay']); ?>&nbsp;</td>
-                                            <td style="text-align: center;"><?php echo(ageCalculator($user['date_of_birth'])); ?></td>
-                                            <td style="text-align: center;"><?php echo($user['date_applied']); ?></td>
-                                            <td style="text-align: center;"><?php echo($user['income']); ?></td>
-                                            <td style="text-align: center;"><?php echo($user['status']); ?></td>
+                                                <?php echo($user['FIRST_NAME']." ".$user['MIDDLE_NAME']." ".$user['LAST_NAME']); ?></td>
+                                            <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
+                                            <td style="text-align: center;"><?php echo(ageCalculator($user['DATE_OF_BIRTH'])); ?></td>
+                                            <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
+                                            <td style="text-align: center;"><?php echo($user['MONTHLY_INCOME']); ?></td>
+                                            <td style="text-align: center;"><?php echo($user['STATUS']); ?></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -266,23 +245,17 @@
                                     </thead>
                                     <tbody>
                 HTML; ?>
-                                        <?php foreach($srCitizenData as $user): $profilePic = getUserData($connection, 'media', 'username', $user['username']); ?>
+                                        <?php foreach($seniorCitizenDataPerBarangay as $user): ?>
                                         <tr>
                                             <td style="text-align: left;">
-                                                <?php if(!empty($profilePic)) foreach($profilePic as $image): ?>
-                                                <img class="rounded-circle me-2" width="30" height="30" src="../uploads/<?php echo($image['image_location']); ?>">
-                                                <?php endforeach; ?>
-                                                <?php if(empty($profilePic)) {?>
-                                                <img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/default profile picture.png">
-                                                <?php } ?>
-                                                <?php echo($user['sr_citizen_first_name']." ".$user['sr_citizen_middle_name']." ".$user['sr_citizen_last_name']); ?></td>
-                                            <td style="text-align: center;">Barangay <?php echo($user['barangay']); ?>&nbsp;</td>
-                                            <td style="text-align: center;"><?php echo(ageCalculator($user['date_of_birth'])); ?></td>
-                                            <td style="text-align: center;"><?php echo($user['application_date']); ?></td>
-                                            <td style="text-align: center;"><?php echo($user['magkano']); ?></td>
-                                            <td style="text-align: center;"><?php echo($user['status']); ?></td>
+                                                <?php echo($user['FIRST_NAME']." ".$user['MIDDLE_NAME']." ".$user['LAST_NAME']); ?></td>
+                                            <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
+                                            <td style="text-align: center;"><?php echo(ageCalculator($user['DATE_OF_BIRTH'])); ?></td>
+                                            <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
+                                            <td style="text-align: center;"><?php echo($user['MONTHLY_INCOME']); ?></td>
+                                            <td style="text-align: center;"><?php echo($user['STATUS']); ?></td>
                                         </tr>
-                                        <?php endforeach; 
+                                        <?php endforeach;
                 echo <<<HTML
                                     </tbody>
                                 </table>
