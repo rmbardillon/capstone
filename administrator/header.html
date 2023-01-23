@@ -10,48 +10,6 @@
         $admin_name = $adminData['first_name']." ".$adminData['last_name'];
         $profile = getUserData($connection, "media", "username", $adminData['username']);
         $announcements = $_SESSION['announcements'] = getUserData($connection, "announcement", "", "");
-        if ($adminData['admin_type'] == "Main Administrator") {
-            $mainAdmin = $_SESSION['mainAdmin'] = getUserData($connection, "administrator", "admin_type", "Main Administrator");
-            $pwdAdmin = $_SESSION['pwdAdmin'] = getUserData($connection, "administrator", "admin_type", "PWD Administrator");
-            $srCitizenAdmin = $_SESSION['srCitizenAdmin'] = getUserData($connection, "administrator", "admin_type", "Senior Citizen Administrator");
-            $soloParentAdmin = $_SESSION['soloParentAdmin'] = getUserData($connection, "administrator", "admin_type", "Solo Parent Administrator");
-            $pwdData = $_SESSION['pwdData']  = getUserData($connection, "pwd_data", "", "");
-            $srCitizenData = $_SESSION['srCitizenData'] = getUserData($connection, "senior_citizen_data", "", "");
-            $soloParentData = $_SESSION['soloParentData'] = getUserData($connection, "solo_parent_data", "", "");
-            $pendingPWD = $_SESSION['pendingPWD'] = getUserData($connection, "pwd_data", "status", "Pending");
-            $approvedPWD = $_SESSION['approvedPWD'] = getUserData($connection, "pwd_data", "status", "Approved");
-            $rejectedPWD = $_SESSION['rejectedPWD'] = getUserData($connection, "pwd_data", "status", "Rejected");
-            $pendingSrCitizen = $_SESSION['pendingSrCitizen'] = getUserData($connection, "senior_citizen_data", "status", "Pending");
-            $approvedSrCitizen = $_SESSION['approvedSrCitizen'] = getUserData($connection, "senior_citizen_data", "status", "Approved");
-            $rejectedSrCitizen = $_SESSION['rejectedSrCitizen'] = getUserData($connection, "senior_citizen_data", "status", "Rejected");
-            $pendingSoloParent = $_SESSION['pendingSoloParent'] = getUserData($connection, "solo_parent_data", "status", "Pending");
-            $approvedSoloParent = $_SESSION['approvedSoloParent'] = getUserData($connection, "solo_parent_data", "status", "Approved");
-            $rejectedSoloParent = $_SESSION['rejectedSoloParent'] = getUserData($connection, "solo_parent_data", "status", "Rejected");
-        } else if ($adminData['admin_type'] == "Solo Parent Administrator") {
-            $soloParentData = $_SESSION['soloParentData'] = getUserData($connection, "solo_parent_data", "barangay", $adminData['barangay']);
-            $pendingSoloParent = $_SESSION['pendingSoloParent'] = getUserDataPerBarangay($connection, "solo_parent_data", "status", "Pending", "barangay", $adminData[
-            'barangay']);
-            $approvedSoloParent = $_SESSION['approvedSoloParent'] = getUserDataPerBarangay($connection, "solo_parent_data", "status", "Approved", "barangay", $adminData[
-            'barangay']);
-            $rejectedSoloParent = $_SESSION['rejectedSoloParent'] = getUserDataPerBarangay($connection, "solo_parent_data", "status", "Rejected", "barangay", $adminData[
-            'barangay']);
-        } else if ($adminData['admin_type'] == "Senior Citizen Administrator") {
-            $srCitizenData = $_SESSION['srCitizenData'] = getUserData($connection, "senior_citizen_data", "barangay", $adminData['barangay']);
-            $pendingSrCitizen = $_SESSION['pendingSrCitizen'] = getUserDataPerBarangay($connection, "senior_citizen_data", "status", "Pending", "barangay", $adminData[
-            'barangay']);
-            $approvedSrCitizen = $_SESSION['approvedSrCitizen'] = getUserDataPerBarangay($connection, "senior_citizen_data", "status", "Approved", "barangay", $adminData[
-            'barangay']);
-            $rejectedSrCitizen = $_SESSION['rejectedSrCitizen'] = getUserDataPerBarangay($connection, "senior_citizen_data", "status", "Rejected", "barangay", $adminData[
-            'barangay']);
-        } else if ($adminData['admin_type'] == "PWD Administrator") {
-            $pwdData = $_SESSION['pwdData'] = getUserData($connection, "pwd_data", "barangay", $adminData['barangay']);
-            $pendingPWD = $_SESSION['pendingPWD'] = getUserDataPerBarangay($connection, "pwd_data", "status", "Pending", "barangay", $adminData[
-            'barangay']);
-            $approvedPWD = $_SESSION['approvedPWD'] = getUserDataPerBarangay($connection, "pwd_data", "status", "Approved", "barangay", $adminData[
-            'barangay']);
-            $rejectedPWD = $_SESSION['rejectedPWD'] = getUserDataPerBarangay($connection, "pwd_data", "status", "Rejected", "barangay", $adminData[
-            'barangay']);
-        }
     } else {
         header("location: ../login/index.html");
         exit();

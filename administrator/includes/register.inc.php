@@ -147,7 +147,7 @@
     if (isset($_POST['pwdSubmit'])) {
         $timestamp = microtime(true);
         $timestamp = substr($timestamp, -4);
-        $id_number =  "043428023-" . $timestamp;
+        $id_number =  "043428023-" . generatePWDID()[0];
         $personId = generateUUID();
         $applicationType = $_POST['applicationType'];
         $applicantType = "PWD";
@@ -254,7 +254,7 @@
         insertName($connection, $personId, $firstName, $middlename, $surname, $suffix);
         insertAddress($connection, $barangayId, $barangay, $address);
         insertPersonAddress($connection, $personId, $barangayId);
-        insertTelephone($connection, $personId, $landline);
+        insertLandline($connection, $personId, $landline);
         insertTelephone($connection, $personId, $mobileNumber);
         insertGender($connection, $personId, $gender);
         insertReligion($connection, $personId, $religion);
@@ -263,8 +263,13 @@
         insertEducationalAttainment($connection, $personId, $educationalAttainment);
         insertGovernmentMembership($connection, $personId, $isActiveVoter, $is4psMember);
         insertEmploymentStatus($connection, $personId, $employmentStatus, $categoryOfEmployment, $natureOfEmployment);
-        insertJob($connection, $personId, $occupation);
-        insertIncome($connection, $personId, $income, NULL);
+        if($employmentStatus == "Employed" || $employmentStatus == "Self-employed") {
+            insertJob($connection, $personId, $occupation);
+            insertIncome($connection, $personId, $income, NULL);
+        } else {
+            insertJob($connection, $personId, NULL);
+            insertIncome($connection, $personId, NULL, NULL);
+        }
         insertOrganization($connection, $personId, $organization, $organizationContactPerson, $organizationOfficeAddress, $organizationTelephoneNumber);
         insertIdReferenceNumber($connection, $personId, $SSSNo, $GSISNo, $PSNNo, $isPhilhealthMember, $philhealthNumber);
         insertPerson($connection, $fatherId, NULL);
@@ -273,10 +278,12 @@
         insertPerson($connection, $motherId, NULL);
         insertName($connection, $motherId, $motherFirstName, $motherMiddleName, $motherSurname, $motherSuffix);
         insertRelationship($connection, $personId, $motherId, "Mother");
-        insertPerson($connection, $guardianId, NULL);
-        insertName($connection, $guardianId, $guardianFirstName, $guardianMiddleName, $guardianSurname, $guardianSuffix);
-        insertRelationship($connection, $personId, $guardianId, $guardianRelationship);
-        insertTelephone($connection, $guardianId, $guardianContactNumber);
+        if (!empty($guardianFirstName)) {
+            insertPerson($connection, $guardianId, NULL);
+            insertName($connection, $guardianId, $guardianFirstName, $guardianMiddleName, $guardianSurname, $guardianSuffix);
+            insertRelationship($connection, $personId, $guardianId, $guardianRelationship);
+            insertTelephone($connection, $guardianId, $guardianContactNumber);
+        }
         insertPWDDisease($connection, $personId, $typeOfDisability, $medicalCondition, $causeOfDisability, $inborn, $acquired, $statusOfDisability);
         insertPWDPhysician($connection, $personId, $physicianName, $physicianLicence);
         insertPWDApplicationAccomplisher($connection, $personId, $accomplishedBy, $accomplisherName);

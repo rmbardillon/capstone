@@ -326,6 +326,20 @@ $("#occupation").change(function() {
         $("#otherOccupation").prop("required", false);
     }
 });
+$("#organization").change(function() {
+    if ($(this).val().trim() !== "") {
+        $(".organizationDiv").show();
+        $("#organizationContactPerson").prop("required", true);
+        $("#organizationOfficeAddress").prop("required", true);
+        $("#organizationTelephoneNumber").prop("required", true);
+    } else {
+        $(".organizationDiv").hide();
+        $("#organizationContactPerson").prop("required", false);
+        $("#organizationOfficeAddress").prop("required", false);
+        $("#organizationTelephoneNumber").prop("required", false);
+
+    }
+});
 $("#isPhilhealthMember").change(function() {
     if ($(this).val() != "No") {
         $("#philhealthNumber").show();
@@ -336,15 +350,17 @@ $("#isPhilhealthMember").change(function() {
         $("#philhealthNumber").prop("required", false);
     }
 });
-$("#guardianSurname").keyup(function() {
+$("#guardianSurname").change(function() {
     if ($(this).val().trim() !== "") {
         $("#guardian").show();
-        $("guardianRelationship").prop("required", true);
-        $("guardianContactNumber").prop("required", true);
+        $("#guardianFirstName").prop("required", true);
+        $("#guardianRelationship").prop("required", true);
+        $("#guardianContactNumber").prop("required", true);
     } else {
         $("#guardian").hide();
-        $("guardianRelationship").prop("required", false);
-        $("guardianContactNumber").prop("required", false);
+        $("#guardianFirstName").prop("required", false);
+        $("#guardianRelationship").prop("required", false);
+        $("#guardianContactNumber").prop("required", false);
 
     }
 });
@@ -361,7 +377,9 @@ $("#accomplishedBy").change(function() {
     if ($(this).val() == "Guardian") {
         $("#guardianSurname").prop("required", true);
         $("#guardianFirstName").prop("required", true);
-
+    } else {
+        $("#guardianSurname").prop("required", false);
+        $("#guardianFirstName").prop("required", false);
     }
 });
 $('input[name="typeOfDisability[]"]').click(function() {

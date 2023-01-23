@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 19, 2023 at 08:15 AM
+-- Generation Time: Jan 23, 2023 at 07:17 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -278,8 +278,8 @@ CREATE TABLE `gender` (
 CREATE TABLE `government_membership` (
   `GOVERNMENT_MEMBERSHIP_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
-  `IS_ACTIVE_VOTER` char(1) NOT NULL,
-  `IS_4PS_MEMBER` char(1) NOT NULL,
+  `IS_ACTIVE_VOTER` varchar(16) NOT NULL,
+  `IS_4PS_MEMBER` varchar(16) NOT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
@@ -342,13 +342,29 @@ CREATE TABLE `job` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `landline`
+--
+
+CREATE TABLE `landline` (
+  `LANDLINE_ID` varchar(16) NOT NULL,
+  `PERSON_ID` varchar(16) NOT NULL,
+  `LANDLINE_NUMBER` varchar(32) DEFAULT NULL,
+  `DATE_CREATED` datetime(6) NOT NULL,
+  `DATE_UPDATED` datetime(6) NOT NULL,
+  `IS_DELETED` char(1) NOT NULL,
+  `UPDATED_BY` varchar(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `marital_status`
 --
 
 CREATE TABLE `marital_status` (
   `MARITAL_STATUS_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
-  `MARITAL_STATUS` char(1) NOT NULL,
+  `MARITAL_STATUS` varchar(64) NOT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
@@ -459,9 +475,9 @@ CREATE TABLE `person_address` (
 CREATE TABLE `previous_address` (
   `PREVIOUS_ADDRESS_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
-  `REGION` varchar(128) NOT NULL,
-  `PROVINCE` varchar(128) NOT NULL,
-  `CITY` varchar(128) NOT NULL,
+  `REGION` varchar(128) DEFAULT NULL,
+  `PROVINCE` varchar(128) DEFAULT NULL,
+  `CITY` varchar(128) DEFAULT NULL,
   `BARANGAY` varchar(128) DEFAULT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
@@ -509,7 +525,7 @@ CREATE TABLE `pwd_application_accomplisher` (
 CREATE TABLE `pwd_disease` (
   `PWD_DISEASE_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
-  `TYPE_OF_DISABILITY` set('Deaf/Hard of Hearing','Intellectual Disability','Learning Disability','Mental Disability','Physical Disablity (Orthopedic)','Psychosocial Disability','Speech & Language Impairment','Visual Disability','Cancer (RA11215)','Rare Disease (RA10747)') DEFAULT NULL,
+  `TYPE_OF_DISABILITY` set('Deaf/Hard of Hearing','Intellectual Disability','Learning Disability','Mental Disability','Physical Disability','Psychosocial Disability','Speech & Language Impairment','Visual Disability','Cancer (RA11215)','Rare Disease (RA10747)') DEFAULT NULL,
   `MEDICAL_CONDITION` varchar(128) DEFAULT NULL,
   `CAUSE_OF_DISABILITY` enum('CONGENITAL/INBORN','ACQUIRED') NOT NULL,
   `CONGENITAL_INBORN` set('Autism','ADHD','Cerebral Palsy','Down Syndrome') DEFAULT NULL,
@@ -594,7 +610,7 @@ CREATE TABLE `solo_parent_long_text` (
 CREATE TABLE `telephone` (
   `TELEPHONE_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
-  `TELEPHONE_NUMBER` varchar(32) NOT NULL,
+  `TELEPHONE_NUMBER` varchar(32) DEFAULT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
   `IS_DELETED` char(1) NOT NULL,

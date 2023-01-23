@@ -470,50 +470,50 @@
           </div>
         </div>
         <div class="row">
-          <div class="col">
-            <label class="form-label" for="organization">
-              ORGANIZATION AFFILIATED
-            </label>
-            <input
-              class="form-control"
-              type="text"
-              id="organization"
-              name="organization"
-            />
-          </div>
-          <div class="col">
-            <label class="form-label" for="organizationContactPerson">
-              CONTACT PERSON
-            </label>
-            <input
-              class="form-control"
-              type="text"
-              id="organizationContactPerson"
-              name="organizationContactPerson"
-            />
-          </div>
-          <div class="col">
-            <label class="form-label" for="organizationOfficeAddress">
-              OFFICE ADDRESS
-            </label>
-            <input
-              class="form-control"
-              type="text"
-              id="organizationOfficeAddress"
-              name="organizationOfficeAddress"
-            />
-          </div>
-          <div class="col">
-            <label class="form-label" for="organizationTelephoneNumber">
-              TELEPHONE NUMBER
-            </label>
-            <input
-              class="form-control numbers telephone"
-              type="text"
-              id="organizationTelephoneNumber"
-              name="organizationTelephoneNumber"
-            />
-          </div>
+            <div class="col-3">
+                <label class="form-label" for="organization">
+                    ORGANIZATION AFFILIATED
+                </label>
+                <input
+                    class="form-control"
+                    type="text"
+                    id="organization"
+                    name="organization"
+                />
+            </div>
+            <div class="col organizationDiv" style="display: none;">
+                <label class="form-label" for="organizationContactPerson">
+                CONTACT PERSON
+                </label>
+                <input
+                class="form-control"
+                type="text"
+                id="organizationContactPerson"
+                name="organizationContactPerson"
+                />
+            </div>
+            <div class="col organizationDiv" style="display: none;">
+                <label class="form-label" for="organizationOfficeAddress">
+                OFFICE ADDRESS
+                </label>
+                <input
+                class="form-control"
+                type="text"
+                id="organizationOfficeAddress"
+                name="organizationOfficeAddress"
+                />
+            </div>
+            <div class="col organizationDiv" style="display: none;">
+                <label class="form-label" for="organizationTelephoneNumber">
+                TELEPHONE NUMBER
+                </label>
+                <input
+                class="form-control numbers telephone"
+                type="text"
+                id="organizationTelephoneNumber"
+                name="organizationTelephoneNumber"
+                />
+            </div>
         </div>
         <div class="row">
           <div class="col">
@@ -824,7 +824,7 @@
                 type="checkbox"
                 id="physicalDisability"
                 name="typeOfDisability[]"
-                value="Physical Disability (Orthopedic)"
+                value="Physical Disability"
                 required=""
               />
               <label class="form-check-label" for="physicalDisability">
