@@ -1,9 +1,12 @@
 <?php 
     $page = "approved-requests";
     include("header.html");
-    $approvedPWD = getPWDStatus($connection, "APPROVED");
-    $approvedSoloParent = getSoloParentStatus($connection, "APPROVED");
-    $approvedSrCitizen = getSeniorCitizenStatus($connection, "APPROVED");
+    $approvedPWD = getPWDStatus($connection, "APPROVED", "");
+    $approvedSoloParent = getSoloParentStatus($connection, "APPROVED", "");
+    $approvedSrCitizen = getSeniorCitizenStatus($connection, "APPROVED", "");
+    $approvedPWDPerBarangay = getPWDStatus($connection, "APPROVED", $adminData['barangay']);
+    $approvedSoloParentPerBarangay = getSoloParentStatus($connection, "APPROVED", $adminData['barangay']);
+    $approvedSrCitizenPerBarangay = getSeniorCitizenStatus($connection, "APPROVED", $adminData['barangay']);
     if (!isset($_SESSION['admin-data'])) {
         header("location: ../login/index.html");
         exit();
@@ -136,7 +139,7 @@
                                     </thead>
                                     <tbody>
                 HTML; ?>
-                                        <?php foreach($approvedPWD as $userPWDData): ?>
+                                        <?php foreach($approvedPWDPerBarangay as $userPWDData): ?>
                                         <tr>
                                             <td style="text-align: left;">
                                                 <?php echo($userPWDData['FIRST_NAME']." ".$userPWDData['MIDDLE_NAME']." ".$userPWDData['LAST_NAME']); ?></td>
@@ -173,7 +176,7 @@
                                     </thead>
                                     <tbody>
                 HTML; ?>
-                                        <?php foreach($approvedSrCitizen as $user): ?>
+                                        <?php foreach($approvedSrCitizenPerBarangay as $user): ?>
                                         <tr>
                                             <td style="text-align: left;">
                                                 <?php echo($user['FIRST_NAME']." ".$user['MIDDLE_NAME']." ".$user['LAST_NAME']); ?></td>
@@ -210,7 +213,7 @@
                                     </thead>
                                     <tbody>
                 HTML; ?>
-                                        <?php foreach($approvedSoloParent as $user): ?>
+                                        <?php foreach($approvedSoloParentPerBarangay as $user): ?>
                                         <tr>
                                             <td style="text-align: left;">
                                                 <?php echo($user['FIRST_NAME']." ".$user['MIDDLE_NAME']." ".$user['LAST_NAME']); ?></td>

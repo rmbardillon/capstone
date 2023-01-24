@@ -11,6 +11,12 @@
         $admin_name = $adminData['first_name']." ".$adminData['last_name'];
         $profile = getUserData($connection, "media", "username", $adminData['username']);
         $announcements = $_SESSION['announcements'] = getUserData($connection, "announcement", "", "");
+        if ($adminData['admin_type'] == "Main Administrator") {
+            $mainAdmin = $_SESSION['mainAdmin'] = getUserData($connection, "administrator", "admin_type", "Main Administrator");
+            $pwdAdmin = $_SESSION['pwdAdmin'] = getUserData($connection, "administrator", "admin_type", "PWD Administrator");
+            $srCitizenAdmin = $_SESSION['srCitizenAdmin'] = getUserData($connection, "administrator", "admin_type", "Senior Citizen Administrator");
+            $soloParentAdmin = $_SESSION['soloParentAdmin'] = getUserData($connection, "administrator", "admin_type", "Solo Parent Administrator");
+        }
     } else {
         header("location: ../login/index.html");
         exit();

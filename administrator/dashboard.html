@@ -4,9 +4,9 @@
     $pwdData = getPWDData($connection, "");
     $seniorCitizenData = getSeniorCitizenData($connection, "");
     $soloParentData = getSoloParentData($connection, "");
-    $pwdDataPerBarangay = getPWDPerBarangay($connection, $_SESSION['admin-data']['barangay']);
-    $seniorCitizenDataPerBarangay = getSeniorCitizenPerBarangay($connection, $_SESSION['admin-data']['barangay']);
-    $soloParentDataPerBarangay = getSoloParentPerBarangay($connection, $_SESSION['admin-data']['barangay']);
+    $pwdDataPerBarangay = getPWDPerBarangay($connection, $adminData['barangay']);
+    $seniorCitizenDataPerBarangay = getSeniorCitizenPerBarangay($connection, $adminData['barangay']);
+    $soloParentDataPerBarangay = getSoloParentPerBarangay($connection, $adminData['barangay']);
     if (!isset($_SESSION['admin-data'])) {
         header("location: ../login/index.html");
         exit();
@@ -109,7 +109,6 @@
                                             <th style="text-align: center;">Address</th>
                                             <th style="text-align: center;">Age</th>
                                             <th style="text-align: center;">Registration Date</th>
-                                            <th style="text-align: center;">Income</th>
                                             <th style="text-align: center;">Status of Registration</th>
                                         </tr>
                                     </thead>
@@ -122,7 +121,6 @@
                                             <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
                                             <td style="text-align: center;"><?php echo(ageCalculator($user['DATE_OF_BIRTH'])); ?></td>
                                             <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
-                                            <td style="text-align: center;"><?php echo($user['MONTHLY_INCOME']); ?></td>
                                             <td style="text-align: center;"><?php echo($user['STATUS']); ?></td>
                                         </tr>
                                         <?php endforeach; 
@@ -239,7 +237,6 @@
                                             <th style="text-align: center;">Address</th>
                                             <th style="text-align: center;">Age</th>
                                             <th style="text-align: center;">Registration Date</th>
-                                            <th style="text-align: center;">Income</th>
                                             <th style="text-align: center;">Status of Registration</th>
                                         </tr>
                                     </thead>
@@ -252,7 +249,6 @@
                                             <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
                                             <td style="text-align: center;"><?php echo(ageCalculator($user['DATE_OF_BIRTH'])); ?></td>
                                             <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
-                                            <td style="text-align: center;"><?php echo($user['MONTHLY_INCOME']); ?></td>
                                             <td style="text-align: center;"><?php echo($user['STATUS']); ?></td>
                                         </tr>
                                         <?php endforeach;

@@ -1,9 +1,12 @@
 <?php 
     $page = "pending-requests";
     include("header.html");
-    $pendingPWD = getPWDStatus($connection, "PENDING");
-    $pendingSoloParent = getSoloParentStatus($connection, "PENDING");
-    $pendingSrCitizen = getSeniorCitizenStatus($connection, "PENDING");
+    $pendingPWD = getPWDStatus($connection, "PENDING", "");
+    $pendingSoloParent = getSoloParentStatus($connection, "PENDING", "");
+    $pendingSrCitizen = getSeniorCitizenStatus($connection, "PENDING", "");
+    $pendingPWDPerBarangay = getPWDStatus($connection, "PENDING", $adminData['barangay']);
+    $pendingSoloParentPerBarangay = getSoloParentStatus($connection, "PENDING", $adminData['barangay']);
+    $pendingSrCitizenPerBarangay = getSeniorCitizenStatus($connection, "PENDING", $adminData['barangay']);
     if (!isset($_SESSION['admin-data'])) {
         header("location: ../login/index.html");
         exit();
@@ -136,7 +139,7 @@
                                     </thead>
                                     <tbody>
                 HTML; ?>
-                                        <?php foreach($pendingPWD as $userPWDData): ?>
+                                        <?php foreach($pendingPWDPerBarangay as $userPWDData): ?>
                                         <tr>
                                             <td style="text-align: left;">
                                                 <?php echo($userPWDData['FIRST_NAME']." ".$userPWDData['MIDDLE_NAME']." ".$userPWDData['LAST_NAME']); ?></td>
@@ -173,7 +176,7 @@
                                     </thead>
                                     <tbody>
                 HTML; ?>
-                                        <?php foreach($pendingSrCitizen as $user): ?>
+                                        <?php foreach($pendingSrCitizenPerBarangay as $user): ?>
                                         <tr>
                                             <td style="text-align: left;">
                                                 <?php echo($user['FIRST_NAME']." ".$user['MIDDLE_NAME']." ".$user['LAST_NAME']); ?></td>
@@ -210,7 +213,7 @@
                                     </thead>
                                     <tbody>
                 HTML; ?>
-                                        <?php foreach($pendingSoloParent as $user): ?>
+                                        <?php foreach($pendingSoloParentPerBarangay as $user): ?>
                                         <tr>
                                             <td style="text-align: left;">
                                                 <?php echo($user['FIRST_NAME']." ".$user['MIDDLE_NAME']." ".$user['LAST_NAME']); ?></td>
