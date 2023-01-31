@@ -76,7 +76,7 @@ function getPWDData($connection, $username) {
 
 }
 
-function getPWDGender($connection) {
+function getPWDGender($connection, $username) {
     $data = [];
     $sql = "SELECT APPLICANT_TYPE, GENDER, MARITAL_STATUS, EDUCATIONAL_ATTAINMENT
     FROM person 
@@ -84,7 +84,7 @@ function getPWDGender($connection) {
     JOIN gender ON person.PERSON_ID = gender.PERSON_ID AND gender.IS_DELETED = 'N'
     JOIN marital_status ON person.PERSON_ID = marital_status.PERSON_ID AND marital_status.IS_DELETED = 'N'
     JOIN educational_attainment ON person.PERSON_ID = educational_attainment.PERSON_ID AND educational_attainment.IS_DELETED = 'N'
-    WHERE APPLICANT_TYPE = 'PWD' AND person.IS_DELETED = 'N'";
+    WHERE USERNAME = ? AND APPLICANT_TYPE = 'PWD' AND person.IS_DELETED = 'N'";
 
     $stmt = $connection->prepare($sql);
 
@@ -92,6 +92,7 @@ function getPWDGender($connection) {
         header("location: ../error.html?error=stmterror");
         exit();
     }
+    $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){
@@ -264,14 +265,14 @@ function getSoloParentData($connection, $username) {
 
 }
 
-function getSoloParentGender($connection) {
+function getSoloParentGender($connection, $username) {
     $data = [];
     $sql = "SELECT APPLICANT_TYPE, GENDER, EDUCATIONAL_ATTAINMENT
     FROM person 
     JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
     JOIN gender ON person.PERSON_ID = gender.PERSON_ID AND gender.IS_DELETED = 'N'
     JOIN educational_attainment ON person.PERSON_ID = educational_attainment.PERSON_ID AND educational_attainment.IS_DELETED = 'N'
-    WHERE APPLICANT_TYPE = 'Solo Parent' AND person.IS_DELETED = 'N'";
+    WHERE USERNAME = ? AND APPLICANT_TYPE = 'Solo Parent' AND person.IS_DELETED = 'N'";
 
     $stmt = $connection->prepare($sql);
 
@@ -279,6 +280,7 @@ function getSoloParentGender($connection) {
         header("location: ../error.html?error=stmterror");
         exit();
     }
+    $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){
@@ -389,14 +391,14 @@ function getSeniorCitizenData($connection, $username) {
 
 }
 
-function getSeniorCitizenGender($connection) {
+function getSeniorCitizenGender($connection, $username) {
     $data = [];
     $sql = "SELECT APPLICANT_TYPE, GENDER, MARITAL_STATUS
     FROM person 
     JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
     JOIN marital_status ON person.PERSON_ID = marital_status.PERSON_ID AND marital_status.IS_DELETED = 'N'
     JOIN gender ON person.PERSON_ID = gender.PERSON_ID AND gender.IS_DELETED = 'N'
-    WHERE APPLICANT_TYPE = 'Senior Citizen' AND person.IS_DELETED = 'N'";
+    WHERE USERNAME = ? AND APPLICANT_TYPE = 'Senior Citizen' AND person.IS_DELETED = 'N'";
 
     $stmt = $connection->prepare($sql);
 
@@ -404,6 +406,7 @@ function getSeniorCitizenGender($connection) {
         header("location: ../error.html?error=stmterror");
         exit();
     }
+    $stmt->bind_param("s", $username);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){
