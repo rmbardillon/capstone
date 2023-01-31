@@ -33,12 +33,12 @@
                         <tbody>
                             <?php foreach($announcements as $announcement): ?>
                             <tr>
-                                <td style="text-align: center;"><?php echo($announcement['title']) ?></td>
-                                <td style="text-align: center;"><?php echo($announcement['message']) ?></td>
-                                <td style="text-align: center;"><?php echo($announcement['announcement_for']) ?></td>
-                                <td style="text-align: center;">Barangay <?php echo($announcement['barangay']) ?>&nbsp;</td>
-                                <td style="text-align: center;"><a class="btn btn-primary" href="update-announcement.html?edit=<?php echo($announcement['id']) ?>">Edit</a></td>
-                                <td style="text-align: center;"><a class="btn btn-danger" href="includes/delete-announcement.inc.php?delete=<?php echo($announcement['id']) ?>">Delete</a></td>
+                                <td style="text-align: center;"><?php echo($announcement['TITLE']) ?></td>
+                                <td style="text-align: center;"><?php echo($announcement['MESSAGE']) ?></td>
+                                <td style="text-align: center;"><?php echo($announcement['ANNOUNCEMENT_FOR']) ?></td>
+                                <td style="text-align: center;">Barangay <?php echo($announcement['BARANGAY']) ?>&nbsp;</td>
+                                <td style="text-align: center;"><a class="btn btn-primary" href="update-announcement.html?edit=<?php echo($announcement['ANNOUNCEMENT_ID']) ?>">Edit</a></td>
+                                <td style="text-align: center;"><a class="btn btn-danger" href="includes/delete-announcement.inc.php?delete=<?php echo($announcement['ANNOUNCEMENT_ID']) ?>">Delete</a></td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>

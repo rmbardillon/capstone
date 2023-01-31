@@ -174,6 +174,35 @@ function loginUser($connection, $username, $password){
     }
 }
 
+function changePassword($connection, $oldPassword, $newPassword, $confirmPassword) {
+    session_start();
+    $username = $_SESSION['admin-data']['username'];
+    $loginCredentialsExists = loginCredentialsExists($connection, $username, $username);
+    $passwordhashed = $loginCredentialsExists['password'];
+    $checkPassword = password_verify($oldPassword, $passwordhashed);
+
+    if ($checkPassword === false) {
+        header("location: ../change-password.html?error=wrongpassword");
+        exit();
+    } else {
+        if ($confirmPassword != $newPassword) {
+            header("location: ../change-password.html?error=passwordcheck");
+            exit();
+        } else {
+            $sql = "UPDATE administrator SET password=? WHERE username=?";
+            $stmt = $connection->prepare($sql);
+
+            $hashedPassword = password_hash($confirmPassword, PASSWORD_DEFAULT);
+
+            mysqli_stmt_bind_param($stmt, "ss", $hashedPassword, $username);
+            mysqli_stmt_execute($stmt); 
+            mysqli_stmt_close($stmt);
+            header("location: ../change-password.html?success=passwordchanged");
+            exit();
+        }
+    }
+}
+
 function insertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $username, $email, $password){
     $sql = "INSERT INTO administrator (admin_type, barangay, username, first_name, last_name, email, password) VALUES (?, ?, ?, ?, ?, ?, ?);";
     $stmt = $connection->prepare($sql);

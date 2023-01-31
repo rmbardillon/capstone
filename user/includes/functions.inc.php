@@ -548,3 +548,16 @@ function getUserData($connection, $table, $where, $condition) {
     }
     return $data;
 }
+
+function getAnnouncements($connection, $barangay, $for) {
+    $data = [];
+    $sql = "SELECT * FROM announcement WHERE BARANGAY = '$barangay' AND ANNOUNCEMENT_FOR = '$for'";
+    $result = $connection->query($sql);
+
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            array_push($data, $row);
+        }
+    }
+    return $data;
+}

@@ -434,3 +434,32 @@ $('input[name="acquired[]"]').click(function() {
 $('input[name="statusOfDisability"]').click(function() {
     $("input[name='statusOfDisability']").removeAttr("required");
 });
+$(document).ready(function() {
+    // Get the input fields
+    var oldPassword = $("#old_password");
+    var newPassword = $("#new_password");
+    var confirmNewPassword = $("#confirm_new_password");
+
+    // Add event listeners to the input fields
+    newPassword.on("input", function() {
+        // Compare the values of newPassword and oldPassword
+        if (newPassword.val() === oldPassword.val()) {
+            // Display an error message
+            $("#error-message").html("New password cannot be the same as old password.");
+        } else {
+            // Clear the error message
+            $("#error-message").html("");
+        }
+    });
+
+    confirmNewPassword.on("input", function() {
+        // Compare the values of newPassword and confirmNewPassword
+        if (newPassword.val() !== confirmNewPassword.val()) {
+            // Display an error message
+            $("#error-message").html("New password and confirmed password do not match.");
+        } else {
+            // Clear the error message
+            $("#error-message").html("");
+        }
+    });
+});
