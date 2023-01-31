@@ -1,7 +1,7 @@
 <?php 
     $page = "profile";
     include("header.html");
-    if (!isset($_SESSION['admin-data'])) {
+    if (!isset($_SESSION['username'])) {
         header("location: ../login/index.html");
         exit();
     }
@@ -94,7 +94,7 @@
                                             </div>
                                         </div>
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label" for="applicant_type"><strong>Applicant</strong></label><input class="form-control" type="text" id="applicant_type" placeholder="Main Administrator" name="applicant_type" value="<?php echo($userData['APPLICANT_TYPE']); ?>" readonly></div>
+                                            <div class="mb-3"><label class="form-label" for="applicant_type"><strong>Applicant ID Number</strong></label><input class="form-control" type="text" id="applicant_type" placeholder="Main Administrator" name="applicant_type" value="<?php echo($_SESSION['username']); ?>" readonly></div>
                                         </div>
                                     </div>
                                     <div class="mb-3"><button class="btn btn-primary btn-sm" type="submit" name="update-profile">Update Profile</button></div>

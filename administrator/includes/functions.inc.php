@@ -277,10 +277,10 @@ function insertProfile($connection, $username, $fileName, $fileTmpName, $fileDes
     $profileExists = profileExisting($connection, $username, $username);
     if (!$profileExists) {
         move_uploaded_file($fileTmpName, $fileDestination);
-        $sql = "INSERT INTO media(username, image_location) VALUES (?, ?);";
+        $sql = "INSERT INTO media(USERNAME, IMAGE_LOCATION) VALUES (?, ?);";
         $stmt = mysqli_stmt_init($connection);
         if (!mysqli_stmt_prepare($stmt, $sql)) {
-            header("location: ../profile.html?error=stmterror");
+            header("location: ../home.html?error=stmterror");
             exit();
         }
         mysqli_stmt_bind_param($stmt, "ss", $username, $fileName);
@@ -288,19 +288,21 @@ function insertProfile($connection, $username, $fileName, $fileTmpName, $fileDes
         mysqli_stmt_close($stmt);
     } else {
         move_uploaded_file($fileTmpName, $fileDestination);
-        unlink("../uploads/".$profileExists["image_location"]);
+        unlink("../uploads/".$profileExists["IMAGE_LOCATION"]);
         $sql = "UPDATE media SET
-        image_location = ?
-        WHERE username = ?;";
+        IMAGE_LOCATION = ?
+        WHERE USERNAME = ?;";
         $stmt = mysqli_stmt_init($connection);
         if (!mysqli_stmt_prepare($stmt, $sql)) {
-            header("location: ../profile.html?error=stmterror");
+            header("location: ../home.html?error=stmterror");
             exit();
         }
         mysqli_stmt_bind_param($stmt, "ss", $fileName, $username);
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
     }
+    header("location: ../profile.html?error=none");
+    exit();
 }
 
 function updateProfile($connection, $username, $firstName, $lastName, $barangay, $email) {
