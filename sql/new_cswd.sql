@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 30, 2023 at 11:55 AM
+-- Generation Time: Jan 31, 2023 at 06:28 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -69,7 +69,7 @@ CREATE TABLE `administrator` (
 --
 
 INSERT INTO `administrator` (`id`, `admin_type`, `barangay`, `username`, `first_name`, `last_name`, `email`, `password`) VALUES
-(1, 'Main Administrator', 'City Hall', 'adminrbardillon', 'Romeo Jr', 'Bardillon', 'romsky.bardillon@gmail.com', '$2y$10$3NBm2BfwL2U8nrWowsm.we9H1j8nvKndVh45fIBSrCG5nMN.S4qkm'),
+(1, 'Main Administrator', 'City Hall', 'adminrbardillon', 'Romeo Jr', 'Bardillon', 'romsky.bardillon@gmail.com', '$2y$10$b4cqKlJHiJ4s9OOCinta1OHEYIJLbW1dulb6h60Y0j/mUqJySyLhG'),
 (2, 'Main Administrator', 'City Hall', 'adminaporlares', 'Aaron', 'Porlares', 'aaron.porlares@gmail.com', '$2y$10$J0YEkKEtOAWm2gJoxixNOeKfr.9ZxglapxKHiFiYGpdg3M9AXmgY.'),
 (3, 'Main Administrator', 'City Hall', 'adminrrivera', 'Rhodemil Zeth', 'Rivera', 'zeth@gmail.com', '$2y$10$OTYHIuEJrgLRZ3dXv07eGe9f3qos8MzMEGPFWMPa42DVVgLfLDl4y'),
 (4, 'Main Administrator', 'City Hall', 'admintocampo', 'Tresha', 'Ocampo', 'tresha@gmail.com', '$2y$10$RkNRS/OcLJktAxIw2DK27eky8HsbJJmGRg0nWlY8JdxGLah0YznKi'),
@@ -177,12 +177,19 @@ INSERT INTO `administrator` (`id`, `admin_type`, `barangay`, `username`, `first_
 --
 
 CREATE TABLE `announcement` (
-  `id` int(11) NOT NULL,
-  `title` varchar(128) NOT NULL,
-  `announcement_for` enum('Administrator','PWD','Senior Citizen','Solo Parent') NOT NULL,
-  `barangay` enum('City Hall','Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz','Santo Domingo','Sinalhan','Tagapo') NOT NULL,
-  `message` text NOT NULL
+  `ANNOUNCEMENT_ID` int(11) NOT NULL,
+  `TITLE` varchar(128) NOT NULL,
+  `ANNOUNCEMENT_FOR` enum('Administrator','PWD','Senior Citizen','Solo Parent') NOT NULL,
+  `BARANGAY` enum('City Hall','Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz','Santo Domingo','Sinalhan','Tagapo') NOT NULL,
+  `MESSAGE` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `announcement`
+--
+
+INSERT INTO `announcement` (`ANNOUNCEMENT_ID`, `TITLE`, `ANNOUNCEMENT_FOR`, `BARANGAY`, `MESSAGE`) VALUES
+(1, 'SENIOR CITIZEN CASH OUT', 'Senior Citizen', 'Tagapo', 'SC Cash out');
 
 -- --------------------------------------------------------
 
@@ -484,10 +491,20 @@ INSERT INTO `marital_status` (`MARITAL_STATUS_ID`, `PERSON_ID`, `MARITAL_STATUS`
 --
 
 CREATE TABLE `media` (
-  `id` int(11) NOT NULL,
-  `username` varchar(128) NOT NULL,
-  `image_location` text NOT NULL
+  `MEDIA_ID` int(11) NOT NULL,
+  `USERNAME` varchar(128) NOT NULL,
+  `IMAGE_LOCATION` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `media`
+--
+
+INSERT INTO `media` (`MEDIA_ID`, `USERNAME`, `IMAGE_LOCATION`) VALUES
+(1, '2023-24226', '63d881c667b530.86507057.jpg'),
+(2, '043428023-8820', '63d8821d1d6578.51370096.jpg'),
+(3, 'SC-928858', '63d8823b134404.78490545.jpg'),
+(4, 'adminrbardillon', '63d882954badf1.13431820.jpg');
 
 -- --------------------------------------------------------
 
@@ -582,7 +599,7 @@ INSERT INTO `pension` (`PENSION_ID`, `PERSON_ID`, `HAS_PENSION`, `TYPE`, `AMOUNT
 
 CREATE TABLE `person` (
   `PERSON_ID` varchar(16) NOT NULL,
-  `DATE_OF_BIRTH` datetime(6) DEFAULT NULL,
+  `DATE_OF_BIRTH` date DEFAULT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
@@ -595,14 +612,14 @@ CREATE TABLE `person` (
 
 INSERT INTO `person` (`PERSON_ID`, `DATE_OF_BIRTH`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
 ('1d84311327d14e2b', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
-('22056c0f3d9947ff', '2002-12-19 00:00:00.000000', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
-('40a2e0becda944b0', '1942-08-07 00:00:00.000000', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
-('7339f1ca49cb44dc', '1942-01-12 00:00:00.000000', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('22056c0f3d9947ff', '2002-12-19', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('40a2e0becda944b0', '1942-08-07', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('7339f1ca49cb44dc', '1942-01-12', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
 ('bf78d87c8eaa4988', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
-('d5f1a621c21540f7', '2001-07-30 00:00:00.000000', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
-('dd1d284cce34412c', '2001-07-30 00:00:00.000000', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('d5f1a621c21540f7', '2001-07-30', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('dd1d284cce34412c', '2001-07-30', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
 ('ed551e693976491a', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
-('ede8e472aecd402e', '1965-07-20 00:00:00.000000', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
+('ede8e472aecd402e', '1965-07-20', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -855,7 +872,7 @@ CREATE TABLE `transaction_type` (
   `TRANSACTION_TYPE` varchar(128) NOT NULL,
   `STATUS` varchar(64) NOT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
-  `DATE_UPDATED` datetime(6) NOT NULL,
+  `DATE_UPDATED` date NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
   `UPDATED_BY` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -865,9 +882,9 @@ CREATE TABLE `transaction_type` (
 --
 
 INSERT INTO `transaction_type` (`TRANSACTION_TYPE_ID`, `PERSON_ID`, `TRANSACTION_TYPE`, `STATUS`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
-('041cabb69b2511ed', '22056c0f3d9947ff', 'New Application', 'PENDING', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
-('88e558379af011ed', 'd5f1a621c21540f7', 'NEW ID', 'PENDING', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
-('fbb70bf99b2511ed', '7339f1ca49cb44dc', 'BAGO', 'PENDING', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
+('041cabb69b2511ed', '22056c0f3d9947ff', 'New Application', 'PENDING', '2023-01-23 00:00:00.000000', '2023-01-23', 'N', 'adminrbardillon'),
+('88e558379af011ed', 'd5f1a621c21540f7', 'NEW ID', 'PENDING', '2023-01-23 00:00:00.000000', '2023-01-23', 'N', 'adminrbardillon'),
+('fbb70bf99b2511ed', '7339f1ca49cb44dc', 'BAGO', 'PENDING', '2023-01-23 00:00:00.000000', '2023-01-23', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -911,6 +928,12 @@ ALTER TABLE `address`
 --
 ALTER TABLE `administrator`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `announcement`
+--
+ALTER TABLE `announcement`
+  ADD PRIMARY KEY (`ANNOUNCEMENT_ID`);
 
 --
 -- Indexes for table `applicant`
@@ -987,6 +1010,12 @@ ALTER TABLE `job`
 ALTER TABLE `marital_status`
   ADD PRIMARY KEY (`MARITAL_STATUS_ID`),
   ADD KEY `FK_PERSON_MARITAL_STATUS` (`PERSON_ID`);
+
+--
+-- Indexes for table `media`
+--
+ALTER TABLE `media`
+  ADD PRIMARY KEY (`MEDIA_ID`);
 
 --
 -- Indexes for table `name`
@@ -1103,6 +1132,18 @@ ALTER TABLE `user_account`
 --
 ALTER TABLE `administrator`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+
+--
+-- AUTO_INCREMENT for table `announcement`
+--
+ALTER TABLE `announcement`
+  MODIFY `ANNOUNCEMENT_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `media`
+--
+ALTER TABLE `media`
+  MODIFY `MEDIA_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables

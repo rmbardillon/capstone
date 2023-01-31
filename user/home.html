@@ -13,9 +13,13 @@
         <div class="card container">
             <div class="card-header">
                 <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                    <?php if($userType == "PWD"){ ?>
                     <li class="nav-item"><a class="nav-link active" id="item-1-1-tab" role="tab" aria-controls="item-1-1" aria-selected="true" href="#item-1-1" data-bs-toggle="tab">Persons with Disability</a></li>
+                    <?php } else if($userType == "Solo Parent"){ ?>
                     <li class="nav-item"><a class="nav-link" id="item-1-2-tab" role="tab" aria-controls="item-1-2" aria-selected="false" href="#item-1-2" data-bs-toggle="tab">Solo Parent</a></li>
+                    <?php } else if($userType == "Senior Citizen"){ ?>
                     <li class="nav-item"><a class="nav-link" id="item-1-3-tab" role="tab" aria-controls="item-1-3" aria-selected="false" href="#item-1-3" data-bs-toggle="tab">Senior Citizen</a></li>
+                    <?php } ?>
                 </ul>
             </div>
             <div class="card-body">

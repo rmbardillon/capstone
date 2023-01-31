@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 21, 2023 at 06:20 AM
+-- Generation Time: Jan 31, 2023 at 06:29 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -59,7 +59,7 @@ CREATE TABLE `administrator` (
 --
 
 INSERT INTO `administrator` (`id`, `admin_type`, `barangay`, `username`, `first_name`, `last_name`, `email`, `password`) VALUES
-(1, 'Main Administrator', 'City Hall', 'adminrbardillon', 'Romeo Jr', 'Bardillon', 'romsky.bardillon@gmail.com', '$2y$10$3NBm2BfwL2U8nrWowsm.we9H1j8nvKndVh45fIBSrCG5nMN.S4qkm'),
+(1, 'Main Administrator', 'City Hall', 'adminrbardillon', 'Romeo Jr', 'Bardillon', 'romsky.bardillon@gmail.com', '$2y$10$b4cqKlJHiJ4s9OOCinta1OHEYIJLbW1dulb6h60Y0j/mUqJySyLhG'),
 (2, 'Main Administrator', 'City Hall', 'adminaporlares', 'Aaron', 'Porlares', 'aaron.porlares@gmail.com', '$2y$10$J0YEkKEtOAWm2gJoxixNOeKfr.9ZxglapxKHiFiYGpdg3M9AXmgY.'),
 (3, 'Main Administrator', 'City Hall', 'adminrrivera', 'Rhodemil Zeth', 'Rivera', 'zeth@gmail.com', '$2y$10$OTYHIuEJrgLRZ3dXv07eGe9f3qos8MzMEGPFWMPa42DVVgLfLDl4y'),
 (4, 'Main Administrator', 'City Hall', 'admintocampo', 'Tresha', 'Ocampo', 'tresha@gmail.com', '$2y$10$RkNRS/OcLJktAxIw2DK27eky8HsbJJmGRg0nWlY8JdxGLah0YznKi'),
@@ -89,10 +89,10 @@ INSERT INTO `administrator` (`id`, `admin_type`, `barangay`, `username`, `first_
 (28, 'Main Administrator', 'City Hall', 'adminarjohn', 'Arjohn', 'Gomez', 'arjohn@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
 (29, 'Main Administrator', 'City Hall', 'adminjimrossel', 'Jim Rossel', 'Heredia', 'jimrossel@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
 (30, 'Main Administrator', 'City Hall', 'adminmarwin', 'Marwin', 'Imperial', 'marwin@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(31, 'Solo Parent Administrator', 'Sinalhan', 'adminjessie', 'Jessie', 'Lazaga', 'jessie@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
+(31, 'Solo Parent Administrator', 'Tagapo', 'adminjessie', 'Jessie', 'Lazaga', 'jessie@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
 (32, 'Solo Parent Administrator', 'Sinalhan', 'adminkacy', 'Kacy', 'Maala', 'kacy@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
 (33, 'Solo Parent Administrator', 'Sinalhan', 'adminlloyd', 'Frencey Lloyd', 'Manipol', 'frenceylloyd@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(34, 'PWD Administrator', 'Pulong Santa Cruz', 'adminedison', 'Edison', 'Medina', 'edison@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
+(34, 'PWD Administrator', 'Tagapo', 'adminedison', 'Edison', 'Medina', 'edison@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
 (35, 'Solo Parent Administrator', 'Pulong Santa Cruz', 'adminphilip', 'John Philip', 'Mindanao', 'philip@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
 (36, 'Solo Parent Administrator', 'Pulong Santa Cruz', 'adminsamuel', 'Samuel', 'Norte', 'samuel@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
 (37, 'Solo Parent Administrator', 'Pulong Santa Cruz', 'adminkenneth', 'Kenneth', 'Pace', 'kenneth@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
@@ -167,11 +167,11 @@ INSERT INTO `administrator` (`id`, `admin_type`, `barangay`, `username`, `first_
 --
 
 CREATE TABLE `announcement` (
-  `id` int(11) NOT NULL,
-  `title` varchar(128) NOT NULL,
-  `announcement_for` enum('Administrator','PWD','Senior Citizen','Solo Parent') NOT NULL,
-  `barangay` enum('City Hall','Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz','Santo Domingo','Sinalhan','Tagapo') NOT NULL,
-  `message` text NOT NULL
+  `ANNOUNCEMENT_ID` int(11) NOT NULL,
+  `TITLE` varchar(128) NOT NULL,
+  `ANNOUNCEMENT_FOR` enum('Administrator','PWD','Senior Citizen','Solo Parent') NOT NULL,
+  `BARANGAY` enum('City Hall','Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz','Santo Domingo','Sinalhan','Tagapo') NOT NULL,
+  `MESSAGE` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -278,8 +278,8 @@ CREATE TABLE `gender` (
 CREATE TABLE `government_membership` (
   `GOVERNMENT_MEMBERSHIP_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
-  `IS_ACTIVE_VOTER` char(1) NOT NULL,
-  `IS_4PS_MEMBER` char(1) NOT NULL,
+  `IS_ACTIVE_VOTER` varchar(16) NOT NULL,
+  `IS_4PS_MEMBER` varchar(16) NOT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
@@ -342,13 +342,29 @@ CREATE TABLE `job` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `landline`
+--
+
+CREATE TABLE `landline` (
+  `LANDLINE_ID` varchar(16) NOT NULL,
+  `PERSON_ID` varchar(16) NOT NULL,
+  `LANDLINE_NUMBER` varchar(32) DEFAULT NULL,
+  `DATE_CREATED` datetime(6) NOT NULL,
+  `DATE_UPDATED` datetime(6) NOT NULL,
+  `IS_DELETED` char(1) NOT NULL,
+  `UPDATED_BY` varchar(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `marital_status`
 --
 
 CREATE TABLE `marital_status` (
   `MARITAL_STATUS_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
-  `MARITAL_STATUS` varchar(32) NOT NULL,
+  `MARITAL_STATUS` varchar(64) NOT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
@@ -362,9 +378,9 @@ CREATE TABLE `marital_status` (
 --
 
 CREATE TABLE `media` (
-  `id` int(11) NOT NULL,
-  `username` varchar(128) NOT NULL,
-  `image_location` text NOT NULL
+  `MEDIA_ID` int(11) NOT NULL,
+  `USERNAME` varchar(128) NOT NULL,
+  `IMAGE_LOCATION` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -431,7 +447,7 @@ CREATE TABLE `pension` (
 
 CREATE TABLE `person` (
   `PERSON_ID` varchar(16) NOT NULL,
-  `DATE_OF_BIRTH` datetime(6) DEFAULT NULL,
+  `DATE_OF_BIRTH` date DEFAULT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
@@ -459,9 +475,9 @@ CREATE TABLE `person_address` (
 CREATE TABLE `previous_address` (
   `PREVIOUS_ADDRESS_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
-  `REGION` varchar(128) NOT NULL,
-  `PROVINCE` varchar(128) NOT NULL,
-  `CITY` varchar(128) NOT NULL,
+  `REGION` varchar(128) DEFAULT NULL,
+  `PROVINCE` varchar(128) DEFAULT NULL,
+  `CITY` varchar(128) DEFAULT NULL,
   `BARANGAY` varchar(128) DEFAULT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
@@ -503,88 +519,13 @@ CREATE TABLE `pwd_application_accomplisher` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pwd_data`
---
-
-CREATE TABLE `pwd_data` (
-  `id` int(11) NOT NULL,
-  `username` varchar(128) NOT NULL,
-  `registration_type` enum('New ID','Renewal ID','Lost ID','Transfer','Change Information') NOT NULL,
-  `transfer_id` varchar(15) DEFAULT NULL,
-  `change_info_id` varchar(15) DEFAULT NULL,
-  `pwd_number` varchar(20) DEFAULT NULL,
-  `date_applied` date NOT NULL,
-  `pwd_last_name` varchar(128) NOT NULL,
-  `pwd_first_name` varchar(128) NOT NULL,
-  `pwd_middle_name` varchar(128) DEFAULT NULL,
-  `pwd_suffix` varchar(20) DEFAULT NULL,
-  `type_of_disability` set('Deaf/Hard of Hearing','Intellectual Disability','Learning Disability','Mental Disability','Physical Disablity (Orthopedic)','Psychosocial Disability','Speech and Language Impairment','Visual Disability','Cancer (RA11215)','Rare Disease (RA10747)') DEFAULT NULL,
-  `medical_condition` varchar(1000) DEFAULT NULL,
-  `cause_of_disability` set('Congenital/Inborn','Acquired') DEFAULT NULL,
-  `congenital_inborn` set('Autism','ADHD','Cerebral Palsy','Down Syndrome') DEFAULT NULL,
-  `acquired` set('Chronic Illness','Cerebral Palsy','Injury') DEFAULT NULL,
-  `status_of_disability` enum('Permanent','Temporary') NOT NULL,
-  `houseno_street_subdivision_address` varchar(200) DEFAULT NULL,
-  `barangay` enum('Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz','Santo Domingo','Sinalhan','Tagapo') NOT NULL,
-  `city_municipality` varchar(128) NOT NULL DEFAULT 'CITY OF SANTA ROSA',
-  `province` varchar(128) NOT NULL DEFAULT 'LAGUNA',
-  `region` varchar(128) NOT NULL DEFAULT 'IV-A (CALABARZON)',
-  `landline` varchar(15) DEFAULT NULL,
-  `mobile_number` varchar(15) DEFAULT NULL,
-  `email` varchar(128) NOT NULL,
-  `date_of_birth` date NOT NULL,
-  `sex` enum('Male','Female') NOT NULL,
-  `religion` varchar(128) NOT NULL,
-  `civil_status` enum('Single','Separated','Cohabitation','Married','Widow') NOT NULL,
-  `educational_attainment` enum('None','Kindergarten','Elementary','Junior High School','Senior High School','College','Vocational','Post Graduate Program') NOT NULL,
-  `is_voter` enum('Yes','No','17 Below') NOT NULL,
-  `employment_status` enum('Employed','Unemployed','Self-employed','Student') NOT NULL,
-  `income` enum('0.00','Less than 10,000','10,000 - 20, 000','21,000 - 40,000','41,000 - 100,000','More than 100,000') NOT NULL DEFAULT '0.00',
-  `category_of_employment` enum('Government','Private') DEFAULT NULL,
-  `nature_of_employment` enum('Permanent/Regular','Emergency','Seasonal','Casual') DEFAULT NULL,
-  `occupation` enum('Managers','Professionals','Technician & Associate Professionals','Clerical Support Workers','Service & Sales Workers','Skilled Agricultural, Forestry & Fishery Workers','Craft & Related Trade Workers','Plant & Machine Operators & Assemblers','Elementary Occupations','Others') DEFAULT NULL,
-  `other_occupation` varchar(128) DEFAULT NULL,
-  `is_4ps_beneficiary` enum('Yes','No') NOT NULL,
-  `blood_type` enum('A+','A-','B+','B-','AB+','AB-','O+','O-') DEFAULT NULL,
-  `organization_affiliated` varchar(128) DEFAULT NULL,
-  `contact_person` varchar(128) DEFAULT NULL,
-  `office_address` varchar(128) DEFAULT NULL,
-  `office_telephone_number` varchar(128) DEFAULT NULL,
-  `sss_number` varchar(128) DEFAULT NULL,
-  `gsis_number` varchar(128) DEFAULT NULL,
-  `psn_number` varchar(128) DEFAULT NULL,
-  `philhealth_number` varchar(128) DEFAULT NULL,
-  `philhealth_member_type` enum('PhilHealth Member',' PhilHealth Member-Dependent') DEFAULT NULL,
-  `father_last_name` varchar(128) DEFAULT NULL,
-  `father_first_name` varchar(128) DEFAULT NULL,
-  `father_middle_name` varchar(128) DEFAULT NULL,
-  `mother_last_name` varchar(128) DEFAULT NULL,
-  `mother_first_name` varchar(128) DEFAULT NULL,
-  `mother_middle_name` varchar(128) DEFAULT NULL,
-  `guardian_last_name` varchar(128) DEFAULT NULL,
-  `guardian_first_name` varchar(128) DEFAULT NULL,
-  `guardian_middle_name` varchar(128) DEFAULT NULL,
-  `guardian_relationship` varchar(128) DEFAULT NULL,
-  `guardian_contact_number` varchar(128) DEFAULT NULL,
-  `accomplished_by` enum('Applicant','Guardian','Representative') NOT NULL,
-  `name_of_accomplisher` varchar(128) NOT NULL,
-  `name_of_physician` varchar(128) NOT NULL,
-  `license_number` varchar(128) NOT NULL,
-  `status` enum('Pending','Approved','Rejected') NOT NULL,
-  `application_date` timestamp NOT NULL DEFAULT current_timestamp(),
-  `expiration_date` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `pwd_disease`
 --
 
 CREATE TABLE `pwd_disease` (
   `PWD_DISEASE_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
-  `TYPE_OF_DISABILITY` set('Deaf/Hard of Hearing','Intellectual Disability','Learning Disability','Mental Disability','Physical Disablity (Orthopedic)','Psychosocial Disability','Speech & Language Impairment','Visual Disability','Cancer (RA11215)','Rare Disease (RA10747)') DEFAULT NULL,
+  `TYPE_OF_DISABILITY` set('Deaf/Hard of Hearing','Intellectual Disability','Learning Disability','Mental Disability','Physical Disability','Psychosocial Disability','Speech & Language Impairment','Visual Disability','Cancer (RA11215)','Rare Disease (RA10747)') DEFAULT NULL,
   `MEDICAL_CONDITION` varchar(128) DEFAULT NULL,
   `CAUSE_OF_DISABILITY` enum('CONGENITAL/INBORN','ACQUIRED') NOT NULL,
   `CONGENITAL_INBORN` set('Autism','ADHD','Cerebral Palsy','Down Syndrome') DEFAULT NULL,
@@ -645,113 +586,6 @@ CREATE TABLE `religion` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `senior_citizen_data`
---
-
-CREATE TABLE `senior_citizen_data` (
-  `id` int(11) NOT NULL,
-  `username` varchar(128) NOT NULL,
-  `registration_type` enum('Bago','Lumipat','Magpapalit','Nawala') NOT NULL,
-  `lost_number` varchar(128) DEFAULT NULL,
-  `sr_citizen_num` varchar(128) DEFAULT NULL,
-  `sr_citizen_first_name` varchar(128) NOT NULL,
-  `sr_citizen_middle_name` varchar(128) DEFAULT NULL,
-  `sr_citizen_last_name` varchar(128) NOT NULL,
-  `sr_citizen_suffix` varchar(20) DEFAULT NULL,
-  `barangay` enum('Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz','Santo Domingo','Sinalhan','Tagapo') NOT NULL,
-  `tirahan` varchar(128) NOT NULL,
-  `sex` enum('Male','Female') NOT NULL,
-  `marital_status` enum('Single','Married','Widowed','Separated','Divorced') NOT NULL,
-  `edad` varchar(128) NOT NULL,
-  `date_of_birth` date NOT NULL,
-  `lugar_ng_kapanganakan` varchar(128) NOT NULL,
-  `telepono` varchar(15) DEFAULT NULL,
-  `relihiyon` varchar(128) NOT NULL,
-  `hanapbuhay` varchar(128) NOT NULL,
-  `pensyon` enum('Oo','Wala') NOT NULL,
-  `saan` varchar(128) DEFAULT NULL,
-  `magkano` decimal(10,2) DEFAULT NULL,
-  `pangalan_ng_asawa` varchar(128) NOT NULL,
-  `edad_asawa` varchar(128) NOT NULL,
-  `ilan_ang_anak` varchar(128) NOT NULL,
-  `kasama` varchar(128) NOT NULL,
-  `status` enum('Pending','Approved','Rejected') NOT NULL,
-  `application_date` timestamp NOT NULL DEFAULT current_timestamp(),
-  `expiration_date` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `senior_citizen_family_composition`
---
-
-CREATE TABLE `senior_citizen_family_composition` (
-  `id` int(11) NOT NULL,
-  `username` varchar(128) NOT NULL,
-  `name` varchar(128) NOT NULL,
-  `age` varchar(128) NOT NULL,
-  `address` varchar(128) NOT NULL,
-  `contact` varchar(128) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `solo_parent_data`
---
-
-CREATE TABLE `solo_parent_data` (
-  `id` int(11) NOT NULL,
-  `username` varchar(128) NOT NULL,
-  `solo_parent_name` varchar(128) NOT NULL,
-  `age` varchar(128) NOT NULL,
-  `sex` varchar(128) NOT NULL,
-  `date_of_birth` date NOT NULL,
-  `place_of_birth` varchar(128) NOT NULL,
-  `address` varchar(128) NOT NULL,
-  `barangay` enum('Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz','Santo Domingo','Sinalhan','Tagapo') NOT NULL,
-  `educ_attainment` varchar(128) NOT NULL,
-  `occupation` varchar(128) NOT NULL,
-  `income` decimal(10,2) NOT NULL,
-  `fam_income` decimal(10,2) NOT NULL,
-  `tenurial` varchar(128) NOT NULL,
-  `religion` varchar(128) NOT NULL,
-  `contact_number` varchar(128) NOT NULL,
-  `marital_status` enum('Single','Annulled','Widow','Married','Separated') NOT NULL,
-  `classification_incidence` longtext NOT NULL,
-  `classification_when` longtext NOT NULL,
-  `problems` longtext NOT NULL,
-  `family_resources` longtext NOT NULL,
-  `date_applied` date NOT NULL,
-  `status` enum('Pending','Approved','Rejected') NOT NULL,
-  `application_date` timestamp NOT NULL DEFAULT current_timestamp(),
-  `expiration_date` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `solo_parent_family_composition`
---
-
-CREATE TABLE `solo_parent_family_composition` (
-  `id` int(11) NOT NULL,
-  `username` varchar(128) NOT NULL,
-  `name` varchar(128) NOT NULL,
-  `relationship` varchar(128) NOT NULL,
-  `age` varchar(128) NOT NULL,
-  `civil_status` enum('Single','Annulled','Widow','Married','Separated') NOT NULL,
-  `educ_attainment` varchar(128) NOT NULL,
-  `occupation` varchar(128) NOT NULL,
-  `monthly_income` decimal(10,2) NOT NULL,
-  `date` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `solo_parent_long_text`
 --
 
@@ -776,7 +610,7 @@ CREATE TABLE `solo_parent_long_text` (
 CREATE TABLE `telephone` (
   `TELEPHONE_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
-  `TELEPHONE_NUMBER` varchar(32) NOT NULL,
+  `TELEPHONE_NUMBER` varchar(32) DEFAULT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
@@ -793,8 +627,9 @@ CREATE TABLE `transaction_type` (
   `TRANSACTION_TYPE_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
   `TRANSACTION_TYPE` varchar(128) NOT NULL,
+  `STATUS` varchar(64) NOT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
-  `DATE_UPDATED` datetime(6) NOT NULL,
+  `DATE_UPDATED` date NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
   `UPDATED_BY` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -826,6 +661,18 @@ CREATE TABLE `user_account` (
 --
 ALTER TABLE `address`
   ADD PRIMARY KEY (`ADDRESS_ID`);
+
+--
+-- Indexes for table `administrator`
+--
+ALTER TABLE `administrator`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `announcement`
+--
+ALTER TABLE `announcement`
+  ADD PRIMARY KEY (`ANNOUNCEMENT_ID`);
 
 --
 -- Indexes for table `applicant`
@@ -902,6 +749,12 @@ ALTER TABLE `job`
 ALTER TABLE `marital_status`
   ADD PRIMARY KEY (`MARITAL_STATUS_ID`),
   ADD KEY `FK_PERSON_MARITAL_STATUS` (`PERSON_ID`);
+
+--
+-- Indexes for table `media`
+--
+ALTER TABLE `media`
+  ADD PRIMARY KEY (`MEDIA_ID`);
 
 --
 -- Indexes for table `name`
@@ -1008,6 +861,28 @@ ALTER TABLE `transaction_type`
 ALTER TABLE `user_account`
   ADD PRIMARY KEY (`USER_ACCOUNT_ID`),
   ADD KEY `FK_PERSON_ACCOUNT_idx` (`PERSON_ID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `administrator`
+--
+ALTER TABLE `administrator`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+
+--
+-- AUTO_INCREMENT for table `announcement`
+--
+ALTER TABLE `announcement`
+  MODIFY `ANNOUNCEMENT_ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `media`
+--
+ALTER TABLE `media`
+  MODIFY `MEDIA_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
