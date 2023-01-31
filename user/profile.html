@@ -25,7 +25,7 @@
                     <div class="card-body text-center shadow profile">
                         <?php if(!empty($profile)) foreach($profile as $image): ?>
                         <div id="profilePicDiv">
-                            <img src="uploads/<?php echo($image['image_location']); ?>" class="photo" width="200" height="200">
+                            <img src="uploads/<?php echo($image['IMAGE_LOCATION']); ?>" class="photo" width="200" height="200">
                             <label class="required" for="file" id="uploadBtn">Choose Photo</label>
                         </div>
                         <?php endforeach; ?>
@@ -37,8 +37,8 @@
                         <?php }?>
                     </div>
                     <?php 
-                        if (isset($_GET["update_error"])) {
-                            if ($_GET["update_error"] == "none"){
+                        if (isset($_GET["error"])) {
+                            if ($_GET["error"] == "none"){
                                 echo "<div class='alert alert-success d-flex align-items-center alert-dismissible fade show m-2' role='alert'>
                                 <svg class='bi flex-shrink-0 me-2' width='24' height='24' role='img' aria-label='Danger:'><use xlink:href='#exclamation-triangle-fill'/></svg>
                                 <div>
@@ -50,7 +50,7 @@
                                 echo "<div class='alert alert-danger d-flex align-items-center alert-dismissible fade show m-2' role='alert'>
                                 <svg class='bi flex-shrink-0 me-2' width='24' height='24' role='img' aria-label='Danger:'><use xlink:href='#exclamation-triangle-fill'/></svg>
                                 <div>
-                                    Error
+                                    Something is Wrong
                                 </div>
                                 <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                                 </div>";
@@ -64,6 +64,7 @@
                 <div class="row">
                     <div class="col">
                         <div class="card shadow mb-3">
+                            <?php foreach($data as $userData): ?>
                             <div class="card-header py-3">
                                 <p class="text-primary m-0 fw-bold">User Settings</p>
                             </div>
@@ -72,44 +73,32 @@
                                     <input type="file" id="file" name="file" accept="image/*">
                                     <div class="row">
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label" for="username"><strong>Name</strong></label><input class="form-control" type="text" id="username" placeholder="user.name" name="username" value="<?php echo($adminData['username']); ?>" readonly></div>
+                                            <div class="mb-3"><label class="form-label" for="name"><strong>Name</strong></label><input class="form-control" type="text" id="name" placeholder="user.name" name="name" value="<?php echo($userData['FIRST_NAME'].' '.$userData['MIDDLE_NAME'].' '.$userData['LAST_NAME']); ?>" readonly></div>
                                         </div>
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label" for="email"><strong>Email Address</strong></label><input class="form-control" type="email" id="email" placeholder="user@example.com" name="email" value="<?php echo($adminData['email']); ?>"></div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="mb-3"><label class="form-label" for="first_name"><strong>Date of Birth</strong></label><input class="form-control" type="text" id="first_name" placeholder="John" name="first_name" value="<?php echo($adminData['first_name']); ?>"></div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="mb-3"><label class="form-label" for="last_name"><strong>Residential Address</strong></label><input class="form-control" type="text" id="last_name" placeholder="Doe" name="last_name" value="<?php echo($adminData['last_name']); ?>"></div>
+                                            <div class="mb-3"><label class="form-label" for="email"><strong>Email Address</strong></label><input class="form-control" type="email" id="email" placeholder="user@example.com" name="email" value="<?php echo($userData['EMAIL']); ?>"></div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label" for="barangay"><strong>Permanent Address</strong></label>
-                                                <select class="form-select" id="barangay" name="barangay" readonly>
-                                                    <?php 
-                                                        $selected = $adminData['barangay'];
-                                                        $barangay = array('City Hall','Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz'
-                                                        ,'Santo Domingo','Sinalhan','Tagapo');
-                                                        foreach($barangay as $option) {
-                                                            if($selected == $option) {
-                                                                echo '<option selected value="'; echo $option; echo'"   >'; echo $option; echo'</option>';
-                                                            } else {
-                                                                echo '<option value="'; echo $option; echo'">'; echo $option; echo'</option>';
-                                                            }
-                                                        }
-                                                    ?>
-                                                </select>
+                                            <div class="mb-3"><label class="form-label" for="date_of_birth"><strong>Date of Birth</strong></label><input class="form-control" type="text" id="date_of_birth" placeholder="John" name="date_of_birth" value="<?php echo($userData['DATE_OF_BIRTH']); ?>"></div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="mb-3"><label class="form-label" for="residential_address"><strong>Residential Address</strong></label><input class="form-control" type="text" id="residential_address" placeholder="Doe" name="residential_address" value="<?php echo($userData['ADDRESS'].' '.$userData['BARANGAY']); ?>"></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="mb-3"><label class="form-label" for="permanent_address"><strong>Permanent Address</strong></label>
+                                                <input class="form-control" type="text" id="permanent_address" name="permanent_address" value="<?php echo($userData['ADDRESS'].' '.$userData['BARANGAY']); ?>">
                                             </div>
                                         </div>
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label" for="admin-type"><strong>Marital Status</strong></label><input class="form-control" type="text" id="admin-type" placeholder="Main Administrator" name="admin-type" value="<?php echo($adminData['admin_type']); ?>" readonly></div>
+                                            <div class="mb-3"><label class="form-label" for="applicant_type"><strong>Applicant</strong></label><input class="form-control" type="text" id="applicant_type" placeholder="Main Administrator" name="applicant_type" value="<?php echo($userData['APPLICANT_TYPE']); ?>" readonly></div>
                                         </div>
                                     </div>
                                     <div class="mb-3"><button class="btn btn-primary btn-sm" type="submit" name="update-profile">Update Profile</button></div>
+                                    <?php endforeach; ?>
                                 </form>
                             </div>
                         </div>

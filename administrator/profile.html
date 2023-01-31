@@ -25,7 +25,7 @@
                     <div class="card-body text-center shadow profile">
                         <?php if(!empty($profile)) foreach($profile as $image): ?>
                         <div id="profilePicDiv">
-                            <img src="uploads/<?php echo($image['image_location']); ?>" class="photo" width="200" height="200">
+                            <img src="uploads/<?php echo($image['IMAGE_LOCATION']); ?>" class="photo" width="200" height="200">
                             <label class="required" for="file" id="uploadBtn">Choose Photo</label>
                         </div>
                         <?php endforeach; ?>
@@ -37,8 +37,8 @@
                         <?php }?>
                     </div>
                     <?php 
-                        if (isset($_GET["update_error"])) {
-                            if ($_GET["update_error"] == "none"){
+                        if (isset($_GET["error"])) {
+                            if ($_GET["error"] == "none"){
                                 echo "<div class='alert alert-success d-flex align-items-center alert-dismissible fade show m-2' role='alert'>
                                 <svg class='bi flex-shrink-0 me-2' width='24' height='24' role='img' aria-label='Danger:'><use xlink:href='#exclamation-triangle-fill'/></svg>
                                 <div>

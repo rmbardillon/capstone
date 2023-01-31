@@ -89,7 +89,7 @@
                                     <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
                                         <span class="d-none d-lg-inline me-2 text-gray-600 small"><?php echo($admin_name) ?></span>
                                         <?php if(!empty($profile)) foreach($profile as $image): ?>
-                                            <img class="border rounded-circle img-profile" src="uploads/<?php echo($image['image_location']); ?>">
+                                            <img class="border rounded-circle img-profile" src="uploads/<?php echo($image['IMAGE_LOCATION']); ?>">
                                         <?php endforeach; ?>
                                         <?php if(empty($profile)) {?>
                                             <img class="border rounded-circle img-profile" src="assets/img/avatars/default profile picture.png">

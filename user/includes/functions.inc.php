@@ -527,6 +527,8 @@ function insertProfile($connection, $username, $fileName, $fileTmpName, $fileDes
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
     }
+    header("location: ../profile.html?error=none");
+    exit();
 }
 
 function getUserData($connection, $table, $where, $condition) {

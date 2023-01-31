@@ -221,7 +221,7 @@ function getUserDataPerBarangay($connection, $table, $where, $condition, $where2
 }
 
 function addAnnouncement($connection, $title, $for, $where, $message) {
-    $sql = "INSERT INTO announcement (title, announcement_for, barangay, message) VALUES (?, ?, ?, ?);";
+    $sql = "INSERT INTO announcement (TITLE, ANNOUNCEMENT_FOR, BARANGAY, MESSAGE) VALUES (?, ?, ?, ?);";
     $stmt = $connection->prepare($sql);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../announcement.html?error=stmterror");
@@ -236,7 +236,7 @@ function addAnnouncement($connection, $title, $for, $where, $message) {
 }
 
 function updateAnnouncement($connection, $title, $for, $where, $message, $id) {
-    $sql = "UPDATE announcement SET title = ?, announcement_for = ?, barangay = ?, message = ? WHERE id = ?;";
+    $sql = "UPDATE announcement SET TITLE = ?, ANNOUNCEMENT_FOR = ?, BARANGAY = ?, MESSAGE = ? WHERE id = ?;";
     $stmt = $connection->prepare($sql);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../announcement.html?error=stmterror");
