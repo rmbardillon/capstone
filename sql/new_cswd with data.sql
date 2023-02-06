@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 19, 2023 at 09:25 AM
+-- Generation Time: Feb 06, 2023 at 01:43 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -42,9 +42,10 @@ CREATE TABLE `address` (
 --
 
 INSERT INTO `address` (`ADDRESS_ID`, `BARANGAY`, `ADDRESS`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
-('1e82c51506a14946', 'Tagapo', 'BLOCK 7 LOT 2 OAK STREET ROSE POINTE SUBDIVISION BARANGAY TAGAPO', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon'),
-('50517b0a4d0b45de', 'Tagapo', 'BLOCK 7 LOT 2 OAK STREET ROSE POINTE SUBDIVISION BARANGAY TAGAPO', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon'),
-('f8c62ea4b5b24aab', 'Tagapo', 'BLOCK 7 LOT 2 OAK STREET ROSE POINTE SUBDIVISION BARANGAY TAGAPO', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon');
+('5803786ab66f4e13', 'Tagapo', 'BLOCK 7 LOT 2 OAK STREET ROSE POINTE SUBDIVISION BARANGAY TAGAPO', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('5e14e63a49ea4c54', 'Tagapo', 'BLOCK 7 LOT 2 OAK STREET ROSE POINTE SUBDIVISION BARANGAY TAGAPO', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('b15654bf7df64272', 'Tagapo', 'BLOCK 7 LOT 2 ROSE POINTE SUBD', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('b3ac17d690d740aa', 'Pulong Santa Cruz', 'BLOCK 7 LOT 2 OAK STREET ROSE POINTE SUBDIVISION', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -68,7 +69,7 @@ CREATE TABLE `administrator` (
 --
 
 INSERT INTO `administrator` (`id`, `admin_type`, `barangay`, `username`, `first_name`, `last_name`, `email`, `password`) VALUES
-(1, 'Main Administrator', 'City Hall', 'adminrbardillon', 'Romeo Jr', 'Bardillon', 'romsky.bardillon@gmail.com', '$2y$10$3NBm2BfwL2U8nrWowsm.we9H1j8nvKndVh45fIBSrCG5nMN.S4qkm'),
+(1, 'Main Administrator', 'City Hall', 'adminrbardillon', 'Romeo Jr', 'Bardillon', 'romsky.bardillon@gmail.com', '$2y$10$b4cqKlJHiJ4s9OOCinta1OHEYIJLbW1dulb6h60Y0j/mUqJySyLhG'),
 (2, 'Main Administrator', 'City Hall', 'adminaporlares', 'Aaron', 'Porlares', 'aaron.porlares@gmail.com', '$2y$10$J0YEkKEtOAWm2gJoxixNOeKfr.9ZxglapxKHiFiYGpdg3M9AXmgY.'),
 (3, 'Main Administrator', 'City Hall', 'adminrrivera', 'Rhodemil Zeth', 'Rivera', 'zeth@gmail.com', '$2y$10$OTYHIuEJrgLRZ3dXv07eGe9f3qos8MzMEGPFWMPa42DVVgLfLDl4y'),
 (4, 'Main Administrator', 'City Hall', 'admintocampo', 'Tresha', 'Ocampo', 'tresha@gmail.com', '$2y$10$RkNRS/OcLJktAxIw2DK27eky8HsbJJmGRg0nWlY8JdxGLah0YznKi'),
@@ -98,10 +99,10 @@ INSERT INTO `administrator` (`id`, `admin_type`, `barangay`, `username`, `first_
 (28, 'Main Administrator', 'City Hall', 'adminarjohn', 'Arjohn', 'Gomez', 'arjohn@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
 (29, 'Main Administrator', 'City Hall', 'adminjimrossel', 'Jim Rossel', 'Heredia', 'jimrossel@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
 (30, 'Main Administrator', 'City Hall', 'adminmarwin', 'Marwin', 'Imperial', 'marwin@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(31, 'Solo Parent Administrator', 'Sinalhan', 'adminjessie', 'Jessie', 'Lazaga', 'jessie@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
+(31, 'Solo Parent Administrator', 'Tagapo', 'adminjessie', 'Jessie', 'Lazaga', 'jessie@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
 (32, 'Solo Parent Administrator', 'Sinalhan', 'adminkacy', 'Kacy', 'Maala', 'kacy@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
 (33, 'Solo Parent Administrator', 'Sinalhan', 'adminlloyd', 'Frencey Lloyd', 'Manipol', 'frenceylloyd@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(34, 'PWD Administrator', 'Pulong Santa Cruz', 'adminedison', 'Edison', 'Medina', 'edison@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
+(34, 'PWD Administrator', 'Tagapo', 'adminedison', 'Edison', 'Medina', 'edison@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
 (35, 'Solo Parent Administrator', 'Pulong Santa Cruz', 'adminphilip', 'John Philip', 'Mindanao', 'philip@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
 (36, 'Solo Parent Administrator', 'Pulong Santa Cruz', 'adminsamuel', 'Samuel', 'Norte', 'samuel@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
 (37, 'Solo Parent Administrator', 'Pulong Santa Cruz', 'adminkenneth', 'Kenneth', 'Pace', 'kenneth@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
@@ -110,7 +111,7 @@ INSERT INTO `administrator` (`id`, `admin_type`, `barangay`, `username`, `first_
 (40, 'Solo Parent Administrator', 'Pulong Santa Cruz', 'adminharold', 'John Harold', 'Quijano', 'harold@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
 (41, 'Solo Parent Administrator', 'Pulong Santa Cruz', 'adminkobe', 'Kobe', 'Raymundo', 'kobe@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
 (42, 'PWD Administrator', 'Pulong Santa Cruz', 'adminjonjon', 'John Ivan', 'Respende', 'jonjon@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(43, 'PWD Administrator', 'Pulong Santa Cruz', 'adminalyssa', 'Allysa Mae', 'Rivera', 'allysa@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
+(43, 'PWD Administrator', 'Tagapo', 'adminalyssa', 'Allysa Mae', 'Rivera', 'allysa@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
 (44, 'PWD Administrator', 'Pulong Santa Cruz', 'adminrovic', 'John Rovic', 'Sabalboro', 'rovic@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
 (45, 'PWD Administrator', 'Pulong Santa Cruz', 'adminezra', 'Ezra Lou', 'Salongga', 'ezralou@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
 (46, 'PWD Administrator', 'Pulong Santa Cruz', 'adminron', 'Ron Daniel', 'Sison', 'rondaniel@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
@@ -176,12 +177,19 @@ INSERT INTO `administrator` (`id`, `admin_type`, `barangay`, `username`, `first_
 --
 
 CREATE TABLE `announcement` (
-  `id` int(11) NOT NULL,
-  `title` varchar(128) NOT NULL,
-  `announcement_for` enum('Administrator','PWD','Senior Citizen','Solo Parent') NOT NULL,
-  `barangay` enum('City Hall','Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz','Santo Domingo','Sinalhan','Tagapo') NOT NULL,
-  `message` text NOT NULL
+  `ANNOUNCEMENT_ID` int(11) NOT NULL,
+  `TITLE` varchar(128) NOT NULL,
+  `ANNOUNCEMENT_FOR` enum('Administrator','PWD','Senior Citizen','Solo Parent') NOT NULL,
+  `BARANGAY` enum('City Hall','Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz','Santo Domingo','Sinalhan','Tagapo') NOT NULL,
+  `MESSAGE` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `announcement`
+--
+
+INSERT INTO `announcement` (`ANNOUNCEMENT_ID`, `TITLE`, `ANNOUNCEMENT_FOR`, `BARANGAY`, `MESSAGE`) VALUES
+(1, 'SENIOR CITIZEN CASH OUT', 'Senior Citizen', 'Tagapo', 'SC Cash out');
 
 -- --------------------------------------------------------
 
@@ -201,9 +209,9 @@ CREATE TABLE `applicant` (
 --
 
 INSERT INTO `applicant` (`APPLICANT_ID`, `APPLICANT_TYPE`, `CITIZEN_ID`, `PLACE_OF_BIRTH`) VALUES
-('d36fef45f7604327', 'Senior Citizen', 'SC-901453', 'SANTA ROSA, LAGUNA'),
-('7fe8f1f374ac44dc', 'Solo Parent', '2023 - 9473', 'SANTA ROSA, LAGUNA'),
-('56b2a8c0577442e3', 'Senior Citizen', 'SC-358683', 'PANDACAN MANILA');
+('d5f1a621c21540f7', 'PWD', '043428023-8820', NULL),
+('22056c0f3d9947ff', 'Solo Parent', '2023-24226', 'PASAY CITY'),
+('7339f1ca49cb44dc', 'Senior Citizen', 'SC-928858', 'PANDACAN MANILA');
 
 -- --------------------------------------------------------
 
@@ -220,6 +228,13 @@ CREATE TABLE `blood_type` (
   `IS_DELETED` char(1) NOT NULL,
   `UPDATED_BY` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `blood_type`
+--
+
+INSERT INTO `blood_type` (`BLOOD_TYPE_ID`, `PERSON_ID`, `BLOOD_TYPE`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
+('88e8b0119af011ed', 'd5f1a621c21540f7', 'Unknown', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -242,7 +257,7 @@ CREATE TABLE `company` (
 --
 
 INSERT INTO `company` (`COMPANY_ID`, `PERSON_ID`, `COMPANY`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
-('8a15909f97cb11ed', '7fe8f1f374ac44dc', 'NONE', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon');
+('041ef2089b2511ed', '22056c0f3d9947ff', 'NONE', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -265,7 +280,9 @@ CREATE TABLE `educational_attainment` (
 --
 
 INSERT INTO `educational_attainment` (`EDUCATIONAL_ATTAINMENT_ID`, `PERSON_ID`, `EDUCATIONAL_ATTAINMENT`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
-('8a14ebd897cb11ed', '7fe8f1f374ac44dc', 'COLLEGE', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon');
+('041ea1d69b2511ed', '22056c0f3d9947ff', 'COLLEGE', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('04221c289b2511ed', 'dd1d284cce34412c', 'COLLEGE', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('88e901689af011ed', 'd5f1a621c21540f7', 'College', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -284,6 +301,13 @@ CREATE TABLE `employment_status` (
   `IS_DELETED` char(1) NOT NULL,
   `UPDATED_BY` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `employment_status`
+--
+
+INSERT INTO `employment_status` (`EMPLOYMENT_STATUS_ID`, `PERSON_ID`, `EMPLOYMENT_STATUS`, `CATEGORY_OF_EMPLOYMENT`, `NATURE_OF_EMPLOYMENT`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
+('88e9a39c9af011ed', 'd5f1a621c21540f7', 'Unemployed', NULL, NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -306,9 +330,9 @@ CREATE TABLE `gender` (
 --
 
 INSERT INTO `gender` (`GENDER_ID`, `PERSON_ID`, `GENDER`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
-('47bc0e1b97cb11ed', 'd36fef45f7604327', 'Male', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon'),
-('8a141b8f97cb11ed', '7fe8f1f374ac44dc', 'Male', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon'),
-('c87d83d697d211ed', '56b2a8c0577442e3', 'Female', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon');
+('041e512f9b2511ed', '22056c0f3d9947ff', 'Female', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('88e7b8219af011ed', 'd5f1a621c21540f7', 'Male', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('fbb9b1009b2511ed', '7339f1ca49cb44dc', 'Female', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -319,13 +343,20 @@ INSERT INTO `gender` (`GENDER_ID`, `PERSON_ID`, `GENDER`, `DATE_CREATED`, `DATE_
 CREATE TABLE `government_membership` (
   `GOVERNMENT_MEMBERSHIP_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
-  `IS_ACTIVE_VOTER` char(1) NOT NULL,
-  `IS_4PS_MEMBER` char(1) NOT NULL,
+  `IS_ACTIVE_VOTER` varchar(16) NOT NULL,
+  `IS_4PS_MEMBER` varchar(16) NOT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
   `UPDATED_BY` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `government_membership`
+--
+
+INSERT INTO `government_membership` (`GOVERNMENT_MEMBERSHIP_ID`, `PERSON_ID`, `IS_ACTIVE_VOTER`, `IS_4PS_MEMBER`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
+('88e9501c9af011ed', 'd5f1a621c21540f7', 'Yes', 'No', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -346,6 +377,13 @@ CREATE TABLE `id_reference_number` (
   `IS_DELETED` char(1) NOT NULL,
   `UPDATED_BY` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `id_reference_number`
+--
+
+INSERT INTO `id_reference_number` (`ID_REFERENCE_NUMBER_ID`, `PERSON_ID`, `SSS_NUMBER`, `GSIS_NUMBER`, `PSN_NUMBER`, `IS_PHILHEALTH_MEMBER`, `PHILHEALTH_NUMBER`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
+('88eb0a7a9af011ed', 'd5f1a621c21540f7', '', '', '', 'No', '', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -369,7 +407,9 @@ CREATE TABLE `income` (
 --
 
 INSERT INTO `income` (`INCOME_ID`, `PERSON_ID`, `MONTHLY_INCOME`, `TOTAL_FAMILY_INCOME`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
-('8a15e39197cb11ed', '7fe8f1f374ac44dc', '0', '0.000000', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon');
+('041f695b9b2511ed', '22056c0f3d9947ff', '0', '0.000000', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('042261079b2511ed', 'dd1d284cce34412c', '0', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('88ea55d69af011ed', 'd5f1a621c21540f7', NULL, NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -392,9 +432,32 @@ CREATE TABLE `job` (
 --
 
 INSERT INTO `job` (`JOB_ID`, `PERSON_ID`, `JOB`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
-('47bd4ed997cb11ed', 'd36fef45f7604327', 'WALA', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon'),
-('8a1683f497cb11ed', '7fe8f1f374ac44dc', 'NONE', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon'),
-('c87f51bf97d211ed', '56b2a8c0577442e3', 'NONE', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon');
+('04200aae9b2511ed', '22056c0f3d9947ff', 'NONE', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('88e9fabc9af011ed', 'd5f1a621c21540f7', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('fbbca8fe9b2511ed', '7339f1ca49cb44dc', 'NONE', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `landline`
+--
+
+CREATE TABLE `landline` (
+  `LANDLINE_ID` varchar(16) NOT NULL,
+  `PERSON_ID` varchar(16) NOT NULL,
+  `LANDLINE_NUMBER` varchar(32) DEFAULT NULL,
+  `DATE_CREATED` datetime(6) NOT NULL,
+  `DATE_UPDATED` datetime(6) NOT NULL,
+  `IS_DELETED` char(1) NOT NULL,
+  `UPDATED_BY` varchar(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `landline`
+--
+
+INSERT INTO `landline` (`LANDLINE_ID`, `PERSON_ID`, `LANDLINE_NUMBER`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
+('88e71a7f9af011ed', 'd5f1a621c21540f7', '', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -405,7 +468,7 @@ INSERT INTO `job` (`JOB_ID`, `PERSON_ID`, `JOB`, `DATE_CREATED`, `DATE_UPDATED`,
 CREATE TABLE `marital_status` (
   `MARITAL_STATUS_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
-  `MARITAL_STATUS` varchar(32) NOT NULL,
+  `MARITAL_STATUS` varchar(64) NOT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
@@ -417,8 +480,9 @@ CREATE TABLE `marital_status` (
 --
 
 INSERT INTO `marital_status` (`MARITAL_STATUS_ID`, `PERSON_ID`, `MARITAL_STATUS`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
-('47bc5a8597cb11ed', 'd36fef45f7604327', 'Single', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon'),
-('c87df1f197d211ed', '56b2a8c0577442e3', 'Widowed', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon');
+('0421645d9b2511ed', 'dd1d284cce34412c', 'Single', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('88e856569af011ed', 'd5f1a621c21540f7', 'Single', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('fbba79739b2511ed', '7339f1ca49cb44dc', 'Widowed', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -427,10 +491,20 @@ INSERT INTO `marital_status` (`MARITAL_STATUS_ID`, `PERSON_ID`, `MARITAL_STATUS`
 --
 
 CREATE TABLE `media` (
-  `id` int(11) NOT NULL,
-  `username` varchar(128) NOT NULL,
-  `image_location` text NOT NULL
+  `MEDIA_ID` int(11) NOT NULL,
+  `USERNAME` varchar(128) NOT NULL,
+  `IMAGE_LOCATION` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `media`
+--
+
+INSERT INTO `media` (`MEDIA_ID`, `USERNAME`, `IMAGE_LOCATION`) VALUES
+(1, '2023-24226', '63d881c667b530.86507057.jpg'),
+(2, '043428023-8820', '63d8821d1d6578.51370096.jpg'),
+(3, 'SC-928858', '63d8823b134404.78490545.jpg'),
+(4, 'adminrbardillon', '63d882954badf1.13431820.jpg');
 
 -- --------------------------------------------------------
 
@@ -456,11 +530,15 @@ CREATE TABLE `name` (
 --
 
 INSERT INTO `name` (`NAME_ID`, `PERSON_ID`, `FIRST_NAME`, `MIDDLE_NAME`, `LAST_NAME`, `SUFFIX`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
-('47bb056997cb11ed', 'd36fef45f7604327', 'ROMEO JR', NULL, 'BARDILLON', '', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon'),
-('47be46a597cb11ed', 'c0c4d069985f44f5', '', '', '', '', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon'),
-('8a1269a297cb11ed', '7fe8f1f374ac44dc', 'ROMEO JR', NULL, 'BARDILLON', NULL, '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon'),
-('c87bcede97d211ed', '56b2a8c0577442e3', 'ASUNCION', NULL, 'MONTEALEGRE', NULL, '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon'),
-('c880828597d211ed', '35c06ef82f224309', '', '', '', '', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon');
+('041cf2b69b2511ed', '22056c0f3d9947ff', 'CHRISTINE', 'MONTEALEGRE', 'DEL ROSARIO', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('0420abdd9b2511ed', 'dd1d284cce34412c', 'ROMEO JR', 'MONTEALEGRE', 'BARDILLON', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('88e611869af011ed', 'd5f1a621c21540f7', 'ROMEO JR', 'MONTEALEGRE', 'BARDILLON', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('88ebc0289af011ed', 'ed551e693976491a', 'ROMEO SR', 'UY', 'BARDILLON', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('88eda6449af011ed', 'bf78d87c8eaa4988', 'MILA ROSA', 'SABANDAL', 'MONTEALEGRE', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('88ef04379af011ed', '1d84311327d14e2b', 'DON KENNETH', 'MONTEALEGRE', 'BARDILLON', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('fbb7f1da9b2511ed', '7339f1ca49cb44dc', 'ASUNCION', 'SABANDAL', 'MONTEALEGRE', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('fbbe069d9b2511ed', '40a2e0becda944b0', 'VERGILIO', 'DESTREZA', 'MONTEALEGRE', '', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('fbc031179b2511ed', 'ede8e472aecd402e', 'MILA ROSA', 'SABANDAL', 'MONTEALEGRE', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -480,6 +558,13 @@ CREATE TABLE `organization` (
   `IS_DELETED` char(1) NOT NULL,
   `UPDATED_BY` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `organization`
+--
+
+INSERT INTO `organization` (`ORGANIZATION_ID`, `PERSON_ID`, `ORGANIZATION_AFFILIATED`, `CONTACT_PERSON`, `OFFICE_ADDRESS`, `TELEPHONE_NUMBER`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
+('88eab24f9af011ed', 'd5f1a621c21540f7', '', '', '', '', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -504,8 +589,7 @@ CREATE TABLE `pension` (
 --
 
 INSERT INTO `pension` (`PENSION_ID`, `PERSON_ID`, `HAS_PENSION`, `TYPE`, `AMOUNT`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
-('47bda36a97cb11ed', 'd36fef45f7604327', 'N', NULL, NULL, '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon'),
-('c87fc74997d211ed', '56b2a8c0577442e3', 'N', NULL, NULL, '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon');
+('fbbceee79b2511ed', '7339f1ca49cb44dc', 'Y', 'SSS', '4000.000000', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -515,7 +599,7 @@ INSERT INTO `pension` (`PENSION_ID`, `PERSON_ID`, `HAS_PENSION`, `TYPE`, `AMOUNT
 
 CREATE TABLE `person` (
   `PERSON_ID` varchar(16) NOT NULL,
-  `DATE_OF_BIRTH` datetime(6) DEFAULT NULL,
+  `DATE_OF_BIRTH` date DEFAULT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
@@ -527,11 +611,15 @@ CREATE TABLE `person` (
 --
 
 INSERT INTO `person` (`PERSON_ID`, `DATE_OF_BIRTH`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
-('35c06ef82f224309', '0000-00-00 00:00:00.000000', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon'),
-('56b2a8c0577442e3', '1942-01-12 00:00:00.000000', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon'),
-('7fe8f1f374ac44dc', '2001-07-30 00:00:00.000000', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon'),
-('c0c4d069985f44f5', '0000-00-00 00:00:00.000000', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon'),
-('d36fef45f7604327', '1963-01-18 00:00:00.000000', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon');
+('1d84311327d14e2b', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('22056c0f3d9947ff', '2002-12-19', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('40a2e0becda944b0', '1942-08-07', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('7339f1ca49cb44dc', '1942-01-12', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('bf78d87c8eaa4988', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('d5f1a621c21540f7', '2001-07-30', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('dd1d284cce34412c', '2001-07-30', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('ed551e693976491a', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('ede8e472aecd402e', '1965-07-20', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -550,9 +638,10 @@ CREATE TABLE `person_address` (
 --
 
 INSERT INTO `person_address` (`PERSON_ADDRESS_ID`, `PERSON_ID`, `ADDRESS_ID`) VALUES
-('47bbac3297cb11ed', 'd36fef45f7604327', '1e82c51506a14946'),
-('8a1371b697cb11ed', '7fe8f1f374ac44dc', 'f8c62ea4b5b24aab'),
-('c87d065797d211ed', '56b2a8c0577442e3', '50517b0a4d0b45de');
+('041df7ab9b2511ed', '22056c0f3d9947ff', 'b3ac17d690d740aa'),
+('88e6b6ef9af011ed', 'd5f1a621c21540f7', '5e14e63a49ea4c54'),
+('fbb9039b9b2511ed', '7339f1ca49cb44dc', '5803786ab66f4e13'),
+('fbc0fc359b2511ed', 'ede8e472aecd402e', 'b15654bf7df64272');
 
 -- --------------------------------------------------------
 
@@ -563,15 +652,22 @@ INSERT INTO `person_address` (`PERSON_ADDRESS_ID`, `PERSON_ID`, `ADDRESS_ID`) VA
 CREATE TABLE `previous_address` (
   `PREVIOUS_ADDRESS_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
-  `REGION` varchar(128) NOT NULL,
-  `PROVINCE` varchar(128) NOT NULL,
-  `CITY` varchar(128) NOT NULL,
+  `REGION` varchar(128) DEFAULT NULL,
+  `PROVINCE` varchar(128) DEFAULT NULL,
+  `CITY` varchar(128) DEFAULT NULL,
   `BARANGAY` varchar(128) DEFAULT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
   `UPDATED_BY` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `previous_address`
+--
+
+INSERT INTO `previous_address` (`PREVIOUS_ADDRESS_ID`, `PERSON_ID`, `REGION`, `PROVINCE`, `CITY`, `BARANGAY`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
+('88e5b8d59af011ed', 'd5f1a621c21540f7', '', '', '', '', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -604,6 +700,13 @@ CREATE TABLE `pwd_application_accomplisher` (
   `UPDATED_BY` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `pwd_application_accomplisher`
+--
+
+INSERT INTO `pwd_application_accomplisher` (`PWD_APLICATION_ACCOMPLISHER_ID`, `PERSON_ID`, `ACCOMPLISHED_BY`, `ACCOMPLISHER_NAME`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
+('88f07a119af011ed', 'd5f1a621c21540f7', 'Guardian', 'DON KENNETH MONTEALEGRE BARDILLON ', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
+
 -- --------------------------------------------------------
 
 --
@@ -613,7 +716,7 @@ CREATE TABLE `pwd_application_accomplisher` (
 CREATE TABLE `pwd_disease` (
   `PWD_DISEASE_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
-  `TYPE_OF_DISABILITY` set('Deaf/Hard of Hearing','Intellectual Disability','Learning Disability','Mental Disability','Physical Disablity (Orthopedic)','Psychosocial Disability','Speech & Language Impairment','Visual Disability','Cancer (RA11215)','Rare Disease (RA10747)') DEFAULT NULL,
+  `TYPE_OF_DISABILITY` set('Deaf/Hard of Hearing','Intellectual Disability','Learning Disability','Mental Disability','Physical Disability','Psychosocial Disability','Speech & Language Impairment','Visual Disability','Cancer (RA11215)','Rare Disease (RA10747)') DEFAULT NULL,
   `MEDICAL_CONDITION` varchar(128) DEFAULT NULL,
   `CAUSE_OF_DISABILITY` enum('CONGENITAL/INBORN','ACQUIRED') NOT NULL,
   `CONGENITAL_INBORN` set('Autism','ADHD','Cerebral Palsy','Down Syndrome') DEFAULT NULL,
@@ -624,6 +727,13 @@ CREATE TABLE `pwd_disease` (
   `IS_DELETED` char(1) NOT NULL,
   `UPDATED_BY` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `pwd_disease`
+--
+
+INSERT INTO `pwd_disease` (`PWD_DISEASE_ID`, `PERSON_ID`, `TYPE_OF_DISABILITY`, `MEDICAL_CONDITION`, `CAUSE_OF_DISABILITY`, `CONGENITAL_INBORN`, `ACQUIRED`, `STATUS_OF_DISABILITY`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
+('88efc7659af011ed', 'd5f1a621c21540f7', 'Physical Disability', NULL, 'ACQUIRED', NULL, 'Injury', 'Temporary', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -641,6 +751,13 @@ CREATE TABLE `pwd_physician` (
   `IS_DELETED` char(1) NOT NULL,
   `UPDATED_BY` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `pwd_physician`
+--
+
+INSERT INTO `pwd_physician` (`PWD_PHYSICIAN_ID`, `PERSON_ID`, `PWD_PHYSICIAN_NAME`, `PHYSICIAN_LICENSE_NUMBER`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
+('88f020bd9af011ed', 'd5f1a621c21540f7', 'LEBRON JAMES', 'MD8299-8854', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -660,8 +777,12 @@ CREATE TABLE `relationship` (
 --
 
 INSERT INTO `relationship` (`RELATIONSHIP_ID`, `APPLICANT_ID`, `PERSON_ID`, `RELATIONSHIP_TYPE`) VALUES
-('47bf29b697cb11ed', 'd36fef45f7604327', 'c0c4d069985f44f5', 'Spouse'),
-('c881e92d97d211ed', '56b2a8c0577442e3', '35c06ef82f224309', 'Spouse');
+('04232be49b2511ed', '22056c0f3d9947ff', 'dd1d284cce34412c', 'Family Member'),
+('88eca9639af011ed', 'd5f1a621c21540f7', 'ed551e693976491a', 'Father'),
+('88eded3a9af011ed', 'd5f1a621c21540f7', 'bf78d87c8eaa4988', 'Mother'),
+('88ef48f09af011ed', 'd5f1a621c21540f7', '1d84311327d14e2b', 'BROTHER'),
+('fbbeae629b2511ed', '7339f1ca49cb44dc', '40a2e0becda944b0', 'Spouse'),
+('fbc14b0d9b2511ed', '7339f1ca49cb44dc', 'ede8e472aecd402e', 'Child');
 
 -- --------------------------------------------------------
 
@@ -684,8 +805,8 @@ CREATE TABLE `religion` (
 --
 
 INSERT INTO `religion` (`RELIGION_ID`, `PERSON_ID`, `RELIGION`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
-('47bcf93897cb11ed', 'd36fef45f7604327', 'CATHOLIC', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon'),
-('c87edc3697d211ed', '56b2a8c0577442e3', '', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon');
+('88e808149af011ed', 'd5f1a621c21540f7', 'CATHOLIC', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('fbbbef629b2511ed', '7339f1ca49cb44dc', 'CATHOLIC', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -710,7 +831,7 @@ CREATE TABLE `solo_parent_long_text` (
 --
 
 INSERT INTO `solo_parent_long_text` (`SOLO_PARENT_LONG_TEXT_ID`, `PERSON_ID`, `CLASSIFICATION_CIRCUMSTANCES`, `NEEDS_PROBLEMS`, `FAMILY_RESOURCES`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
-('8a174cd697cb11ed', '7fe8f1f374ac44dc', 'N/A', 'N/A', 'N/A', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon');
+('0423eeb99b2511ed', '22056c0f3d9947ff', 'LONGTEXT', 'LONGTEXT', 'LONGTEXT', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -721,7 +842,7 @@ INSERT INTO `solo_parent_long_text` (`SOLO_PARENT_LONG_TEXT_ID`, `PERSON_ID`, `C
 CREATE TABLE `telephone` (
   `TELEPHONE_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
-  `TELEPHONE_NUMBER` varchar(32) NOT NULL,
+  `TELEPHONE_NUMBER` varchar(32) DEFAULT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
@@ -733,9 +854,11 @@ CREATE TABLE `telephone` (
 --
 
 INSERT INTO `telephone` (`TELEPHONE_ID`, `PERSON_ID`, `TELEPHONE_NUMBER`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
-('47bcb4bf97cb11ed', 'd36fef45f7604327', '09760657071', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon'),
-('8a163e2097cb11ed', '7fe8f1f374ac44dc', '09760657071', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon'),
-('c87e66a497d211ed', '56b2a8c0577442e3', '', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon');
+('041fbae59b2511ed', '22056c0f3d9947ff', '09760657071', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('88e75f219af011ed', 'd5f1a621c21540f7', '09760657071', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('88ef8c619af011ed', '1d84311327d14e2b', '09091072865', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('fbbb267b9b2511ed', '7339f1ca49cb44dc', '09760657071', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('fbc0771c9b2511ed', 'ede8e472aecd402e', '09550171148', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -747,8 +870,9 @@ CREATE TABLE `transaction_type` (
   `TRANSACTION_TYPE_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
   `TRANSACTION_TYPE` varchar(128) NOT NULL,
+  `STATUS` varchar(64) NOT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
-  `DATE_UPDATED` datetime(6) NOT NULL,
+  `DATE_UPDATED` date NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
   `UPDATED_BY` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -757,10 +881,10 @@ CREATE TABLE `transaction_type` (
 -- Dumping data for table `transaction_type`
 --
 
-INSERT INTO `transaction_type` (`TRANSACTION_TYPE_ID`, `PERSON_ID`, `TRANSACTION_TYPE`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
-('47babb4897cb11ed', 'd36fef45f7604327', 'BAGO', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon'),
-('8a11b47197cb11ed', '7fe8f1f374ac44dc', 'New Application', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon'),
-('c87b572897d211ed', '56b2a8c0577442e3', 'BAGO', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon');
+INSERT INTO `transaction_type` (`TRANSACTION_TYPE_ID`, `PERSON_ID`, `TRANSACTION_TYPE`, `STATUS`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
+('041cabb69b2511ed', '22056c0f3d9947ff', 'New Application', 'PENDING', '2023-01-23 00:00:00.000000', '2023-01-23', 'N', 'adminrbardillon'),
+('88e558379af011ed', 'd5f1a621c21540f7', 'NEW ID', 'PENDING', '2023-01-23 00:00:00.000000', '2023-01-23', 'N', 'adminrbardillon'),
+('fbb70bf99b2511ed', '7339f1ca49cb44dc', 'BAGO', 'PENDING', '2023-01-23 00:00:00.000000', '2023-01-23', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -785,9 +909,9 @@ CREATE TABLE `user_account` (
 --
 
 INSERT INTO `user_account` (`USER_ACCOUNT_ID`, `PERSON_ID`, `EMAIL`, `USERNAME`, `PASSWORD`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
-('2023-9473', '7fe8f1f374ac44dc', 'romsky.bardillon@gmail.com', '2023-9473', '$2y$10$3o3IqaDRYLSCdVYwQnZ.CuO2kt7Mb/YHrdKWdgPvQWIcrhCHUbuNC', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon'),
-('SC-358683', '56b2a8c0577442e3', 'romsky.bardillon@gmail.com', 'SC-358683', '$2y$10$LzXUlw2gU.Uhc23X.Al7q.C/xmtao2w9ZwuqvVUwHX04Sbh6Kp4fe', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon'),
-('SC-901453', 'd36fef45f7604327', 'romsky.bardillon@gmail.com', 'SC-901453', '$2y$10$5pMkDSmQq6TXp..chgKxkOgKIo5qwEeFbAtgOzpfYRxQ2LQyvvu6.', '2023-01-19 00:00:00.000000', '2023-01-19 00:00:00.000000', 'N', 'adminrbardillon');
+('043428023-8820', 'd5f1a621c21540f7', 'romsky.bardillon@gmail.com', '043428023-8820', '$2y$10$VituYqs19gwWI2Gd084Yhe1gkm71sPYiz3WvIqbVvdLV24XlWYNWu', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('2023-24226', '22056c0f3d9947ff', 'romsky.bardillon@gmail.com', '2023-24226', '$2y$10$TmHH3qClmGbU8oroapKN0OSY.F3Rqa7zq9E5LeDA2nBmDasVg7w1m', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('SC-928858', '7339f1ca49cb44dc', 'romsky.bardillon@gmail.com', 'SC-928858', '$2y$10$.bMp8kFMx7qInmwVpvyoVOaBTwU8Kgg7MOy6WhA6Vgddfrp2Gh/d6', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 --
 -- Indexes for dumped tables
@@ -798,6 +922,18 @@ INSERT INTO `user_account` (`USER_ACCOUNT_ID`, `PERSON_ID`, `EMAIL`, `USERNAME`,
 --
 ALTER TABLE `address`
   ADD PRIMARY KEY (`ADDRESS_ID`);
+
+--
+-- Indexes for table `administrator`
+--
+ALTER TABLE `administrator`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `announcement`
+--
+ALTER TABLE `announcement`
+  ADD PRIMARY KEY (`ANNOUNCEMENT_ID`);
 
 --
 -- Indexes for table `applicant`
@@ -874,6 +1010,12 @@ ALTER TABLE `job`
 ALTER TABLE `marital_status`
   ADD PRIMARY KEY (`MARITAL_STATUS_ID`),
   ADD KEY `FK_PERSON_MARITAL_STATUS` (`PERSON_ID`);
+
+--
+-- Indexes for table `media`
+--
+ALTER TABLE `media`
+  ADD PRIMARY KEY (`MEDIA_ID`);
 
 --
 -- Indexes for table `name`
@@ -980,6 +1122,28 @@ ALTER TABLE `transaction_type`
 ALTER TABLE `user_account`
   ADD PRIMARY KEY (`USER_ACCOUNT_ID`),
   ADD KEY `FK_PERSON_ACCOUNT_idx` (`PERSON_ID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `administrator`
+--
+ALTER TABLE `administrator`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+
+--
+-- AUTO_INCREMENT for table `announcement`
+--
+ALTER TABLE `announcement`
+  MODIFY `ANNOUNCEMENT_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `media`
+--
+ALTER TABLE `media`
+  MODIFY `MEDIA_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables

@@ -1,6 +1,8 @@
 <?php 
     $page = "print-id";
-    require_once 'includes/functions.inc.php';
+    require_once 'includes/dbh.inc.php';
+    require_once 'includes/sql.inc.php';
+    $printID = getPrintID($connection);
     include("header.html");
     if (!isset($_SESSION['admin-data'])) {
         header("location: ../login/index.html");
@@ -25,12 +27,14 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <?php $i = 1; foreach($printID as $print): ?>
                             <tr>
-                                <td>1</td>
-                                <td>Romeo Jr Bardillon</td>
-                                <td>PWD</td>
+                                <td><?php echo($i); ?></td>
+                                <td><?php echo($print['NAME']); ?></td>
+                                <td><?php echo($print['APPLICANT_TYPE']); ?></td>
                                 <td><a class="btn btn-secondary" href="pwd-id.html" target="_blank">Print this ID</a></td>
                             </tr>
+                            <?php $i++; endforeach; ?>
                         </tbody>
                     </table>
                 </div>

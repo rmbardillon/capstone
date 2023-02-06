@@ -41,7 +41,10 @@ $(document).ready( function () {
     });
     var generateReport = $('#exampleTable').DataTable({
         
-        buttons:['copy', 'csv', 'excel', 'pdf', 'print']
+        buttons:['copy', 'csv', 'excel', 'pdf', 'print'],
+        columnDefs: [
+            {width: 1, targets: 0}
+        ]
         
     });
     generateReport.buttons().container().appendTo('#exampleTable_wrapper .col-md-6:eq(0)');

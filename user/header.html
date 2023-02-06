@@ -6,14 +6,12 @@
     if (isset($_SESSION['username'])) {
         $username = $_SESSION['username'];
         $profile = getUserData($connection, "media", "username", $username);
+        $data = getApplicantData($connection, $username);
         if (substr($username, 0, 2) == "SC") {
-            $data = getSeniorCitizenData($connection);
             $userType = "Senior Citizen";
         } else if (substr($username, 0, 9) == "043428023") {
-            $data = getPWDData($connection);
             $userType = "PWD";
         } else {
-            $data = getSoloParentData($connection);
             $userType = "Solo Parent";
         }
     } else {

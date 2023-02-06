@@ -7,9 +7,9 @@
     }
 ?>
             <?php if($adminData['admin_type'] == "Main Administrator"){
-                $pwdData = getPWDData($connection, "");
-                $seniorCitizenData = getSeniorCitizenData($connection, "");
-                $soloParentData = getSoloParentData($connection, "");
+                $pwdData = getPWDPerBarangay($connection, "");
+                $seniorCitizenData = getSeniorCitizenPerBarangay($connection, "");
+                $soloParentData = getSoloParentPerBarangay($connection, "");
                 echo <<<HTML
                 <div class="container-fluid">
                     <h3 class="text-dark mb-4">Dashboard</h3>

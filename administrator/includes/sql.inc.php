@@ -629,15 +629,27 @@ function getSeniorCitizenStatus($connection, $status, $barangay) {
 // GET APPLICATIONS PER BARANGAY
 function getPWDPerBarangay($connection, $barangay) {
     $data = [];
-    $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, MONTHLY_INCOME, STATUS, transaction_type.DATE_UPDATED
-    FROM person 
-    JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
-    JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
-    JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
-    JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
-    JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
-    JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
-    WHERE APPLICANT_TYPE = 'PWD' AND address.BARANGAY = '$barangay' AND person.IS_DELETED = 'N'";
+    if(!empty($barangay)) {
+        $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, MONTHLY_INCOME, STATUS, transaction_type.DATE_UPDATED
+        FROM person 
+        JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+        JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
+        JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+        JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+        JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
+        WHERE APPLICANT_TYPE = 'PWD' AND address.BARANGAY = '$barangay' AND person.IS_DELETED = 'N'";
+    } else {
+        $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, MONTHLY_INCOME, STATUS, transaction_type.DATE_UPDATED
+        FROM person 
+        JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+        JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
+        JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+        JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+        JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
+        WHERE APPLICANT_TYPE = 'PWD' AND person.IS_DELETED = 'N'";
+    }
     $stmt = $connection->prepare($sql);
 
     if (!$stmt) {
@@ -662,15 +674,27 @@ function getPWDPerBarangay($connection, $barangay) {
 
 function getSoloParentPerBarangay($connection, $barangay) {
     $data = [];
-    $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, MONTHLY_INCOME, STATUS, transaction_type.DATE_UPDATED
-    FROM person 
-    JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
-    JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
-    JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
-    JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
-    JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
-    JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
-    WHERE APPLICANT_TYPE = 'Solo Parent' AND address.BARANGAY = '$barangay' AND person.IS_DELETED = 'N'";
+    if(!empty($barangay)) {
+        $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, MONTHLY_INCOME, STATUS, transaction_type.DATE_UPDATED
+        FROM person 
+        JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+        JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
+        JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+        JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+        JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
+        WHERE APPLICANT_TYPE = 'Solo Parent' AND address.BARANGAY = '$barangay' AND person.IS_DELETED = 'N'";
+    } else {
+        $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, MONTHLY_INCOME, STATUS, transaction_type.DATE_UPDATED
+        FROM person 
+        JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+        JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
+        JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+        JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+        JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
+        WHERE APPLICANT_TYPE = 'Solo Parent' AND person.IS_DELETED = 'N'";
+    }
     $stmt = $connection->prepare($sql);
 
     if (!$stmt) {
@@ -695,14 +719,55 @@ function getSoloParentPerBarangay($connection, $barangay) {
 
 function getSeniorCitizenPerBarangay($connection, $barangay) {
     $data = [];
-    $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS, transaction_type.DATE_UPDATED
-    FROM person 
-    JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
-    JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
-    JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
-    JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
-    JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
-    WHERE APPLICANT_TYPE = 'Senior Citizen' AND address.BARANGAY = '$barangay' AND person.IS_DELETED = 'N'";
+    if(!empty($barangay)) {
+        $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS, transaction_type.DATE_UPDATED
+        FROM person 
+        JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+        JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
+        JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+        JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+        WHERE APPLICANT_TYPE = 'Senior Citizen' AND address.BARANGAY = '$barangay' AND person.IS_DELETED = 'N'";
+    } else {
+        $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS, transaction_type.DATE_UPDATED
+        FROM person 
+        JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+        JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
+        JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+        JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+        WHERE APPLICANT_TYPE = 'Senior Citizen' AND person.IS_DELETED = 'N'";
+    }
+    $stmt = $connection->prepare($sql);
+
+    if (!$stmt) {
+        header("location: ../error.html?error=stmterror");
+        exit();
+    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0){
+        while($row = $result->fetch_assoc()) {
+            array_push($data, $row);
+        }
+        return $data;
+    } else{
+        return $data;
+    }
+
+    $stmt->close();
+    $connection->close();
+
+}
+
+// Get Print ID
+function getPrintID($connection) {
+    $data = [];
+    $sql = "SELECT transaction_type.PERSON_ID, CONCAT(FIRST_NAME, ' ', MIDDLE_NAME, ' ', LAST_NAME) AS NAME, APPLICANT_TYPE 
+    FROM transaction_type 
+    JOIN name ON transaction_type.PERSON_ID = name.PERSON_ID
+    JOIN applicant ON transaction_type.PERSON_ID = applicant.APPLICANT_ID
+    WHERE transaction_type IN ('New Application', 'NEW ID', 'BAGO') AND STATUS = 'PENDING' AND transaction_type.IS_DELETED = 'N';";
     $stmt = $connection->prepare($sql);
 
     if (!$stmt) {

@@ -1,12 +1,1115 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>senior-citizen-application-form-filled-up</title>
-</head>
-<body>
-    <h1>SENIOR CITIZEN APPLICATION FORM</h1>
-</body>
-</html>
+<?php 
+    $page = "senior-citizen-application-form";
+    $PERSON_ID = $_GET['id'];
+    include("header.html");
+    if (!isset($_SESSION['admin-data'])) {
+        header("location: ../login/index.html");
+        exit();
+    }
+?>
+    <div class="container form">
+        <h1 class="heading">Senior Citizen Application</h1>
+      <form action="includes/register.inc.php" method="post" novalidate="">
+        <!-- <h5 class="text-center"><strong>APLIKASYON SA PAGSAPI</strong></h5> -->
+        <div class="row">
+          <div class="col">
+            <label class="col-form-label required">TRANSAKSYON</label>
+          </div>
+          <div class="col">
+            <div class="form-check form-check-inline form-check-reverse">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="srApplicationOption1"
+                name="applicationType"
+                value="BAGO"
+                required=""
+              />
+              <label class="form-check-label" for="srApplicationOption1">
+                BAGO
+              </label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-check form-check-inline form-check-reverse">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="srApplicationOption2"
+                name="applicationType"
+                value="LUMIPAT"
+                required=""
+              />
+              <label class="form-check-label" for="srApplicationOption2">
+                LUMIPAT
+              </label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-check form-check-inline form-check-reverse">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="srApplicationOption3"
+                name="applicationType"
+                value="MAGPAPALIT"
+                required=""
+              />
+              <label class="form-check-label" for="srApplicationOption3">
+                MAGPAPALIT
+              </label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-check form-check-inline form-check-reverse">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="srApplicationOption4"
+                name="applicationType"
+                value="NAWALA"
+                required=""
+              />
+              <label class="form-check-label" for="srApplicationOption4">
+                NAWALA
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="row" id="idNumber" style="display: none;">
+          <div class="col col-lg-3 col-md-3 col-sm-3 form-inline-group">
+            <label class="form-label IDNumber" for="IDNumber">
+              NUMERO&nbsp;NG ID
+            </label>
+            <input
+              class="form-control numbers"
+              type="text"
+              id="IDNumber"
+              disabled=""
+              name="IDNumber"
+              placeholder="######"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label class="form-label required" for="surname">APELYIDO</label>
+            <input
+              class="form-control"
+              type="text"
+              id="surname"
+              name="surname"
+              required=""
+            />
+          </div>
+          <div class="col">
+            <label class="form-label required" for="firstName">PANGALAN</label>
+            <input
+              class="form-control"
+              type="text"
+              id="firstName"
+              name="firstName"
+              required=""
+            />
+          </div>
+          <div class="col">
+            <label class="form-label" for="middlename">
+              PANGGITNANG&nbsp;APELYIDO
+            </label>
+            <input
+              class="form-control"
+              type="text"
+              id="middlename"
+              name="middlename"
+            />
+          </div>
+          <div class="col">
+            <label class="form-label" for="suffix">SUFFIX</label>
+            <select id="suffix" class="form-select" name="suffix">
+              <option disabled selected value="">Please Select</option>
+              <option value="">N/A</option>
+              <option value="Jr.">Jr.</option>
+              <option value="Sr.">Sr.</option>
+              <option value="II">II</option>
+              <option value="III">III</option>
+              <option value="IV">IV</option>
+              <option value="V">V</option>
+              <option value="VI">VI</option>
+              <option value="VII">VII</option>
+              <option value="VIII">VIII</option>
+              <option value="IX">IX</option>
+              <option value="X">X</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label class="form-label required" for="barangay">BARANGAY</label>
+            <select id="barangay" class="form-select" name="barangay" required>
+              <option disabled selected value="">Please Select</option>
+              <option value="Aplaya">Aplaya</option>
+              <option value="Balibago">Balibago</option>
+              <option value="Caingin">Caingin</option>
+              <option value="Dila">Dila</option>
+              <option value="Dita">Dita</option>
+              <option value="Don Jose">Don Jose</option>
+              <option value="Ibaba">Ibaba</option>
+              <option value="Kalnuran">Kanluran</option>
+              <option value="Labas">Labas</option>
+              <option value="Macabling">Macabling</option>
+              <option value="Malitlit">Malitlit</option>
+              <option value="Malusak">Malusak</option>
+              <option value="Market Area">Market Area</option>
+              <option value="Pook">Pook</option>
+              <option value="Pulong Santa Cruz">Pulong Santa Cruz</option>
+              <option value="Santo Domingo">Santo Domingo</option>
+              <option value="Sinalhan">Sinalhan</option>
+              <option value="Tagapo">Tagapo</option>
+            </select>
+          </div>
+          <div class="col">
+            <label class="form-label required" for="address">TIRAHAN</label>
+            <input
+              class="form-control"
+              type="text"
+              id="address"
+              name="address"
+              required=""
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label class="form-label required" for="gender">KASARIAN</label>
+            <select id="gender" class="form-select" name="gender" required>
+              <option disabled selected value="">Please Select</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+          <div class="col">
+            <label class="form-label required" for="maritalStatus">
+              KATAYUANG SIBIL
+            </label>
+            <select
+              id="maritalStatus"
+              class="form-select"
+              name="maritalStatus"
+              required
+            >
+              <option disabled selected value="">Please Select</option>
+              <option value="Single">Single</option>
+              <option value="Married">Married</option>
+              <option value="Widowed">Widowed</option>
+              <option value="Separated">Separated</option>
+              <option value="Divorced">Divorced</option>
+            </select>
+          </div>
+          <div class="col">
+            <label class="form-label" for="age">EDAD</label>
+            <input
+              class="form-control"
+              type="text"
+              id="age"
+              disabled=""
+              name="age"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-4">
+            <label class="form-label required" for="srCitizenDOB">
+              PETSA NG KAPANGANAKAN
+            </label>
+            <input
+              class="form-control"
+              id="srCitizenDOB"
+              type="date"
+              name="srCitizenDOB"
+              required=""
+              min="1900-01-01"
+            />
+          </div>
+          <div class="col">
+            <label class="form-label required" for="placeOfBirth">
+              LUGAR NG KAPANGANAKAN
+            </label>
+            <input
+              class="form-control"
+              type="text"
+              id="placeOfBirth"
+              name="placeOfBirth"
+              required=""
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label class="form-label" for="email">EMAIL</label>
+            <input
+              class="form-control"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="example@email.com"
+              required
+            />
+          </div>
+          <div class="col">
+            <label class="form-label" for="telephone">TELEPONO</label>
+            <input
+              class="form-control numbers telephone"
+              type="tel"
+              id="telephone"
+              name="telephone"
+              placeholder="09##-###-####"
+            />
+          </div>
+          <div class="col">
+            <label class="form-label" for="religion">RELIHIYON</label>
+            <input
+              class="form-control"
+              type="text"
+              id="religion"
+              name="religion"
+            />
+          </div>
+          <div class="col">
+            <label class="form-label required" id="job" for="job">
+              HANAPBUHAY
+            </label>
+            <input
+              class="form-control"
+              type="text"
+              id="job"
+              name="job"
+              required=""
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label class="form-label required" for="hasPension">
+              MAY PENSYON NA TINATANGGAP
+            </label>
+            <select
+              id="hasPension"
+              class="form-select"
+              name="hasPension"
+              required
+            >
+              <option disabled selected value="">Please Select</option>
+              <option value="Y">Meron</option>
+              <option value="N">Wala</option>
+            </select>
+          </div>
+          <div class="col">
+            <label class="form-label whatPension" for="whatPension">SAAN</label>
+            <input
+              class="form-control"
+              type="text"
+              id="whatPension"
+              name="whatPension"
+              disabled=""
+            />
+          </div>
+          <div class="col">
+            <label class="form-label howMuchPension" for="howMuchPension">
+              MAGKANO
+            </label>
+            <input
+              class="form-control numbers"
+              type="text"
+              id="howMuchPension"
+              name="howMuchPension"
+              disabled=""
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label class="form-label" for="spouseLastName">
+              PANGALAN NG ASAWA
+            </label>
+            <div class="input-group">
+              <input
+                class="form-control w-25"
+                type="text"
+                id="spouseLastName"
+                name="spouseLastName"
+                placeholder="APELYIDO NG ASAWA"
+              />
+              <input
+                class="form-control w-25"
+                type="text"
+                id="spouseFirstName"
+                name="spouseFirstName"
+                placeholder="PANGALAN NG ASAWA"
+              />
+              <input
+                class="form-control w-25"
+                type="text"
+                id="spouseMiddlename"
+                name="spouseMiddlename"
+                placeholder="PANGGITNANG APELYIDO"
+              />
+              <input
+                class="form-control w-25"
+                type="text"
+                id="spouseSuffix"
+                name="spouseSuffix"
+                placeholder="SUFFIX"
+              />
+            </div>
+          </div>
+          <div class="col col-4">
+            <label class="form-label" for="spouseDOB">
+              PETSA NG KAPANGANAKAN NG ASAWA
+            </label>
+            <input
+              class="form-control"
+              id="spouseDOB"
+              type="date"
+              name="spouseDOB"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label class="form-label required" for="numberOfChildren">
+              ILAN ANG ANAK?
+            </label>
+            <input
+              class="form-control w-25 numbers"
+              type="number"
+              id="numberOfChildren"
+              name="numberOfChildren"
+              min="0"
+              required=""
+            />
+          </div>
+          <div class="col">
+            <label class="form-label required" for="totalHousemate">
+              ILAN ANG KASAMA SA BAHAY?
+            </label>
+            <input
+              class="form-control w-25"
+              type="number"
+              id="totalHousemate"
+              name="totalHousemate"
+              min="0"
+              max="100"
+              required=""
+            />
+          </div>
+        </div>
+        <div id="srCitizenRelative" class="srCitizenRelative">
+          <div class="row" id="child">
+            <div class="col col-2 d-flex align-items-center">
+              <h6 class="text-nowrap text-start">PANGALAN NG ANAK</h6>
+            </div>
+            <div class="col">
+              <input
+                class="form-control"
+                type="text"
+                id="childLastName"
+                name="childLastName[]"
+                placeholder="APELYIDO NG ANAK"
+              />
+            </div>
+            <div class="col">
+              <input
+                class="form-control"
+                type="text"
+                id="childFirstName"
+                name="childFirstName[]"
+                placeholder="PANGALAN NG ANAK"
+              />
+            </div>
+            <div class="col">
+              <input
+                class="form-control"
+                type="text"
+                id="childMiddlename"
+                name="childMiddlename[]"
+                placeholder="PANGGITNANG APELYIDO"
+              />
+            </div>
+            <div class="col">
+              <select id="childSuffix" class="form-select" name="childSuffix[]">
+                <option disabled selected value="">Suffix</option>
+                <option value="">N/A</option>
+                <option value="Jr.">Jr.</option>
+                <option value="Sr.">Sr.</option>
+                <option value="II">II</option>
+                <option value="III">III</option>
+                <option value="IV">IV</option>
+                <option value="V">V</option>
+                <option value="VI">VI</option>
+                <option value="VII">VII</option>
+                <option value="VIII">VIII</option>
+                <option value="IX">IX</option>
+                <option value="X">X</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-2 d-flex align-items-center">
+              <h6 class="text-start">PETSA&nbsp;NG KAPANGANAKAN</h6>
+            </div>
+            <div class="col col-3">
+              <input
+                class="form-control"
+                id="srCitizenChildDOB"
+                type="date"
+                name="srCitizenChildDOB[]"
+                min="1900-01-01"
+              />
+            </div>
+            <div class="col col-1 d-flex align-items-center">
+              <h6 class="text-start">TELEPONO</h6>
+            </div>
+            <div class="col col-3">
+              <input
+                class="form-control numbers telephone"
+                type="tel"
+                id="childTelephone"
+                name="childTelephone[]"
+                placeholder="09##-###-####"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-2 d-flex align-items-center">
+              <h6 class="text-start">TIRAHAN NG&nbsp;ANAK</h6>
+            </div>
+            <div class="col">
+              <label class="form-label" for="childBarangay">BARANGAY</label>
+              <select id="barangay" class="form-select" name="childBarangay[]">
+                <option disabled selected value="">Please Select</option>
+                <option value="Aplaya">Aplaya</option>
+                <option value="Balibago">Balibago</option>
+                <option value="Caingin">Caingin</option>
+                <option value="Dila">Dila</option>
+                <option value="Dita">Dita</option>
+                <option value="Don Jose">Don Jose</option>
+                <option value="Ibaba">Ibaba</option>
+                <option value="Kalnuran">Kanluran</option>
+                <option value="Labas">Labas</option>
+                <option value="Macabling">Macabling</option>
+                <option value="Malitlit">Malitlit</option>
+                <option value="Malusak">Malusak</option>
+                <option value="Market Area">Market Area</option>
+                <option value="Pook">Pook</option>
+                <option value="Pulong Santa Cruz">Pulong Santa Cruz</option>
+                <option value="Santo Domingo">Santo Domingo</option>
+                <option value="Sinalhan">Sinalhan</option>
+                <option value="Tagapo">Tagapo</option>
+              </select>
+            </div>
+            <div class="col">
+              <label class="form-label" for="childAddress">TIRAHAN</label>
+              <input
+                class="form-control"
+                type="text"
+                id="childAddress"
+                name="childAddress[]"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <button
+                class="btn btn-danger delete-button w-25"
+                type="button"
+                onclick="srCitizenRemoveRelative(this);"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col">
+            <button
+              class="btn btn-success w-25"
+              id="seniorCitizenDuplicateButton"
+              type="button"
+            >
+              Add
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <button
+              class="btn btn-primary w-100"
+              type="submit"
+              name="srCitizenSubmit"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+<?php
+    include "footer.html";
+?>
+<?php 
+    $page = "senior-citizen-application-form";
+    include("header.html");
+    if (!isset($_SESSION['admin-data'])) {
+        header("location: ../login/index.html");
+        exit();
+    }
+?>
+    <div class="container form">
+        <h1 class="heading">Senior Citizen Application</h1>
+      <form action="includes/register.inc.php" method="post" novalidate="">
+        <!-- <h5 class="text-center"><strong>APLIKASYON SA PAGSAPI</strong></h5> -->
+        <div class="row">
+          <div class="col">
+            <label class="col-form-label required">TRANSAKSYON</label>
+          </div>
+          <div class="col">
+            <div class="form-check form-check-inline form-check-reverse">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="srApplicationOption1"
+                name="applicationType"
+                value="BAGO"
+                required=""
+              />
+              <label class="form-check-label" for="srApplicationOption1">
+                BAGO
+              </label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-check form-check-inline form-check-reverse">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="srApplicationOption2"
+                name="applicationType"
+                value="LUMIPAT"
+                required=""
+              />
+              <label class="form-check-label" for="srApplicationOption2">
+                LUMIPAT
+              </label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-check form-check-inline form-check-reverse">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="srApplicationOption3"
+                name="applicationType"
+                value="MAGPAPALIT"
+                required=""
+              />
+              <label class="form-check-label" for="srApplicationOption3">
+                MAGPAPALIT
+              </label>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-check form-check-inline form-check-reverse">
+              <input
+                class="form-check-input"
+                type="radio"
+                id="srApplicationOption4"
+                name="applicationType"
+                value="NAWALA"
+                required=""
+              />
+              <label class="form-check-label" for="srApplicationOption4">
+                NAWALA
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="row" id="idNumber" style="display: none;">
+          <div class="col col-lg-3 col-md-3 col-sm-3 form-inline-group">
+            <label class="form-label IDNumber" for="IDNumber">
+              NUMERO&nbsp;NG ID
+            </label>
+            <input
+              class="form-control numbers"
+              type="text"
+              id="IDNumber"
+              disabled=""
+              name="IDNumber"
+              placeholder="######"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label class="form-label required" for="surname">APELYIDO</label>
+            <input
+              class="form-control"
+              type="text"
+              id="surname"
+              name="surname"
+              required=""
+            />
+          </div>
+          <div class="col">
+            <label class="form-label required" for="firstName">PANGALAN</label>
+            <input
+              class="form-control"
+              type="text"
+              id="firstName"
+              name="firstName"
+              required=""
+            />
+          </div>
+          <div class="col">
+            <label class="form-label" for="middlename">
+              PANGGITNANG&nbsp;APELYIDO
+            </label>
+            <input
+              class="form-control"
+              type="text"
+              id="middlename"
+              name="middlename"
+            />
+          </div>
+          <div class="col">
+            <label class="form-label" for="suffix">SUFFIX</label>
+            <select id="suffix" class="form-select" name="suffix">
+              <option disabled selected value="">Please Select</option>
+              <option value="">N/A</option>
+              <option value="Jr.">Jr.</option>
+              <option value="Sr.">Sr.</option>
+              <option value="II">II</option>
+              <option value="III">III</option>
+              <option value="IV">IV</option>
+              <option value="V">V</option>
+              <option value="VI">VI</option>
+              <option value="VII">VII</option>
+              <option value="VIII">VIII</option>
+              <option value="IX">IX</option>
+              <option value="X">X</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label class="form-label required" for="barangay">BARANGAY</label>
+            <select id="barangay" class="form-select" name="barangay" required>
+              <option disabled selected value="">Please Select</option>
+              <option value="Aplaya">Aplaya</option>
+              <option value="Balibago">Balibago</option>
+              <option value="Caingin">Caingin</option>
+              <option value="Dila">Dila</option>
+              <option value="Dita">Dita</option>
+              <option value="Don Jose">Don Jose</option>
+              <option value="Ibaba">Ibaba</option>
+              <option value="Kalnuran">Kanluran</option>
+              <option value="Labas">Labas</option>
+              <option value="Macabling">Macabling</option>
+              <option value="Malitlit">Malitlit</option>
+              <option value="Malusak">Malusak</option>
+              <option value="Market Area">Market Area</option>
+              <option value="Pook">Pook</option>
+              <option value="Pulong Santa Cruz">Pulong Santa Cruz</option>
+              <option value="Santo Domingo">Santo Domingo</option>
+              <option value="Sinalhan">Sinalhan</option>
+              <option value="Tagapo">Tagapo</option>
+            </select>
+          </div>
+          <div class="col">
+            <label class="form-label required" for="address">TIRAHAN</label>
+            <input
+              class="form-control"
+              type="text"
+              id="address"
+              name="address"
+              required=""
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label class="form-label required" for="gender">KASARIAN</label>
+            <select id="gender" class="form-select" name="gender" required>
+              <option disabled selected value="">Please Select</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+          <div class="col">
+            <label class="form-label required" for="maritalStatus">
+              KATAYUANG SIBIL
+            </label>
+            <select
+              id="maritalStatus"
+              class="form-select"
+              name="maritalStatus"
+              required
+            >
+              <option disabled selected value="">Please Select</option>
+              <option value="Single">Single</option>
+              <option value="Married">Married</option>
+              <option value="Widowed">Widowed</option>
+              <option value="Separated">Separated</option>
+              <option value="Divorced">Divorced</option>
+            </select>
+          </div>
+          <div class="col">
+            <label class="form-label" for="age">EDAD</label>
+            <input
+              class="form-control"
+              type="text"
+              id="age"
+              disabled=""
+              name="age"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-4">
+            <label class="form-label required" for="srCitizenDOB">
+              PETSA NG KAPANGANAKAN
+            </label>
+            <input
+              class="form-control"
+              id="srCitizenDOB"
+              type="date"
+              name="srCitizenDOB"
+              required=""
+              min="1900-01-01"
+            />
+          </div>
+          <div class="col">
+            <label class="form-label required" for="placeOfBirth">
+              LUGAR NG KAPANGANAKAN
+            </label>
+            <input
+              class="form-control"
+              type="text"
+              id="placeOfBirth"
+              name="placeOfBirth"
+              required=""
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label class="form-label" for="email">EMAIL</label>
+            <input
+              class="form-control"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="example@email.com"
+              required
+            />
+          </div>
+          <div class="col">
+            <label class="form-label" for="telephone">TELEPONO</label>
+            <input
+              class="form-control numbers telephone"
+              type="tel"
+              id="telephone"
+              name="telephone"
+              placeholder="09##-###-####"
+            />
+          </div>
+          <div class="col">
+            <label class="form-label" for="religion">RELIHIYON</label>
+            <input
+              class="form-control"
+              type="text"
+              id="religion"
+              name="religion"
+            />
+          </div>
+          <div class="col">
+            <label class="form-label required" id="job" for="job">
+              HANAPBUHAY
+            </label>
+            <input
+              class="form-control"
+              type="text"
+              id="job"
+              name="job"
+              required=""
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label class="form-label required" for="hasPension">
+              MAY PENSYON NA TINATANGGAP
+            </label>
+            <select
+              id="hasPension"
+              class="form-select"
+              name="hasPension"
+              required
+            >
+              <option disabled selected value="">Please Select</option>
+              <option value="Y">Meron</option>
+              <option value="N">Wala</option>
+            </select>
+          </div>
+          <div class="col">
+            <label class="form-label whatPension" for="whatPension">SAAN</label>
+            <input
+              class="form-control"
+              type="text"
+              id="whatPension"
+              name="whatPension"
+              disabled=""
+            />
+          </div>
+          <div class="col">
+            <label class="form-label howMuchPension" for="howMuchPension">
+              MAGKANO
+            </label>
+            <input
+              class="form-control numbers"
+              type="text"
+              id="howMuchPension"
+              name="howMuchPension"
+              disabled=""
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label class="form-label" for="spouseLastName">
+              PANGALAN NG ASAWA
+            </label>
+            <div class="input-group">
+              <input
+                class="form-control w-25"
+                type="text"
+                id="spouseLastName"
+                name="spouseLastName"
+                placeholder="APELYIDO NG ASAWA"
+              />
+              <input
+                class="form-control w-25"
+                type="text"
+                id="spouseFirstName"
+                name="spouseFirstName"
+                placeholder="PANGALAN NG ASAWA"
+              />
+              <input
+                class="form-control w-25"
+                type="text"
+                id="spouseMiddlename"
+                name="spouseMiddlename"
+                placeholder="PANGGITNANG APELYIDO"
+              />
+              <input
+                class="form-control w-25"
+                type="text"
+                id="spouseSuffix"
+                name="spouseSuffix"
+                placeholder="SUFFIX"
+              />
+            </div>
+          </div>
+          <div class="col col-4">
+            <label class="form-label" for="spouseDOB">
+              PETSA NG KAPANGANAKAN NG ASAWA
+            </label>
+            <input
+              class="form-control"
+              id="spouseDOB"
+              type="date"
+              name="spouseDOB"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label class="form-label required" for="numberOfChildren">
+              ILAN ANG ANAK?
+            </label>
+            <input
+              class="form-control w-25 numbers"
+              type="number"
+              id="numberOfChildren"
+              name="numberOfChildren"
+              min="0"
+              required=""
+            />
+          </div>
+          <div class="col">
+            <label class="form-label required" for="totalHousemate">
+              ILAN ANG KASAMA SA BAHAY?
+            </label>
+            <input
+              class="form-control w-25"
+              type="number"
+              id="totalHousemate"
+              name="totalHousemate"
+              min="0"
+              max="100"
+              required=""
+            />
+          </div>
+        </div>
+        <div id="srCitizenRelative" class="srCitizenRelative">
+          <div class="row" id="child">
+            <div class="col col-2 d-flex align-items-center">
+              <h6 class="text-nowrap text-start">PANGALAN NG ANAK</h6>
+            </div>
+            <div class="col">
+              <input
+                class="form-control"
+                type="text"
+                id="childLastName"
+                name="childLastName[]"
+                placeholder="APELYIDO NG ANAK"
+              />
+            </div>
+            <div class="col">
+              <input
+                class="form-control"
+                type="text"
+                id="childFirstName"
+                name="childFirstName[]"
+                placeholder="PANGALAN NG ANAK"
+              />
+            </div>
+            <div class="col">
+              <input
+                class="form-control"
+                type="text"
+                id="childMiddlename"
+                name="childMiddlename[]"
+                placeholder="PANGGITNANG APELYIDO"
+              />
+            </div>
+            <div class="col">
+              <select id="childSuffix" class="form-select" name="childSuffix[]">
+                <option disabled selected value="">Suffix</option>
+                <option value="">N/A</option>
+                <option value="Jr.">Jr.</option>
+                <option value="Sr.">Sr.</option>
+                <option value="II">II</option>
+                <option value="III">III</option>
+                <option value="IV">IV</option>
+                <option value="V">V</option>
+                <option value="VI">VI</option>
+                <option value="VII">VII</option>
+                <option value="VIII">VIII</option>
+                <option value="IX">IX</option>
+                <option value="X">X</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-2 d-flex align-items-center">
+              <h6 class="text-start">PETSA&nbsp;NG KAPANGANAKAN</h6>
+            </div>
+            <div class="col col-3">
+              <input
+                class="form-control"
+                id="srCitizenChildDOB"
+                type="date"
+                name="srCitizenChildDOB[]"
+                min="1900-01-01"
+              />
+            </div>
+            <div class="col col-1 d-flex align-items-center">
+              <h6 class="text-start">TELEPONO</h6>
+            </div>
+            <div class="col col-3">
+              <input
+                class="form-control numbers telephone"
+                type="tel"
+                id="childTelephone"
+                name="childTelephone[]"
+                placeholder="09##-###-####"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-2 d-flex align-items-center">
+              <h6 class="text-start">TIRAHAN NG&nbsp;ANAK</h6>
+            </div>
+            <div class="col">
+              <label class="form-label" for="childBarangay">BARANGAY</label>
+              <select id="barangay" class="form-select" name="childBarangay[]">
+                <option disabled selected value="">Please Select</option>
+                <option value="Aplaya">Aplaya</option>
+                <option value="Balibago">Balibago</option>
+                <option value="Caingin">Caingin</option>
+                <option value="Dila">Dila</option>
+                <option value="Dita">Dita</option>
+                <option value="Don Jose">Don Jose</option>
+                <option value="Ibaba">Ibaba</option>
+                <option value="Kalnuran">Kanluran</option>
+                <option value="Labas">Labas</option>
+                <option value="Macabling">Macabling</option>
+                <option value="Malitlit">Malitlit</option>
+                <option value="Malusak">Malusak</option>
+                <option value="Market Area">Market Area</option>
+                <option value="Pook">Pook</option>
+                <option value="Pulong Santa Cruz">Pulong Santa Cruz</option>
+                <option value="Santo Domingo">Santo Domingo</option>
+                <option value="Sinalhan">Sinalhan</option>
+                <option value="Tagapo">Tagapo</option>
+              </select>
+            </div>
+            <div class="col">
+              <label class="form-label" for="childAddress">TIRAHAN</label>
+              <input
+                class="form-control"
+                type="text"
+                id="childAddress"
+                name="childAddress[]"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <button
+                class="btn btn-danger delete-button w-25"
+                type="button"
+                onclick="srCitizenRemoveRelative(this);"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-1">
+          <div class="col">
+            <button
+              class="btn btn-success w-25"
+              id="seniorCitizenDuplicateButton"
+              type="button"
+            >
+              Add
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <button
+              class="btn btn-primary w-100"
+              type="submit"
+              name="srCitizenSubmit"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+<?php
+    include "footer.html";
+?>
