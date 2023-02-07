@@ -430,10 +430,9 @@ function getChildrenData($connection) {
     $connection->close();
 }
 // GET APPLICANT DATA
-function getApplicantData($connection, $username) {
+function getApplicantData($connection, $username, $userType) {
     $data = [];
     $username = $_SESSION['username'];
-    $user_type = "PWD";
     $sql = "SELECT APPLICANT_TYPE, TRANSACTION_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, EMAIL, DATE_OF_BIRTH, transaction_type.DATE_UPDATED, STATUS
     FROM person 
     JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
@@ -449,7 +448,7 @@ function getApplicantData($connection, $username) {
         header("location: ../error.html?error=stmterror");
         exit();
     }
-    $stmt->bind_param("ss", $username, $user_type);
+    $stmt->bind_param("ss", $username, $userType);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){
