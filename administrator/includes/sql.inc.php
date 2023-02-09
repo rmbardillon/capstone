@@ -1,9 +1,9 @@
 <?php
 // GET PWD DATA
-function getPWDData($connection, $username) {
+function getPWDData($connection, $personID) {
     $data = [];
-    if(!empty($username)) {
-        $sql = "SELECT APPLICANT_TYPE, TRANSACTION_TYPE, REGION, CITY, PROVINCE, previous_address.BARANGAY, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, LANDLINE_NUMBER, telephone.TELEPHONE_NUMBER, EMAIL, DATE_OF_BIRTH, RELIGION, BLOOD_TYPE, IS_ACTIVE_VOTER, IS_4PS_MEMBER, EMPLOYMENT_STATUS, CATEGORY_OF_EMPLOYMENT, NATURE_OF_EMPLOYMENT, JOB, MONTHLY_INCOME, ORGANIZATION_AFFILIATED, CONTACT_PERSON, OFFICE_ADDRESS, organization.TELEPHONE_NUMBER, SSS_NUMBER, GSIS_NUMBER,PSN_NUMBER, IS_PHILHEALTH_MEMBER, PHILHEALTH_NUMBER, TYPE_OF_DISABILITY, MEDICAL_CONDITION, CAUSE_OF_DISABILITY, CONGENITAL_INBORN, ACQUIRED, STATUS_OF_DISABILITY, PWD_PHYSICIAN_NAME, PHYSICIAN_LICENSE_NUMBER, ACCOMPLISHED_BY, ACCOMPLISHER_NAME, transaction_type.DATE_UPDATED, STATUS
+    if(!empty($personID)) {
+        $sql = "SELECT APPLICANT_TYPE, TRANSACTION_TYPE, REGION, CITY, PROVINCE, previous_address.BARANGAY, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, LANDLINE_NUMBER, telephone.TELEPHONE_NUMBER AS MOBILE_NUMBER, EMAIL, DATE_OF_BIRTH, RELIGION, BLOOD_TYPE, IS_ACTIVE_VOTER, IS_4PS_MEMBER, EMPLOYMENT_STATUS, CATEGORY_OF_EMPLOYMENT, NATURE_OF_EMPLOYMENT, JOB, OTHER_JOB, MONTHLY_INCOME, ORGANIZATION_AFFILIATED, CONTACT_PERSON, OFFICE_ADDRESS, organization.TELEPHONE_NUMBER, SSS_NUMBER, GSIS_NUMBER,PSN_NUMBER, IS_PHILHEALTH_MEMBER, PHILHEALTH_NUMBER, TYPE_OF_DISABILITY, MEDICAL_CONDITION, CAUSE_OF_DISABILITY, CONGENITAL_INBORN, ACQUIRED, STATUS_OF_DISABILITY, PWD_PHYSICIAN_NAME, PHYSICIAN_LICENSE_NUMBER, ACCOMPLISHED_BY, ACCOMPLISHER_NAME, transaction_type.DATE_UPDATED, STATUS
         FROM person 
         JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
         JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
@@ -25,7 +25,7 @@ function getPWDData($connection, $username) {
         JOIN pwd_disease ON person.PERSON_ID = pwd_disease.PERSON_ID AND pwd_disease.IS_DELETED = 'N'
         JOIN pwd_physician ON person.PERSON_ID = pwd_physician.PERSON_ID AND pwd_physician.IS_DELETED = 'N'
         JOIN pwd_application_accomplisher ON person.PERSON_ID = pwd_application_accomplisher.PERSON_ID AND pwd_application_accomplisher.IS_DELETED = 'N'
-        WHERE USERNAME = ? AND APPLICANT_TYPE = 'PWD' AND person.IS_DELETED = 'N'";
+        WHERE person.PERSON_ID = ? AND APPLICANT_TYPE = 'PWD' AND person.IS_DELETED = 'N'";
     } else {
         $sql = "SELECT APPLICANT_TYPE, TRANSACTION_TYPE, REGION, CITY, PROVINCE, previous_address.BARANGAY, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, LANDLINE_NUMBER, telephone.TELEPHONE_NUMBER, EMAIL, DATE_OF_BIRTH, RELIGION, BLOOD_TYPE, IS_ACTIVE_VOTER, IS_4PS_MEMBER, EMPLOYMENT_STATUS, CATEGORY_OF_EMPLOYMENT, NATURE_OF_EMPLOYMENT, JOB, MONTHLY_INCOME, ORGANIZATION_AFFILIATED, CONTACT_PERSON, OFFICE_ADDRESS, organization.TELEPHONE_NUMBER, SSS_NUMBER, GSIS_NUMBER,PSN_NUMBER, IS_PHILHEALTH_MEMBER, PHILHEALTH_NUMBER, TYPE_OF_DISABILITY, MEDICAL_CONDITION, CAUSE_OF_DISABILITY, CONGENITAL_INBORN, ACQUIRED, STATUS_OF_DISABILITY, PWD_PHYSICIAN_NAME, PHYSICIAN_LICENSE_NUMBER, ACCOMPLISHED_BY, ACCOMPLISHER_NAME, transaction_type.DATE_UPDATED, STATUS
         FROM person 
@@ -57,8 +57,8 @@ function getPWDData($connection, $username) {
         header("location: ../error.html?error=stmterror");
         exit();
     }
-    if(!empty($username)) {
-        $stmt->bind_param("s", $username);
+    if(!empty($personID)) {
+        $stmt->bind_param("s", $personID);
     }
     $stmt->execute();
     $result = $stmt->get_result();
@@ -76,7 +76,7 @@ function getPWDData($connection, $username) {
 
 }
 
-function getPWDGender($connection, $username) {
+function getPWDGender($connection, $personID) {
     $data = [];
     $sql = "SELECT APPLICANT_TYPE, GENDER, MARITAL_STATUS, EDUCATIONAL_ATTAINMENT
     FROM person 
@@ -84,7 +84,7 @@ function getPWDGender($connection, $username) {
     JOIN gender ON person.PERSON_ID = gender.PERSON_ID AND gender.IS_DELETED = 'N'
     JOIN marital_status ON person.PERSON_ID = marital_status.PERSON_ID AND marital_status.IS_DELETED = 'N'
     JOIN educational_attainment ON person.PERSON_ID = educational_attainment.PERSON_ID AND educational_attainment.IS_DELETED = 'N'
-    WHERE USERNAME = ? AND APPLICANT_TYPE = 'PWD' AND person.IS_DELETED = 'N'";
+    WHERE person.PERSON_ID = ? AND APPLICANT_TYPE = 'PWD' AND person.IS_DELETED = 'N'";
 
     $stmt = $connection->prepare($sql);
 
@@ -92,7 +92,7 @@ function getPWDGender($connection, $username) {
         header("location: ../error.html?error=stmterror");
         exit();
     }
-    $stmt->bind_param("s", $username);
+    $stmt->bind_param("s", $personID);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){
@@ -108,9 +108,8 @@ function getPWDGender($connection, $username) {
     $connection->close();
 }
 
-function getFatherData($connection) {
+function getFatherData($connection, $personID) {
     $data = [];
-    $userData = $_SESSION['userData'];
     $sql = "SELECT LAST_NAME, FIRST_NAME, MIDDLE_NAME, SUFFIX, RELATIONSHIP_TYPE
     FROM person
     JOIN name ON person.PERSON_ID = name.PERSON_ID
@@ -125,7 +124,7 @@ function getFatherData($connection) {
         header("location: ../error.html?error=stmterror");
         exit();
     }
-    $stmt->bind_param("s", $userData['PERSON_ID']);
+    $stmt->bind_param("s", $personID);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){
@@ -141,9 +140,8 @@ function getFatherData($connection) {
     $connection->close();
 }
 
-function getMotherData($connection) {
+function getMotherData($connection, $personID) {
     $data = [];
-    $userData = $_SESSION['userData'];
     $sql = "SELECT LAST_NAME, FIRST_NAME, MIDDLE_NAME, SUFFIX, RELATIONSHIP_TYPE
     FROM person
     JOIN name ON person.PERSON_ID = name.PERSON_ID
@@ -158,7 +156,7 @@ function getMotherData($connection) {
         header("location: ../error.html?error=stmterror");
         exit();
     }
-    $stmt->bind_param("s", $userData['PERSON_ID']);
+    $stmt->bind_param("s", $personID);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){
@@ -174,9 +172,8 @@ function getMotherData($connection) {
     $connection->close();
 }
 
-function getGuardianData($connection) {
+function getGuardianData($connection, $personID) {
     $data = [];
-    $userData = $_SESSION['userData'];
     $sql = "SELECT LAST_NAME, FIRST_NAME, MIDDLE_NAME, SUFFIX, RELATIONSHIP_TYPE
     FROM person
     JOIN name ON person.PERSON_ID = name.PERSON_ID
@@ -191,7 +188,7 @@ function getGuardianData($connection) {
         header("location: ../error.html?error=stmterror");
         exit();
     }
-    $stmt->bind_param("s", $userData['PERSON_ID']);
+    $stmt->bind_param("s", $personID);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){
@@ -207,9 +204,9 @@ function getGuardianData($connection) {
     $connection->close();
 }
 // GET SOLO PARENT DATA
-function getSoloParentData($connection, $username) {
+function getSoloParentData($connection, $personID) {
     $data = [];
-    if(!empty($username)) {
+    if(!empty($personID)) {
         $sql = "SELECT APPLICANT_TYPE, TRANSACTION_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, BARANGAY, ADDRESS, DATE_OF_BIRTH, PLACE_OF_BIRTH, EMAIL, TELEPHONE_NUMBER, JOB, COMPANY, MONTHLY_INCOME, TOTAL_FAMILY_INCOME, CLASSIFICATION_CIRCUMSTANCES, NEEDS_PROBLEMS, FAMILY_RESOURCES, transaction_type.DATE_UPDATED, STATUS
         FROM person 
         JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
@@ -223,7 +220,7 @@ function getSoloParentData($connection, $username) {
         JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
         JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
         JOIN solo_parent_long_text ON person.PERSON_ID = solo_parent_long_text.PERSON_ID AND solo_parent_long_text.IS_DELETED = 'N'
-        WHERE USERNAME = ? AND APPLICANT_TYPE = 'Solo Parent' AND person.IS_DELETED = 'N';";
+        WHERE person.PERSON_ID = ? AND APPLICANT_TYPE = 'Solo Parent' AND person.IS_DELETED = 'N';";
     } else {
         $sql = "SELECT APPLICANT_TYPE, TRANSACTION_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, BARANGAY, ADDRESS, DATE_OF_BIRTH, PLACE_OF_BIRTH, EMAIL, TELEPHONE_NUMBER, JOB, COMPANY, MONTHLY_INCOME, TOTAL_FAMILY_INCOME, CLASSIFICATION_CIRCUMSTANCES, NEEDS_PROBLEMS, FAMILY_RESOURCES, transaction_type.DATE_UPDATED, STATUS
         FROM person 
@@ -246,8 +243,8 @@ function getSoloParentData($connection, $username) {
         header("location: ../error.html?error=stmterror");
         exit();
     }
-    if(!empty($username)) {
-        $stmt->bind_param("s", $username);
+    if(!empty($personID)) {
+        $stmt->bind_param("s", $personID);
     }
     $stmt->execute();
     $result = $stmt->get_result();
@@ -265,14 +262,14 @@ function getSoloParentData($connection, $username) {
 
 }
 
-function getSoloParentGender($connection, $username) {
+function getSoloParentGender($connection, $personID) {
     $data = [];
     $sql = "SELECT APPLICANT_TYPE, GENDER, EDUCATIONAL_ATTAINMENT
     FROM person 
     JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
     JOIN gender ON person.PERSON_ID = gender.PERSON_ID AND gender.IS_DELETED = 'N'
     JOIN educational_attainment ON person.PERSON_ID = educational_attainment.PERSON_ID AND educational_attainment.IS_DELETED = 'N'
-    WHERE USERNAME = ? AND APPLICANT_TYPE = 'Solo Parent' AND person.IS_DELETED = 'N'";
+    WHERE person.PERSON_ID = ? AND APPLICANT_TYPE = 'Solo Parent' AND person.IS_DELETED = 'N'";
 
     $stmt = $connection->prepare($sql);
 
@@ -280,7 +277,7 @@ function getSoloParentGender($connection, $username) {
         header("location: ../error.html?error=stmterror");
         exit();
     }
-    $stmt->bind_param("s", $username);
+    $stmt->bind_param("s", $personID);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){
@@ -296,9 +293,8 @@ function getSoloParentGender($connection, $username) {
     $connection->close();
 }
 
-function getFamilyMemberData($connection) {
+function getFamilyMemberData($connection, $personID) {
     $data = [];
-    $userData = $_SESSION['userData'];
     $sql = "SELECT LAST_NAME AS CHILD_LAST_NAME, FIRST_NAME AS CHILD_FIRST_NAME, MIDDLE_NAME AS CHILD_MIDDLE_NAME, SUFFIX AS CHILD_SUFFIX, DATE_OF_BIRTH AS CHILD_DOB, MARITAL_STATUS AS FAMILY_MARITAL_STATUS, EDUCATIONAL_ATTAINMENT, MONTHLY_INCOME, RELATIONSHIP_TYPE
     FROM person
     JOIN name ON person.PERSON_ID = name.PERSON_ID
@@ -319,7 +315,7 @@ function getFamilyMemberData($connection) {
         header("location: ../error.html?error=stmterror");
         exit();
     }
-    $stmt->bind_param("s", $userData['PERSON_ID']);
+    $stmt->bind_param("s", $personID);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){
@@ -335,10 +331,10 @@ function getFamilyMemberData($connection) {
     $connection->close();
 }
 // GET SR CITIZEN DATA
-function getSeniorCitizenData($connection, $username) {
+function getSeniorCitizenData($connection, $personId) {
     $data = [];
-    if(!empty($username)) {
-        $sql = "SELECT APPLICANT_TYPE, TRANSACTION_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, BARANGAY, ADDRESS, DATE_OF_BIRTH, PLACE_OF_BIRTH, EMAIL, TELEPHONE_NUMBER, RELIGION, JOB, HAS_PENSION, TYPE, AMOUNT, STATUS, transaction_type.DATE_UPDATED
+    if(!empty($personId)) {
+        $sql = "SELECT APPLICANT_TYPE, ID_NUMBER, TRANSACTION_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, BARANGAY, ADDRESS, DATE_OF_BIRTH, PLACE_OF_BIRTH, EMAIL, TELEPHONE_NUMBER, RELIGION, JOB, HAS_PENSION, TYPE, AMOUNT, STATUS, transaction_type.DATE_UPDATED
         FROM person 
         JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
         JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
@@ -350,7 +346,7 @@ function getSeniorCitizenData($connection, $username) {
         JOIN pension ON person.PERSON_ID = pension.PERSON_ID AND pension.IS_DELETED = 'N'
         JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
         JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
-        WHERE USERNAME = ? AND APPLICANT_TYPE = 'Senior Citizen' AND person.IS_DELETED = 'N'";
+        WHERE person.PERSON_ID = ? AND APPLICANT_TYPE = 'Senior Citizen' AND person.IS_DELETED = 'N'";
     } else {
         $sql = "SELECT APPLICANT_TYPE, TRANSACTION_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, BARANGAY, ADDRESS, DATE_OF_BIRTH, PLACE_OF_BIRTH, EMAIL, TELEPHONE_NUMBER, RELIGION, JOB, HAS_PENSION, TYPE, AMOUNT, STATUS, transaction_type.DATE_UPDATED
         FROM person 
@@ -372,8 +368,8 @@ function getSeniorCitizenData($connection, $username) {
         header("location: ../error.html?error=stmterror");
         exit();
     }
-    if(!empty($username)) {
-        $stmt->bind_param("s", $username);
+    if(!empty($personId)) {
+        $stmt->bind_param("s", $personId);
     }
     $stmt->execute();
     $result = $stmt->get_result();
@@ -391,14 +387,14 @@ function getSeniorCitizenData($connection, $username) {
 
 }
 
-function getSeniorCitizenGender($connection, $username) {
+function getSeniorCitizenGender($connection, $personId) {
     $data = [];
     $sql = "SELECT APPLICANT_TYPE, GENDER, MARITAL_STATUS
     FROM person 
     JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
     JOIN marital_status ON person.PERSON_ID = marital_status.PERSON_ID AND marital_status.IS_DELETED = 'N'
     JOIN gender ON person.PERSON_ID = gender.PERSON_ID AND gender.IS_DELETED = 'N'
-    WHERE USERNAME = ? AND APPLICANT_TYPE = 'Senior Citizen' AND person.IS_DELETED = 'N'";
+    WHERE person.PERSON_ID = ? AND APPLICANT_TYPE = 'Senior Citizen' AND person.IS_DELETED = 'N'";
 
     $stmt = $connection->prepare($sql);
 
@@ -406,7 +402,7 @@ function getSeniorCitizenGender($connection, $username) {
         header("location: ../error.html?error=stmterror");
         exit();
     }
-    $stmt->bind_param("s", $username);
+    $stmt->bind_param("s", $personId);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){
@@ -422,9 +418,8 @@ function getSeniorCitizenGender($connection, $username) {
     $connection->close();
 }
 
-function getSPouseData($connection) {
+function getSPouseData($connection, $personID) {
     $data = [];
-    $userData = $_SESSION['userData'];
     $sql = "SELECT LAST_NAME AS SPOUSE_LAST_NAME, FIRST_NAME SPOUSE_FIRST_NAME, MIDDLE_NAME AS SPOUSE_MIDDLE_NAME , SUFFIX AS SPOUSE_SUFFIX, DATE_OF_BIRTH AS SPOUSE_DOB
     FROM person
     JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
@@ -437,7 +432,7 @@ function getSPouseData($connection) {
         header("location: ../error.html?error=stmterror");
         exit();
     }
-    $stmt->bind_param("s", $userData['PERSON_ID']);
+    $stmt->bind_param("s", $personID);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){
@@ -453,9 +448,8 @@ function getSPouseData($connection) {
     $connection->close();
 }
 
-function getChildrenData($connection) {
+function getChildrenData($connection, $personID) {
     $data = [];
-    $userData = $_SESSION['userData'];
     $sql = "SELECT LAST_NAME AS CHILD_LAST_NAME, FIRST_NAME AS CHILD_FIRST_NAME, MIDDLE_NAME AS CHILD_MIDDLE_NAME, SUFFIX AS CHILD_SUFFIX, DATE_OF_BIRTH AS CHILD_DOB, TELEPHONE_NUMBER AS CHILD_TELEPHONE, BARANGAY, ADDRESS, RELATIONSHIP_TYPE
     FROM person
     JOIN name ON person.PERSON_ID = name.PERSON_ID
@@ -475,7 +469,7 @@ function getChildrenData($connection) {
         header("location: ../error.html?error=stmterror");
         exit();
     }
-    $stmt->bind_param("s", $userData['PERSON_ID']);
+    $stmt->bind_param("s", $personID);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){
@@ -1095,14 +1089,14 @@ function insertIncome($connection, $personId, $monthlyIncome, $totalFamilyIncome
     $stmt->close();
 }
 
-function insertJob($connection, $personId, $job) {
+function insertJob($connection, $personId, $job, $otherJob) {
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO job (JOB_ID, PERSON_ID, JOB, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO job (JOB_ID, PERSON_ID, JOB, OTHER_JOB, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
-    $stmt->bind_param("ss", $personId, $job);
+    $stmt->bind_param("sss", $personId, $job, $otherJob);
 
     // Execute the query
     if($stmt->execute() === TRUE){
@@ -1382,14 +1376,14 @@ function insertUserAccount($connection, $id_number, $applicantType, $personId, $
 
 }
 
-function insertTransactionType($connection, $personId, $transactionType) {
+function insertTransactionType($connection, $personId, $transactionType, $IDNumber) {
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO transaction_type (TRANSACTION_TYPE_ID, PERSON_ID, TRANSACTION_TYPE, STATUS, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, 'PENDING', CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO transaction_type (TRANSACTION_TYPE_ID, PERSON_ID, TRANSACTION_TYPE, ID_NUMBER, STATUS, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, 'PENDING', CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
-    $stmt->bind_param("ss", $personId, $transactionType);
+    $stmt->bind_param("sss", $personId, $transactionType, $IDNumber);
 
     // Execute the query
     if($stmt->execute() === TRUE){

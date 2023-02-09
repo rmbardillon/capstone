@@ -1,11 +1,19 @@
 <?php 
-    $page = "solo-parent-application-form";
+    require_once 'includes/dbh.inc.php';
+    require_once 'includes/functions.inc.php';
+    require_once 'includes/sql.inc.php';
+    $page = "pending-requests";
     $PERSON_ID = $_GET['id'];
+    $userData = getSoloParentData($connection, $PERSON_ID);
+    $genderData = getSoloParentGender($connection, $PERSON_ID);
+    $family = getFamilyMemberData($connection, $PERSON_ID);
     include("header.html");
     if (!isset($_SESSION['admin-data'])) {
         header("location: ../login/index.html");
         exit();
     }
+    $result = array_map(null, $userData, $genderData);
+    foreach($result as list($data, $gender)):
 ?>
     <div class="container form">
         <h1 class="heading">Solo Parent Application</h1>
@@ -19,7 +27,8 @@
               type="text"
               id="surname"
               name="surname"
-              required=""
+              readonly=""
+              value="<?php echo($data['LAST_NAME']); ?>"
             />
           </div>
           <div class="col">
@@ -27,11 +36,12 @@
               FIRST NAME
             </label>
             <input
-              class="form-control"
-              type="text"
-              id="firstName"
-              name="firstName"
-              required=""
+                class="form-control"
+                type="text"
+                id="firstName"
+                name="firstName"
+                readonly=""
+                value="<?php echo($data['FIRST_NAME']); ?>"
             />
           </div>
           <div class="col">
@@ -41,24 +51,26 @@
               type="text"
               id="middlename"
               name="middlename"
+              readonly=""
+                value="<?php echo($data['MIDDLE_NAME']); ?>"
             />
           </div>
           <div class="col">
             <label class="form-label" for="suffix">SUFFIX</label>
-            <select id="suffix" class="form-select" name="suffix">
+            <select id="suffix" class="form-select" name="suffix" disabled>
               <option disabled selected value="">Please Select</option>
-              <option value="">N/A</option>
-              <option value="Jr.">Jr.</option>
-              <option value="Sr.">Sr.</option>
-              <option value="II">II</option>
-              <option value="III">III</option>
-              <option value="IV">IV</option>
-              <option value="V">V</option>
-              <option value="VI">VI</option>
-              <option value="VII">VII</option>
-              <option value="VIII">VIII</option>
-              <option value="IX">IX</option>
-              <option value="X">X</option>
+              <option value="" <?php echo ($data['SUFFIX'] == '') ? 'selected' : ''; ?> >N/A</option>
+              <option value="Jr." <?php echo ($data['SUFFIX'] == 'Jr.') ? 'selected' : ''; ?> >Jr.</option>
+              <option value="Sr." <?php echo ($data['SUFFIX'] == 'Sr.') ? 'selected' : ''; ?> >Sr.</option>
+              <option value="II" <?php echo ($data['SUFFIX'] == 'II') ? 'selected' : ''; ?> >II</option>
+              <option value="III" <?php echo ($data['SUFFIX'] == 'III') ? 'selected' : ''; ?> >III</option>
+              <option value="IV" <?php echo ($data['SUFFIX'] == 'IV') ? 'selected' : ''; ?> >IV</option>
+              <option value="V" <?php echo ($data['SUFFIX'] == 'V') ? 'selected' : ''; ?> >V</option>
+              <option value="VI" <?php echo ($data['SUFFIX'] == 'VI') ? 'selected' : ''; ?> >VI</option>
+              <option value="VII" <?php echo ($data['SUFFIX'] == 'VII') ? 'selected' : ''; ?> >VII</option>
+              <option value="VIII" <?php echo ($data['SUFFIX'] == 'VIII') ? 'selected' : ''; ?> >VIII</option>
+              <option value="IX" <?php echo ($data['SUFFIX'] == 'IX') ? 'selected' : ''; ?> >IX</option>
+              <option value="X" <?php echo ($data['SUFFIX'] == 'X') ? 'selected' : ''; ?> >X</option>
             </select>
           </div>
         </div>
@@ -72,8 +84,10 @@
               id="soloParentDOB"
               type="date"
               name="soloParentDOB"
-              required=""
+              disabled
               min="1900-01-01"
+              readonly
+                value="<?php echo($data['DATE_OF_BIRTH']); ?>"
             />
           </div>
           <div class="col col-3">
@@ -84,6 +98,7 @@
               id="age"
               disabled=""
               name="age"
+              value="<?php echo(ageCalculator($data['DATE_OF_BIRTH'])); ?>"
             />
           </div>
           <div class="col">
@@ -95,41 +110,42 @@
               type="text"
               id="placeOfBirth"
               name="placeOfBirth"
-              required=""
+              disabled
+                value="<?php echo($data['PLACE_OF_BIRTH']); ?>"
             />
           </div>
         </div>
         <div class="row">
           <div class="col col-2">
             <label class="form-label required" for="gender">SEX</label>
-            <select id="gender" class="form-select" name="gender" required>
+            <select id="gender" class="form-select" name="gender" disabled>
               <option disabled selected value="">Please Select</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
+              <option value="Male" <?php echo ($gender['GENDER'] == 'Male') ? 'selected' : ''; ?> >Male</option>
+              <option value="Female" <?php echo ($gender['GENDER'] == 'Female') ? 'selected' : ''; ?> >Female</option>
             </select>
           </div>
           <div class="col col-3">
             <label class="form-label required" for="barangay">BARANGAY</label>
-            <select id="barangay" class="form-select" name="barangay" required>
+            <select id="barangay" class="form-select" name="barangay" disabled>
               <option disabled selected value="">Please Select</option>
-              <option value="Aplaya">Aplaya</option>
-              <option value="Balibago">Balibago</option>
-              <option value="Caingin">Caingin</option>
-              <option value="Dila">Dila</option>
-              <option value="Dita">Dita</option>
-              <option value="Don Jose">Don Jose</option>
-              <option value="Ibaba">Ibaba</option>
-              <option value="Kalnuran">Kanluran</option>
-              <option value="Labas">Labas</option>
-              <option value="Macabling">Macabling</option>
-              <option value="Malitlit">Malitlit</option>
-              <option value="Malusak">Malusak</option>
-              <option value="Market Area">Market Area</option>
-              <option value="Pook">Pook</option>
-              <option value="Pulong Santa Cruz">Pulong Santa Cruz</option>
-              <option value="Santo Domingo">Santo Domingo</option>
-              <option value="Sinalhan">Sinalhan</option>
-              <option value="Tagapo">Tagapo</option>
+              <option value="Aplaya" <?php echo ($data['BARANGAY'] == 'Aplaya') ? 'selected' : ''; ?> >Aplaya</option>
+              <option value="Balibago" <?php echo ($data['BARANGAY'] == 'Balibago') ? 'selected' : ''; ?> >Balibago</option>
+              <option value="Caingin" <?php echo ($data['BARANGAY'] == 'Caingin') ? 'selected' : ''; ?> >Caingin</option>
+              <option value="Dila" <?php echo ($data['BARANGAY'] == 'Dila') ? 'selected' : ''; ?> >Dila</option>
+              <option value="Dita" <?php echo ($data['BARANGAY'] == 'Dita') ? 'selected' : ''; ?> >Dita</option>
+              <option value="Don Jose" <?php echo ($data['BARANGAY'] == 'Don Jose') ? 'selected' : ''; ?> >Don Jose</option>
+              <option value="Ibaba" <?php echo ($data['BARANGAY'] == 'Ibaba') ? 'selected' : ''; ?> >Ibaba</option>
+              <option value="Kalnuran" <?php echo ($data['BARANGAY'] == 'Kanluran') ? 'selected' : ''; ?> >Kanluran</option>
+              <option value="Labas" <?php echo ($data['BARANGAY'] == 'Labas') ? 'selected' : ''; ?> >Labas</option>
+              <option value="Macabling" <?php echo ($data['BARANGAY'] == 'Macabling') ? 'selected' : ''; ?> >Macabling</option>
+              <option value="Malitlit" <?php echo ($data['BARANGAY'] == 'Malitlit') ? 'selected' : ''; ?> >Malitlit</option>
+              <option value="Malusak" <?php echo ($data['BARANGAY'] == 'Malusak') ? 'selected' : ''; ?> >Malusak</option>
+              <option value="Market Area" <?php echo ($data['BARANGAY'] == 'Market Area') ? 'selected' : ''; ?> >Market Area</option>
+              <option value="Pook" <?php echo ($data['BARANGAY'] == 'Pook') ? 'selected' : ''; ?> >Pook</option>
+              <option value="Pulong Santa Cruz" <?php echo ($data['BARANGAY'] == 'Pulong Santa Cruz') ? 'selected' : ''; ?> >Pulong Santa Cruz</option>
+              <option value="Santo Domingo" <?php echo ($data['BARANGAY'] == 'Santo Domingo') ? 'selected' : ''; ?> >Santo Domingo</option>
+              <option value="Sinalhan" <?php echo ($data['BARANGAY'] == 'Sinalhan') ? 'selected' : ''; ?> >Sinalhan</option>
+              <option value="Tagapo" <?php echo ($data['BARANGAY'] == 'Tagapo') ? 'selected' : ''; ?> >Tagapo</option>
             </select>
           </div>
           <div class="col">
@@ -139,7 +155,8 @@
               type="text"
               id="address"
               name="address"
-              required=""
+              disabled
+                value="<?php echo($data['ADDRESS']); ?>"
             />
           </div>
         </div>
@@ -153,7 +170,8 @@
               type="text"
               id="educationalAttainment"
               name="educationalAttainment"
-              required=""
+              disabled
+                value="<?php echo($gender['EDUCATIONAL_ATTAINMENT']); ?>"
             />
           </div>
         </div>
@@ -167,7 +185,8 @@
               type="text"
               id="job"
               name="job"
-              required=""
+              disabled
+                value="<?php echo($data['JOB']); ?>"
             />
           </div>
           <div class="col">
@@ -179,7 +198,8 @@
               type="text"
               id="company"
               name="company"
-              required=""
+              disabled
+                value="<?php echo($data['COMPANY']); ?>"
             />
           </div>
         </div>
@@ -193,7 +213,8 @@
               type="text"
               id="monthlyIncome"
               name="monthlyIncome"
-              required=""
+              disabled
+                value="<?php echo($data['MONTHLY_INCOME']); ?>"
             />
           </div>
           <div class="col">
@@ -208,7 +229,8 @@
               type="text"
               id="totalFamilyIncome"
               name="totalFamilyIncome"
-              required=""
+              disabled
+                value="<?php echo($data['TOTAL_FAMILY_INCOME']); ?>"
             />
           </div>
           <div class="col">
@@ -221,6 +243,8 @@
               id="telephone"
               name="telephone"
               placeholder="09##-###-####"
+                disabled
+                    value="<?php echo($data['TELEPHONE_NUMBER']); ?>"
             />
           </div>
           <div class="col">
@@ -233,7 +257,8 @@
               id="email"
               name="email"
               placeholder="email@example.com"
-              required
+              disabled
+                value="<?php echo($data['EMAIL']); ?>"
             />
           </div>
         </div>
@@ -242,6 +267,7 @@
             <h5 class="text-start">I. FAMILY COMPOSITION</h5>
           </div>
         </div>
+        <?php foreach($family as $familyData): ?>
         <div id="soloParentRelative" class="soloParentRelative">
           <div class="row" id="child">
             <div class="col col-2 d-flex align-items-center">
@@ -254,7 +280,8 @@
                 id="childLastName"
                 name="childLastName[]"
                 placeholder="SURNAME"
-                required
+                readonly
+                value="<?php echo($familyData['CHILD_LAST_NAME']); ?>"
               />
             </div>
             <div class="col">
@@ -264,7 +291,8 @@
                 id="childFirstName"
                 name="childFirstName[]"
                 placeholder="FIRST NAME"
-                required
+                readonly
+                value="<?php echo($familyData['CHILD_FIRST_NAME']); ?>"
               />
             </div>
             <div class="col">
@@ -274,24 +302,20 @@
                 id="childMiddleName"
                 name="childMiddleName[]"
                 placeholder="MIDDLE NAME"
+                readonly
+                value="<?php echo($familyData['CHILD_MIDDLE_NAME']); ?>"
               />
             </div>
             <div class="col">
-              <select id="childSuffix" class="form-select" name="childSuffix[]">
-                <option disabled selected value="">Suffix</option>
-                <option value="">N/A</option>
-                <option value="Jr.">Jr.</option>
-                <option value="Sr.">Sr.</option>
-                <option value="II">II</option>
-                <option value="III">III</option>
-                <option value="IV">IV</option>
-                <option value="V">V</option>
-                <option value="VI">VI</option>
-                <option value="VII">VII</option>
-                <option value="VIII">VIII</option>
-                <option value="IX">IX</option>
-                <option value="X">X</option>
-              </select>
+              <input
+                class="form-control"
+                type="text"
+                id="childSuffix"
+                name="childSuffix[]"
+                placeholder="SUFFIX"
+                readonly
+                value="<?php echo($familyData['CHILD_SUFFIX']); ?>"
+              />
             </div>
           </div>
           <div class="row">
@@ -305,7 +329,8 @@
                 type="date"
                 name="soloParentChildDOB[]"
                 min="1900-01-01"
-                required
+                readonly
+                value="<?php echo($familyData['CHILD_DOB']); ?>"
               />
             </div>
             <div class="col col-2 d-flex align-items-center">
@@ -316,14 +341,14 @@
                 id="maritalStatus"
                 class="form-select"
                 name="maritalStatus[]"
-                required
+                disabled
               >
                 <option disabled selected value="">Please Select</option>
-                <option value="Single">Single</option>
-                <option value="Married">Married</option>
-                <option value="Widowed">Widowed</option>
-                <option value="Separated">Separated</option>
-                <option value="Divorced">Divorced</option>
+              <option value="Single" <?php echo ($familyData['FAMILY_MARITAL_STATUS'] == 'Single') ? 'selected' : ''; ?> >Single</option>
+              <option value="Married" <?php echo ($familyData['FAMILY_MARITAL_STATUS'] == 'Married') ? 'selected' : ''; ?> >Married</option>
+              <option value="Widowed" <?php echo ($familyData['FAMILY_MARITAL_STATUS'] == 'Widowed') ? 'selected' : ''; ?> >Widowed</option>
+              <option value="Separated" <?php echo ($familyData['FAMILY_MARITAL_STATUS'] == 'Separated') ? 'selected' : ''; ?> >Separated</option>
+              <option value="Divorced" <?php echo ($familyData['FAMILY_MARITAL_STATUS'] == 'Divorced') ? 'selected' : ''; ?> >Divorced</option>
               </select>
             </div>
           </div>
@@ -337,7 +362,8 @@
                 type="text"
                 id="childEducationalAttainment"
                 name="childEducationalAttainment[]"
-                required
+                readonly
+                value="<?php echo($familyData['EDUCATIONAL_ATTAINMENT']); ?>"
               />
             </div>
             <div class="col col-3 d-flex align-items-center">
@@ -349,32 +375,14 @@
                 type="text"
                 id="childIncome"
                 name="childIncome[]"
-                required
+                readonly
+                value="<?php echo($familyData['MONTHLY_INCOME']); ?>"
               />
             </div>
           </div>
-          <div class="row">
-            <div class="col col-2">
-              <button
-                class="btn btn-danger delete-button w-100"
-                type="button"
-                onclick="soloParentRemoveRelative(this);"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
         </div>
+        <?php endforeach; ?>
         <div class="row mt-1">
-          <div class="col col-2">
-            <button
-              class="btn btn-success w-100"
-              id="soloParentDuplicateButton"
-              type="button"
-            >
-              Add
-            </button>
-          </div>
           <div class="col">
             <h6>
               NOTE: INCLUDE FAMILY MEMBER AND OTHER MEMBERS OF THE HOUSEHOLD
@@ -397,8 +405,8 @@
                   class="form-control"
                   id="soloParentClassification"
                   name="soloParentClassification"
-                  required=""
-                ></textarea>
+                  disabled
+                ><?php echo($data['CLASSIFICATION_CIRCUMSTANCES']); ?></textarea>
               </div>
             </div>
           </div>
@@ -419,8 +427,8 @@
                   class="form-control"
                   id="soloParentNeeds"
                   name="soloParentNeeds"
-                  required=""
-                ></textarea>
+                  disabled
+                ><?php echo($data['NEEDS_PROBLEMS']); ?></textarea>
               </div>
             </div>
           </div>
@@ -441,8 +449,8 @@
                   class="form-control"
                   id="soloParentFamilyResources"
                   name="soloParentFamilyResources"
-                  required=""
-                ></textarea>
+                  disabled
+                ><?php echo($data['FAMILY_RESOURCES']); ?></textarea>
               </div>
             </div>
           </div>
@@ -452,14 +460,24 @@
             <button
               class="btn btn-primary w-100"
               type="submit"
-              name="soloParentSubmit"
+              name="soloParentApprove"
             >
-              Submit
+              Approve
+            </button>
+          </div>
+          <div class="col">
+            <button
+              class="btn btn-danger w-100"
+              type="submit"
+              name="soloParentReject"
+            >
+              Reject
             </button>
           </div>
         </div>
       </form>
     </div>
 <?php
+    endforeach;
     include "footer.html";
 ?>

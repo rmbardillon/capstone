@@ -48,7 +48,7 @@
 
         insertPerson($connection, $personId, $srCitizenDOB);
         insertApplicant($connection, $personId, $applicantType, $id_number, $placeOfBirth);
-        insertTransactionType($connection, $personId, $applicationType);
+        insertTransactionType($connection, $personId, $applicationType, $IDNumber);
         insertName($connection, $personId, $firstName, $middlename, $surname, $suffix);
         insertAddress($connection, $barangayId, $barangay, $address);
         insertPersonAddress($connection, $personId, $barangayId);
@@ -56,7 +56,7 @@
         insertMaritalStatus($connection, $personId, $maritalStatus);
         insertTelephone($connection, $personId, $telephone);
         insertReligion($connection, $personId, $religion);
-        insertJob($connection, $personId, $job);
+        insertJob($connection, $personId, $job, NULL);
         insertPension($connection, $personId, $hasPension, $whatPension, $howMuchPension);
         if (!empty($spouseFirstName)) {
             insertPerson($connection, $spouseId, $spouseDOB);
@@ -117,7 +117,7 @@
 
         insertPerson($connection, $personId, $soloParentDOB);
         insertApplicant($connection, $personId, $applicantType, $id_number, $placeOfBirth);
-        insertTransactionType($connection, $personId, $applicationType);
+        insertTransactionType($connection, $personId, $applicationType, NULL);
         insertName($connection, $personId, $firstName, $middlename, $surname, $suffix);
         insertAddress($connection, $barangayId, $barangay, $address);
         insertPersonAddress($connection, $personId, $barangayId);
@@ -126,7 +126,7 @@
         insertCompany($connection, $personId, $company);
         insertIncome($connection, $personId, $monthlyIncome, $totalFamilyIncome);
         insertTelephone($connection, $personId, $telephone);
-        insertJob($connection, $personId, $job);
+        insertJob($connection, $personId, $job, NULL);
         if (count($childFirstName) >= 1) {
             for ($i=0; $i < count($childFirstName); $i++) {
                 $childId = generateUUID();
@@ -249,7 +249,7 @@
 
         insertPerson($connection, $personId, $pwdDOB);
         insertApplicant($connection, $personId, $applicantType, $id_number, NULL);
-        insertTransactionType($connection, $personId, $applicationType);
+        insertTransactionType($connection, $personId, $applicationType, NULL);
         insertPreviousAddress($connection, $personId, $old_region, $old_province, $old_city, $old_barangay, $previousAddress);
         insertName($connection, $personId, $firstName, $middlename, $surname, $suffix);
         insertAddress($connection, $barangayId, $barangay, $address);
@@ -264,10 +264,14 @@
         insertGovernmentMembership($connection, $personId, $isActiveVoter, $is4psMember);
         insertEmploymentStatus($connection, $personId, $employmentStatus, $categoryOfEmployment, $natureOfEmployment);
         if($employmentStatus == "Employed" || $employmentStatus == "Self-employed") {
-            insertJob($connection, $personId, $occupation);
+            if($occupation == "Other") {
+                insertJob($connection, $personId, NULL, $otherOccupation);
+            } else {
+                insertJob($connection, $personId, $occupation, NULL);
+            }
             insertIncome($connection, $personId, $income, NULL);
         } else {
-            insertJob($connection, $personId, NULL);
+            insertJob($connection, $personId, NULL, NULL);
             insertIncome($connection, $personId, NULL, NULL);
         }
         insertOrganization($connection, $personId, $organization, $organizationContactPerson, $organizationOfficeAddress, $organizationTelephoneNumber);

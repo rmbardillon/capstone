@@ -1,16 +1,25 @@
 <?php 
-    $page = "senior-citizen-application-form";
+    require_once 'includes/dbh.inc.php';
+    require_once 'includes/functions.inc.php';
+    require_once 'includes/sql.inc.php';
+    $page = "pending-requests";
     $PERSON_ID = $_GET['id'];
+    $userData = getSeniorCitizenData($connection, $PERSON_ID);
+    $genderData = getSeniorCitizenGender($connection, $PERSON_ID);
+    $spouse = getSPouseData($connection, $PERSON_ID);
+    $children = getChildrenData($connection, $PERSON_ID);
+    $result = array_map(null, $userData, $genderData, $spouse);
+
     include("header.html");
     if (!isset($_SESSION['admin-data'])) {
         header("location: ../login/index.html");
         exit();
     }
+    foreach($result as list($data, $gender, $spouse)):
 ?>
     <div class="container form">
         <h1 class="heading">Senior Citizen Application</h1>
       <form action="includes/register.inc.php" method="post" novalidate="">
-        <!-- <h5 class="text-center"><strong>APLIKASYON SA PAGSAPI</strong></h5> -->
         <div class="row">
           <div class="col">
             <label class="col-form-label required">TRANSAKSYON</label>
@@ -23,7 +32,8 @@
                 id="srApplicationOption1"
                 name="applicationType"
                 value="BAGO"
-                required=""
+                disabled=""
+                <?php echo ($data['TRANSACTION_TYPE'] == 'BAGO') ? 'checked' : ''; ?>
               />
               <label class="form-check-label" for="srApplicationOption1">
                 BAGO
@@ -38,7 +48,8 @@
                 id="srApplicationOption2"
                 name="applicationType"
                 value="LUMIPAT"
-                required=""
+                disabled=""
+                <?php echo ($data['TRANSACTION_TYPE'] == 'LUMIPAT') ? 'checked' : ''; ?>
               />
               <label class="form-check-label" for="srApplicationOption2">
                 LUMIPAT
@@ -53,7 +64,8 @@
                 id="srApplicationOption3"
                 name="applicationType"
                 value="MAGPAPALIT"
-                required=""
+                disabled=""
+                <?php echo ($data['TRANSACTION_TYPE'] == 'MAGPAPALIT') ? 'checked' : ''; ?>
               />
               <label class="form-check-label" for="srApplicationOption3">
                 MAGPAPALIT
@@ -68,7 +80,8 @@
                 id="srApplicationOption4"
                 name="applicationType"
                 value="NAWALA"
-                required=""
+                disabled=""
+                <?php echo ($data['TRANSACTION_TYPE'] == 'NAWALA') ? 'checked' : ''; ?>
               />
               <label class="form-check-label" for="srApplicationOption4">
                 NAWALA
@@ -76,7 +89,8 @@
             </div>
           </div>
         </div>
-        <div class="row" id="idNumber" style="display: none;">
+        <?php if($data['TRANSACTION_TYPE'] != 'BAGO'){ ?>
+        <div class="row" id="idNumber">
           <div class="col col-lg-3 col-md-3 col-sm-3 form-inline-group">
             <label class="form-label IDNumber" for="IDNumber">
               NUMERO&nbsp;NG ID
@@ -88,9 +102,11 @@
               disabled=""
               name="IDNumber"
               placeholder="######"
+              value="<?php echo $data['ID_NUMBER']; ?>"
             />
           </div>
         </div>
+        <?php } ?>
         <div class="row">
           <div class="col">
             <label class="form-label required" for="surname">APELYIDO</label>
@@ -99,7 +115,8 @@
               type="text"
               id="surname"
               name="surname"
-              required=""
+              readonly=""
+              value="<?php echo $data['LAST_NAME']; ?>"
             />
           </div>
           <div class="col">
@@ -109,7 +126,8 @@
               type="text"
               id="firstName"
               name="firstName"
-              required=""
+              readonly=""
+              value="<?php echo $data['FIRST_NAME']; ?>"
             />
           </div>
           <div class="col">
@@ -121,50 +139,52 @@
               type="text"
               id="middlename"
               name="middlename"
+              readonly=""
+              value="<?php echo $data['MIDDLE_NAME']; ?>"
             />
           </div>
           <div class="col">
             <label class="form-label" for="suffix">SUFFIX</label>
-            <select id="suffix" class="form-select" name="suffix">
+            <select id="suffix" class="form-select" name="suffix" disabled>
               <option disabled selected value="">Please Select</option>
-              <option value="">N/A</option>
-              <option value="Jr.">Jr.</option>
-              <option value="Sr.">Sr.</option>
-              <option value="II">II</option>
-              <option value="III">III</option>
-              <option value="IV">IV</option>
-              <option value="V">V</option>
-              <option value="VI">VI</option>
-              <option value="VII">VII</option>
-              <option value="VIII">VIII</option>
-              <option value="IX">IX</option>
-              <option value="X">X</option>
+              <option value="" <?php echo ($data['SUFFIX'] == '') ? 'selected' : ''; ?> >N/A</option>
+              <option value="Jr." <?php echo ($data['SUFFIX'] == 'Jr.') ? 'selected' : ''; ?> >Jr.</option>
+              <option value="Sr." <?php echo ($data['SUFFIX'] == 'Sr.') ? 'selected' : ''; ?> >Sr.</option>
+              <option value="II" <?php echo ($data['SUFFIX'] == 'II') ? 'selected' : ''; ?> >II</option>
+              <option value="III" <?php echo ($data['SUFFIX'] == 'III') ? 'selected' : ''; ?> >III</option>
+              <option value="IV" <?php echo ($data['SUFFIX'] == 'IV') ? 'selected' : ''; ?> >IV</option>
+              <option value="V" <?php echo ($data['SUFFIX'] == 'V') ? 'selected' : ''; ?> >V</option>
+              <option value="VI" <?php echo ($data['SUFFIX'] == 'VI') ? 'selected' : ''; ?> >VI</option>
+              <option value="VII" <?php echo ($data['SUFFIX'] == 'VII') ? 'selected' : ''; ?> >VII</option>
+              <option value="VIII" <?php echo ($data['SUFFIX'] == 'VIII') ? 'selected' : ''; ?> >VIII</option>
+              <option value="IX" <?php echo ($data['SUFFIX'] == 'IX') ? 'selected' : ''; ?> >IX</option>
+              <option value="X" <?php echo ($data['SUFFIX'] == 'X') ? 'selected' : ''; ?> >X</option>
             </select>
           </div>
         </div>
         <div class="row">
           <div class="col">
             <label class="form-label required" for="barangay">BARANGAY</label>
-            <select id="barangay" class="form-select" name="barangay" required>
+            <select id="barangay" class="form-select" name="barangay" disabled>
               <option disabled selected value="">Please Select</option>
-              <option value="Aplaya">Aplaya</option>
-              <option value="Balibago">Balibago</option>
-              <option value="Caingin">Caingin</option>
-              <option value="Dila">Dila</option>
-              <option value="Dita">Dita</option>
-              <option value="Don Jose">Don Jose</option>
-              <option value="Ibaba">Ibaba</option>
-              <option value="Kalnuran">Kanluran</option>
-              <option value="Labas">Labas</option>
-              <option value="Macabling">Macabling</option>
-              <option value="Malitlit">Malitlit</option>
-              <option value="Malusak">Malusak</option>
-              <option value="Market Area">Market Area</option>
-              <option value="Pook">Pook</option>
-              <option value="Pulong Santa Cruz">Pulong Santa Cruz</option>
-              <option value="Santo Domingo">Santo Domingo</option>
-              <option value="Sinalhan">Sinalhan</option>
-              <option value="Tagapo">Tagapo</option>
+              <option value="Aplaya" <?php echo ($data['BARANGAY'] == 'Aplaya') ? 'selected' : ''; ?> >Aplaya</option>
+              <option value="Balibago" <?php echo ($data['BARANGAY'] == 'Balibago') ? 'selected' : ''; ?> >Balibago</option>
+              <option value="Caingin" <?php echo ($data['BARANGAY'] == 'Caingin') ? 'selected' : ''; ?> >Caingin</option>
+              <option value="Dila" <?php echo ($data['BARANGAY'] == 'Dila') ? 'selected' : ''; ?> >Dila</option>
+              <option value="Dita" <?php echo ($data['BARANGAY'] == 'Dita') ? 'selected' : ''; ?> >Dita</option>
+              <option value="Don Jose" <?php echo ($data['BARANGAY'] == 'Don Jose') ? 'selected' : ''; ?> >Don Jose</option>
+              <option value="Ibaba" <?php echo ($data['BARANGAY'] == 'Ibaba') ? 'selected' : ''; ?> >Ibaba</option>
+              <option value="Kalnuran" <?php echo ($data['BARANGAY'] == 'Kanluran') ? 'selected' : ''; ?> >Kanluran</option>
+              <option value="Labas" <?php echo ($data['BARANGAY'] == 'Labas') ? 'selected' : ''; ?> >Labas</option>
+              <option value="Macabling" <?php echo ($data['BARANGAY'] == 'Macabling') ? 'selected' : ''; ?> >Macabling</option>
+              <option value="Malitlit" <?php echo ($data['BARANGAY'] == 'Malitlit') ? 'selected' : ''; ?> >Malitlit</option>
+              <option value="Malusak" <?php echo ($data['BARANGAY'] == 'Malusak') ? 'selected' : ''; ?> >Malusak</option>
+              <option value="Market Area" <?php echo ($data['BARANGAY'] == 'Market Area') ? 'selected' : ''; ?> >Market Area</option>
+              <option value="Pook" <?php echo ($data['BARANGAY'] == 'Pook') ? 'selected' : ''; ?> >Pook</option>
+              <option value="Pulong Santa Cruz" <?php echo ($data['BARANGAY'] == 'Pulong Santa Cruz') ? 'selected' : ''; ?> >Pulong Santa Cruz</option>
+              <option value="Santo Domingo" <?php echo ($data['BARANGAY'] == 'Santo Domingo') ? 'selected' : ''; ?> >Santo Domingo</option>
+              <option value="Sinalhan" <?php echo ($data['BARANGAY'] == 'Sinalhan') ? 'selected' : ''; ?> >Sinalhan</option>
+              <option value="Tagapo" <?php echo ($data['BARANGAY'] == 'Tagapo') ? 'selected' : ''; ?> >Tagapo</option>
             </select>
           </div>
           <div class="col">
@@ -174,17 +194,18 @@
               type="text"
               id="address"
               name="address"
-              required=""
+              readonly=""
+              value="<?php echo $data['ADDRESS']; ?>"
             />
           </div>
         </div>
         <div class="row">
           <div class="col">
             <label class="form-label required" for="gender">KASARIAN</label>
-            <select id="gender" class="form-select" name="gender" required>
+            <select id="gender" class="form-select" name="gender" disabled>
               <option disabled selected value="">Please Select</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
+              <option value="Male" <?php echo ($gender['GENDER'] == 'Male') ? 'selected' : ''; ?> >Male</option>
+              <option value="Female" <?php echo ($gender['GENDER'] == 'Female') ? 'selected' : ''; ?> >Female</option>
             </select>
           </div>
           <div class="col">
@@ -195,14 +216,14 @@
               id="maritalStatus"
               class="form-select"
               name="maritalStatus"
-              required
+              disabled
             >
               <option disabled selected value="">Please Select</option>
-              <option value="Single">Single</option>
-              <option value="Married">Married</option>
-              <option value="Widowed">Widowed</option>
-              <option value="Separated">Separated</option>
-              <option value="Divorced">Divorced</option>
+              <option value="Single" <?php echo ($gender['MARITAL_STATUS'] == 'Single') ? 'selected' : ''; ?> >Single</option>
+              <option value="Married" <?php echo ($gender['MARITAL_STATUS'] == 'Married') ? 'selected' : ''; ?> >Married</option>
+              <option value="Widowed" <?php echo ($gender['MARITAL_STATUS'] == 'Widowed') ? 'selected' : ''; ?> >Widowed</option>
+              <option value="Separated" <?php echo ($gender['MARITAL_STATUS'] == 'Separated') ? 'selected' : ''; ?> >Separated</option>
+              <option value="Divorced" <?php echo ($gender['MARITAL_STATUS'] == 'Divorced') ? 'selected' : ''; ?> >Divorced</option>
             </select>
           </div>
           <div class="col">
@@ -213,6 +234,7 @@
               id="age"
               disabled=""
               name="age"
+              value="<?php echo(ageCalculator($data['DATE_OF_BIRTH'])); ?>"
             />
           </div>
         </div>
@@ -226,8 +248,9 @@
               id="srCitizenDOB"
               type="date"
               name="srCitizenDOB"
-              required=""
+              readonly=""
               min="1900-01-01"
+              value="<?php echo $data['DATE_OF_BIRTH']; ?>"
             />
           </div>
           <div class="col">
@@ -239,7 +262,8 @@
               type="text"
               id="placeOfBirth"
               name="placeOfBirth"
-              required=""
+              readonly=""
+              value="<?php echo $data['PLACE_OF_BIRTH']; ?>"
             />
           </div>
         </div>
@@ -252,7 +276,8 @@
               id="email"
               name="email"
               placeholder="example@email.com"
-              required
+              readonly
+              value="<?php echo $data['EMAIL']; ?>"
             />
           </div>
           <div class="col">
@@ -263,6 +288,8 @@
               id="telephone"
               name="telephone"
               placeholder="09##-###-####"
+              readonly
+              value="<?php echo $data['TELEPHONE_NUMBER']; ?>"
             />
           </div>
           <div class="col">
@@ -272,6 +299,8 @@
               type="text"
               id="religion"
               name="religion"
+              readonly
+              value="<?php echo $data['RELIGION']; ?>"
             />
           </div>
           <div class="col">
@@ -283,7 +312,8 @@
               type="text"
               id="job"
               name="job"
-              required=""
+              readonly
+              value="<?php echo $data['JOB']; ?>"
             />
           </div>
         </div>
@@ -296,11 +326,11 @@
               id="hasPension"
               class="form-select"
               name="hasPension"
-              required
+              disabled
             >
               <option disabled selected value="">Please Select</option>
-              <option value="Y">Meron</option>
-              <option value="N">Wala</option>
+              <option value="Y" <?php echo ($data['HAS_PENSION'] == 'Y') ? 'selected' : ''; ?> >Meron</option>
+              <option value="N" <?php echo ($data['HAS_PENSION'] == 'N') ? 'selected' : ''; ?> >Wala</option>
             </select>
           </div>
           <div class="col">
@@ -310,7 +340,8 @@
               type="text"
               id="whatPension"
               name="whatPension"
-              disabled=""
+              readonly
+              value="<?php echo $data['TYPE']; ?>"
             />
           </div>
           <div class="col">
@@ -322,7 +353,8 @@
               type="text"
               id="howMuchPension"
               name="howMuchPension"
-              disabled=""
+              readonly
+              value="<?php echo $data['AMOUNT']; ?>"
             />
           </div>
         </div>
@@ -338,6 +370,8 @@
                 id="spouseLastName"
                 name="spouseLastName"
                 placeholder="APELYIDO NG ASAWA"
+                readonly=""
+                value="<?php echo (!empty($spouse)) ? $spouse['SPOUSE_LAST_NAME'] : ''; ?>"
               />
               <input
                 class="form-control w-25"
@@ -345,6 +379,8 @@
                 id="spouseFirstName"
                 name="spouseFirstName"
                 placeholder="PANGALAN NG ASAWA"
+                readonly=""
+                value="<?php echo (!empty($spouse)) ? $spouse['SPOUSE_FIRST_NAME'] : ''; ?>"
               />
               <input
                 class="form-control w-25"
@@ -352,13 +388,17 @@
                 id="spouseMiddlename"
                 name="spouseMiddlename"
                 placeholder="PANGGITNANG APELYIDO"
+                readonly=""
+                value="<?php echo (!empty($spouse)) ? $spouse['SPOUSE_MIDDLE_NAME'] : ''; ?>"
               />
               <input
                 class="form-control w-25"
                 type="text"
                 id="spouseSuffix"
                 name="spouseSuffix"
-                placeholder="SUFFIX"
+                placeholder="N/A"
+                readonly=""
+                value="<?php echo (!empty($spouse)) ? $spouse['SPOUSE_SUFFIX'] : ''; ?>"
               />
             </div>
           </div>
@@ -371,10 +411,12 @@
               id="spouseDOB"
               type="date"
               name="spouseDOB"
+              readonly=""
+              value="<?php echo (!empty($spouse)) ? $spouse['SPOUSE_DOB'] : ''; ?>"
             />
           </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
           <div class="col">
             <label class="form-label required" for="numberOfChildren">
               ILAN ANG ANAK?
@@ -402,7 +444,8 @@
               required=""
             />
           </div>
-        </div>
+        </div> -->
+        <?php foreach($children as $childrenData): ?>
         <div id="srCitizenRelative" class="srCitizenRelative">
           <div class="row" id="child">
             <div class="col col-2 d-flex align-items-center">
@@ -415,6 +458,8 @@
                 id="childLastName"
                 name="childLastName[]"
                 placeholder="APELYIDO NG ANAK"
+                readonly
+                value="<?php echo $childrenData['CHILD_LAST_NAME']; ?>"
               />
             </div>
             <div class="col">
@@ -424,6 +469,8 @@
                 id="childFirstName"
                 name="childFirstName[]"
                 placeholder="PANGALAN NG ANAK"
+                readonly
+                value="<?php echo $childrenData['CHILD_FIRST_NAME']; ?>"
               />
             </div>
             <div class="col">
@@ -433,23 +480,25 @@
                 id="childMiddlename"
                 name="childMiddlename[]"
                 placeholder="PANGGITNANG APELYIDO"
+                readonly
+                value="<?php echo $childrenData['CHILD_MIDDLE_NAME']; ?>"
               />
             </div>
             <div class="col">
-              <select id="childSuffix" class="form-select" name="childSuffix[]">
-                <option disabled selected value="">Suffix</option>
-                <option value="">N/A</option>
-                <option value="Jr.">Jr.</option>
-                <option value="Sr.">Sr.</option>
-                <option value="II">II</option>
-                <option value="III">III</option>
-                <option value="IV">IV</option>
-                <option value="V">V</option>
-                <option value="VI">VI</option>
-                <option value="VII">VII</option>
-                <option value="VIII">VIII</option>
-                <option value="IX">IX</option>
-                <option value="X">X</option>
+              <select id="childSuffix" class="form-select" name="childSuffix[]" disabled>
+                <option disabled selected value="">Please Select</option>
+                <option value="" <?php echo ($childrenData['CHILD_SUFFIX'] == '') ? 'selected' : ''; ?> >N/A</option>
+                <option value="Jr." <?php echo ($childrenData['CHILD_SUFFIX'] == 'Jr.') ? 'selected' : ''; ?> >Jr.</option>
+                <option value="Sr." <?php echo ($childrenData['CHILD_SUFFIX'] == 'Sr.') ? 'selected' : ''; ?> >Sr.</option>
+                <option value="II" <?php echo ($childrenData['CHILD_SUFFIX'] == 'II') ? 'selected' : ''; ?> >II</option>
+                <option value="III" <?php echo ($childrenData['CHILD_SUFFIX'] == 'III') ? 'selected' : ''; ?> >III</option>
+                <option value="IV" <?php echo ($childrenData['CHILD_SUFFIX'] == 'IV') ? 'selected' : ''; ?> >IV</option>
+                <option value="V" <?php echo ($childrenData['CHILD_SUFFIX'] == 'V') ? 'selected' : ''; ?> >V</option>
+                <option value="VI" <?php echo ($childrenData['CHILD_SUFFIX'] == 'VI') ? 'selected' : ''; ?> >VI</option>
+                <option value="VII" <?php echo ($childrenData['CHILD_SUFFIX'] == 'VII') ? 'selected' : ''; ?> >VII</option>
+                <option value="VIII" <?php echo ($childrenData['CHILD_SUFFIX'] == 'VIII') ? 'selected' : ''; ?> >VIII</option>
+                <option value="IX" <?php echo ($childrenData['CHILD_SUFFIX'] == 'IX') ? 'selected' : ''; ?> >IX</option>
+                <option value="X" <?php echo ($childrenData['CHILD_SUFFIX'] == 'X') ? 'selected' : ''; ?> >X</option>
               </select>
             </div>
           </div>
@@ -464,6 +513,8 @@
                 type="date"
                 name="srCitizenChildDOB[]"
                 min="1900-01-01"
+                readonly
+                value="<?php echo $childrenData['CHILD_DOB']; ?>"
               />
             </div>
             <div class="col col-1 d-flex align-items-center">
@@ -476,6 +527,8 @@
                 id="childTelephone"
                 name="childTelephone[]"
                 placeholder="09##-###-####"
+                readonly
+                value="<?php echo $childrenData['CHILD_TELEPHONE']; ?>"
               />
             </div>
           </div>
@@ -485,26 +538,26 @@
             </div>
             <div class="col">
               <label class="form-label" for="childBarangay">BARANGAY</label>
-              <select id="barangay" class="form-select" name="childBarangay[]">
+              <select id="barangay" class="form-select" name="childBarangay[]" disabled>
                 <option disabled selected value="">Please Select</option>
-                <option value="Aplaya">Aplaya</option>
-                <option value="Balibago">Balibago</option>
-                <option value="Caingin">Caingin</option>
-                <option value="Dila">Dila</option>
-                <option value="Dita">Dita</option>
-                <option value="Don Jose">Don Jose</option>
-                <option value="Ibaba">Ibaba</option>
-                <option value="Kalnuran">Kanluran</option>
-                <option value="Labas">Labas</option>
-                <option value="Macabling">Macabling</option>
-                <option value="Malitlit">Malitlit</option>
-                <option value="Malusak">Malusak</option>
-                <option value="Market Area">Market Area</option>
-                <option value="Pook">Pook</option>
-                <option value="Pulong Santa Cruz">Pulong Santa Cruz</option>
-                <option value="Santo Domingo">Santo Domingo</option>
-                <option value="Sinalhan">Sinalhan</option>
-                <option value="Tagapo">Tagapo</option>
+                <option value="Aplaya" <?php echo ($childrenData['BARANGAY'] == 'Aplaya') ? 'selected' : ''; ?> >Aplaya</option>
+                <option value="Balibago" <?php echo ($childrenData['BARANGAY'] == 'Balibago') ? 'selected' : ''; ?> >Balibago</option>
+                <option value="Caingin" <?php echo ($childrenData['BARANGAY'] == 'Caingin') ? 'selected' : ''; ?> >Caingin</option>
+                <option value="Dila" <?php echo ($childrenData['BARANGAY'] == 'Dila') ? 'selected' : ''; ?> >Dila</option>
+                <option value="Dita" <?php echo ($childrenData['BARANGAY'] == 'Dita') ? 'selected' : ''; ?> >Dita</option>
+                <option value="Don Jose" <?php echo ($childrenData['BARANGAY'] == 'Don Jose') ? 'selected' : ''; ?> >Don Jose</option>
+                <option value="Ibaba" <?php echo ($childrenData['BARANGAY'] == 'Ibaba') ? 'selected' : ''; ?> >Ibaba</option>
+                <option value="Kalnuran" <?php echo ($childrenData['BARANGAY'] == 'Kanluran') ? 'selected' : ''; ?> >Kanluran</option>
+                <option value="Labas" <?php echo ($childrenData['BARANGAY'] == 'Labas') ? 'selected' : ''; ?> >Labas</option>
+                <option value="Macabling" <?php echo ($childrenData['BARANGAY'] == 'Macabling') ? 'selected' : ''; ?> >Macabling</option>
+                <option value="Malitlit" <?php echo ($childrenData['BARANGAY'] == 'Malitlit') ? 'selected' : ''; ?> >Malitlit</option>
+                <option value="Malusak" <?php echo ($childrenData['BARANGAY'] == 'Malusak') ? 'selected' : ''; ?> >Malusak</option>
+                <option value="Market Area" <?php echo ($childrenData['BARANGAY'] == 'Market Area') ? 'selected' : ''; ?> >Market Area</option>
+                <option value="Pook" <?php echo ($childrenData['BARANGAY'] == 'Pook') ? 'selected' : ''; ?> >Pook</option>
+                <option value="Pulong Santa Cruz" <?php echo ($childrenData['BARANGAY'] == 'Pulong Santa Cruz') ? 'selected' : ''; ?> >Pulong Santa Cruz</option>
+                <option value="Santo Domingo" <?php echo ($childrenData['BARANGAY'] == 'Santo Domingo') ? 'selected' : ''; ?> >Santo Domingo</option>
+                <option value="Sinalhan" <?php echo ($childrenData['BARANGAY'] == 'Sinalhan') ? 'selected' : ''; ?> >Sinalhan</option>
+                <option value="Tagapo" <?php echo ($childrenData['BARANGAY'] == 'Tagapo') ? 'selected' : ''; ?> >Tagapo</option>
               </select>
             </div>
             <div class="col">
@@ -514,602 +567,36 @@
                 type="text"
                 id="childAddress"
                 name="childAddress[]"
+                readonly
+                value="<?php echo $childrenData['ADDRESS']; ?>"
               />
             </div>
           </div>
-          <div class="row">
-            <div class="col">
-              <button
-                class="btn btn-danger delete-button w-25"
-                type="button"
-                onclick="srCitizenRemoveRelative(this);"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
         </div>
-        <div class="row mt-1">
-          <div class="col">
-            <button
-              class="btn btn-success w-25"
-              id="seniorCitizenDuplicateButton"
-              type="button"
-            >
-              Add
-            </button>
-          </div>
-        </div>
-        <div class="row">
+        <?php endforeach; ?>
+        <div class="mt-1 row">
           <div class="col">
             <button
               class="btn btn-primary w-100"
               type="submit"
-              name="srCitizenSubmit"
+              name="srCitizenApprove"
             >
-              Submit
+              Approve
+            </button>
+          </div>
+          <div class="col">
+            <button
+              class="btn btn-danger w-100"
+              type="submit"
+              name="srCitizenReject"
+            >
+              Reject
             </button>
           </div>
         </div>
       </form>
     </div>
 <?php
-    include "footer.html";
-?>
-<?php 
-    $page = "senior-citizen-application-form";
-    include("header.html");
-    if (!isset($_SESSION['admin-data'])) {
-        header("location: ../login/index.html");
-        exit();
-    }
-?>
-    <div class="container form">
-        <h1 class="heading">Senior Citizen Application</h1>
-      <form action="includes/register.inc.php" method="post" novalidate="">
-        <!-- <h5 class="text-center"><strong>APLIKASYON SA PAGSAPI</strong></h5> -->
-        <div class="row">
-          <div class="col">
-            <label class="col-form-label required">TRANSAKSYON</label>
-          </div>
-          <div class="col">
-            <div class="form-check form-check-inline form-check-reverse">
-              <input
-                class="form-check-input"
-                type="radio"
-                id="srApplicationOption1"
-                name="applicationType"
-                value="BAGO"
-                required=""
-              />
-              <label class="form-check-label" for="srApplicationOption1">
-                BAGO
-              </label>
-            </div>
-          </div>
-          <div class="col">
-            <div class="form-check form-check-inline form-check-reverse">
-              <input
-                class="form-check-input"
-                type="radio"
-                id="srApplicationOption2"
-                name="applicationType"
-                value="LUMIPAT"
-                required=""
-              />
-              <label class="form-check-label" for="srApplicationOption2">
-                LUMIPAT
-              </label>
-            </div>
-          </div>
-          <div class="col">
-            <div class="form-check form-check-inline form-check-reverse">
-              <input
-                class="form-check-input"
-                type="radio"
-                id="srApplicationOption3"
-                name="applicationType"
-                value="MAGPAPALIT"
-                required=""
-              />
-              <label class="form-check-label" for="srApplicationOption3">
-                MAGPAPALIT
-              </label>
-            </div>
-          </div>
-          <div class="col">
-            <div class="form-check form-check-inline form-check-reverse">
-              <input
-                class="form-check-input"
-                type="radio"
-                id="srApplicationOption4"
-                name="applicationType"
-                value="NAWALA"
-                required=""
-              />
-              <label class="form-check-label" for="srApplicationOption4">
-                NAWALA
-              </label>
-            </div>
-          </div>
-        </div>
-        <div class="row" id="idNumber" style="display: none;">
-          <div class="col col-lg-3 col-md-3 col-sm-3 form-inline-group">
-            <label class="form-label IDNumber" for="IDNumber">
-              NUMERO&nbsp;NG ID
-            </label>
-            <input
-              class="form-control numbers"
-              type="text"
-              id="IDNumber"
-              disabled=""
-              name="IDNumber"
-              placeholder="######"
-            />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <label class="form-label required" for="surname">APELYIDO</label>
-            <input
-              class="form-control"
-              type="text"
-              id="surname"
-              name="surname"
-              required=""
-            />
-          </div>
-          <div class="col">
-            <label class="form-label required" for="firstName">PANGALAN</label>
-            <input
-              class="form-control"
-              type="text"
-              id="firstName"
-              name="firstName"
-              required=""
-            />
-          </div>
-          <div class="col">
-            <label class="form-label" for="middlename">
-              PANGGITNANG&nbsp;APELYIDO
-            </label>
-            <input
-              class="form-control"
-              type="text"
-              id="middlename"
-              name="middlename"
-            />
-          </div>
-          <div class="col">
-            <label class="form-label" for="suffix">SUFFIX</label>
-            <select id="suffix" class="form-select" name="suffix">
-              <option disabled selected value="">Please Select</option>
-              <option value="">N/A</option>
-              <option value="Jr.">Jr.</option>
-              <option value="Sr.">Sr.</option>
-              <option value="II">II</option>
-              <option value="III">III</option>
-              <option value="IV">IV</option>
-              <option value="V">V</option>
-              <option value="VI">VI</option>
-              <option value="VII">VII</option>
-              <option value="VIII">VIII</option>
-              <option value="IX">IX</option>
-              <option value="X">X</option>
-            </select>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <label class="form-label required" for="barangay">BARANGAY</label>
-            <select id="barangay" class="form-select" name="barangay" required>
-              <option disabled selected value="">Please Select</option>
-              <option value="Aplaya">Aplaya</option>
-              <option value="Balibago">Balibago</option>
-              <option value="Caingin">Caingin</option>
-              <option value="Dila">Dila</option>
-              <option value="Dita">Dita</option>
-              <option value="Don Jose">Don Jose</option>
-              <option value="Ibaba">Ibaba</option>
-              <option value="Kalnuran">Kanluran</option>
-              <option value="Labas">Labas</option>
-              <option value="Macabling">Macabling</option>
-              <option value="Malitlit">Malitlit</option>
-              <option value="Malusak">Malusak</option>
-              <option value="Market Area">Market Area</option>
-              <option value="Pook">Pook</option>
-              <option value="Pulong Santa Cruz">Pulong Santa Cruz</option>
-              <option value="Santo Domingo">Santo Domingo</option>
-              <option value="Sinalhan">Sinalhan</option>
-              <option value="Tagapo">Tagapo</option>
-            </select>
-          </div>
-          <div class="col">
-            <label class="form-label required" for="address">TIRAHAN</label>
-            <input
-              class="form-control"
-              type="text"
-              id="address"
-              name="address"
-              required=""
-            />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <label class="form-label required" for="gender">KASARIAN</label>
-            <select id="gender" class="form-select" name="gender" required>
-              <option disabled selected value="">Please Select</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-            </select>
-          </div>
-          <div class="col">
-            <label class="form-label required" for="maritalStatus">
-              KATAYUANG SIBIL
-            </label>
-            <select
-              id="maritalStatus"
-              class="form-select"
-              name="maritalStatus"
-              required
-            >
-              <option disabled selected value="">Please Select</option>
-              <option value="Single">Single</option>
-              <option value="Married">Married</option>
-              <option value="Widowed">Widowed</option>
-              <option value="Separated">Separated</option>
-              <option value="Divorced">Divorced</option>
-            </select>
-          </div>
-          <div class="col">
-            <label class="form-label" for="age">EDAD</label>
-            <input
-              class="form-control"
-              type="text"
-              id="age"
-              disabled=""
-              name="age"
-            />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col col-4">
-            <label class="form-label required" for="srCitizenDOB">
-              PETSA NG KAPANGANAKAN
-            </label>
-            <input
-              class="form-control"
-              id="srCitizenDOB"
-              type="date"
-              name="srCitizenDOB"
-              required=""
-              min="1900-01-01"
-            />
-          </div>
-          <div class="col">
-            <label class="form-label required" for="placeOfBirth">
-              LUGAR NG KAPANGANAKAN
-            </label>
-            <input
-              class="form-control"
-              type="text"
-              id="placeOfBirth"
-              name="placeOfBirth"
-              required=""
-            />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <label class="form-label" for="email">EMAIL</label>
-            <input
-              class="form-control"
-              type="email"
-              id="email"
-              name="email"
-              placeholder="example@email.com"
-              required
-            />
-          </div>
-          <div class="col">
-            <label class="form-label" for="telephone">TELEPONO</label>
-            <input
-              class="form-control numbers telephone"
-              type="tel"
-              id="telephone"
-              name="telephone"
-              placeholder="09##-###-####"
-            />
-          </div>
-          <div class="col">
-            <label class="form-label" for="religion">RELIHIYON</label>
-            <input
-              class="form-control"
-              type="text"
-              id="religion"
-              name="religion"
-            />
-          </div>
-          <div class="col">
-            <label class="form-label required" id="job" for="job">
-              HANAPBUHAY
-            </label>
-            <input
-              class="form-control"
-              type="text"
-              id="job"
-              name="job"
-              required=""
-            />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <label class="form-label required" for="hasPension">
-              MAY PENSYON NA TINATANGGAP
-            </label>
-            <select
-              id="hasPension"
-              class="form-select"
-              name="hasPension"
-              required
-            >
-              <option disabled selected value="">Please Select</option>
-              <option value="Y">Meron</option>
-              <option value="N">Wala</option>
-            </select>
-          </div>
-          <div class="col">
-            <label class="form-label whatPension" for="whatPension">SAAN</label>
-            <input
-              class="form-control"
-              type="text"
-              id="whatPension"
-              name="whatPension"
-              disabled=""
-            />
-          </div>
-          <div class="col">
-            <label class="form-label howMuchPension" for="howMuchPension">
-              MAGKANO
-            </label>
-            <input
-              class="form-control numbers"
-              type="text"
-              id="howMuchPension"
-              name="howMuchPension"
-              disabled=""
-            />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <label class="form-label" for="spouseLastName">
-              PANGALAN NG ASAWA
-            </label>
-            <div class="input-group">
-              <input
-                class="form-control w-25"
-                type="text"
-                id="spouseLastName"
-                name="spouseLastName"
-                placeholder="APELYIDO NG ASAWA"
-              />
-              <input
-                class="form-control w-25"
-                type="text"
-                id="spouseFirstName"
-                name="spouseFirstName"
-                placeholder="PANGALAN NG ASAWA"
-              />
-              <input
-                class="form-control w-25"
-                type="text"
-                id="spouseMiddlename"
-                name="spouseMiddlename"
-                placeholder="PANGGITNANG APELYIDO"
-              />
-              <input
-                class="form-control w-25"
-                type="text"
-                id="spouseSuffix"
-                name="spouseSuffix"
-                placeholder="SUFFIX"
-              />
-            </div>
-          </div>
-          <div class="col col-4">
-            <label class="form-label" for="spouseDOB">
-              PETSA NG KAPANGANAKAN NG ASAWA
-            </label>
-            <input
-              class="form-control"
-              id="spouseDOB"
-              type="date"
-              name="spouseDOB"
-            />
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <label class="form-label required" for="numberOfChildren">
-              ILAN ANG ANAK?
-            </label>
-            <input
-              class="form-control w-25 numbers"
-              type="number"
-              id="numberOfChildren"
-              name="numberOfChildren"
-              min="0"
-              required=""
-            />
-          </div>
-          <div class="col">
-            <label class="form-label required" for="totalHousemate">
-              ILAN ANG KASAMA SA BAHAY?
-            </label>
-            <input
-              class="form-control w-25"
-              type="number"
-              id="totalHousemate"
-              name="totalHousemate"
-              min="0"
-              max="100"
-              required=""
-            />
-          </div>
-        </div>
-        <div id="srCitizenRelative" class="srCitizenRelative">
-          <div class="row" id="child">
-            <div class="col col-2 d-flex align-items-center">
-              <h6 class="text-nowrap text-start">PANGALAN NG ANAK</h6>
-            </div>
-            <div class="col">
-              <input
-                class="form-control"
-                type="text"
-                id="childLastName"
-                name="childLastName[]"
-                placeholder="APELYIDO NG ANAK"
-              />
-            </div>
-            <div class="col">
-              <input
-                class="form-control"
-                type="text"
-                id="childFirstName"
-                name="childFirstName[]"
-                placeholder="PANGALAN NG ANAK"
-              />
-            </div>
-            <div class="col">
-              <input
-                class="form-control"
-                type="text"
-                id="childMiddlename"
-                name="childMiddlename[]"
-                placeholder="PANGGITNANG APELYIDO"
-              />
-            </div>
-            <div class="col">
-              <select id="childSuffix" class="form-select" name="childSuffix[]">
-                <option disabled selected value="">Suffix</option>
-                <option value="">N/A</option>
-                <option value="Jr.">Jr.</option>
-                <option value="Sr.">Sr.</option>
-                <option value="II">II</option>
-                <option value="III">III</option>
-                <option value="IV">IV</option>
-                <option value="V">V</option>
-                <option value="VI">VI</option>
-                <option value="VII">VII</option>
-                <option value="VIII">VIII</option>
-                <option value="IX">IX</option>
-                <option value="X">X</option>
-              </select>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col col-2 d-flex align-items-center">
-              <h6 class="text-start">PETSA&nbsp;NG KAPANGANAKAN</h6>
-            </div>
-            <div class="col col-3">
-              <input
-                class="form-control"
-                id="srCitizenChildDOB"
-                type="date"
-                name="srCitizenChildDOB[]"
-                min="1900-01-01"
-              />
-            </div>
-            <div class="col col-1 d-flex align-items-center">
-              <h6 class="text-start">TELEPONO</h6>
-            </div>
-            <div class="col col-3">
-              <input
-                class="form-control numbers telephone"
-                type="tel"
-                id="childTelephone"
-                name="childTelephone[]"
-                placeholder="09##-###-####"
-              />
-            </div>
-          </div>
-          <div class="row">
-            <div class="col col-2 d-flex align-items-center">
-              <h6 class="text-start">TIRAHAN NG&nbsp;ANAK</h6>
-            </div>
-            <div class="col">
-              <label class="form-label" for="childBarangay">BARANGAY</label>
-              <select id="barangay" class="form-select" name="childBarangay[]">
-                <option disabled selected value="">Please Select</option>
-                <option value="Aplaya">Aplaya</option>
-                <option value="Balibago">Balibago</option>
-                <option value="Caingin">Caingin</option>
-                <option value="Dila">Dila</option>
-                <option value="Dita">Dita</option>
-                <option value="Don Jose">Don Jose</option>
-                <option value="Ibaba">Ibaba</option>
-                <option value="Kalnuran">Kanluran</option>
-                <option value="Labas">Labas</option>
-                <option value="Macabling">Macabling</option>
-                <option value="Malitlit">Malitlit</option>
-                <option value="Malusak">Malusak</option>
-                <option value="Market Area">Market Area</option>
-                <option value="Pook">Pook</option>
-                <option value="Pulong Santa Cruz">Pulong Santa Cruz</option>
-                <option value="Santo Domingo">Santo Domingo</option>
-                <option value="Sinalhan">Sinalhan</option>
-                <option value="Tagapo">Tagapo</option>
-              </select>
-            </div>
-            <div class="col">
-              <label class="form-label" for="childAddress">TIRAHAN</label>
-              <input
-                class="form-control"
-                type="text"
-                id="childAddress"
-                name="childAddress[]"
-              />
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <button
-                class="btn btn-danger delete-button w-25"
-                type="button"
-                onclick="srCitizenRemoveRelative(this);"
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="row mt-1">
-          <div class="col">
-            <button
-              class="btn btn-success w-25"
-              id="seniorCitizenDuplicateButton"
-              type="button"
-            >
-              Add
-            </button>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <button
-              class="btn btn-primary w-100"
-              type="submit"
-              name="srCitizenSubmit"
-            >
-              Submit
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
-<?php
+    endforeach;
     include "footer.html";
 ?>
