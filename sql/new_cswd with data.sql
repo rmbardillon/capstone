@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 06, 2023 at 01:43 PM
+-- Generation Time: Feb 09, 2023 at 02:07 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -42,10 +42,13 @@ CREATE TABLE `address` (
 --
 
 INSERT INTO `address` (`ADDRESS_ID`, `BARANGAY`, `ADDRESS`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
+('4a0345f14e844389', 'Tagapo', 'BLOCK 7 LOT 2 ROSE POINTE SUBD', '2023-02-09 00:00:00.000000', '2023-02-09 00:00:00.000000', 'N', 'adminrbardillon'),
 ('5803786ab66f4e13', 'Tagapo', 'BLOCK 7 LOT 2 OAK STREET ROSE POINTE SUBDIVISION BARANGAY TAGAPO', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
 ('5e14e63a49ea4c54', 'Tagapo', 'BLOCK 7 LOT 2 OAK STREET ROSE POINTE SUBDIVISION BARANGAY TAGAPO', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
 ('b15654bf7df64272', 'Tagapo', 'BLOCK 7 LOT 2 ROSE POINTE SUBD', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
-('b3ac17d690d740aa', 'Pulong Santa Cruz', 'BLOCK 7 LOT 2 OAK STREET ROSE POINTE SUBDIVISION', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
+('b3ac17d690d740aa', 'Pulong Santa Cruz', 'BLOCK 7 LOT 2 OAK STREET ROSE POINTE SUBDIVISION', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('c788a68e73764dfa', 'Tagapo', 'BLOCK 7 LOT 2 ROSE POINTE SUBD', '2023-02-09 00:00:00.000000', '2023-02-09 00:00:00.000000', 'N', 'adminrbardillon'),
+('f7042ece690843d7', 'Tagapo', 'BLOCK 7 LOT 2 OAK STREET ROSE POINTE SUBDIVISION BARANGAY TAGAPO', '2023-02-09 00:00:00.000000', '2023-02-09 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -211,7 +214,8 @@ CREATE TABLE `applicant` (
 INSERT INTO `applicant` (`APPLICANT_ID`, `APPLICANT_TYPE`, `CITIZEN_ID`, `PLACE_OF_BIRTH`) VALUES
 ('d5f1a621c21540f7', 'PWD', '043428023-8820', NULL),
 ('22056c0f3d9947ff', 'Solo Parent', '2023-24226', 'PASAY CITY'),
-('7339f1ca49cb44dc', 'Senior Citizen', 'SC-928858', 'PANDACAN MANILA');
+('7339f1ca49cb44dc', 'Senior Citizen', 'SC-928858', 'PANDACAN MANILA'),
+('9241e45f8397424e', 'Senior Citizen', 'SC-429896', 'SANTA ROSA, LAGUNA');
 
 -- --------------------------------------------------------
 
@@ -307,7 +311,7 @@ CREATE TABLE `employment_status` (
 --
 
 INSERT INTO `employment_status` (`EMPLOYMENT_STATUS_ID`, `PERSON_ID`, `EMPLOYMENT_STATUS`, `CATEGORY_OF_EMPLOYMENT`, `NATURE_OF_EMPLOYMENT`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
-('88e9a39c9af011ed', 'd5f1a621c21540f7', 'Unemployed', NULL, NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
+('88e9a39c9af011ed', 'd5f1a621c21540f7', 'Employed', NULL, NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -332,6 +336,7 @@ CREATE TABLE `gender` (
 INSERT INTO `gender` (`GENDER_ID`, `PERSON_ID`, `GENDER`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
 ('041e512f9b2511ed', '22056c0f3d9947ff', 'Female', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
 ('88e7b8219af011ed', 'd5f1a621c21540f7', 'Male', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('92b314e6a84011ed', '9241e45f8397424e', 'Male', '2023-02-09 00:00:00.000000', '2023-02-09 00:00:00.000000', 'N', 'adminrbardillon'),
 ('fbb9b1009b2511ed', '7339f1ca49cb44dc', 'Female', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
@@ -421,6 +426,7 @@ CREATE TABLE `job` (
   `JOB_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
   `JOB` varchar(300) DEFAULT NULL,
+  `OTHER_JOB` varchar(128) DEFAULT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
@@ -431,10 +437,11 @@ CREATE TABLE `job` (
 -- Dumping data for table `job`
 --
 
-INSERT INTO `job` (`JOB_ID`, `PERSON_ID`, `JOB`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
-('04200aae9b2511ed', '22056c0f3d9947ff', 'NONE', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
-('88e9fabc9af011ed', 'd5f1a621c21540f7', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
-('fbbca8fe9b2511ed', '7339f1ca49cb44dc', 'NONE', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
+INSERT INTO `job` (`JOB_ID`, `PERSON_ID`, `JOB`, `OTHER_JOB`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
+('04200aae9b2511ed', '22056c0f3d9947ff', 'NONE', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('88e9fabc9af011ed', 'd5f1a621c21540f7', NULL, NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('92b42678a84011ed', '9241e45f8397424e', 'NONE', NULL, '2023-02-09 00:00:00.000000', '2023-02-09 00:00:00.000000', 'N', 'adminrbardillon'),
+('fbbca8fe9b2511ed', '7339f1ca49cb44dc', 'NONE', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -482,6 +489,7 @@ CREATE TABLE `marital_status` (
 INSERT INTO `marital_status` (`MARITAL_STATUS_ID`, `PERSON_ID`, `MARITAL_STATUS`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
 ('0421645d9b2511ed', 'dd1d284cce34412c', 'Single', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
 ('88e856569af011ed', 'd5f1a621c21540f7', 'Single', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('92b35ccba84011ed', '9241e45f8397424e', 'Single', '2023-02-09 00:00:00.000000', '2023-02-09 00:00:00.000000', 'N', 'adminrbardillon'),
 ('fbba79739b2511ed', '7339f1ca49cb44dc', 'Widowed', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
@@ -536,6 +544,9 @@ INSERT INTO `name` (`NAME_ID`, `PERSON_ID`, `FIRST_NAME`, `MIDDLE_NAME`, `LAST_N
 ('88ebc0289af011ed', 'ed551e693976491a', 'ROMEO SR', 'UY', 'BARDILLON', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
 ('88eda6449af011ed', 'bf78d87c8eaa4988', 'MILA ROSA', 'SABANDAL', 'MONTEALEGRE', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
 ('88ef04379af011ed', '1d84311327d14e2b', 'DON KENNETH', 'MONTEALEGRE', 'BARDILLON', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('92b22fb7a84011ed', '9241e45f8397424e', 'ROMEO JR', 'MONTEALEGRE', 'BARDILLON', NULL, '2023-02-09 00:00:00.000000', '2023-02-09 00:00:00.000000', 'N', 'adminrbardillon'),
+('92b4ff64a84011ed', '89aaca393f2145c6', 'ANAK 1', '', 'BARDILLON', NULL, '2023-02-09 00:00:00.000000', '2023-02-09 00:00:00.000000', 'N', 'adminrbardillon'),
+('92b81e94a84011ed', 'fa4478a68733473a', 'ANAK 2', '', 'BARDILLON', NULL, '2023-02-09 00:00:00.000000', '2023-02-09 00:00:00.000000', 'N', 'adminrbardillon'),
 ('fbb7f1da9b2511ed', '7339f1ca49cb44dc', 'ASUNCION', 'SABANDAL', 'MONTEALEGRE', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
 ('fbbe069d9b2511ed', '40a2e0becda944b0', 'VERGILIO', 'DESTREZA', 'MONTEALEGRE', '', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
 ('fbc031179b2511ed', 'ede8e472aecd402e', 'MILA ROSA', 'SABANDAL', 'MONTEALEGRE', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
@@ -564,7 +575,7 @@ CREATE TABLE `organization` (
 --
 
 INSERT INTO `organization` (`ORGANIZATION_ID`, `PERSON_ID`, `ORGANIZATION_AFFILIATED`, `CONTACT_PERSON`, `OFFICE_ADDRESS`, `TELEPHONE_NUMBER`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
-('88eab24f9af011ed', 'd5f1a621c21540f7', '', '', '', '', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
+('88eab24f9af011ed', 'd5f1a621c21540f7', NULL, '', '', '', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -589,6 +600,7 @@ CREATE TABLE `pension` (
 --
 
 INSERT INTO `pension` (`PENSION_ID`, `PERSON_ID`, `HAS_PENSION`, `TYPE`, `AMOUNT`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
+('92b46e08a84011ed', '9241e45f8397424e', 'N', NULL, NULL, '2023-02-09 00:00:00.000000', '2023-02-09 00:00:00.000000', 'N', 'adminrbardillon'),
 ('fbbceee79b2511ed', '7339f1ca49cb44dc', 'Y', 'SSS', '4000.000000', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
@@ -615,11 +627,14 @@ INSERT INTO `person` (`PERSON_ID`, `DATE_OF_BIRTH`, `DATE_CREATED`, `DATE_UPDATE
 ('22056c0f3d9947ff', '2002-12-19', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
 ('40a2e0becda944b0', '1942-08-07', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
 ('7339f1ca49cb44dc', '1942-01-12', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('89aaca393f2145c6', '2008-02-06', '2023-02-09 00:00:00.000000', '2023-02-09 00:00:00.000000', 'N', 'adminrbardillon'),
+('9241e45f8397424e', '1963-01-30', '2023-02-09 00:00:00.000000', '2023-02-09 00:00:00.000000', 'N', 'adminrbardillon'),
 ('bf78d87c8eaa4988', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
 ('d5f1a621c21540f7', '2001-07-30', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
 ('dd1d284cce34412c', '2001-07-30', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
 ('ed551e693976491a', NULL, '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
-('ede8e472aecd402e', '1965-07-20', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
+('ede8e472aecd402e', '1965-07-20', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('fa4478a68733473a', '2008-02-05', '2023-02-09 00:00:00.000000', '2023-02-09 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -640,6 +655,9 @@ CREATE TABLE `person_address` (
 INSERT INTO `person_address` (`PERSON_ADDRESS_ID`, `PERSON_ID`, `ADDRESS_ID`) VALUES
 ('041df7ab9b2511ed', '22056c0f3d9947ff', 'b3ac17d690d740aa'),
 ('88e6b6ef9af011ed', 'd5f1a621c21540f7', '5e14e63a49ea4c54'),
+('92b2bfdba84011ed', '9241e45f8397424e', 'f7042ece690843d7'),
+('92b67c25a84011ed', '89aaca393f2145c6', '4a0345f14e844389'),
+('92b9ae09a84011ed', 'fa4478a68733473a', 'c788a68e73764dfa'),
 ('fbb9039b9b2511ed', '7339f1ca49cb44dc', '5803786ab66f4e13'),
 ('fbc0fc359b2511ed', 'ede8e472aecd402e', 'b15654bf7df64272');
 
@@ -781,6 +799,8 @@ INSERT INTO `relationship` (`RELATIONSHIP_ID`, `APPLICANT_ID`, `PERSON_ID`, `REL
 ('88eca9639af011ed', 'd5f1a621c21540f7', 'ed551e693976491a', 'Father'),
 ('88eded3a9af011ed', 'd5f1a621c21540f7', 'bf78d87c8eaa4988', 'Mother'),
 ('88ef48f09af011ed', 'd5f1a621c21540f7', '1d84311327d14e2b', 'BROTHER'),
+('92b7323ca84011ed', '9241e45f8397424e', '89aaca393f2145c6', 'Child'),
+('92b9f49ea84011ed', '9241e45f8397424e', 'fa4478a68733473a', 'Child'),
 ('fbbeae629b2511ed', '7339f1ca49cb44dc', '40a2e0becda944b0', 'Spouse'),
 ('fbc14b0d9b2511ed', '7339f1ca49cb44dc', 'ede8e472aecd402e', 'Child');
 
@@ -806,6 +826,7 @@ CREATE TABLE `religion` (
 
 INSERT INTO `religion` (`RELIGION_ID`, `PERSON_ID`, `RELIGION`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
 ('88e808149af011ed', 'd5f1a621c21540f7', 'CATHOLIC', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('92b3df50a84011ed', '9241e45f8397424e', 'CATHOLIC', '2023-02-09 00:00:00.000000', '2023-02-09 00:00:00.000000', 'N', 'adminrbardillon'),
 ('fbbbef629b2511ed', '7339f1ca49cb44dc', 'CATHOLIC', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
@@ -857,6 +878,9 @@ INSERT INTO `telephone` (`TELEPHONE_ID`, `PERSON_ID`, `TELEPHONE_NUMBER`, `DATE_
 ('041fbae59b2511ed', '22056c0f3d9947ff', '09760657071', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
 ('88e75f219af011ed', 'd5f1a621c21540f7', '09760657071', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
 ('88ef8c619af011ed', '1d84311327d14e2b', '09091072865', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('92b3a3fea84011ed', '9241e45f8397424e', '09760657071', '2023-02-09 00:00:00.000000', '2023-02-09 00:00:00.000000', 'N', 'adminrbardillon'),
+('92b545baa84011ed', '89aaca393f2145c6', '09760657071', '2023-02-09 00:00:00.000000', '2023-02-09 00:00:00.000000', 'N', 'adminrbardillon'),
+('92b8cd73a84011ed', 'fa4478a68733473a', '09760657071', '2023-02-09 00:00:00.000000', '2023-02-09 00:00:00.000000', 'N', 'adminrbardillon'),
 ('fbbb267b9b2511ed', '7339f1ca49cb44dc', '09760657071', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
 ('fbc0771c9b2511ed', 'ede8e472aecd402e', '09550171148', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
@@ -870,6 +894,7 @@ CREATE TABLE `transaction_type` (
   `TRANSACTION_TYPE_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
   `TRANSACTION_TYPE` varchar(128) NOT NULL,
+  `ID_NUMBER` varchar(64) DEFAULT NULL,
   `STATUS` varchar(64) NOT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` date NOT NULL,
@@ -881,10 +906,11 @@ CREATE TABLE `transaction_type` (
 -- Dumping data for table `transaction_type`
 --
 
-INSERT INTO `transaction_type` (`TRANSACTION_TYPE_ID`, `PERSON_ID`, `TRANSACTION_TYPE`, `STATUS`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
-('041cabb69b2511ed', '22056c0f3d9947ff', 'New Application', 'PENDING', '2023-01-23 00:00:00.000000', '2023-01-23', 'N', 'adminrbardillon'),
-('88e558379af011ed', 'd5f1a621c21540f7', 'NEW ID', 'PENDING', '2023-01-23 00:00:00.000000', '2023-01-23', 'N', 'adminrbardillon'),
-('fbb70bf99b2511ed', '7339f1ca49cb44dc', 'BAGO', 'PENDING', '2023-01-23 00:00:00.000000', '2023-01-23', 'N', 'adminrbardillon');
+INSERT INTO `transaction_type` (`TRANSACTION_TYPE_ID`, `PERSON_ID`, `TRANSACTION_TYPE`, `ID_NUMBER`, `STATUS`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
+('041cabb69b2511ed', '22056c0f3d9947ff', 'New Application', NULL, 'PENDING', '2023-01-23 00:00:00.000000', '2023-01-23', 'N', 'adminrbardillon'),
+('88e558379af011ed', 'd5f1a621c21540f7', 'NEW ID', NULL, 'PENDING', '2023-01-23 00:00:00.000000', '2023-01-23', 'N', 'adminrbardillon'),
+('92b1e5fba84011ed', '9241e45f8397424e', 'BAGO', NULL, 'PENDING', '2023-02-09 00:00:00.000000', '2023-02-09', 'N', 'adminrbardillon'),
+('fbb70bf99b2511ed', '7339f1ca49cb44dc', 'BAGO', NULL, 'PENDING', '2023-01-23 00:00:00.000000', '2023-01-23', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
 
@@ -911,6 +937,7 @@ CREATE TABLE `user_account` (
 INSERT INTO `user_account` (`USER_ACCOUNT_ID`, `PERSON_ID`, `EMAIL`, `USERNAME`, `PASSWORD`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
 ('043428023-8820', 'd5f1a621c21540f7', 'romsky.bardillon@gmail.com', '043428023-8820', '$2y$10$VituYqs19gwWI2Gd084Yhe1gkm71sPYiz3WvIqbVvdLV24XlWYNWu', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
 ('2023-24226', '22056c0f3d9947ff', 'romsky.bardillon@gmail.com', '2023-24226', '$2y$10$TmHH3qClmGbU8oroapKN0OSY.F3Rqa7zq9E5LeDA2nBmDasVg7w1m', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('SC-429896', '9241e45f8397424e', 'romsky.bardillon@gmail.com', 'SC-429896', '$2y$10$BGb7UIjL5ifmyESWxpy8I.wDQY1rLTwdS64CAe1LjMEwTCMITVAW6', '2023-02-09 00:00:00.000000', '2023-02-09 00:00:00.000000', 'N', 'adminrbardillon'),
 ('SC-928858', '7339f1ca49cb44dc', 'romsky.bardillon@gmail.com', 'SC-928858', '$2y$10$.bMp8kFMx7qInmwVpvyoVOaBTwU8Kgg7MOy6WhA6Vgddfrp2Gh/d6', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 --
