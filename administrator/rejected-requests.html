@@ -8,7 +8,7 @@
     $rejectedSoloParentPerBarangay = getSoloParentStatus($connection, "REJECTED", $adminData['barangay']);
     $rejectedSrCitizenPerBarangay = getSeniorCitizenStatus($connection, "REJECTED", $adminData['barangay']);
     if (!isset($_SESSION['admin-data'])) {
-        header("location: ../login/index.html");
+        header("location: ../login/admin.html");
         exit();
     }
 ?>

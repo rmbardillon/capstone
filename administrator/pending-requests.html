@@ -8,7 +8,7 @@
     $pendingSoloParentPerBarangay = getSoloParentStatus($connection, "PENDING", $adminData['barangay']);
     $pendingSrCitizenPerBarangay = getSeniorCitizenStatus($connection, "PENDING", $adminData['barangay']);
     if (!isset($_SESSION['admin-data'])) {
-        header("location: ../login/index.html");
+        header("location: ../login/admin.html");
         exit();
     }
 ?>

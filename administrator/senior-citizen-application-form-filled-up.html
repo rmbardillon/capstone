@@ -12,7 +12,7 @@
 
     include("header.html");
     if (!isset($_SESSION['admin-data'])) {
-        header("location: ../login/index.html");
+        header("location: ../login/admin.html");
         exit();
     }
     foreach($result as list($data, $gender, $spouse)):
