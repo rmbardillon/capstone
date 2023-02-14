@@ -217,21 +217,17 @@
         } else {
             $medicalCondition = NULL;
         }
-        if (isset($_POST['causeOfDisability'])) {
-            $str = $_POST['causeOfDisability'];
-            $causeOfDisability = implode (",", $str);
-        } else {
-            $causeOfDisability = NULL;
-        }
         if (isset($_POST['inborn'])) {
             $str = $_POST['inborn'];
             $inborn = implode (",", $str);
+            $causeOfDisability = "CONGENITAL/INBORN";
         } else {
             $inborn = NULL;
         }
         if (isset($_POST['acquired'])) {
             $str = $_POST['acquired'];
             $acquired = implode (",", $str);
+            $causeOfDisability = "ACQUIRED";
         } else {
             $acquired = NULL;
         }

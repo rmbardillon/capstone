@@ -80,7 +80,7 @@ if(isset($_POST["reset-password-submit"])){
                             else{
                                 mysqli_stmt_bind_param($stmt, "s", $tokenEmail);
                                 mysqli_stmt_execute($stmt);
-                                header("Location: ../index.html?newpwd=passwordupdated");
+                                header("Location: ../../login/admin.html?newpwd=passwordupdated");
                             }
                         }
                     }

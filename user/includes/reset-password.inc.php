@@ -45,7 +45,7 @@ if(isset($_POST["reset-password-submit"])){
             }
             else if ($tokenCheck === true){
                 $tokenEmail = $row['pwdResetEmail'];
-                $sql = "SELECT * FROM user WHERE email=?;";
+                $sql = "SELECT * FROM user_account WHERE EMAIl=?;";
                 $stmt = mysqli_stmt_init($connection);
                 if(!mysqli_stmt_prepare($stmt, $sql)){
                     echo "There was an error!";
@@ -60,7 +60,7 @@ if(isset($_POST["reset-password-submit"])){
                         exit();
                     }
                     else{
-                        $sql = "UPDATE user SET password=? WHERE email=?";
+                        $sql = "UPDATE user_account SET PASSWORD=? WHERE EMAIL=?";
                         $stmt = mysqli_stmt_init($connection);
                         if(!mysqli_stmt_prepare($stmt, $sql)){
                             echo "There was an error!";
@@ -80,7 +80,7 @@ if(isset($_POST["reset-password-submit"])){
                             else{
                                 mysqli_stmt_bind_param($stmt, "s", $tokenEmail);
                                 mysqli_stmt_execute($stmt);
-                                header("Location: ../index.html?newpwd=passwordupdated");
+                                header("Location: ../../login/citizen.html?newpwd=passwordupdated");
                             }
                         }
                     }

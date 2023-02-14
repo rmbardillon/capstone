@@ -384,6 +384,14 @@ $("#accomplishedBy").change(function() {
         $("#guardianSurname").prop("required", false);
         $("#guardianFirstName").prop("required", false);
     }
+
+    if ($(this).val() == "Guardian" || $(this).val() == "Representative") {
+        $("#accomID").show();
+        $("#accomID").prop("required", true);
+    } else {
+        $("#accomID").hide();
+        $("#accomID").prop("required", false);
+    }
 });
 $('input[name="typeOfDisability[]"]').click(function() {
     if($("input[name='typeOfDisability[]']:checked").length > 0){
@@ -406,7 +414,6 @@ $('input[name="inborn[]"]').click(function() {
     if($("input[name='inborn[]']:checked").length > 0){
         $("input[name='inborn[]']").removeAttr("required");
         $("#congenital").prop('checked', true);
-        $("#congenital").removeAttr("disabled");
         $("#acquired").prop('required', false);
         $("input[name='acquired[]']").prop('disabled', true);
         $("input[name='acquired[]']").prop('required', false);
@@ -422,7 +429,6 @@ $('input[name="acquired[]"]').click(function() {
     if($("input[name='acquired[]']:checked").length > 0){
         $("input[name='acquired[]']").removeAttr("required");
         $("#acquired").prop('checked', true);
-        $("#acquired").removeAttr("disabled");
         $("#inborn").prop('required', false);
         $("input[name='inborn[]']").prop('disabled', true);
         $("input[name='inborn[]']").prop('required', false);
