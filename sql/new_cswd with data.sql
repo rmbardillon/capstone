@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 09, 2023 at 02:07 PM
+-- Generation Time: Feb 14, 2023 at 02:04 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -72,7 +72,7 @@ CREATE TABLE `administrator` (
 --
 
 INSERT INTO `administrator` (`id`, `admin_type`, `barangay`, `username`, `first_name`, `last_name`, `email`, `password`) VALUES
-(1, 'Main Administrator', 'City Hall', 'adminrbardillon', 'Romeo Jr', 'Bardillon', 'romsky.bardillon@gmail.com', '$2y$10$b4cqKlJHiJ4s9OOCinta1OHEYIJLbW1dulb6h60Y0j/mUqJySyLhG'),
+(1, 'Main Administrator', 'City Hall', 'adminrbardillon', 'Romeo Jr', 'Bardillon', 'romsky.bardillon@gmail.com', '$2y$10$.d3b7RRIujc10yKk4QE7bOoo9xnKrt9RS3TbFw2qLlpU5tIR5jcVO'),
 (2, 'Main Administrator', 'City Hall', 'adminaporlares', 'Aaron', 'Porlares', 'aaron.porlares@gmail.com', '$2y$10$J0YEkKEtOAWm2gJoxixNOeKfr.9ZxglapxKHiFiYGpdg3M9AXmgY.'),
 (3, 'Main Administrator', 'City Hall', 'adminrrivera', 'Rhodemil Zeth', 'Rivera', 'zeth@gmail.com', '$2y$10$OTYHIuEJrgLRZ3dXv07eGe9f3qos8MzMEGPFWMPa42DVVgLfLDl4y'),
 (4, 'Main Administrator', 'City Hall', 'admintocampo', 'Tresha', 'Ocampo', 'tresha@gmail.com', '$2y$10$RkNRS/OcLJktAxIw2DK27eky8HsbJJmGRg0nWlY8JdxGLah0YznKi'),
@@ -262,6 +262,24 @@ CREATE TABLE `company` (
 
 INSERT INTO `company` (`COMPANY_ID`, `PERSON_ID`, `COMPANY`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
 ('041ef2089b2511ed', '22056c0f3d9947ff', 'NONE', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `document`
+--
+
+CREATE TABLE `document` (
+  `DOCUMENT_ID` varchar(16) NOT NULL,
+  `PERSON_ID` varchar(16) NOT NULL,
+  `NAME` varchar(128) NOT NULL,
+  `TYPE` varchar(128) NOT NULL,
+  `CONTENT` varchar(128) NOT NULL,
+  `DATE_CREATED` date NOT NULL,
+  `DATE_UPDATED` date NOT NULL,
+  `IS_DELETED` char(1) NOT NULL,
+  `UPDATED_BY` varchar(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -935,10 +953,10 @@ CREATE TABLE `user_account` (
 --
 
 INSERT INTO `user_account` (`USER_ACCOUNT_ID`, `PERSON_ID`, `EMAIL`, `USERNAME`, `PASSWORD`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
-('043428023-8820', 'd5f1a621c21540f7', 'romsky.bardillon@gmail.com', '043428023-8820', '$2y$10$VituYqs19gwWI2Gd084Yhe1gkm71sPYiz3WvIqbVvdLV24XlWYNWu', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
-('2023-24226', '22056c0f3d9947ff', 'romsky.bardillon@gmail.com', '2023-24226', '$2y$10$TmHH3qClmGbU8oroapKN0OSY.F3Rqa7zq9E5LeDA2nBmDasVg7w1m', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
-('SC-429896', '9241e45f8397424e', 'romsky.bardillon@gmail.com', 'SC-429896', '$2y$10$BGb7UIjL5ifmyESWxpy8I.wDQY1rLTwdS64CAe1LjMEwTCMITVAW6', '2023-02-09 00:00:00.000000', '2023-02-09 00:00:00.000000', 'N', 'adminrbardillon'),
-('SC-928858', '7339f1ca49cb44dc', 'romsky.bardillon@gmail.com', 'SC-928858', '$2y$10$.bMp8kFMx7qInmwVpvyoVOaBTwU8Kgg7MOy6WhA6Vgddfrp2Gh/d6', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
+('043428023-8820', 'd5f1a621c21540f7', 'romsky.bardillon@gmail.com', '043428023-8820', '$2y$10$zLeYCBRcax6IxGB/YDHEY.FPLA1tFUAmbXy4PUyrnJCzVZSCdibla', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('2023-24226', '22056c0f3d9947ff', 'christinedelrosario@gmail.com', '2023-24226', '$2y$10$TmHH3qClmGbU8oroapKN0OSY.F3Rqa7zq9E5LeDA2nBmDasVg7w1m', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon'),
+('SC-429896', '9241e45f8397424e', 'asuncionmontealegre@gmail.com', 'SC-429896', '$2y$10$BGb7UIjL5ifmyESWxpy8I.wDQY1rLTwdS64CAe1LjMEwTCMITVAW6', '2023-02-09 00:00:00.000000', '2023-02-09 00:00:00.000000', 'N', 'adminrbardillon'),
+('SC-928858', '7339f1ca49cb44dc', 'bardillon.romsky@gmail.com', 'SC-928858', '$2y$10$.bMp8kFMx7qInmwVpvyoVOaBTwU8Kgg7MOy6WhA6Vgddfrp2Gh/d6', '2023-01-23 00:00:00.000000', '2023-01-23 00:00:00.000000', 'N', 'adminrbardillon');
 
 --
 -- Indexes for dumped tables
@@ -981,6 +999,13 @@ ALTER TABLE `blood_type`
 ALTER TABLE `company`
   ADD PRIMARY KEY (`COMPANY_ID`),
   ADD KEY `FK_PERSON_COMPANY_idx` (`PERSON_ID`);
+
+--
+-- Indexes for table `document`
+--
+ALTER TABLE `document`
+  ADD PRIMARY KEY (`DOCUMENT_ID`),
+  ADD KEY `FK_PERSON_DOCUMENT` (`PERSON_ID`);
 
 --
 -- Indexes for table `educational_attainment`
@@ -1148,6 +1173,7 @@ ALTER TABLE `transaction_type`
 --
 ALTER TABLE `user_account`
   ADD PRIMARY KEY (`USER_ACCOUNT_ID`),
+  ADD UNIQUE KEY `EMAIL` (`EMAIL`),
   ADD KEY `FK_PERSON_ACCOUNT_idx` (`PERSON_ID`);
 
 --
@@ -1193,6 +1219,12 @@ ALTER TABLE `blood_type`
 --
 ALTER TABLE `company`
   ADD CONSTRAINT `FK_PERSON_COMPANY` FOREIGN KEY (`PERSON_ID`) REFERENCES `person` (`PERSON_ID`);
+
+--
+-- Constraints for table `document`
+--
+ALTER TABLE `document`
+  ADD CONSTRAINT `FK_PERSON_DOCUMENT` FOREIGN KEY (`PERSON_ID`) REFERENCES `person` (`PERSON_ID`);
 
 --
 -- Constraints for table `educational_attainment`
