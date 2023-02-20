@@ -1,0 +1,97 @@
+<?php
+    if(isset($_GET['person_id'])) {
+        $page = "print-id";
+        require_once '../includes/dbh.inc.php';
+        require_once '../includes/sql.inc.php';
+        $person_id = $_GET['person_id'];
+        $person = getSoloParentData($connection, $person_id);
+        $genderData = getSoloParentGender($connection, $person_id);
+        $idData = getIDData($connection, $person_id);
+        $result = array_map(null, $person, $genderData, $idData);
+    } else {
+        header("location: ../print-id.html");
+        exit();
+    }
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>ID</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+    <?php foreach($result as list($data, $gender, $idData)): ?>
+    <div class="d-flex d-flex align-items-center justify-content-center">
+        <div id="id" class="mx-auto mt-5 p-3" style="height: 240px;width: 365px;">
+            <div class="row">
+                <div class="col col-2"><img src="assets/img/santarosa-logo.png" width="50px" height="50px" style="padding-right: 0px;padding-left: 0px;"></div>
+                <div class="col text-center" style="padding-left: 0px;padding-right: 0px;">
+                    <p style="font-size: 7px;">Republic of the Philippines</p>
+                    <p style="font-size: 8px;"><strong>CITY&nbsp;SOCIAL WELFARE AND DEVELOPMENT OFFICE</strong></p>
+                    <p style="font-size: 7px;">CITY OF SANTA ROSA LAGUNA</p>
+                    <h6 style="font-size: 22px;">SOLO PARENT ID</h6>
+                </div>
+                <div class="col col-2" id="pdao-icon"><img id="pdao" src="assets/img/cswdlogo.png" width="50px" height="50px" style="padding-right: 3px;"></div>
+            </div>
+            <div class="row" style="margin-bottom: -27px;padding-top: 0px;margin-top: -18px;">
+                <div class="col text-center" style="margin-top: 6px;padding-left: 176px;"><strong style="font-size: 7px;"><span style="text-decoration: underline;">&nbsp; &nbsp; &nbsp; &nbsp; <?php echo($idData['USERNAME']) ?>&nbsp; &nbsp; &nbsp;</span></strong>
+                    <p style="font-size: 6px;margin-top: -3px;">ID NUMBER</p>
+                </div>
+                <div class="col text-center" style="margin-top: 6px;"><strong style="font-size: 7px;"><span style="text-decoration: underline;">&nbsp; &nbsp; &nbsp;<?php 
+                                echo strtoupper(date('m-d-y'));
+                                ?>&nbsp; &nbsp; &nbsp;</span></strong>
+                    <p style="font-size: 6px;margin-top: -3px;">DATE ISSUED</p>
+                </div>
+            </div>
+            <div class="row mt-4" style="padding-top: 0px;">
+                <div class="col col-4 d-flex align-items-center justify-content-center p-2"><img id="picture" width="96px" height="96px" src="assets/img/default%20profile%20picture.png" style="padding-left: 0px;padding-right: 0px;margin-left: -15px;"></div>
+                <div class="col d-flex align-items-center justify-content-center">
+                    <div id="information">
+                        <div class="row">
+                            <div class="col">
+                                <p style="font-size: 10px;">Name:<strong style="margin-left: 10px;font-size: 10px;"><?php echo(strtoupper($data['FIRST_NAME']." ".$data['MIDDLE_NAME'][0].". ".$data['LAST_NAME']." ".$data['SUFFIX'])); ?></strong></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <p style="font-size: 10px;">Address:<strong style="margin-left: 10px;font-size: 10px;"><?php echo(strtoupper($data['ADDRESS']." BARANGAY ".$data['BARANGAY']." SANTA ROSA LAGUNA")); ?></strong></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <p style="font-size: 10px;">Date Of Birth:<strong style="margin-left: 10px;font-size: 10px;"><?php 
+                                    $date = $data['DATE_OF_BIRTH'];
+                                    $converted_date = date('m-d-y', strtotime($date));
+                                    echo $converted_date;
+                                    ?></strong></p>
+                            </div>
+                            <div class="col col-3" style="padding-left: 0px;margin-right: 18px;">
+                                <p style="font-size: 10px;">Gender:<strong style="font-size: 10px;margin-left: 1px;"><?php echo(strtolower($gender['GENDER'])); ?></strong></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <p style="font-size: 10px;">Contact No.:<strong style="margin-left: 10px;font-size: 10px;">09091072855</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top: -17px;">
+                <div class="col text-center" style="padding-top: 20px;padding-left: 90px;">
+                    <p style="font-size: 8px;"><strong style="font-size: 9px;">______________________</strong></p>
+                    <p style="font-size: 8px;">Signature</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php endforeach; ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

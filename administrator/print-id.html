@@ -2,7 +2,9 @@
     $page = "print-id";
     require_once 'includes/dbh.inc.php';
     require_once 'includes/sql.inc.php';
-    $printID = getPrintID($connection);
+    $pwdPrintID = getPrintID($connection, "PWD");
+    $soloParentPrintID = getPrintID($connection, "Solo Parent");
+    $seniorCitizenPrintID = getPrintID($connection, "Senior Citizen");
     include("header.html");
     if (!isset($_SESSION['admin-data'])) {
         header("location: ../login/admin.html");
@@ -10,10 +12,10 @@
     }
 ?>
     <div class="container-fluid">
-        <h3 class="text-dark mb-4">Team</h3>
+        <h3 class="text-dark mb-4">Print ID</h3>
         <div class="card shadow">
             <div class="card-header py-3">
-                <p class="text-primary m-0 fw-bold">Employee Info</p>
+                <p class="text-primary m-0 fw-bold">PWD Print ID</p>
             </div>
             <div class="card-body">
                 <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
@@ -23,16 +25,86 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Application Type</th>
-                                <th>Print</th>
+                                <th>Print Front</th>
+                                <th>Print Back</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $i = 1; foreach($printID as $print): ?>
+                            <?php $i = 1; foreach($pwdPrintID as $print): ?>
                             <tr>
                                 <td><?php echo($i); ?></td>
                                 <td><?php echo($print['NAME']); ?></td>
                                 <td><?php echo($print['APPLICANT_TYPE']); ?></td>
-                                <td><a class="btn btn-secondary" href="pwd-id.html" target="_blank">Print this ID</a></td>
+                                <td><a class="btn btn-secondary" href="id/pwd-id-front.html?person_id=<?php echo($print['PERSON_ID']); ?>" target="_blank">Print</a></td>
+                                <td><a class="btn btn-secondary" href="id/pwd-id-back.html?person_id=<?php echo($print['PERSON_ID']); ?>" target="_blank">Print</a></td>
+                            </tr>
+                            <?php $i++; endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <h3 class="text-dark mb-4"></h3>
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <p class="text-primary m-0 fw-bold">Solo Parent Print ID</p>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                    <table class="table my-0" id="exampleTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Application Type</th>
+                                <th>Print Front</th>
+                                <th>Print Back</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i = 1; foreach($soloParentPrintID as $print): ?>
+                            <tr>
+                                <td><?php echo($i); ?></td>
+                                <td><?php echo($print['NAME']); ?></td>
+                                <td><?php echo($print['APPLICANT_TYPE']); ?></td>
+                                <td><a class="btn btn-secondary" href="id/sp-id-front.html?person_id=<?php echo($print['PERSON_ID']); ?>" target="_blank">Print</a></td>
+                                <td><a class="btn btn-secondary" href="id/sp-id-back.html?person_id=<?php echo($print['PERSON_ID']); ?>" target="_blank">Print</a></td>
+                            </tr>
+                            <?php $i++; endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <h3 class="text-dark mb-4"></h3>
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <p class="text-primary m-0 fw-bold">Senior Citizen Print ID</p>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                    <table class="table my-0" id="exampleTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Application Type</th>
+                                <th>Print Front</th>
+                                <th>Print Back</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $i = 1; foreach($seniorCitizenPrintID as $print): ?>
+                            <tr>
+                                <td><?php echo($i); ?></td>
+                                <td><?php echo($print['NAME']); ?></td>
+                                <td><?php echo($print['APPLICANT_TYPE']); ?></td>
+                                <td><a class="btn btn-secondary" href="id/sc-id-front.html?person_id=<?php echo($print['PERSON_ID']); ?>" target="_blank">Print</a></td>
+                                <td><a class="btn btn-secondary" href="id/sc-id-back.html?person_id=<?php echo($print['PERSON_ID']); ?>" target="_blank">Print</a></td>
                             </tr>
                             <?php $i++; endforeach; ?>
                         </tbody>

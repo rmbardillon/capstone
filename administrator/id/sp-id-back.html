@@ -1,0 +1,84 @@
+<?php
+    if(isset($_GET['person_id'])) {
+        $page = "print-id";
+        require_once '../includes/dbh.inc.php';
+        require_once '../includes/sql.inc.php';
+        $person_id = $_GET['person_id'];
+        $idData = getIDData($connection, $person_id);
+        $family = getFamilyMemberData($connection, $person_id);
+    } else {
+        header("location: ../print-id.html");
+        exit();
+    }
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>ID</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+
+<body>
+    <div class="d-flex d-flex align-items-center justify-content-center">
+        <div id="id" class="mx-auto mt-5 p-3" style="height: 240px;width: 365px;">
+            <div class="row">
+                <div class="col">
+                    <p class="text-center" style="font-size: 11px;color: var(--bs-pink);"><strong>DEPENDENTS</strong></p>
+                </div>
+            </div>
+            <div style="min-height: 140px;">
+                <div class="row">
+                    <div class="col col-6">
+                        <p style="font-size: 8px;color: var(--bs-green);">NAME</p>
+                    </div>
+                    <div class="col col-3">
+                        <p style="font-size: 8px;color: var(--bs-green);">DATE OF BIRTH</p>
+                    </div>
+                    <div class="col col-3">
+                        <p style="font-size: 8px;color: var(--bs-green);">RELATIONSHIP</p>
+                    </div>
+                </div>
+                <?php foreach($family as $familyData): ?>
+                <div class="row">
+                    <div class="col col-6">
+                        <p style="font-size: 12px;"><?php echo($familyData['CHILD_FIRST_NAME']." ".$familyData['CHILD_MIDDLE_NAME'][0].". ".$familyData['CHILD_LAST_NAME']); ?></p>
+                    </div>
+                    <div class="col col-3">
+                        <p style="font-size: 12px;"><?php 
+                                    $date = $familyData['CHILD_DOB'];
+                                    $converted_date = date('m-d-y', strtotime($date));
+                                    echo $converted_date;
+                                    ?></p>
+                    </div>
+                    <div class="col col-3">
+                        <p style="font-size: 9px;"><?php echo($familyData['RELATIONSHIP_TYPE']); ?></p>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p style="font-size: 15px;">*This ID is valid for one year.</p>
+                    <p style="font-size: 8px;"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-center" style="margin-top: 6px;">
+                    <div id="signature2" style="margin-bottom: -30px;"><img src="assets/img/OSCASig.png" width="31" style="margin-top: -22px;" height="33"></div><strong style="font-size: 7px;"><span style="text-decoration: underline;">FELICISIMO E. PASTOLERO</span></strong>
+                    <p style="font-size: 6px;margin-top: -3px;">OSCA Head</p>
+                </div>
+                <div class="col text-center" style="margin-top: 6px;">
+                    <div id="signature-1" style="margin-bottom: -30px;"><img src="assets/img/sig2.png" width="100px" style="margin-top: -22px;"></div><strong style="font-size: 7px;"><span style="text-decoration: underline;">HON. ARLENE B. ARCILLAS</span></strong>
+                    <p style="font-size: 6px;margin-top: -3px;">City Mayor</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

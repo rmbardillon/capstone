@@ -1,0 +1,28 @@
+#id {
+  border: 1px solid black;
+  width: 640px;
+  height: 480px;
+  overflow: hidden;
+}
+
+p, h6, strong {
+  margin: 0;
+}
+
+hr {
+  border: 1px dashed black;
+  margin: 1px;
+}
+
+#information {
+  min-width: 212px;
+}
+
+#picture {
+  border: 1px solid black;
+}
+
+#pdao {
+  padding-right: 7px;
+}
+

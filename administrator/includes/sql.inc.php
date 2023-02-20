@@ -755,13 +755,43 @@ function getSeniorCitizenPerBarangay($connection, $barangay) {
 }
 
 // Get Print ID
-function getPrintID($connection) {
+function getPrintID($connection, $type) {
     $data = [];
     $sql = "SELECT transaction_type.PERSON_ID, CONCAT(FIRST_NAME, ' ', MIDDLE_NAME, ' ', LAST_NAME) AS NAME, APPLICANT_TYPE 
     FROM transaction_type 
     JOIN name ON transaction_type.PERSON_ID = name.PERSON_ID
     JOIN applicant ON transaction_type.PERSON_ID = applicant.APPLICANT_ID
-    WHERE transaction_type IN ('New Application', 'NEW ID', 'BAGO') AND STATUS = 'PENDING' AND transaction_type.IS_DELETED = 'N';";
+    WHERE transaction_type IN ('New Application', 'NEW ID', 'BAGO') AND APPLICANT_TYPE = '$type' AND STATUS = 'PENDING' AND transaction_type.IS_DELETED = 'N';";
+    $stmt = $connection->prepare($sql);
+
+    if (!$stmt) {
+        header("location: ../error.html?error=stmterror");
+        exit();
+    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0){
+        while($row = $result->fetch_assoc()) {
+            array_push($data, $row);
+        }
+        return $data;
+    } else{
+        return $data;
+    }
+
+    $stmt->close();
+    $connection->close();
+
+}
+
+function getIDData($connection, $person_id) {
+    $data = [];
+    $sql = "SELECT transaction_type.PERSON_ID, CONCAT(FIRST_NAME, ' ', MIDDLE_NAME, ' ', LAST_NAME) AS NAME, APPLICANT_TYPE, USERNAME
+    FROM transaction_type 
+    JOIN name ON transaction_type.PERSON_ID = name.PERSON_ID
+    JOIN applicant ON transaction_type.PERSON_ID = applicant.APPLICANT_ID
+    JOIN user_account ON transaction_type.PERSON_ID = user_account.PERSON_ID
+    WHERE transaction_type IN ('New Application', 'NEW ID', 'BAGO') AND transaction_type.PERSON_ID = '$person_id' AND STATUS = 'PENDING' AND transaction_type.IS_DELETED = 'N';";
     $stmt = $connection->prepare($sql);
 
     if (!$stmt) {
