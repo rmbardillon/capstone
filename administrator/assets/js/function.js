@@ -39,7 +39,7 @@ $(document).ready( function () {
         buttons:['copy', 'csv', 'excel', 'pdf', 'print']
         
     });
-    var generateReport = $('#exampleTable').DataTable({
+    var pwdID = $('#pwdIDTable').DataTable({
         
         buttons:['copy', 'csv', 'excel', 'pdf', 'print'],
         columnDefs: [
@@ -47,7 +47,25 @@ $(document).ready( function () {
         ]
         
     });
-    generateReport.buttons().container().appendTo('#exampleTable_wrapper .col-md-6:eq(0)');
+    var spID = $('#spIDTable').DataTable({
+        
+        buttons:['copy', 'csv', 'excel', 'pdf', 'print'],
+        columnDefs: [
+            {width: 1, targets: 0}
+        ]
+        
+    });
+    var scID = $('#scIDTable').DataTable({
+        
+        buttons:['copy', 'csv', 'excel', 'pdf', 'print'],
+        columnDefs: [
+            {width: 1, targets: 0}
+        ]
+        
+    });
+    pwdID.buttons().container().appendTo('#pwdIDTable_wrapper .col-md-6:eq(0)');
+    spID.buttons().container().appendTo('#spIDTable_wrapper .col-md-6:eq(0)');
+    scID.buttons().container().appendTo('#scIDTable_wrapper .col-md-6:eq(0)');
     mainAdministratorsTable.buttons().container().appendTo('#mainAdministrators_wrapper .col-md-6:eq(0)');
     pwdAdministratorsTable.buttons().container().appendTo('#pwdAdministrators_wrapper .col-md-6:eq(0)');
     soloparentAdministratorsTable.buttons().container().appendTo('#soloparentAdministrators_wrapper .col-md-6:eq(0)');
