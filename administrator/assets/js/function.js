@@ -292,13 +292,13 @@ $('input[name="applicationType"]').click(function() {
         $("#region").prop("required", true);
         $("#province").prop("required", true);
         $("#city").prop("required", true);
-        $("#barangay").prop("required", true);
+        $("#transferBarangay").prop("required", true);
     } else {
         $("#transfereeAddress").hide();
         $("#region").prop("required", false);
         $("#province").prop("required", false);
         $("#city").prop("required", false);
-        $("#barangay").prop("required", false);
+        $("#transferBarangay").prop("required", false);
     }
 });
 getDataFromAPI().then(function(data) {
