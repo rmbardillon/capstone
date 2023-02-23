@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 20, 2023 at 07:42 AM
+-- Generation Time: Feb 23, 2023 at 03:59 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -182,8 +182,8 @@ INSERT INTO `administrator` (`id`, `admin_type`, `barangay`, `username`, `first_
 CREATE TABLE `announcement` (
   `ANNOUNCEMENT_ID` int(11) NOT NULL,
   `TITLE` varchar(128) NOT NULL,
-  `ANNOUNCEMENT_FOR` enum('Administrator','PWD','Senior Citizen','Solo Parent') NOT NULL,
-  `BARANGAY` enum('City Hall','Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz','Santo Domingo','Sinalhan','Tagapo') NOT NULL,
+  `ANNOUNCEMENT_FOR` enum('All','Administrator','PWD','Senior Citizen','Solo Parent') NOT NULL,
+  `BARANGAY` enum('All','City Hall','Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz','Santo Domingo','Sinalhan','Tagapo') NOT NULL,
   `MESSAGE` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -192,7 +192,7 @@ CREATE TABLE `announcement` (
 --
 
 INSERT INTO `announcement` (`ANNOUNCEMENT_ID`, `TITLE`, `ANNOUNCEMENT_FOR`, `BARANGAY`, `MESSAGE`) VALUES
-(1, 'SENIOR CITIZEN CASH OUT', 'Senior Citizen', 'Tagapo', 'SC Cash out');
+(2, 'CASH OUT', 'All', 'All', 'Updated na');
 
 -- --------------------------------------------------------
 
@@ -530,7 +530,8 @@ INSERT INTO `media` (`MEDIA_ID`, `USERNAME`, `IMAGE_LOCATION`) VALUES
 (1, '2023-24226', '63d881c667b530.86507057.jpg'),
 (2, '043428023-8820', '63d8821d1d6578.51370096.jpg'),
 (3, 'SC-928858', '63d8823b134404.78490545.jpg'),
-(4, 'adminrbardillon', '63d882954badf1.13431820.jpg');
+(4, 'adminrbardillon', '63d882954badf1.13431820.jpg'),
+(5, 'adminaporlares', '63f6c8e48cd194.01129580.jpg');
 
 -- --------------------------------------------------------
 
@@ -813,7 +814,7 @@ CREATE TABLE `relationship` (
 --
 
 INSERT INTO `relationship` (`RELATIONSHIP_ID`, `APPLICANT_ID`, `PERSON_ID`, `RELATIONSHIP_TYPE`) VALUES
-('04232be49b2511ed', '22056c0f3d9947ff', 'dd1d284cce34412c', 'Family Member'),
+('04232be49b2511ed', '22056c0f3d9947ff', 'dd1d284cce34412c', 'Son'),
 ('88eca9639af011ed', 'd5f1a621c21540f7', 'ed551e693976491a', 'Father'),
 ('88eded3a9af011ed', 'd5f1a621c21540f7', 'bf78d87c8eaa4988', 'Mother'),
 ('88ef48f09af011ed', 'd5f1a621c21540f7', '1d84311327d14e2b', 'BROTHER'),
@@ -1190,13 +1191,13 @@ ALTER TABLE `administrator`
 -- AUTO_INCREMENT for table `announcement`
 --
 ALTER TABLE `announcement`
-  MODIFY `ANNOUNCEMENT_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ANNOUNCEMENT_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `media`
 --
 ALTER TABLE `media`
-  MODIFY `MEDIA_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `MEDIA_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables

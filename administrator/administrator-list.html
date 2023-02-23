@@ -33,7 +33,7 @@
                             <tr>
                                 <td>
                                     <?php if(!empty($profilePic)) foreach($profilePic as $image): ?>
-                                        <img class="rounded-circle me-2" width="30" height="30" src="uploads/<?php echo($image['image_location']); ?>">
+                                        <img class="rounded-circle me-2" width="30" height="30" src="uploads/<?php echo($image['IMAGE_LOCATION']); ?>">
                                     <?php endforeach; ?>
                                     <?php if(empty($profilePic)) {?>
                                     <img class="rounded-circle me-2" width="30" height="30" src="assets/img/avatars/default profile picture.png">

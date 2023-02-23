@@ -23,7 +23,7 @@
 ?>
     <div class="container form">
         <h1 class="heading">PWD Application</h1>
-      <form action="includes/register.inc.php" method="post" novalidate="">
+      <form action="includes/approved.inc.php" method="post" novalidate="">
         <div class="row">
           <div class="col">
             <div class="form-check">
@@ -1210,6 +1210,7 @@
           </div>
         </div>
         <div class="row">
+            <input type="hidden" name="person_id" value="<?php echo($PERSON_ID); ?>">
           <div class="col">
             <button
               class="btn btn-primary w-100"

@@ -3,8 +3,8 @@
     require_once 'includes/functions.inc.php';
     $page = "admin-list";
     $id = $_GET['id'];
-    $adminData = getUserData($connection, "administrator", "id", $id);
-    $profile = getUserData($connection, "media", "username", $adminData[0]['username']);
+    $employeeData = getUserData($connection, "administrator", "id", $id);
+    $employeeProfile = getUserData($connection, "media", "USERNAME", $employeeData[0]['username']);
     include("header.html");
     if (!isset($_SESSION['admin-data'])) {
         header("location: ../login/admin.html");
@@ -28,12 +28,12 @@
             <div class="col-lg-4">
                 <div class="card mb-3">
                     <div class="card-body text-center shadow profile">
-                        <?php if(!empty($profile)) foreach($profile as $image): ?>
-                        <div class="profile-pic-div">
-                            <img src="uploads/<?php echo($image['image_location']); ?>" class="photo" width="200" height="200">
+                        <?php if(!empty($employeeProfile)) foreach($employeeProfile as $image): ?>
+                        <div id="profilePicDiv">
+                            <img src="uploads/<?php echo($image['IMAGE_LOCATION']); ?>" class="photo" width="200" height="200">
                         </div>
                         <?php endforeach; ?>
-                        <?php if(empty($profile)) {?>
+                        <?php if(empty($employeeProfile)) {?>
                             <div class="profile-pic-div">
                                 <img src="assets/img/avatars/default profile picture.png" class="photo" width="200" height="200">
                             </div>
@@ -74,26 +74,26 @@
                                 <form action="includes/update-profile.inc.php" method="post" enctype="multipart/form-data">
                                     <div class="row">
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label" for="username"><strong>Username</strong></label><input class="form-control" type="text" id="username" placeholder="user.name" name="username" value="<?php echo($adminData[0]['username']); ?>" readonly></div>
+                                            <div class="mb-3"><label class="form-label" for="username"><strong>Username</strong></label><input class="form-control" type="text" id="username" placeholder="user.name" name="username" value="<?php echo($employeeData[0]['username']); ?>" readonly></div>
                                         </div>
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label" for="email"><strong>Email Address</strong></label><input class="form-control" type="email" id="email" placeholder="user@example.com" name="email" value="<?php echo($adminData[0]['email']); ?>" readonly></div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="mb-3"><label class="form-label" for="first_name"><strong>First Name</strong></label><input class="form-control" type="text" id="first_name" placeholder="John" name="first_name" value="<?php echo($adminData[0]['first_name']); ?>" readonly></div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="mb-3"><label class="form-label" for="last_name"><strong>Last Name</strong></label><input class="form-control" type="text" id="last_name" placeholder="Doe" name="last_name" value="<?php echo($adminData[0]['last_name']); ?>" readonly></div>
+                                            <div class="mb-3"><label class="form-label" for="email"><strong>Email Address</strong></label><input class="form-control" type="email" id="email" placeholder="user@example.com" name="email" value="<?php echo($employeeData[0]['email']); ?>" readonly></div>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label" for="barangay"><strong>Barangay</strong></label><input class="form-control" type="text" id="barangay" placeholder="Tagapo" name="barangay" value="<?php echo($adminData[0]['barangay']); ?>" readonly></div>
+                                            <div class="mb-3"><label class="form-label" for="first_name"><strong>First Name</strong></label><input class="form-control" type="text" id="first_name" placeholder="John" name="first_name" value="<?php echo($employeeData[0]['first_name']); ?>" readonly></div>
                                         </div>
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label" for="admin-type"><strong>Administrator Type</strong></label><input class="form-control" type="text" id="admin-type" placeholder="Main Administrator" name="admin-type" value="<?php echo($adminData[0]['admin_type']); ?>" readonly></div>
+                                            <div class="mb-3"><label class="form-label" for="last_name"><strong>Last Name</strong></label><input class="form-control" type="text" id="last_name" placeholder="Doe" name="last_name" value="<?php echo($employeeData[0]['last_name']); ?>" readonly></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="mb-3"><label class="form-label" for="barangay"><strong>Barangay</strong></label><input class="form-control" type="text" id="barangay" placeholder="Tagapo" name="barangay" value="<?php echo($employeeData[0]['barangay']); ?>" readonly></div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="mb-3"><label class="form-label" for="admin-type"><strong>Administrator Type</strong></label><input class="form-control" type="text" id="admin-type" placeholder="Main Administrator" name="admin-type" value="<?php echo($employeeData[0]['admin_type']); ?>" readonly></div>
                                         </div>
                                     </div>
                                 </form>

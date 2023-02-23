@@ -45,37 +45,50 @@
         $childTelephone = $_POST['childTelephone'];
         $childBarangay = $_POST['childBarangay'];
         $childAddress = $_POST['childAddress'];
+        try {
+            // Begin transaction
+            $connection->begin_transaction();
 
-        insertPerson($connection, $personId, $srCitizenDOB);
-        insertApplicant($connection, $personId, $applicantType, $id_number, $placeOfBirth);
-        insertTransactionType($connection, $personId, $applicationType, $IDNumber);
-        insertName($connection, $personId, $firstName, $middlename, $surname, $suffix);
-        insertAddress($connection, $barangayId, $barangay, $address);
-        insertPersonAddress($connection, $personId, $barangayId);
-        insertGender($connection, $personId, $gender);
-        insertMaritalStatus($connection, $personId, $maritalStatus);
-        insertTelephone($connection, $personId, $telephone);
-        insertReligion($connection, $personId, $religion);
-        insertJob($connection, $personId, $job, NULL);
-        insertPension($connection, $personId, $hasPension, $whatPension, $howMuchPension);
-        if (!empty($spouseFirstName)) {
-            insertPerson($connection, $spouseId, $spouseDOB);
-            insertName($connection, $spouseId, $spouseFirstName, $spouseMiddleName, $spouseLastName, $spouseSuffix);
-            insertRelationship($connection, $personId, $spouseId, $spouseRelationshipType);
-        }
-        if (count($childFirstName) >= 1) {
-            for ($i=0; $i < count($childFirstName); $i++) {
-                $childId = generateUUID();
-                $childBarangayId = generateUUID();
-                insertPerson($connection, $childId, $childDOB[$i]);
-                insertName($connection, $childId, $childFirstName[$i], $childMiddleName[$i], $childLastName[$i], $childSuffix[$i]);
-                insertTelephone($connection, $childId, $childTelephone[$i]);
-                insertAddress($connection, $childBarangayId, $childBarangay[$i], $childAddress[$i]);
-                insertPersonAddress($connection, $childId, $childBarangayId);
-                insertRelationship($connection, $personId, $childId, $childRelationshipType);
+            // Call your functions to insert data
+            insertPerson($connection, $personId, $srCitizenDOB, $email);
+            insertApplicant($connection, $personId, $applicantType, $id_number, $placeOfBirth);
+            insertTransactionType($connection, $personId, $applicationType, $IDNumber);
+            insertName($connection, $personId, $firstName, $middlename, $surname, $suffix);
+            insertAddress($connection, $barangayId, $barangay, $address);
+            insertPersonAddress($connection, $personId, $barangayId);
+            insertGender($connection, $personId, $gender);
+            insertMaritalStatus($connection, $personId, $maritalStatus);
+            insertTelephone($connection, $personId, $telephone);
+            insertReligion($connection, $personId, $religion);
+            insertJob($connection, $personId, $job, NULL);
+            insertPension($connection, $personId, $hasPension, $whatPension, $howMuchPension);
+            if (!empty($spouseFirstName)) {
+                insertPerson($connection, $spouseId, $spouseDOB, NULL);
+                insertName($connection, $spouseId, $spouseFirstName, $spouseMiddleName, $spouseLastName, $spouseSuffix);
+                insertRelationship($connection, $personId, $spouseId, $spouseRelationshipType);
             }
+            if (count($childFirstName) >= 1) {
+                for ($i=0; $i < count($childFirstName); $i++) {
+                    $childId = generateUUID();
+                    $childBarangayId = generateUUID();
+                    insertPerson($connection, $childId, $childDOB[$i], NULL);
+                    insertName($connection, $childId, $childFirstName[$i], $childMiddleName[$i], $childLastName[$i], $childSuffix[$i]);
+                    insertTelephone($connection, $childId, $childTelephone[$i]);
+                    insertAddress($connection, $childBarangayId, $childBarangay[$i], $childAddress[$i]);
+                    insertPersonAddress($connection, $childId, $childBarangayId);
+                    insertRelationship($connection, $personId, $childId, $childRelationshipType);
+                }
+            }
+            // Commit the transaction
+            $connection->commit();
+            echo "All queries executed successfully";
+        } catch (Exception $e) {
+            // Rollback the transaction in case of any errors
+            $connection->rollback();
+            echo "Error: " . $e->getMessage();
         }
-        insertUserAccount($connection, $id_number, $applicantType, $personId, $email, $id_number);
+        header("location: ../dashboard.html");
+        exit();
     }
     // Solo Parent
     if(isset($_POST['soloParentSubmit'])) {
@@ -101,11 +114,11 @@
         $totalFamilyIncome = $_POST['totalFamilyIncome'];
         $telephone = $_POST['telephone'];
         $email = $_POST['email'];
-        $childRelationshipType = "Family Member";
         $childLastName = $_POST['childLastName'];
         $childFirstName = $_POST['childFirstName'];
         $childMiddleName = $_POST['childMiddleName'];
         $childSuffix = $_POST['childSuffix'];
+        $childRelationship = $_POST['soloParentChildRelationship'];
         $soloParentChildDOB = $_POST['soloParentChildDOB'];
         $maritalStatus = $_POST['maritalStatus'];
         $childEducationalAttainment = $_POST['childEducationalAttainment'];
@@ -114,34 +127,46 @@
         $soloParentClassification = $_POST['soloParentClassification'];
         $soloParentNeeds = $_POST['soloParentNeeds'];
         $soloParentFamilyResources = $_POST['soloParentFamilyResources'];
+        try {
+            // Begin transaction
+            $connection->begin_transaction();
 
-        insertPerson($connection, $personId, $soloParentDOB);
-        insertApplicant($connection, $personId, $applicantType, $id_number, $placeOfBirth);
-        insertTransactionType($connection, $personId, $applicationType, NULL);
-        insertName($connection, $personId, $firstName, $middlename, $surname, $suffix);
-        insertAddress($connection, $barangayId, $barangay, $address);
-        insertPersonAddress($connection, $personId, $barangayId);
-        insertGender($connection, $personId, $gender);
-        insertEducationalAttainment($connection, $personId, $educationalAttainment);
-        insertCompany($connection, $personId, $company);
-        insertIncome($connection, $personId, $monthlyIncome, $totalFamilyIncome);
-        insertTelephone($connection, $personId, $telephone);
-        insertJob($connection, $personId, $job, NULL);
-        if (count($childFirstName) >= 1) {
-            for ($i=0; $i < count($childFirstName); $i++) {
-                $childId = generateUUID();
-                $childBarangayId = generateUUID();
-                insertPerson($connection, $childId, $soloParentChildDOB[$i]);
-                insertName($connection, $childId, $childFirstName[$i], $childMiddleName[$i], $childLastName[$i], $childSuffix[$i]);
-                insertMaritalStatus($connection, $childId, $maritalStatus[$i]);
-                insertEducationalAttainment($connection, $childId, $childEducationalAttainment[$i]);
-                insertIncome($connection, $childId, $childIncome[$i], NULL);
-                insertRelationship($connection, $personId, $childId, $childRelationshipType);
+            // Call your functions to insert data
+            insertPerson($connection, $personId, $soloParentDOB, $email);
+            insertApplicant($connection, $personId, $applicantType, $id_number, $placeOfBirth);
+            insertTransactionType($connection, $personId, $applicationType, NULL);
+            insertName($connection, $personId, $firstName, $middlename, $surname, $suffix);
+            insertAddress($connection, $barangayId, $barangay, $address);
+            insertPersonAddress($connection, $personId, $barangayId);
+            insertGender($connection, $personId, $gender);
+            insertEducationalAttainment($connection, $personId, $educationalAttainment);
+            insertCompany($connection, $personId, $company);
+            insertIncome($connection, $personId, $monthlyIncome, $totalFamilyIncome);
+            insertTelephone($connection, $personId, $telephone);
+            insertJob($connection, $personId, $job, NULL);
+            if (count($childFirstName) >= 1) {
+                for ($i=0; $i < count($childFirstName); $i++) {
+                    $childId = generateUUID();
+                    $childBarangayId = generateUUID();
+                    insertPerson($connection, $childId, $soloParentChildDOB[$i], NULL);
+                    insertName($connection, $childId, $childFirstName[$i], $childMiddleName[$i], $childLastName[$i], $childSuffix[$i]);
+                    insertMaritalStatus($connection, $childId, $maritalStatus[$i]);
+                    insertEducationalAttainment($connection, $childId, $childEducationalAttainment[$i]);
+                    insertIncome($connection, $childId, $childIncome[$i], NULL);
+                    insertRelationship($connection, $personId, $childId, $childRelationship[$i]);
+                }
             }
+            insertSoloParentLongText($connection, $personId, $soloParentClassification, $soloParentNeeds, $soloParentFamilyResources);
+            // Commit the transaction
+            $connection->commit();
+            echo "All queries executed successfully";
+        } catch (Exception $e) {
+            // Rollback the transaction in case of any errors
+            $connection->rollback();
+            echo "Error: " . $e->getMessage();
         }
-        
-        insertSoloParentLongText($connection, $personId, $soloParentClassification, $soloParentNeeds, $soloParentFamilyResources);
-        insertUserAccount($connection, $id_number, $applicantType, $personId, $email, $id_number);
+        header("location: ../dashboard.html");
+        exit();
     }
     // Person with Disability
     if (isset($_POST['pwdSubmit'])) {
@@ -242,52 +267,64 @@
         } else {
             $accomplisherName = $_POST['accomplisherName'];
         }
+        try {
+            // Begin transaction
+            $connection->begin_transaction();
 
-        insertPerson($connection, $personId, $pwdDOB);
-        insertApplicant($connection, $personId, $applicantType, $id_number, NULL);
-        insertTransactionType($connection, $personId, $applicationType, NULL);
-        insertPreviousAddress($connection, $personId, $old_region, $old_province, $old_city, $old_barangay, $previousAddress);
-        insertName($connection, $personId, $firstName, $middlename, $surname, $suffix);
-        insertAddress($connection, $barangayId, $barangay, $address);
-        insertPersonAddress($connection, $personId, $barangayId);
-        insertLandline($connection, $personId, $landline);
-        insertTelephone($connection, $personId, $mobileNumber);
-        insertGender($connection, $personId, $gender);
-        insertReligion($connection, $personId, $religion);
-        insertMaritalStatus($connection, $personId, $maritalStatus);
-        insertBloodType($connection, $personId, $bloodType);
-        insertEducationalAttainment($connection, $personId, $educationalAttainment);
-        insertGovernmentMembership($connection, $personId, $isActiveVoter, $is4psMember);
-        insertEmploymentStatus($connection, $personId, $employmentStatus, $categoryOfEmployment, $natureOfEmployment);
-        if($employmentStatus == "Employed" || $employmentStatus == "Self-employed") {
-            if($occupation == "Other") {
-                insertJob($connection, $personId, NULL, $otherOccupation);
+            // Call your functions to insert data
+            insertPerson($connection, $personId, $pwdDOB, $emailAddress);
+            insertApplicant($connection, $personId, $applicantType, $id_number, NULL);
+            insertTransactionType($connection, $personId, $applicationType, NULL);
+            insertPreviousAddress($connection, $personId, $old_region, $old_province, $old_city, $old_barangay, $previousAddress);
+            insertName($connection, $personId, $firstName, $middlename, $surname, $suffix);
+            insertAddress($connection, $barangayId, $barangay, $address);
+            insertPersonAddress($connection, $personId, $barangayId);
+            insertLandline($connection, $personId, $landline);
+            insertTelephone($connection, $personId, $mobileNumber);
+            insertGender($connection, $personId, $gender);
+            insertReligion($connection, $personId, $religion);
+            insertMaritalStatus($connection, $personId, $maritalStatus);
+            insertBloodType($connection, $personId, $bloodType);
+            insertEducationalAttainment($connection, $personId, $educationalAttainment);
+            insertGovernmentMembership($connection, $personId, $isActiveVoter, $is4psMember);
+            insertEmploymentStatus($connection, $personId, $employmentStatus, $categoryOfEmployment, $natureOfEmployment);
+            if($employmentStatus == "Employed" || $employmentStatus == "Self-employed") {
+                if($occupation == "Other") {
+                    insertJob($connection, $personId, NULL, $otherOccupation);
+                } else {
+                    insertJob($connection, $personId, $occupation, NULL);
+                }
+                insertIncome($connection, $personId, $income, NULL);
             } else {
-                insertJob($connection, $personId, $occupation, NULL);
+                insertJob($connection, $personId, NULL, NULL);
+                insertIncome($connection, $personId, NULL, NULL);
             }
-            insertIncome($connection, $personId, $income, NULL);
-        } else {
-            insertJob($connection, $personId, NULL, NULL);
-            insertIncome($connection, $personId, NULL, NULL);
+            insertOrganization($connection, $personId, $organization, $organizationContactPerson, $organizationOfficeAddress, $organizationTelephoneNumber);
+            insertIdReferenceNumber($connection, $personId, $SSSNo, $GSISNo, $PSNNo, $isPhilhealthMember, $philhealthNumber);
+            insertPerson($connection, $fatherId, NULL, NULL);
+            insertName($connection, $fatherId, $fatherFirstName, $fatherMiddleName, $fatherSurname, $fatherSuffix);
+            insertRelationship($connection, $personId, $fatherId, "Father");
+            insertPerson($connection, $motherId, NULL, NULL);
+            insertName($connection, $motherId, $motherFirstName, $motherMiddleName, $motherSurname, $motherSuffix);
+            insertRelationship($connection, $personId, $motherId, "Mother");
+            if (!empty($guardianFirstName)) {
+                insertPerson($connection, $guardianId, NULL, NULL);
+                insertName($connection, $guardianId, $guardianFirstName, $guardianMiddleName, $guardianSurname, $guardianSuffix);
+                insertRelationship($connection, $personId, $guardianId, $guardianRelationship);
+                insertTelephone($connection, $guardianId, $guardianContactNumber);
+            }
+            insertPWDDisease($connection, $personId, $typeOfDisability, $medicalCondition, $causeOfDisability, $inborn, $acquired, $statusOfDisability);
+            insertPWDPhysician($connection, $personId, $physicianName, $physicianLicence);
+            insertPWDApplicationAccomplisher($connection, $personId, $accomplishedBy, $accomplisherName);
+            // Commit the transaction
+            $connection->commit();
+            echo "All queries executed successfully";
+        } catch (Exception $e) {
+            // Rollback the transaction in case of any errors
+            $connection->rollback();
+            echo "Error: " . $e->getMessage();
         }
-        insertOrganization($connection, $personId, $organization, $organizationContactPerson, $organizationOfficeAddress, $organizationTelephoneNumber);
-        insertIdReferenceNumber($connection, $personId, $SSSNo, $GSISNo, $PSNNo, $isPhilhealthMember, $philhealthNumber);
-        insertPerson($connection, $fatherId, NULL);
-        insertName($connection, $fatherId, $fatherFirstName, $fatherMiddleName, $fatherSurname, $fatherSuffix);
-        insertRelationship($connection, $personId, $fatherId, "Father");
-        insertPerson($connection, $motherId, NULL);
-        insertName($connection, $motherId, $motherFirstName, $motherMiddleName, $motherSurname, $motherSuffix);
-        insertRelationship($connection, $personId, $motherId, "Mother");
-        if (!empty($guardianFirstName)) {
-            insertPerson($connection, $guardianId, NULL);
-            insertName($connection, $guardianId, $guardianFirstName, $guardianMiddleName, $guardianSurname, $guardianSuffix);
-            insertRelationship($connection, $personId, $guardianId, $guardianRelationship);
-            insertTelephone($connection, $guardianId, $guardianContactNumber);
-        }
-        insertPWDDisease($connection, $personId, $typeOfDisability, $medicalCondition, $causeOfDisability, $inborn, $acquired, $statusOfDisability);
-        insertPWDPhysician($connection, $personId, $physicianName, $physicianLicence);
-        insertPWDApplicationAccomplisher($connection, $personId, $accomplishedBy, $accomplisherName);
-        insertUserAccount($connection, $id_number, $applicantType, $personId, $emailAddress, $id_number);
+        header("location: ../dashboard.html");
+        exit();
     }
-
 ?>

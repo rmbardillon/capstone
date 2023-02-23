@@ -19,7 +19,7 @@
 ?>
     <div class="container form">
         <h1 class="heading">Senior Citizen Application</h1>
-      <form action="includes/register.inc.php" method="post" novalidate="">
+      <form action="includes/approved.inc.php" method="post" novalidate="">
         <div class="row">
           <div class="col">
             <label class="col-form-label required">TRANSAKSYON</label>
@@ -576,6 +576,7 @@
         <?php endforeach; ?>
         <div class="mt-1 row">
           <div class="col">
+            <input type="hidden" name="person_id" value="<?php echo($PERSON_ID); ?>">
             <button
               class="btn btn-primary w-100"
               type="submit"

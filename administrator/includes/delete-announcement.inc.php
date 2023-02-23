@@ -3,7 +3,7 @@
 require_once 'dbh.inc.php';
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
-    $sql = "DELETE FROM announcement WHERE id=?";
+    $sql = "DELETE FROM announcement WHERE ANNOUNCEMENT_ID=?";
     $stmt = $connection->prepare($sql);
 
     mysqli_stmt_bind_param($stmt, "s", $id);

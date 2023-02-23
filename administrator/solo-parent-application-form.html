@@ -294,10 +294,20 @@
             </div>
           </div>
           <div class="row">
-            <div class="col col-2 d-flex align-items-center">
+            <div class="col d-flex align-items-center">
+              <h6 class="text-start">RELATIONSHIP</h6>
+            </div>
+            <div class="col">
+                <select id="soloParentChildRelationship" class="form-select" name="soloParentChildRelationship[]" required>
+                    <option disabled selected value="">Please Select</option>
+                    <option value="Son">Son</option>
+                    <option value="Daughter">Daughter</option>
+                </select>
+            </div>
+            <div class="col d-flex align-items-center">
               <h6 class="text-start">DATE&nbsp;OF BIRTH</h6>
             </div>
-            <div class="col col-3">
+            <div class="col">
               <input
                 class="form-control"
                 id="soloParentChildDOB"
@@ -307,7 +317,7 @@
                 required
               />
             </div>
-            <div class="col col-2 d-flex align-items-center">
+            <div class="col d-flex align-items-center">
               <h6 class="text-start">MARITAL&nbsp;STATUS</h6>
             </div>
             <div class="col d-flex align-items-center">

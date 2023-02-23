@@ -13,19 +13,22 @@
                 <div class="card mb-5">
                     <div class="card-body p-sm-5">
                         <h2 class="text-center mb-4">Announcement</h2>
-                        <form action="includes/add-announcement.inc.php" method="post">
-                            <div class="mb-3"><input class="form-control" type="text" id="announcement" name="announcement" placeholder="Announcement Title"></div>
+                        <form action="includes/add-announcement.inc.php" method="post" novalidate="">
+                            <div class="mb-3"><input class="form-control" type="text" id="announcement" name="announcement" placeholder="Announcement Title" required></div>
                             <div class="mb-3">
                                 <select class="form-select" id="announcementFor" name="announcementFor" required>
                                     <option disabled selected value="">Announcement For?</option>
+                                    <option value="All">All</option>
                                     <option value="Administrator">Administrators</option>
                                     <option value="Solo Parent">Solo Parent</option>
                                     <option value="Senior Citizen">Senior Citizen</option>
                                     <option value="PWD">PWD</option>
+                                    <option value="All">All</option>
                                 </select></div>
                             <div class="mb-3">
                                 <select class="form-select" id="barangay" name="barangay" required>
                                     <option disabled selected value="">Please Select Barangay</option>
+                                    <option value="All">All</option>
                                     <option value="City Hall">City Hall</option>
                                     <option value="Aplaya">Aplaya</option>
                                     <option value="Balibago">Balibago</option>
@@ -46,7 +49,7 @@
                                     <option value="Sinalhan">Sinalhan</option>
                                     <option value="Tagapo">Tagapo</option>
                                 </select></div>
-                            <div class="mb-3"><textarea class="form-control" id="announcementMessage" name="announcementMessage" rows="6" placeholder="Announcement Message"></textarea></div>
+                            <div class="mb-3"><textarea class="form-control" id="announcementMessage" name="announcementMessage" rows="6" placeholder="Announcement Message" required></textarea></div>
                             <div><button class="btn btn-primary d-block w-100" type="submit" name="add-announcement-submit">Add Announcement</button></div>
                         </form>
                     </div>

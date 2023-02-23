@@ -3,7 +3,7 @@
 function getPWDData($connection, $personID) {
     $data = [];
     if(!empty($personID)) {
-        $sql = "SELECT APPLICANT_TYPE, TRANSACTION_TYPE, REGION, CITY, PROVINCE, previous_address.BARANGAY, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, LANDLINE_NUMBER, telephone.TELEPHONE_NUMBER AS MOBILE_NUMBER, EMAIL, DATE_OF_BIRTH, RELIGION, BLOOD_TYPE, IS_ACTIVE_VOTER, IS_4PS_MEMBER, EMPLOYMENT_STATUS, CATEGORY_OF_EMPLOYMENT, NATURE_OF_EMPLOYMENT, JOB, OTHER_JOB, MONTHLY_INCOME, ORGANIZATION_AFFILIATED, CONTACT_PERSON, OFFICE_ADDRESS, organization.TELEPHONE_NUMBER, SSS_NUMBER, GSIS_NUMBER,PSN_NUMBER, IS_PHILHEALTH_MEMBER, PHILHEALTH_NUMBER, TYPE_OF_DISABILITY, MEDICAL_CONDITION, CAUSE_OF_DISABILITY, CONGENITAL_INBORN, ACQUIRED, STATUS_OF_DISABILITY, PWD_PHYSICIAN_NAME, PHYSICIAN_LICENSE_NUMBER, ACCOMPLISHED_BY, ACCOMPLISHER_NAME, transaction_type.DATE_UPDATED, STATUS
+        $sql = "SELECT APPLICANT_TYPE, CITIZEN_ID, TRANSACTION_TYPE, REGION, CITY, PROVINCE, previous_address.BARANGAY, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, LANDLINE_NUMBER, telephone.TELEPHONE_NUMBER AS MOBILE_NUMBER, EMAIL, DATE_OF_BIRTH, RELIGION, BLOOD_TYPE, IS_ACTIVE_VOTER, IS_4PS_MEMBER, EMPLOYMENT_STATUS, CATEGORY_OF_EMPLOYMENT, NATURE_OF_EMPLOYMENT, JOB, OTHER_JOB, MONTHLY_INCOME, ORGANIZATION_AFFILIATED, CONTACT_PERSON, OFFICE_ADDRESS, organization.TELEPHONE_NUMBER, SSS_NUMBER, GSIS_NUMBER,PSN_NUMBER, IS_PHILHEALTH_MEMBER, PHILHEALTH_NUMBER, TYPE_OF_DISABILITY, MEDICAL_CONDITION, CAUSE_OF_DISABILITY, CONGENITAL_INBORN, ACQUIRED, STATUS_OF_DISABILITY, PWD_PHYSICIAN_NAME, PHYSICIAN_LICENSE_NUMBER, ACCOMPLISHED_BY, ACCOMPLISHER_NAME, transaction_type.DATE_UPDATED, STATUS
         FROM person 
         JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
         JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
@@ -13,7 +13,6 @@ function getPWDData($connection, $personID) {
         JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
         JOIN landline ON person.PERSON_ID = landline.PERSON_ID AND landline.IS_DELETED = 'N'
         JOIN telephone ON person.PERSON_ID = telephone.PERSON_ID AND telephone.IS_DELETED = 'N'
-        JOIN user_account ON person.PERSON_ID = user_account.PERSON_ID AND user_account.IS_DELETED = 'N'
         JOIN religion ON person.PERSON_ID = religion.PERSON_ID AND religion.IS_DELETED = 'N'
         JOIN blood_type ON person.PERSON_ID = blood_type.PERSON_ID AND blood_type.IS_DELETED = 'N'
         JOIN government_membership ON person.PERSON_ID = government_membership.PERSON_ID AND government_membership.IS_DELETED = 'N'
@@ -207,12 +206,11 @@ function getGuardianData($connection, $personID) {
 function getSoloParentData($connection, $personID) {
     $data = [];
     if(!empty($personID)) {
-        $sql = "SELECT APPLICANT_TYPE, TRANSACTION_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, BARANGAY, ADDRESS, DATE_OF_BIRTH, PLACE_OF_BIRTH, EMAIL, TELEPHONE_NUMBER, JOB, COMPANY, MONTHLY_INCOME, TOTAL_FAMILY_INCOME, CLASSIFICATION_CIRCUMSTANCES, NEEDS_PROBLEMS, FAMILY_RESOURCES, transaction_type.DATE_UPDATED, STATUS
+        $sql = "SELECT APPLICANT_TYPE, CITIZEN_ID, TRANSACTION_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, BARANGAY, ADDRESS, DATE_OF_BIRTH, PLACE_OF_BIRTH, EMAIL, TELEPHONE_NUMBER, JOB, COMPANY, MONTHLY_INCOME, TOTAL_FAMILY_INCOME, CLASSIFICATION_CIRCUMSTANCES, NEEDS_PROBLEMS, FAMILY_RESOURCES, transaction_type.DATE_UPDATED, STATUS
         FROM person 
         JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
         JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
         JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
-        JOIN user_account ON person.PERSON_ID = user_account.PERSON_ID AND user_account.IS_DELETED = 'N'
         JOIN telephone ON person.PERSON_ID = telephone.PERSON_ID AND telephone.IS_DELETED = 'N'
         JOIN job ON person.PERSON_ID = job.PERSON_ID AND job.IS_DELETED = 'N'
         JOIN company ON person.PERSON_ID = company.PERSON_ID AND company.IS_DELETED = 'N'
@@ -302,13 +300,14 @@ function getFamilyMemberData($connection, $personID) {
     JOIN marital_status ON person.PERSON_ID = marital_status.PERSON_ID
     JOIN educational_attainment ON person.PERSON_ID = educational_attainment.PERSON_ID
     JOIN income ON person.PERSON_ID = income.PERSON_ID
-    WHERE relationship.RELATIONSHIP_TYPE = 'Family Member'
+    WHERE relationship.RELATIONSHIP_TYPE = 'Son' OR relationship.RELATIONSHIP_TYPE = 'Daughter'
     AND relationship.APPLICANT_ID = ?
     AND person.IS_DELETED = 'N'
     AND name.IS_DELETED = 'N'
     AND educational_attainment.IS_DELETED = 'N'
     AND income.IS_DELETED = 'N'
-    AND marital_status.IS_DELETED = 'N';";
+    AND marital_status.IS_DELETED = 'N'
+    LIMIT 5;";
     $stmt = $connection->prepare($sql);
 
     if (!$stmt) {
@@ -334,12 +333,11 @@ function getFamilyMemberData($connection, $personID) {
 function getSeniorCitizenData($connection, $personId) {
     $data = [];
     if(!empty($personId)) {
-        $sql = "SELECT APPLICANT_TYPE, ID_NUMBER, TRANSACTION_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, BARANGAY, ADDRESS, DATE_OF_BIRTH, PLACE_OF_BIRTH, EMAIL, TELEPHONE_NUMBER, RELIGION, JOB, HAS_PENSION, TYPE, AMOUNT, STATUS, transaction_type.DATE_UPDATED
+        $sql = "SELECT APPLICANT_TYPE, CITIZEN_ID, ID_NUMBER, TRANSACTION_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, BARANGAY, ADDRESS, DATE_OF_BIRTH, PLACE_OF_BIRTH, EMAIL, TELEPHONE_NUMBER, RELIGION, JOB, HAS_PENSION, TYPE, AMOUNT, STATUS, transaction_type.DATE_UPDATED
         FROM person 
         JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
         JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
         JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
-        JOIN user_account ON person.PERSON_ID = user_account.PERSON_ID AND user_account.IS_DELETED = 'N'
         JOIN telephone ON person.PERSON_ID = telephone.PERSON_ID AND telephone.IS_DELETED = 'N'
         JOIN religion ON person.PERSON_ID = religion.PERSON_ID AND religion.IS_DELETED = 'N'
         JOIN job ON person.PERSON_ID = job.PERSON_ID AND job.IS_DELETED = 'N'
@@ -879,20 +877,20 @@ function generateRandomPassword() {
     return $password;
 }
 
-function insertPerson($connection, $personId, $dateOfBirth) {
+function insertPerson($connection, $personId, $dateOfBirth, $email) {
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO person (PERSON_ID, DATE_OF_BIRTH, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES ('$personId', ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO person (PERSON_ID, DATE_OF_BIRTH, EMAIL, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES ('$personId', ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
-    $stmt->bind_param("s", $dateOfBirth);
+    $stmt->bind_param("ss", $dateOfBirth, $email);
 
     // Execute the query
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        echo "Duplicate BOBO Error: " . $stmt . "<br>" . $connection->error;
     }
 
     // Close the statement
@@ -1381,17 +1379,17 @@ function insertLandline($connection, $personId, $landline) {
 
 }
 
-function insertUserAccount($connection, $id_number, $applicantType, $personId, $email, $username) {
+function insertUserAccount($connection, $id_number, $applicantType, $personId, $username) {
     // Generate a random password
     $password = generateRandomPassword();
     $passwordHashed = password_hash($password, PASSWORD_DEFAULT);
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO user_account (USER_ACCOUNT_ID, PERSON_ID, EMAIL, USERNAME, PASSWORD, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (? , ?, ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO user_account (USER_ACCOUNT_ID, PERSON_ID, USERNAME, PASSWORD, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (?, ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
-    $stmt->bind_param("sssss", $id_number, $personId, $email, $id_number, $passwordHashed);
+    $stmt->bind_param("ssss", $id_number, $personId, $id_number, $passwordHashed);
 
     // Execute the query
     if($stmt->execute() === TRUE){

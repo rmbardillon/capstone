@@ -4,7 +4,10 @@
     foreach($data as $userData){
         $barangay = $userData['BARANGAY'];
         $for = $userData['APPLICANT_TYPE'];
-        $announcements = $_SESSION['announcements'] = getAnnouncements($connection, $barangay, $for);
+        $specificAnnouncements = $_SESSION['announcements'] = getAnnouncements($connection, $barangay, $for);
+        $allBarangayAnnouncements = $_SESSION['announcements'] = getAnnouncements($connection, $barangay, "All");
+        $allCitizenAnnouncements = $_SESSION['announcements'] = getAnnouncements($connection, "All", "All");
+        $announcements = array_merge($specificAnnouncements, $allBarangayAnnouncements, $allCitizenAnnouncements);
     }
     if(!isset($_SESSION['username'])) {
         header("location: ../login/citizen.html");
