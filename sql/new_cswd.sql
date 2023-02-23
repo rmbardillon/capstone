@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 20, 2023 at 07:42 AM
+-- Generation Time: Feb 23, 2023 at 07:59 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -169,8 +169,8 @@ INSERT INTO `administrator` (`id`, `admin_type`, `barangay`, `username`, `first_
 CREATE TABLE `announcement` (
   `ANNOUNCEMENT_ID` int(11) NOT NULL,
   `TITLE` varchar(128) NOT NULL,
-  `ANNOUNCEMENT_FOR` enum('Administrator','PWD','Senior Citizen','Solo Parent') NOT NULL,
-  `BARANGAY` enum('City Hall','Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz','Santo Domingo','Sinalhan','Tagapo') NOT NULL,
+  `ANNOUNCEMENT_FOR` enum('All','Administrator','PWD','Senior Citizen','Solo Parent') NOT NULL,
+  `BARANGAY` enum('All','City Hall','Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz','Santo Domingo','Sinalhan','Tagapo') NOT NULL,
   `MESSAGE` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -467,6 +467,7 @@ CREATE TABLE `pension` (
 CREATE TABLE `person` (
   `PERSON_ID` varchar(16) NOT NULL,
   `DATE_OF_BIRTH` date DEFAULT NULL,
+  `EMAIL` varchar(128) DEFAULT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
@@ -663,7 +664,6 @@ CREATE TABLE `transaction_type` (
 CREATE TABLE `user_account` (
   `USER_ACCOUNT_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
-  `EMAIL` varchar(128) NOT NULL,
   `USERNAME` varchar(128) NOT NULL,
   `PASSWORD` varchar(128) NOT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
@@ -698,6 +698,7 @@ ALTER TABLE `announcement`
 -- Indexes for table `applicant`
 --
 ALTER TABLE `applicant`
+  ADD PRIMARY KEY (`APPLICANT_ID`),
   ADD KEY `FK_PERSON_APPLICANT` (`APPLICANT_ID`);
 
 --
@@ -808,7 +809,8 @@ ALTER TABLE `pension`
 -- Indexes for table `person`
 --
 ALTER TABLE `person`
-  ADD PRIMARY KEY (`PERSON_ID`);
+  ADD PRIMARY KEY (`PERSON_ID`),
+  ADD UNIQUE KEY `EMAIL` (`EMAIL`);
 
 --
 -- Indexes for table `person_address`
@@ -887,7 +889,6 @@ ALTER TABLE `transaction_type`
 --
 ALTER TABLE `user_account`
   ADD PRIMARY KEY (`USER_ACCOUNT_ID`),
-  ADD UNIQUE KEY `EMAIL` (`EMAIL`),
   ADD KEY `FK_PERSON_ACCOUNT_idx` (`PERSON_ID`);
 
 --
