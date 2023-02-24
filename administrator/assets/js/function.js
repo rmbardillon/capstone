@@ -159,15 +159,19 @@ $(document).ready(function() {
         var srCitizenChildDOBNow = new Date(data.datetime);
         var srCitizenSpouseDOBNow = new Date(data.datetime);
         var now = new Date(data.datetime);
+        var announcementDate = new Date(data.datetime);
         const srCitizenDOBMaxDate = new Date(srCitizenDOBNow.setFullYear(srCitizenDOBNow.getFullYear() - 60));
         const childSrCitizenDOBMaxDate = new Date(srCitizenChildDOBNow.setFullYear(srCitizenChildDOBNow.getFullYear() - 15));
         const spouseSrCitizenDOBMaxDate = new Date(srCitizenSpouseDOBNow.setFullYear(srCitizenSpouseDOBNow.getFullYear() - 18));
+        const announcementMaxDate = new Date(announcementDate.setFullYear(announcementDate.getFullYear() + 1));
         const srCitizenDOBMax = srCitizenDOBMaxDate.toISOString().split('T')[0];
         const childSrCitizenDOBMax = childSrCitizenDOBMaxDate.toISOString().split('T')[0];
         const spouseSrCitizenDOBMax = spouseSrCitizenDOBMaxDate.toISOString().split('T')[0];
+        const announcementMax = announcementMaxDate.toISOString().split('T')[0];
         $("#srCitizenDOB").attr("max", srCitizenDOBMax);
         $("#srCitizenChildDOB").attr("max", childSrCitizenDOBMax);
         $("#spouseDOB").attr("max", spouseSrCitizenDOBMax);
+        $("#announcementDate").attr("max", announcementMax);
         $('#srCitizenDOB').change(function(){
             var dateOfBirth = new Date($('#srCitizenDOB').val())
             var month_diff = now - dateOfBirth.getTime()
@@ -233,6 +237,45 @@ $(document).ready(function() {
         } else {
             var id = newId.replace(counter, counter - 1);
             originalDiv.insertAfter($("#" + id));
+        }
+    });
+    $("#spouseLastName").change(function() {
+        if ($(this).val().trim() !== "") {
+            $("#dobSpouse").show();
+            $("#spouseFirstName").prop("required", true);
+            $("#spouseDOB").prop("required", true);
+        } else {
+            $("#dobSpouse").hide();
+            $("#spouseFirstName").prop("required", false);
+            $("#spouseDOB").prop("required", false);
+        }
+    });
+    // listen for changes to the number input field
+    $('#numberOfChildren').on('input', function() {
+        // get the current number of relatives entered by the user
+        var numRelatives = $(this).val();
+        if(numRelatives > 0) {
+            $("#childLastName").prop("required", true);
+            $("#childFirstName").prop("required", true);
+            $("#srCitizenChildDOB").prop("required", true);
+            $("#childBarangay").prop("required", true);
+            $("#childAddress").prop("required", true);
+        } else {
+            $("#childLastName").prop("required", false);
+            $("#childFirstName").prop("required", false);
+            $("#srCitizenChildDOB").prop("required", false);
+            $("#childBarangay").prop("required", false);
+            $("#childAddress").prop("required", false);
+        }
+        
+        // clear the existing divs from the container
+        $('#relativesContainer').empty();
+        
+        // create a new copy of the div for each relative
+        for (var i = 1; i < numRelatives; i++) {
+            var newDiv = $('#srCitizenRelative').clone();
+            // add the new div to the container
+            $('#relativesContainer').append(newDiv);
         }
     });
 });

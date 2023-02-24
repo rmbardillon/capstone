@@ -35,7 +35,7 @@
         $spouseSuffix = $_POST['spouseSuffix'];
         $spouseDOB = $_POST['spouseDOB'];
         $spouseRelationshipType = "Spouse";
-        $noOfChildren = $_POST['noOfChildren'];
+        $noOfChildren = $_POST['numberOfChildren'];
         $childRelationshipType = "Child";
         $childLastName = $_POST['childLastName'];
         $childFirstName = $_POST['childFirstName'];

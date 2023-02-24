@@ -361,7 +361,7 @@
               />
             </div>
           </div>
-          <div class="col col-4">
+          <div class="col col-4" id="dobSpouse" style="display: none;">
             <label class="form-label" for="spouseDOB">
               PETSA NG KAPANGANAKAN NG ASAWA
             </label>
@@ -384,7 +384,7 @@
               id="numberOfChildren"
               name="numberOfChildren"
               min="0"
-              max="100"
+              max="20"
               required=""
             />
           </div>
@@ -403,40 +403,42 @@
             />
           </div>
         </div>
+        <div id="relativesContainer">
+        </div>
         <div id="srCitizenRelative" class="srCitizenRelative">
-          <div class="row" id="child">
+        <div class="row" id="child">
             <div class="col col-2 d-flex align-items-center">
-              <h6 class="text-nowrap text-start">PANGALAN NG ANAK</h6>
+            <h6 class="text-nowrap text-start">PANGALAN NG ANAK</h6>
             </div>
             <div class="col">
-              <input
+            <input
                 class="form-control"
                 type="text"
                 id="childLastName"
                 name="childLastName[]"
                 placeholder="APELYIDO NG ANAK"
-              />
+            />
             </div>
             <div class="col">
-              <input
+            <input
                 class="form-control"
                 type="text"
                 id="childFirstName"
                 name="childFirstName[]"
                 placeholder="PANGALAN NG ANAK"
-              />
+            />
             </div>
             <div class="col">
-              <input
+            <input
                 class="form-control"
                 type="text"
                 id="childMiddlename"
                 name="childMiddlename[]"
                 placeholder="PANGGITNANG APELYIDO"
-              />
+            />
             </div>
             <div class="col">
-              <select id="childSuffix" class="form-select" name="childSuffix[]">
+            <select id="childSuffix" class="form-select" name="childSuffix[]">
                 <option disabled selected value="">Suffix</option>
                 <option value="">N/A</option>
                 <option value="Jr.">Jr.</option>
@@ -450,42 +452,42 @@
                 <option value="VIII">VIII</option>
                 <option value="IX">IX</option>
                 <option value="X">X</option>
-              </select>
+            </select>
             </div>
-          </div>
-          <div class="row">
+        </div>
+        <div class="row">
             <div class="col col-2 d-flex align-items-center">
-              <h6 class="text-start">PETSA&nbsp;NG KAPANGANAKAN</h6>
+            <h6 class="text-start">PETSA&nbsp;NG KAPANGANAKAN</h6>
             </div>
             <div class="col col-3">
-              <input
+            <input
                 class="form-control"
                 id="srCitizenChildDOB"
                 type="date"
                 name="srCitizenChildDOB[]"
                 min="1900-01-01"
-              />
+            />
             </div>
             <div class="col col-1 d-flex align-items-center">
-              <h6 class="text-start">TELEPONO</h6>
+            <h6 class="text-start">TELEPONO</h6>
             </div>
             <div class="col col-3">
-              <input
+            <input
                 class="form-control numbers telephone"
                 type="tel"
                 id="childTelephone"
                 name="childTelephone[]"
                 placeholder="09##-###-####"
-              />
+            />
             </div>
-          </div>
-          <div class="row">
+        </div>
+        <div class="row">
             <div class="col col-2 d-flex align-items-center">
-              <h6 class="text-start">TIRAHAN NG&nbsp;ANAK</h6>
+            <h6 class="text-start">TIRAHAN NG&nbsp;ANAK</h6>
             </div>
             <div class="col">
-              <label class="form-label" for="childBarangay">BARANGAY</label>
-              <select id="barangay" class="form-select" name="childBarangay[]">
+            <label class="form-label" for="childBarangay">BARANGAY</label>
+            <select id="childBarangay" class="form-select" name="childBarangay[]">
                 <option disabled selected value="">Please Select</option>
                 <option value="Aplaya">Aplaya</option>
                 <option value="Balibago">Balibago</option>
@@ -505,31 +507,32 @@
                 <option value="Santo Domingo">Santo Domingo</option>
                 <option value="Sinalhan">Sinalhan</option>
                 <option value="Tagapo">Tagapo</option>
-              </select>
+            </select>
             </div>
             <div class="col">
-              <label class="form-label" for="childAddress">TIRAHAN</label>
-              <input
+            <label class="form-label" for="childAddress">TIRAHAN</label>
+            <input
                 class="form-control"
                 type="text"
                 id="childAddress"
                 name="childAddress[]"
-              />
+            />
             </div>
-          </div>
-          <div class="row">
+        </div>
+        <!-- <div class="row">
             <div class="col">
-              <button
+            <button
                 class="btn btn-danger delete-button w-25"
                 type="button"
                 onclick="srCitizenRemoveRelative(this);"
-              >
+            >
                 Delete
-              </button>
+            </button>
             </div>
-          </div>
+        </div> -->
         </div>
-        <div class="row mt-1">
+        
+        <!-- <div class="row mt-1">
           <div class="col">
             <button
               class="btn btn-success w-25"
@@ -539,7 +542,7 @@
               Add
             </button>
           </div>
-        </div>
+        </div> -->
         <div class="row">
           <div class="col">
             <button

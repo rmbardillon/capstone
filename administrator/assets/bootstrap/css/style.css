@@ -83,3 +83,17 @@ th, td {
   border: 1px solid black;
   padding: 15px;
 }
+
+#sidebar {
+    position: fixed;
+}
+
+.main-content {
+    margin-left: 210px !important;
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        margin-left: 100px !important;
+    }
+}

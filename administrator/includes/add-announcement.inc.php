@@ -6,15 +6,17 @@ if (isset($_POST['add-announcement-submit'])) {
     $title = $_POST['announcement'];
     $for = $_POST['announcementFor']; 
     $where = $_POST['barangay']; 
+    $date = $_POST['announcementDate']; 
     $message = $_POST['announcementMessage'];
 
-    addAnnouncement($connection, $title, $for, $where, $message);
+    addAnnouncement($connection, $title, $for, $where, $message, $date);
 } else if(isset($_POST['update-announcement-submit'])) {
     $id = $_GET['edit'];
     $title = $_POST['announcement'];
     $for = $_POST['announcementFor']; 
     $where = $_POST['barangay']; 
+    $date = $_POST['announcementDate']; 
     $message = $_POST['announcementMessage'];
 
-    updateAnnouncement($connection, $title, $for, $where, $message, $id);
+    updateAnnouncement($connection, $title, $for, $where, $message, $id, $date);
 }
