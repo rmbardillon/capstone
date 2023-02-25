@@ -163,15 +163,18 @@ $(document).ready(function() {
         const srCitizenDOBMaxDate = new Date(srCitizenDOBNow.setFullYear(srCitizenDOBNow.getFullYear() - 60));
         const childSrCitizenDOBMaxDate = new Date(srCitizenChildDOBNow.setFullYear(srCitizenChildDOBNow.getFullYear() - 15));
         const spouseSrCitizenDOBMaxDate = new Date(srCitizenSpouseDOBNow.setFullYear(srCitizenSpouseDOBNow.getFullYear() - 18));
+        const announcementMinDate = new Date(announcementDate.setFullYear(announcementDate.getFullYear()));
         const announcementMaxDate = new Date(announcementDate.setFullYear(announcementDate.getFullYear() + 1));
         const srCitizenDOBMax = srCitizenDOBMaxDate.toISOString().split('T')[0];
         const childSrCitizenDOBMax = childSrCitizenDOBMaxDate.toISOString().split('T')[0];
         const spouseSrCitizenDOBMax = spouseSrCitizenDOBMaxDate.toISOString().split('T')[0];
         const announcementMax = announcementMaxDate.toISOString().split('T')[0];
+        const announcementMin = announcementMinDate.toISOString().split('T')[0];
         $("#srCitizenDOB").attr("max", srCitizenDOBMax);
         $("#srCitizenChildDOB").attr("max", childSrCitizenDOBMax);
         $("#spouseDOB").attr("max", spouseSrCitizenDOBMax);
         $("#announcementDate").attr("max", announcementMax);
+        $("#announcementDate").attr("min", announcementMin);
         $('#srCitizenDOB').change(function(){
             var dateOfBirth = new Date($('#srCitizenDOB').val())
             var month_diff = now - dateOfBirth.getTime()
@@ -239,7 +242,7 @@ $(document).ready(function() {
             originalDiv.insertAfter($("#" + id));
         }
     });
-    $("#spouseLastName").change(function() {
+    $("#spouseLastName, #spouseFirstName, #spouseMiddlename, #spouseSuffix").change(function() {
         if ($(this).val().trim() !== "") {
             $("#dobSpouse").show();
             $("#spouseFirstName").prop("required", true);
@@ -250,6 +253,16 @@ $(document).ready(function() {
             $("#spouseDOB").prop("required", false);
         }
     });
+    if($('#numberOfChildren').val() === "") {
+        $("#childLastName").prop("disabled", true);
+        $("#childFirstName").prop("disabled", true);
+        $("#childMiddlename").prop("disabled", true);
+        $("#childSuffix").prop("disabled", true);
+        $("#childTelephone").prop("disabled", true);
+        $("#srCitizenChildDOB").prop("disabled", true);
+        $("#childBarangay").prop("disabled", true);
+        $("#childAddress").prop("disabled", true);
+    }
     // listen for changes to the number input field
     $('#numberOfChildren').on('input', function() {
         // get the current number of relatives entered by the user
@@ -260,12 +273,37 @@ $(document).ready(function() {
             $("#srCitizenChildDOB").prop("required", true);
             $("#childBarangay").prop("required", true);
             $("#childAddress").prop("required", true);
+            $("#childLastName").removeAttr("disabled");
+            $("#childFirstName").removeAttr("disabled");
+            $("#childMiddlename").removeAttr("disabled");
+            $("#childSuffix").removeAttr("disabled");
+            $("#childTelephone").removeAttr("disabled");
+            $("#srCitizenChildDOB").removeAttr("disabled");
+            $("#childBarangay").removeAttr("disabled");
+            $("#childAddress").removeAttr("disabled");
         } else {
+            $("#childLastName").prop("disabled", true);
+            $("#childFirstName").prop("disabled", true);
+            $("#childMiddlename").prop("disabled", true);
+            $("#childSuffix").prop("disabled", true);
+            $("#childTelephone").prop("disabled", true);
+            $("#srCitizenChildDOB").prop("disabled", true);
+            $("#childBarangay").prop("disabled", true);
+            $("#childAddress").prop("disabled", true);
             $("#childLastName").prop("required", false);
             $("#childFirstName").prop("required", false);
             $("#srCitizenChildDOB").prop("required", false);
             $("#childBarangay").prop("required", false);
             $("#childAddress").prop("required", false);
+            $("#childLastName").val("");
+            $("#childFirstName").val("");
+            $("#childMiddlename").val("");
+            $("#childSuffix").val("");
+            $("#childTelephone").val("");
+            $("#srCitizenChildDOB").val("");
+            $("#childBarangay").val("");
+            $("#childAddress").val("");
+
         }
         
         // clear the existing divs from the container
@@ -274,8 +312,20 @@ $(document).ready(function() {
         // create a new copy of the div for each relative
         for (var i = 1; i < numRelatives; i++) {
             var newDiv = $('#srCitizenRelative').clone();
+            // empty the input fields
+            newDiv.find('input[type="text"],input[type="date"],input[type="tel"],select').val('');
             // add the new div to the container
             $('#relativesContainer').append(newDiv);
+        }
+    });
+    $("#job").change(function() {
+        if ($(this).val() == "Others") {
+            $("#otherOccupation").show();
+            $("#otherOccupation").focus();
+            $("#otherOccupation").prop("required", true);
+        } else {
+            $("#otherOccupation").hide();
+            $("#otherOccupation").prop("required", false);
         }
     });
 });
@@ -307,6 +357,25 @@ $(document).ready(function() {
             var age = Math.abs(year - 1970)
             $('#age').val(age)
         });
+    });
+    $("#job").change(function() {
+        if ($(this).val() == "Unemployed") {
+            $("#company").prop("disabled", true);
+        } else {
+            $("#company").removeAttr("disabled");
+            $("#company").focus();
+            $("#company").prop("required", true);
+        }
+    });
+    $("#childOccupation").change(function() {
+        if ($(this).val() == "Others") {
+            $("#otherChildOccupation").show();
+            $("#otherChildOccupation").focus();
+            $("#otherChildOccupation").prop("required", true);
+        } else {
+            $("#otherChildOccupation").hide();
+            $("#otherChildOccupation").prop("required", false);
+        }
     });
     $("#soloParentDuplicateButton").click(function() {
         var originalDiv = $("#child").parent().clone();

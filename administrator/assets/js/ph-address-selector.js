@@ -61,7 +61,7 @@ var my_handlers = {
         city.prop('selectedIndex', 0);
 
         //barangay
-        let barangay = $('#barangay');
+        let barangay = $('#transferBarangay');
         barangay.empty();
         barangay.append('<option selected="true" disabled></option>');
         barangay.prop('selectedIndex', 0);
@@ -103,7 +103,7 @@ var my_handlers = {
         dropdown.prop('selectedIndex', 0);
 
         //barangay
-        let barangay = $('#barangay');
+        let barangay = $('#transferBarangay');
         barangay.empty();
         barangay.append('<option selected="true" disabled></option>');
         barangay.prop('selectedIndex', 0);
@@ -138,7 +138,7 @@ var my_handlers = {
         $('#barangay-text').val('');
 
         // barangay
-        let dropdown = $('#barangay');
+        let dropdown = $('#transferBarangay');
         dropdown.empty();
         dropdown.append('<option selected="true" disabled>Choose barangay</option>');
         dropdown.prop('selectedIndex', 0);
@@ -176,7 +176,7 @@ $(function() {
     $('#region').on('change', my_handlers.fill_provinces);
     $('#province').on('change', my_handlers.fill_cities);
     $('#city').on('change', my_handlers.fill_barangays);
-    $('#barangay').on('change', my_handlers.onchange_barangay);
+    $('#transferBarangay').on('change', my_handlers.onchange_barangay);
 
     // load region
     let dropdown = $('#region');

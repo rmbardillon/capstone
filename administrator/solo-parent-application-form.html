@@ -147,26 +147,72 @@
             <label class="form-label required" for="educationalAttainment">
               HIGHEST EDUCATIONAL ATTAINMENT
             </label>
-            <input
-              class="form-control"
-              type="text"
+            <select
               id="educationalAttainment"
+              class="form-select"
               name="educationalAttainment"
-              required=""
-            />
+              required
+            >
+              <option disabled selected value="">Please Select</option>
+              <option value="None">None</option>
+              <option value="Kindergarten">Kindergarten</option>
+              <option value="Elementary Education">Elementary Education</option>
+              <option value="Junior High School">Junior High School</option>
+              <option value="Senior High School">Senior High School</option>
+              <option value="College">College</option>
+              <option value="Vocational">Vocational</option>
+              <option value="Post Graduate Program">
+                Post Graduate Program
+              </option>
+            </select>
           </div>
-        </div>
-        <div class="row">
           <div class="col">
-            <label class="form-label required" id="job" for="job">
+            <label class="form-label required" for="job">
               OCCUPATION
             </label>
-            <input
-              class="form-control"
-              type="text"
+            <select
               id="job"
+              class="form-select"
               name="job"
-              required=""
+              required
+            >
+              <option disabled selected value="">Please Select</option>
+              <option value="Unemployed">Unemployed</option>
+              <option value="Managers">Managers</option>
+              <option value="Professionals">Professionals</option>
+              <option value="Technician & Associate Professionals">
+                Technician & Associate Professionals
+              </option>
+              <option value="Clerical Support Workers">
+                Clerical Support Workers
+              </option>
+              <option value="Service & Sales Workers">
+                Service & Sales Workers
+              </option>
+              <option value="Skilled Agricultural, Forestry & Fishery Workers">
+                Skilled Agricultural, Forestry & Fishery Workers
+              </option>
+              <option value="Craft & Related Trade Workers">
+                Craft & Related Trade Workers
+              </option>
+              <option value="Plant & Machine Operators & Assemblers">
+                Plant & Machine Operators & Assemblers
+              </option>
+              <option value="Elementary Occupations">
+                Elementary Occupations
+              </option>
+              <option value="Armed Forces Occupations">
+                Armed Forces Occupations
+              </option>
+              <option value="Others">Others</option>
+            </select>
+            <input
+              class="form-control mt-1"
+              type="text"
+              id="otherOccupation"
+              placeholder="specify"
+              name="otherOccupation"
+              style="display: none;"
             />
           </div>
           <div class="col">
@@ -179,6 +225,7 @@
               id="company"
               name="company"
               required=""
+              disabled
             />
           </div>
         </div>
@@ -341,16 +388,76 @@
               <h6 class="text-start">EDUCATIONAL&nbsp;ATTAINMENT</h6>
             </div>
             <div class="col">
-              <input
-                class="form-control"
-                type="text"
-                id="childEducationalAttainment"
-                name="childEducationalAttainment[]"
-                required
-              />
+              <select
+              id="childEducationalAttainment"
+              class="form-select"
+              name="childEducationalAttainment[]"
+              required
+                >
+              <option disabled selected value="">Please Select</option>
+              <option value="None">None</option>
+              <option value="Kindergarten">Kindergarten</option>
+              <option value="Elementary Education">Elementary Education</option>
+              <option value="Junior High School">Junior High School</option>
+              <option value="Senior High School">Senior High School</option>
+              <option value="College">College</option>
+              <option value="Vocational">Vocational</option>
+              <option value="Post Graduate Program">
+                Post Graduate Program
+              </option>
+            </select>
             </div>
-            <div class="col col-3 d-flex align-items-center">
-              <h6 class="text-start">OCCUPATION/MONTHLY&nbsp;INCOME</h6>
+            <div class="col col d-flex align-items-center">
+              <h6 class="text-start">OCCUPATION</h6>
+            </div>
+            <div class="col">
+              <select
+              id="childOccupation"
+              class="form-select"
+              name="childOccupation[]"
+              required
+            >
+              <option disabled selected value="">Please Select</option>
+              <option value="Unemployed">Unemployed</option>
+              <option value="Managers">Managers</option>
+              <option value="Professionals">Professionals</option>
+              <option value="Technician & Associate Professionals">
+                Technician & Associate Professionals
+              </option>
+              <option value="Clerical Support Workers">
+                Clerical Support Workers
+              </option>
+              <option value="Service & Sales Workers">
+                Service & Sales Workers
+              </option>
+              <option value="Skilled Agricultural, Forestry & Fishery Workers">
+                Skilled Agricultural, Forestry & Fishery Workers
+              </option>
+              <option value="Craft & Related Trade Workers">
+                Craft & Related Trade Workers
+              </option>
+              <option value="Plant & Machine Operators & Assemblers">
+                Plant & Machine Operators & Assemblers
+              </option>
+              <option value="Elementary Occupations">
+                Elementary Occupations
+              </option>
+              <option value="Armed Forces Occupations">
+                Armed Forces Occupations
+              </option>
+              <option value="Others">Others</option>
+            </select>
+            <input
+              class="form-control mt-1"
+              type="text"
+              id="otherChildOccupation"
+              placeholder="specify"
+              name="otherChildOccupation[]"
+              style="display: none;"
+            />
+            </div>
+            <div class="col col d-flex align-items-center">
+              <h6 class="text-start">MONTHLY&nbsp;INCOME</h6>
             </div>
             <div class="col">
               <input

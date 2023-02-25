@@ -26,6 +26,7 @@
         $telephone = $_POST['telephone'];
         $religion = $_POST['religion'];
         $job = $_POST['job'];
+        $otherOccupation = $_POST['otherOccupation'];
         $hasPension = $_POST['hasPension'];
         $whatPension = $_POST['whatPension'];
         $howMuchPension = $_POST['howMuchPension'];
@@ -60,23 +61,29 @@
             insertMaritalStatus($connection, $personId, $maritalStatus);
             insertTelephone($connection, $personId, $telephone);
             insertReligion($connection, $personId, $religion);
-            insertJob($connection, $personId, $job, NULL);
+            if($job == "Other") {
+                insertJob($connection, $personId, NULL, $otherOccupation);
+            } else {
+                insertJob($connection, $personId, $job, NULL);
+            }
             insertPension($connection, $personId, $hasPension, $whatPension, $howMuchPension);
             if (!empty($spouseFirstName)) {
                 insertPerson($connection, $spouseId, $spouseDOB, NULL);
                 insertName($connection, $spouseId, $spouseFirstName, $spouseMiddleName, $spouseLastName, $spouseSuffix);
                 insertRelationship($connection, $personId, $spouseId, $spouseRelationshipType);
             }
-            if (count($childFirstName) >= 1) {
-                for ($i=0; $i < count($childFirstName); $i++) {
-                    $childId = generateUUID();
-                    $childBarangayId = generateUUID();
-                    insertPerson($connection, $childId, $childDOB[$i], NULL);
-                    insertName($connection, $childId, $childFirstName[$i], $childMiddleName[$i], $childLastName[$i], $childSuffix[$i]);
-                    insertTelephone($connection, $childId, $childTelephone[$i]);
-                    insertAddress($connection, $childBarangayId, $childBarangay[$i], $childAddress[$i]);
-                    insertPersonAddress($connection, $childId, $childBarangayId);
-                    insertRelationship($connection, $personId, $childId, $childRelationshipType);
+            if (!empty($childFirstName)) {
+                if (count($childFirstName) >= 1) {
+                    for ($i=0; $i < count($childFirstName); $i++) {
+                        $childId = generateUUID();
+                        $childBarangayId = generateUUID();
+                        insertPerson($connection, $childId, $childDOB[$i], NULL);
+                        insertName($connection, $childId, $childFirstName[$i], $childMiddleName[$i], $childLastName[$i], $childSuffix[$i]);
+                        insertTelephone($connection, $childId, $childTelephone[$i]);
+                        insertAddress($connection, $childBarangayId, $childBarangay[$i], $childAddress[$i]);
+                        insertPersonAddress($connection, $childId, $childBarangayId);
+                        insertRelationship($connection, $personId, $childId, $childRelationshipType);
+                    }
                 }
             }
             // Commit the transaction
@@ -109,6 +116,7 @@
         $address = $_POST['address'];
         $educationalAttainment = $_POST['educationalAttainment'];
         $job = $_POST['job'];
+        $otherOccupation = $_POST['otherOccupation'];
         $company = $_POST['company'];
         $monthlyIncome = $_POST['monthlyIncome'];
         $totalFamilyIncome = $_POST['totalFamilyIncome'];
@@ -122,6 +130,8 @@
         $soloParentChildDOB = $_POST['soloParentChildDOB'];
         $maritalStatus = $_POST['maritalStatus'];
         $childEducationalAttainment = $_POST['childEducationalAttainment'];
+        $childOccupation = $_POST['childOccupation'];
+        $otherChildOccupation = $_POST['otherChildOccupation'];
         $childIncome = $_POST['childIncome'];
 
         $soloParentClassification = $_POST['soloParentClassification'];
@@ -143,7 +153,11 @@
             insertCompany($connection, $personId, $company);
             insertIncome($connection, $personId, $monthlyIncome, $totalFamilyIncome);
             insertTelephone($connection, $personId, $telephone);
-            insertJob($connection, $personId, $job, NULL);
+            if($job == "Other") {
+                insertJob($connection, $personId, NULL, $otherOccupation);
+            } else {
+                insertJob($connection, $personId, $job, NULL);
+            }
             if (count($childFirstName) >= 1) {
                 for ($i=0; $i < count($childFirstName); $i++) {
                     $childId = generateUUID();
@@ -152,6 +166,11 @@
                     insertName($connection, $childId, $childFirstName[$i], $childMiddleName[$i], $childLastName[$i], $childSuffix[$i]);
                     insertMaritalStatus($connection, $childId, $maritalStatus[$i]);
                     insertEducationalAttainment($connection, $childId, $childEducationalAttainment[$i]);
+                    if($childOccupation[$i] == "Other") {
+                        insertJob($connection, $childId, NULL, $otherChildOccupation);
+                    } else {
+                        insertJob($connection, $childId, $childOccupation[$i], NULL);
+                    }
                     insertIncome($connection, $childId, $childIncome[$i], NULL);
                     insertRelationship($connection, $personId, $childId, $childRelationship[$i]);
                 }

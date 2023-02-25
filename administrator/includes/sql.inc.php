@@ -890,7 +890,7 @@ function insertPerson($connection, $personId, $dateOfBirth, $email) {
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Duplicate BOBO Error: " . $stmt . "<br>" . $connection->error;
+        echo "Duplicate Error: " . $stmt . "<br>" . $connection->error;
     }
 
     // Close the statement

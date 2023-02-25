@@ -274,15 +274,51 @@
             />
           </div>
           <div class="col">
-            <label class="form-label required" id="job" for="job">
+            <label class="form-label required" for="job">
               HANAPBUHAY
             </label>
-            <input
-              class="form-control"
-              type="text"
+            <select
               id="job"
+              class="form-select"
               name="job"
-              required=""
+              required
+            >
+              <option disabled selected value="">Please Select</option>
+              <option value="Managers">Managers</option>
+              <option value="Professionals">Professionals</option>
+              <option value="Technician & Associate Professionals">
+                Technician & Associate Professionals
+              </option>
+              <option value="Clerical Support Workers">
+                Clerical Support Workers
+              </option>
+              <option value="Service & Sales Workers">
+                Service & Sales Workers
+              </option>
+              <option value="Skilled Agricultural, Forestry & Fishery Workers">
+                Skilled Agricultural, Forestry & Fishery Workers
+              </option>
+              <option value="Craft & Related Trade Workers">
+                Craft & Related Trade Workers
+              </option>
+              <option value="Plant & Machine Operators & Assemblers">
+                Plant & Machine Operators & Assemblers
+              </option>
+              <option value="Elementary Occupations">
+                Elementary Occupations
+              </option>
+              <option value="Armed Forces Occupations">
+                Armed Forces Occupations
+              </option>
+              <option value="Others">Others</option>
+            </select>
+            <input
+              class="form-control mt-1"
+              type="text"
+              id="otherOccupation"
+              placeholder="specify"
+              name="otherOccupation"
+              style="display: none;"
             />
           </div>
         </div>
@@ -352,13 +388,21 @@
                 name="spouseMiddlename"
                 placeholder="PANGGITNANG APELYIDO"
               />
-              <input
-                class="form-control w-25"
-                type="text"
-                id="spouseSuffix"
-                name="spouseSuffix"
-                placeholder="SUFFIX"
-              />
+              <select id="spouseSuffix" class="form-select" name="spouseSuffix[]">
+                <option disabled selected value="">Suffix</option>
+                <option value="">N/A</option>
+                <option value="Jr.">Jr.</option>
+                <option value="Sr.">Sr.</option>
+                <option value="II">II</option>
+                <option value="III">III</option>
+                <option value="IV">IV</option>
+                <option value="V">V</option>
+                <option value="VI">VI</option>
+                <option value="VII">VII</option>
+                <option value="VIII">VIII</option>
+                <option value="IX">IX</option>
+                <option value="X">X</option>
+            </select>
             </div>
           </div>
           <div class="col col-4" id="dobSpouse" style="display: none;">
@@ -370,6 +414,7 @@
               id="spouseDOB"
               type="date"
               name="spouseDOB"
+              min="1900-01-01"
             />
           </div>
         </div>
@@ -402,8 +447,6 @@
               required=""
             />
           </div>
-        </div>
-        <div id="relativesContainer">
         </div>
         <div id="srCitizenRelative" class="srCitizenRelative">
         <div class="row" id="child">
@@ -530,6 +573,8 @@
             </button>
             </div>
         </div> -->
+        </div>
+        <div id="relativesContainer">
         </div>
         
         <!-- <div class="row mt-1">
