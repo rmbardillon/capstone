@@ -1,0 +1,36 @@
+<?php 
+    $page = "rejected-requests";
+    include("header.html");
+    require_once 'includes/dbh.inc.php';
+    require_once 'includes/sql.inc.php';
+    $PERSON_ID = $_GET['id'];
+    $remarks = getRemarks($connection, $PERSON_ID);
+    if (!isset($_SESSION['admin-data'])) {
+        header("location: ../login/admin.html");
+        exit();
+    }
+?>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title text-danger mb-4">Account Creation Request Rejected</h5>
+                    <p>We regret to inform you that your request to create an account and obtain an ID in the CSWD has been rejected due to the following reason(s):</p>
+                    <form action="includes/approved.inc.php" method="post" novalidate="">
+                        <input type="hidden" name="person_id" value="<?php echo($PERSON_ID); ?>">
+                        <div class="mb-3">
+                            <label for="reason" class="form-label">Reason for rejection</label>
+                            <textarea class="form-control" id="reason" name="reason" rows="10" disabled><?php echo($remarks[0]['REMARKS']); ?></textarea>
+                        </div>
+                        <p>Please review your information and eligibility, and resubmit your application with all required information.</p>
+                        <!-- <input class="btn btn-primary w-100" type="submit" value="Submit" name="reject"> -->
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php
+    include "footer.html";
+?>

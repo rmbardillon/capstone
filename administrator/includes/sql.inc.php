@@ -903,7 +903,7 @@ function getPrintID($connection, $type) {
     FROM transaction_type 
     JOIN name ON transaction_type.PERSON_ID = name.PERSON_ID
     JOIN applicant ON transaction_type.PERSON_ID = applicant.APPLICANT_ID
-    WHERE transaction_type IN ('New Application', 'NEW ID', 'BAGO') AND APPLICANT_TYPE = '$type' AND STATUS = 'PENDING' AND transaction_type.IS_DELETED = 'N';";
+    WHERE transaction_type IN ('New Application', 'NEW ID', 'BAGO') AND APPLICANT_TYPE = '$type' AND STATUS = 'APPROVED' AND transaction_type.IS_DELETED = 'N';";
     try {
         $stmt = $connection->prepare($sql);
 
@@ -941,7 +941,7 @@ function getIDData($connection, $person_id) {
     JOIN name ON transaction_type.PERSON_ID = name.PERSON_ID
     JOIN applicant ON transaction_type.PERSON_ID = applicant.APPLICANT_ID
     JOIN user_account ON transaction_type.PERSON_ID = user_account.PERSON_ID
-    WHERE transaction_type IN ('New Application', 'NEW ID', 'BAGO') AND transaction_type.PERSON_ID = '$person_id' AND STATUS = 'PENDING' AND transaction_type.IS_DELETED = 'N';";
+    WHERE transaction_type IN ('New Application', 'NEW ID', 'BAGO') AND transaction_type.PERSON_ID = '$person_id' AND STATUS = 'APPROVED' AND transaction_type.IS_DELETED = 'N';";
     
     try {
         $stmt = $connection->prepare($sql);
@@ -971,6 +971,40 @@ function getIDData($connection, $person_id) {
     $stmt->close();
     $connection->close();
 
+}
+// Get Remarks
+function getRemarks($connection, $person_id) {
+    $data = [];
+    $sql = "SELECT REMARKS
+    FROM transaction_type 
+    WHERE PERSON_ID='$person_id' AND IS_DELETED = 'N';";
+    try {
+        $stmt = $connection->prepare($sql);
+
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0){
+        while($row = $result->fetch_assoc()) {
+            array_push($data, $row);
+        }
+        return $data;
+    } else{
+        return $data;
+    }
+
+    $stmt->close();
+    $connection->close();
 }
 // Inserting User Data
 

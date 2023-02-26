@@ -145,7 +145,18 @@ $(document).on('keyup', '.telephone', function() {
         $(this).val($(this).val().substring(0, 11));
     }
 });
-
+$("#numberOfChildren").on("keypress", function(event) {
+  var currentValue = parseInt($(this).val() + event.key);
+  if (currentValue > 20) {
+    event.preventDefault();
+  }
+});
+$("#totalHousemate").on("keypress", function(event) {
+  var currentValue = parseInt($(this).val() + event.key);
+  if (currentValue > 100) {
+    event.preventDefault();
+  }
+});
 // World Time API
 function getDataFromAPI() {
     return $.getJSON('https://worldtimeapi.org/api/ip');
