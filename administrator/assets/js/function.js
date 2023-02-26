@@ -129,7 +129,7 @@ $("#printBtn").click(function() {
 });
 
 
-$(document).on('keyup change', 'input[type="text"]', function() {
+$(document).on('keyup change', 'input[type="text"],textarea', function() {
     $(this).val($(this).val().toUpperCase());
 });
 $(document).on('keypress', '.numbers', function(e) {
