@@ -92,7 +92,9 @@
         } catch (Exception $e) {
             // Rollback the transaction in case of any errors
             $connection->rollback();
-            echo "Error: " . $e->getMessage();
+            $errorMessage =  "Error: " . $e->getMessage();
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
         }
         header("location: ../dashboard.html");
         exit();
@@ -182,7 +184,9 @@
         } catch (Exception $e) {
             // Rollback the transaction in case of any errors
             $connection->rollback();
-            echo "Error: " . $e->getMessage();
+            $errorMessage =  "Error: " . $e->getMessage();
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
         }
         header("location: ../dashboard.html");
         exit();
@@ -341,7 +345,9 @@
         } catch (Exception $e) {
             // Rollback the transaction in case of any errors
             $connection->rollback();
-            echo "Error: " . $e->getMessage();
+            $errorMessage =  "Error: " . $e->getMessage();
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
         }
         header("location: ../dashboard.html");
         exit();

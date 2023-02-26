@@ -9,7 +9,11 @@
     <div class="container mt-5">
         <div class="alert alert-danger" role="alert">
             <h4 class="alert-heading">SQL Error</h4>
-            <p>An error occurred while trying to access the database. Please try again later or contact the administrator.</p>
+            <?php
+                if (isset($_GET['error_message'])) {
+                    echo "<p>" . $_GET['error_message'] . "</p>";
+                }
+            ?>
             <hr>
             <p class="mb-0">If the problem persists, please check the server logs for more information.</p>
         </div>

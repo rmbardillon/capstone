@@ -50,10 +50,18 @@ function getPWDData($connection, $personID) {
         JOIN pwd_application_accomplisher ON person.PERSON_ID = pwd_application_accomplisher.PERSON_ID AND pwd_application_accomplisher.IS_DELETED = 'N'
         WHERE APPLICANT_TYPE = 'PWD' AND person.IS_DELETED = 'N'";
     }
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
     if(!empty($personID)) {
@@ -85,10 +93,18 @@ function getPWDGender($connection, $personID) {
     JOIN educational_attainment ON person.PERSON_ID = educational_attainment.PERSON_ID AND educational_attainment.IS_DELETED = 'N'
     WHERE person.PERSON_ID = ? AND APPLICANT_TYPE = 'PWD' AND person.IS_DELETED = 'N'";
 
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
     $stmt->bind_param("s", $personID);
@@ -117,10 +133,18 @@ function getFatherData($connection, $personID) {
     AND relationship.APPLICANT_ID = ?
     AND person.IS_DELETED = 'N'
     AND name.IS_DELETED = 'N'";
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
     $stmt->bind_param("s", $personID);
@@ -149,10 +173,18 @@ function getMotherData($connection, $personID) {
     AND relationship.APPLICANT_ID = ?
     AND person.IS_DELETED = 'N'
     AND name.IS_DELETED = 'N'";
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
     $stmt->bind_param("s", $personID);
@@ -181,10 +213,18 @@ function getGuardianData($connection, $personID) {
     AND relationship.APPLICANT_ID = ?
     AND person.IS_DELETED = 'N'
     AND name.IS_DELETED = 'N'";
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
     $stmt->bind_param("s", $personID);
@@ -235,10 +275,18 @@ function getSoloParentData($connection, $personID) {
         JOIN solo_parent_long_text ON person.PERSON_ID = solo_parent_long_text.PERSON_ID AND solo_parent_long_text.IS_DELETED = 'N'
         WHERE APPLICANT_TYPE = 'Solo Parent' AND person.IS_DELETED = 'N';";
     }
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
     if(!empty($personID)) {
@@ -269,10 +317,18 @@ function getSoloParentGender($connection, $personID) {
     JOIN educational_attainment ON person.PERSON_ID = educational_attainment.PERSON_ID AND educational_attainment.IS_DELETED = 'N'
     WHERE person.PERSON_ID = ? AND APPLICANT_TYPE = 'Solo Parent' AND person.IS_DELETED = 'N'";
 
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
     $stmt->bind_param("s", $personID);
@@ -308,10 +364,18 @@ function getFamilyMemberData($connection, $personID) {
     AND income.IS_DELETED = 'N'
     AND marital_status.IS_DELETED = 'N'
     LIMIT 5;";
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
     $stmt->bind_param("s", $personID);
@@ -360,10 +424,18 @@ function getSeniorCitizenData($connection, $personId) {
         JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
         WHERE APPLICANT_TYPE = 'Senior Citizen' AND person.IS_DELETED = 'N'";
     }
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
     if(!empty($personId)) {
@@ -394,10 +466,18 @@ function getSeniorCitizenGender($connection, $personId) {
     JOIN gender ON person.PERSON_ID = gender.PERSON_ID AND gender.IS_DELETED = 'N'
     WHERE person.PERSON_ID = ? AND APPLICANT_TYPE = 'Senior Citizen' AND person.IS_DELETED = 'N'";
 
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
     $stmt->bind_param("s", $personId);
@@ -424,10 +504,18 @@ function getSPouseData($connection, $personID) {
     WHERE name.PERSON_ID = (SELECT PERSON_ID
     FROM relationship
     WHERE RELATIONSHIP_TYPE = 'Spouse' AND relationship.APPLICANT_ID = ?) AND person.IS_DELETED = 'N'";
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
     $stmt->bind_param("s", $personID);
@@ -461,10 +549,18 @@ function getChildrenData($connection, $personID) {
     AND name.IS_DELETED = 'N'
     AND telephone.IS_DELETED = 'N'
     AND address.IS_DELETED = 'N';";
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
     $stmt->bind_param("s", $personID);
@@ -508,10 +604,18 @@ function getPWDStatus($connection, $status, $barangay) {
         WHERE APPLICANT_TYPE = 'PWD' AND STATUS = '$status' AND person.IS_DELETED = 'N'";
     }
     
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
     $stmt->execute();
@@ -553,10 +657,18 @@ function getSoloParentStatus($connection, $status, $barangay) {
         JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
         WHERE APPLICANT_TYPE = 'Solo Parent' AND STATUS = '$status' AND person.IS_DELETED = 'N'";
     }
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
     $stmt->execute();
@@ -596,10 +708,18 @@ function getSeniorCitizenStatus($connection, $status, $barangay) {
         JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
         WHERE APPLICANT_TYPE = 'Senior Citizen' AND STATUS = '$status' AND person.IS_DELETED = 'N'";
     }
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
     $stmt->execute();
@@ -642,10 +762,18 @@ function getPWDPerBarangay($connection, $barangay) {
         JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
         WHERE APPLICANT_TYPE = 'PWD' AND person.IS_DELETED = 'N'";
     }
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
     $stmt->execute();
@@ -687,10 +815,18 @@ function getSoloParentPerBarangay($connection, $barangay) {
         JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
         WHERE APPLICANT_TYPE = 'Solo Parent' AND person.IS_DELETED = 'N'";
     }
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
     $stmt->execute();
@@ -730,10 +866,18 @@ function getSeniorCitizenPerBarangay($connection, $barangay) {
         JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
         WHERE APPLICANT_TYPE = 'Senior Citizen' AND person.IS_DELETED = 'N'";
     }
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
     $stmt->execute();
@@ -760,10 +904,18 @@ function getPrintID($connection, $type) {
     JOIN name ON transaction_type.PERSON_ID = name.PERSON_ID
     JOIN applicant ON transaction_type.PERSON_ID = applicant.APPLICANT_ID
     WHERE transaction_type IN ('New Application', 'NEW ID', 'BAGO') AND APPLICANT_TYPE = '$type' AND STATUS = 'PENDING' AND transaction_type.IS_DELETED = 'N';";
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
     $stmt->execute();
@@ -790,10 +942,19 @@ function getIDData($connection, $person_id) {
     JOIN applicant ON transaction_type.PERSON_ID = applicant.APPLICANT_ID
     JOIN user_account ON transaction_type.PERSON_ID = user_account.PERSON_ID
     WHERE transaction_type IN ('New Application', 'NEW ID', 'BAGO') AND transaction_type.PERSON_ID = '$person_id' AND STATUS = 'PENDING' AND transaction_type.IS_DELETED = 'N';";
-    $stmt = $connection->prepare($sql);
+    
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
     $stmt->execute();
@@ -890,7 +1051,9 @@ function insertPerson($connection, $personId, $dateOfBirth, $email) {
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Duplicate Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
     }
 
     // Close the statement
@@ -910,7 +1073,9 @@ function insertApplicant($connection, $applicantId, $applicantType, $citizenId, 
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -930,7 +1095,9 @@ function insertAddress($connection, $barangayId, $barangay, $address) {
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -950,7 +1117,9 @@ function insertPersonAddress($connection, $personId, $addressId) {
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -970,7 +1139,9 @@ function insertBloodType($connection, $personId, $bloodType) {
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -990,7 +1161,9 @@ function insertCompany($connection, $personId, $company) {
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -1010,7 +1183,9 @@ function insertEducationalAttainment($connection, $personId, $educationalAttainm
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -1030,7 +1205,9 @@ function insertEmploymentStatus($connection, $personId, $employmentStatus, $cate
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -1050,7 +1227,9 @@ function insertGender($connection, $personId, $gender) {
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -1070,7 +1249,9 @@ function insertGovernmentMembership($connection, $personId, $isActiveVoter, $is4
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -1090,7 +1271,9 @@ function insertIdReferenceNumber($connection, $personId, $sssNumber, $gsisNumber
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -1110,7 +1293,9 @@ function insertIncome($connection, $personId, $monthlyIncome, $totalFamilyIncome
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -1130,7 +1315,9 @@ function insertJob($connection, $personId, $job, $otherJob) {
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -1150,7 +1337,9 @@ function insertMaritalStatus($connection, $personId, $maritalStatus) {
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -1170,7 +1359,9 @@ function insertName($connection, $personId, $firstName, $middleName, $lastName, 
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -1190,7 +1381,9 @@ function insertOrganization($connection, $personId, $organizationAffiliated, $co
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -1210,7 +1403,9 @@ function insertPension($connection, $personId, $hasPension, $type, $amount) {
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -1230,7 +1425,9 @@ function insertPreviousAddress($connection, $personId, $region, $province, $city
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -1250,7 +1447,9 @@ function insertPWDDisease($connection, $personId, $typeOfDisability, $medicalCon
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -1270,7 +1469,9 @@ function insertPWDPhysician($connection, $personId, $pwdPhysicianName, $physicia
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -1290,7 +1491,9 @@ function insertRelationship($connection, $applicantId, $personId, $relationshipT
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -1310,7 +1513,9 @@ function insertReligion($connection, $personId, $religion) {
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -1330,7 +1535,9 @@ function insertSoloParentLongText($connection, $personId, $classificationCircums
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -1350,7 +1557,9 @@ function insertTelephone($connection, $personId, $telephoneNumber) {
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -1371,7 +1580,9 @@ function insertLandline($connection, $personId, $landline) {
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -1396,7 +1607,9 @@ function insertUserAccount($connection, $id_number, $applicantType, $personId, $
         header("location: ../success.html?username=$username&password=$password");
         exit();
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -1417,7 +1630,9 @@ function insertTransactionType($connection, $personId, $transactionType, $IDNumb
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
@@ -1438,7 +1653,9 @@ function insertPWDApplicationAccomplisher($connection, $personId, $accomplishedB
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
     } else {
-        echo "Error: " . $stmt . "<br>" . $connection->error;
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
+            exit();
     }
 
     // Close the statement
