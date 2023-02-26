@@ -137,6 +137,12 @@
         $childIncome = $_POST['childIncome'];
 
         $soloParentClassification = $_POST['soloParentClassification'];
+        if (isset($_POST['soloParentClassification'])) {
+            $str = $_POST['soloParentClassification'];
+            $soloParentClassification = implode (",", $str);
+        } else {
+            $soloParentClassification = NULL;
+        }
         $soloParentNeeds = $_POST['soloParentNeeds'];
         $soloParentFamilyResources = $_POST['soloParentFamilyResources'];
         try {

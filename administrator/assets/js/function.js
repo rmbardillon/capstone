@@ -377,6 +377,13 @@ $(document).ready(function() {
             $("#otherChildOccupation").prop("required", false);
         }
     });
+    $('input[name="soloParentClassification[]"]').on('change', function() {
+        if ($('input[name="soloParentClassification[]"]:checked').length > 0) {
+            $('input[name="soloParentClassification[]"]').removeAttr('required');
+        } else {
+            $('input[name="soloParentClassification[]"]').prop('required', true);
+        }
+    });
     $("#soloParentDuplicateButton").click(function() {
         var originalDiv = $("#child").parent().clone();
         soloParentNewId = "soloParentRelative" + (++soloParentRelativeCounter);
