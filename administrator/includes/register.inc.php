@@ -53,7 +53,7 @@
             // Call your functions to insert data
             insertPerson($connection, $personId, $srCitizenDOB, $email);
             insertApplicant($connection, $personId, $applicantType, $id_number, $placeOfBirth);
-            insertTransactionType($connection, $personId, $applicationType, $IDNumber);
+            insertTransactionType($connection, $personId, $applicationType, $id_number);
             insertName($connection, $personId, $firstName, $middlename, $surname, $suffix);
             insertAddress($connection, $barangayId, $barangay, $address);
             insertPersonAddress($connection, $personId, $barangayId);
@@ -152,7 +152,7 @@
             // Call your functions to insert data
             insertPerson($connection, $personId, $soloParentDOB, $email);
             insertApplicant($connection, $personId, $applicantType, $id_number, $placeOfBirth);
-            insertTransactionType($connection, $personId, $applicationType, NULL);
+            insertTransactionType($connection, $personId, $applicationType, id_number);
             insertName($connection, $personId, $firstName, $middlename, $surname, $suffix);
             insertAddress($connection, $barangayId, $barangay, $address);
             insertPersonAddress($connection, $personId, $barangayId);
@@ -303,7 +303,7 @@
             // Call your functions to insert data
             insertPerson($connection, $personId, $pwdDOB, $emailAddress);
             insertApplicant($connection, $personId, $applicantType, $id_number, NULL);
-            insertTransactionType($connection, $personId, $applicationType, NULL);
+            insertTransactionType($connection, $personId, $applicationType, id_number);
             insertPreviousAddress($connection, $personId, $old_region, $old_province, $old_city, $old_barangay, $previousAddress);
             insertName($connection, $personId, $firstName, $middlename, $surname, $suffix);
             insertAddress($connection, $barangayId, $barangay, $address);
