@@ -1209,6 +1209,7 @@
             <?php } ?>
           </div>
         </div>
+        <?php if(!isset($_GET['event'])){ ?>
         <div class="row">
             <input type="hidden" name="person_id" value="<?php echo($PERSON_ID); ?>">
           <div class="col">
@@ -1229,6 +1230,7 @@
             </a>
           </div>
         </div>
+        <?php } ?>
       </form>
     </div>
 <?php

@@ -574,6 +574,7 @@
           </div>
         </div>
         <?php endforeach; ?>
+        <?php if(!isset($_GET['event'])){ ?>
         <div class="mt-1 row">
           <div class="col">
             <input type="hidden" name="person_id" value="<?php echo($PERSON_ID); ?>">
@@ -594,6 +595,7 @@
             </a>
           </div>
         </div>
+        <?php } ?>
       </form>
     </div>
 <?php

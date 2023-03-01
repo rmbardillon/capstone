@@ -11,8 +11,9 @@
         exit();
     }
 ?>
+    <?php if($adminData['admin_type'] == "PWD Administrator" || $adminData['admin_type'] == "Main Administrator"){ ?>
     <div class="container-fluid">
-        <h3 class="text-dark mb-4">Print ID</h3>
+        <h3 class="text-dark mb-4"></h3>
         <div class="card shadow">
             <div class="card-header py-3">
                 <p class="text-primary m-0 fw-bold">PWD Print ID</p>
@@ -45,6 +46,7 @@
             </div>
         </div>
     </div>
+    <?php } if($adminData['admin_type'] == "Solo Parent Administrator" || $adminData['admin_type'] == "Main Administrator") { ?>
     <div class="container-fluid">
         <h3 class="text-dark mb-4"></h3>
         <div class="card shadow">
@@ -79,6 +81,7 @@
             </div>
         </div>
     </div>
+    <?php } if($adminData['admin_type'] == "Senior Citizen Administrator" || $adminData['admin_type'] == "Main Administrator") { ?>
     <div class="container-fluid">
         <h3 class="text-dark mb-4"></h3>
         <div class="card shadow">
@@ -113,6 +116,7 @@
             </div>
         </div>
     </div>
+    <?php } ?>
 <?php
     include "footer.html";
 ?>

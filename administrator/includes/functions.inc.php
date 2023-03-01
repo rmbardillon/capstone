@@ -251,36 +251,36 @@ function getUserDataPerBarangay($connection, $table, $where, $condition, $where2
     return $data;
 }
 
-function addAnnouncement($connection, $title, $for, $where, $message, $date) {
+function addAnnouncement($connection, $title, $for, $where, $message, $date, $from, $to) {
     session_start();
     global $isDeleted;
     $getActiveUser = $_SESSION['admin-username'];
-    $sql = "INSERT INTO announcement (TITLE, ANNOUNCEMENT_FOR, BARANGAY, DATE, MESSAGE, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (?, ?, ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser');";
+    $sql = "INSERT INTO announcement (ANNOUNCEMENT_ID, TITLE, ANNOUNCEMENT_FOR, BARANGAY, DATE, MESSAGE, DATE_FROM, DATE_TO, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser');";
     $stmt = $connection->prepare($sql);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../announcement.html?error=stmterror");
         exit();
     }
 
-    mysqli_stmt_bind_param($stmt, "sssss", $title, $for, $where, $date, $message);
+    mysqli_stmt_bind_param($stmt, "sssssss", $title, $for, $where, $date, $message, $from, $to);
     mysqli_stmt_execute($stmt); 
     mysqli_stmt_close($stmt);
     header("location: ../announcement.html?error=none");
     exit();
 }
 
-function updateAnnouncement($connection, $title, $for, $where, $message, $id, $date) {
+function updateAnnouncement($connection, $title, $for, $where, $message, $id, $date, $from, $to) {
     session_start();
     global $isDeleted;
     $getActiveUser = $_SESSION['admin-username'];
-    $sql = "UPDATE announcement SET TITLE = ?, ANNOUNCEMENT_FOR = ?, BARANGAY = ?, DATE = ?, MESSAGE = ?, DATE_UPDATED = CURDATE(), UPDATED_BY = '$getActiveUser' WHERE ANNOUNCEMENT_ID = ?;";
+    $sql = "UPDATE announcement SET TITLE = ?, ANNOUNCEMENT_FOR = ?, BARANGAY = ?, DATE = ?, MESSAGE = ?, DATE_FROM = ?, DATE_TO = ? DATE_UPDATED = CURDATE(), UPDATED_BY = '$getActiveUser' WHERE ANNOUNCEMENT_ID = ?;";
     $stmt = $connection->prepare($sql);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../announcement.html?error=stmterror");
         exit();
     }
 
-    mysqli_stmt_bind_param($stmt, "ssssss", $title, $for, $where, $date, $message, $id);
+    mysqli_stmt_bind_param($stmt, "ssssssss", $title, $for, $where, $date, $message, $from, $to, $id);
     mysqli_stmt_execute($stmt); 
     mysqli_stmt_close($stmt);
     header("location: ../announcement.html?error=none");

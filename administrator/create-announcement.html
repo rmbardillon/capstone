@@ -7,29 +7,25 @@
     }
 ?>
     <div class="container-fluid">
-        <h3 class="text-dark mb-4">Announcements</h3>
         <div class="row d-flex justify-content-center">
             <div class="col-md-8 col-lg-6 col-xl-5 col-xxl-4">
                 <div class="card mb-5">
                     <div class="card-body p-sm-5">
-                        <h2 class="text-center mb-4">Announcement</h2>
+                        <h2 class="text-center mb-4">Create an Event</h2>
                         <form action="includes/add-announcement.inc.php" method="post" novalidate="">
-                            <div class="mb-3"><input class="form-control" type="text" id="announcement" name="announcement" placeholder="Announcement Title" maxlength="64" required></div>
+                            <div class="mb-3"><input class="form-control" type="text" id="announcement" name="announcement" placeholder="Event Title" maxlength="64" required></div>
                             <div class="mb-3">
                                 <select class="form-select" id="announcementFor" name="announcementFor" required>
-                                    <option disabled selected value="">Announcement For?</option>
+                                    <option disabled selected value="">Event For?</option>
                                     <option value="All">All</option>
-                                    <option value="Administrator">Administrators</option>
                                     <option value="Solo Parent">Solo Parent</option>
                                     <option value="Senior Citizen">Senior Citizen</option>
                                     <option value="PWD">PWD</option>
-                                    <option value="All">All</option>
                                 </select></div>
                             <div class="mb-3">
                                 <select class="form-select" id="barangay" name="barangay" required>
                                     <option disabled selected value="">Please Select Barangay</option>
                                     <option value="All">All</option>
-                                    <option value="City Hall">City Hall</option>
                                     <option value="Aplaya">Aplaya</option>
                                     <option value="Balibago">Balibago</option>
                                     <option value="Caingin">Caingin</option>
@@ -48,12 +44,59 @@
                                     <option value="Santo Domingo">Santo Domingo</option>
                                     <option value="Sinalhan">Sinalhan</option>
                                     <option value="Tagapo">Tagapo</option>
-                                </select></div>
+                                </select>
+                            </div>
                             <div class="mb-3">
+                                <label for="">Covered Months</label>
+                                <div class="row">
+                                    <div class="col">
+                                        <select class="form-select" id="from" name="from">
+                                            <option disabled selected value="">From</option>
+                                            <option value="01">January</option>
+                                            <option value="02">February</option>
+                                            <option value="03">March</option>
+                                            <option value="04">April</option>
+                                            <option value="05">May</option>
+                                            <option value="06">June</option>
+                                            <option value="07">July</option>
+                                            <option value="08">August</option>
+                                            <option value="09">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                    </div>
+                                    <div class="col col-2 text-center">TO</div>
+                                    <div class="col">
+                                        <select class="form-select" id="to" name="to">
+                                            <option disabled selected value="">To</option>
+                                            <option value="01">January</option>
+                                            <option value="02">February</option>
+                                            <option value="03">March</option>
+                                            <option value="04">April</option>
+                                            <option value="05">May</option>
+                                            <option value="06">June</option>
+                                            <option value="07">July</option>
+                                            <option value="08">August</option>
+                                            <option value="09">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="announcementDate">Set Date for event</label>
                                 <input class="form-control" type="date" name="announcementDate" id="announcementDate" required>
                             </div>
-                            <div class="mb-3"><textarea class="form-control" id="announcementMessage" name="announcementMessage" rows="6" placeholder="Announcement Message" required maxlength="254"></textarea></div>
-                            <div><button class="btn btn-primary d-block w-100" type="submit" name="add-announcement-submit">Add Announcement</button></div>
+                            <div class="mb-3">
+                                <textarea class="form-control" id="announcementMessage" name="announcementMessage" rows="6" placeholder="Event Information" required maxlength="1024">
+                                </textarea>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary d-block w-100" type="submit" name="add-announcement-submit">Add Announcement</button>
+                            </div>
                         </form>
                     </div>
                 </div>

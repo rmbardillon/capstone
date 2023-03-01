@@ -10,6 +10,7 @@
         $adminData = $loginCredentialsExists;
         $admin_name = $adminData['first_name']." ".$adminData['last_name'];
         $profile = getUserData($connection, "media", "username", $adminData['username']);
+        $adminType = implode(" ", array_slice(explode(" ", $adminData['admin_type']), 0, -1));
         $announcements = $_SESSION['announcements'] = getUserData($connection, "announcement", "", "");
         if ($adminData['admin_type'] == "Main Administrator") {
             $mainAdmin = $_SESSION['mainAdmin'] = getUserData($connection, "administrator", "admin_type", "Main Administrator");
@@ -61,17 +62,43 @@
                             <i class="fas fa-user-plus"></i><span>New Application</span>
                         </a>
                         <ul class="dropdown-menu bg-transparent" aria-labelledby="newApplication">
-                            <li><a class="dropdown-item nav-link <?php if ($page == 'pwd-application-form') {echo 'active';} ?>" href="pwd-application-form.html">PWD Application</a></li>
+                            <?php 
+                                if($adminData['admin_type'] == "Main Administrator"){ ?>
+                            <li>
+                                <a class="dropdown-item nav-link <?php if ($page == 'pwd-application-form') {echo 'active';} ?>" href="pwd-application-form.html">PWD Application</a>
+                            </li>
                             <li><hr class="dropdown-divider"></li>  
-                            <li><a class="dropdown-item nav-link <?php if ($page == 'senior-citizen-application-form') {echo 'active';} ?>" href="senior-citizen-application-form.html">Senior Citizen Application</a></li>
+                            <li>
+                                <a class="dropdown-item nav-link <?php if ($page == 'senior-citizen-application-form') {echo 'active';} ?>" href="senior-citizen-application-form.html">Senior Citizen Application</a>
+                            </li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item nav-link <?php if ($page == 'solo-parent-application-form') {echo 'active';} ?>" href="solo-parent-application-form.html">Solo Parent Application</a></li>
+                            <li>
+                                <a class="dropdown-item nav-link <?php if ($page == 'solo-parent-application-form') {echo 'active';} ?>" href="solo-parent-application-form.html">Solo Parent Application</a>
+                            </li>
+                            <?php 
+                                } else if($adminData['admin_type'] == "PWD Administrator") { ?>
+                            <li>
+                                <a class="dropdown-item nav-link <?php if ($page == 'pwd-application-form') {echo 'active';} ?>" href="pwd-application-form.html">PWD Application</a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <?php 
+                                } else if($adminData['admin_type'] == "Senior Citizen Administrator") { ?>
+                            <li>
+                                <a class="dropdown-item nav-link <?php if ($page == 'senior-citizen-application-form') {echo 'active';} ?>" href="senior-citizen-application-form.html">Senior Citizen Application</a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <?php 
+                                } else if($adminData['admin_type'] == "Solo Parent Administrator") { ?>
+                            <li>
+                                <a class="dropdown-item nav-link <?php if ($page == 'solo-parent-application-form') {echo 'active';} ?>" href="solo-parent-application-form.html">Solo Parent Application</a>
+                            </li>
+                            <?php } ?>
                         </ul>
                     </li>
                     <li class="nav-item"><a class="nav-link <?php if ($page == 'pending-requests') {echo 'active';} ?>" href="pending-requests.html" style="height: 52.4px;"><i class="fas fa-users"></i><span>Pending Requests</span></a></li>
                     <li class="nav-item"><a class="nav-link <?php if ($page == 'approved-requests') {echo 'active';} ?>" href="approved-requests.html" style="height: 52.4px;"><i class="fas fa-users"></i><span>Approved Requests</span></a></li>
                     <li class="nav-item"><a class="nav-link <?php if ($page == 'rejected-requests') {echo 'active';} ?>" href="rejected-requests.html" style="height: 52.4px;"><i class="fas fa-users"></i><span>Rejected Requests</span></a></li>
-                    <li class="nav-item"><a class="nav-link <?php if ($page == 'announcement') {echo 'active';} ?>" href="announcement.html" style="height: 52.4px;"><i class="fas fa-volume-up"></i><span>Announcements</span></a></li>
+                    <li class="nav-item"><a class="nav-link <?php if ($page == 'announcement') {echo 'active';} ?>" href="announcement.html" style="height: 52.4px;"><i class="fas fa-calendar"></i><span>Events</span></a></li>
                     <li class="nav-item"><a class="nav-link <?php if ($page == 'print-id') {echo 'active';} ?>" href="print-id.html" style="height: 52.4px;"><i class="fas fa-download"></i><span>Print ID</span></a></li>
                 </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button" style="background: rgba(255, 255, 255, 0.2);"></button></div>

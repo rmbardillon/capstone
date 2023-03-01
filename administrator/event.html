@@ -1,0 +1,63 @@
+<?php 
+    $page = "announcement";
+    include("header.html");
+    $event_id = $_GET['id'];
+    $event = getEvents($connection, $event_id, null, null);
+    $events = getEventsPer($connection, $event_id, $event[0]['ANNOUNCEMENT_FOR'], $event[0]['BARANGAY']);
+    if (!isset($_SESSION['admin-data'])) {
+        header("location: ../login/admin.html");
+        exit();
+    }
+?>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h3 class="text-dark mb-4">Event Information</h3>
+            </div>
+        </div>
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <p class="text-primary m-0 fw-bold"></p>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive table mt-2" id="dataTable-1" role="grid" aria-describedby="dataTable_info">
+                    <table class="table my-0" id="announcements">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center;">Citizen ID</th>
+                                <th style="text-align: center;">Citizen Name</th>
+                                <th style="text-align: center;">Applicant Type</th>
+                                <th style="text-align: center;">Applicant Barangay</th>
+                                <th style="text-align: center;">Applicant Information</th>
+                                <th style="text-align: center;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($events as $event): ?>
+                            <tr>
+                                <td style="text-align: center;"><?php echo($event['CITIZEN_ID']) ?></td>
+                                <td style="text-align: center;"><?php echo($event['FIRST_NAME']." ".$event['MIDDLE_NAME']." ".$event['LAST_NAME']." ".$event['SUFFIX']) ?></td>
+                                <td style="text-align: center;"><?php echo($event['APPLICANT_TYPE']) ?></td>
+                                <td style="text-align: center;"><?php echo($event['BARANGAY']) ?></td>
+                                <td style="text-align: center;"><a class="btn btn-primary" href="<?php 
+                                    if ($event['APPLICANT_TYPE'] == 'PWD') {
+                                        echo("pwd-application-form-filled-up.html?id=".$event['PERSON_ID']."&event=".$event_id);
+                                    } else if ($event['APPLICANT_TYPE'] == 'Senior Citizen') {
+                                        echo("senior-citizen-application-form-filled-up.html?id=".$event['PERSON_ID']."&event=".$event_id);
+                                    } else if ($event['APPLICANT_TYPE'] == 'Solo Parent') {
+                                        echo("solo-parent-application-form-filled-up.html?id=".$event['PERSON_ID']."&event=".$event_id);
+                                    }
+                                    ?>
+                                    ">Show Information</a></td>
+                                <td style="text-align: center;">Claimed</td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php
+    include "footer.html";
+?>

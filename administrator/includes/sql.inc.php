@@ -896,6 +896,81 @@ function getSeniorCitizenPerBarangay($connection, $barangay) {
 
 }
 
+// GET EVENTS PER BARANGAY
+function getEvents($connection, $event_id, $for, $barangay) {
+    $data = [];
+    if(!empty($barangay)) {
+        $sql = "SELECT * FROM announcement WHERE ANNOUNCEMENT_FOR = '$for' AND BARANGAY = '$barangay';";
+    } else {
+        $sql = "SELECT * FROM announcement WHERE ANNOUNCEMENT_ID = '$event_id'";
+    }
+    try {
+        $stmt = $connection->prepare($sql);
+
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0){
+        while($row = $result->fetch_assoc()) {
+            array_push($data, $row);
+        }
+        return $data;
+    } else{
+        return $data;
+    }
+
+    $stmt->close();
+    $connection->close();
+}
+
+function getEventsPer($connection, $event_id, $for, $barangay) {
+    $data = [];
+    $sql = "SELECT FIRST_NAME,MIDDLE_NAME,LAST_NAME,SUFFIX,BARANGAY,APPLICANT_TYPE,person.PERSON_ID,applicant.CITIZEN_ID
+            FROM PERSON 
+            JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+            JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+            JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+            JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+            WHERE barangay = '$barangay' AND APPLICANT_TYPE = '$for';";
+    try {
+        $stmt = $connection->prepare($sql);
+
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0){
+        while($row = $result->fetch_assoc()) {
+            array_push($data, $row);
+        }
+        return $data;
+    } else{
+        return $data;
+    }
+
+    $stmt->close();
+    $connection->close();
+}
+
 // Get Print ID
 function getPrintID($connection, $type) {
     $data = [];
