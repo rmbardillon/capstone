@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 28, 2023 at 01:32 PM
+-- Generation Time: Mar 01, 2023 at 06:39 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -90,7 +90,7 @@ INSERT INTO `administrator` (`id`, `admin_type`, `barangay`, `username`, `first_
 (29, 'Main Administrator', 'City Hall', 'adminjimrossel', 'Jim Rossel', 'Heredia', 'jimrossel@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
 (30, 'Main Administrator', 'City Hall', 'adminmarwin', 'Marwin', 'Imperial', 'marwin@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
 (31, 'Solo Parent Administrator', 'Tagapo', 'adminjessie', 'Jessie', 'Lazaga', 'jessie@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(32, 'Solo Parent Administrator', 'Sinalhan', 'adminkacy', 'Kacy', 'Maala', 'kacy@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
+(32, 'Solo Parent Administrator', 'Santo Domingo', 'adminkacy', 'Kacy', 'Maala', 'kacy@gmail.com', '$2y$10$abOo4g.55IB9d9TIB7NoEuEHSNYGeLB0EPhvZQ2F8mKWNSjrTVQJ.'),
 (33, 'Solo Parent Administrator', 'Sinalhan', 'adminlloyd', 'Frencey Lloyd', 'Manipol', 'frenceylloyd@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
 (34, 'PWD Administrator', 'Tagapo', 'adminedison', 'Edison', 'Medina', 'edison@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
 (35, 'Solo Parent Administrator', 'Pulong Santa Cruz', 'adminphilip', 'John Philip', 'Mindanao', 'philip@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
@@ -167,11 +167,13 @@ INSERT INTO `administrator` (`id`, `admin_type`, `barangay`, `username`, `first_
 --
 
 CREATE TABLE `announcement` (
-  `ANNOUNCEMENT_ID` int(11) NOT NULL,
+  `ANNOUNCEMENT_ID` varchar(16) NOT NULL,
   `TITLE` varchar(128) NOT NULL,
   `ANNOUNCEMENT_FOR` enum('All','Administrator','PWD','Senior Citizen','Solo Parent') NOT NULL,
   `BARANGAY` enum('All','City Hall','Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz','Santo Domingo','Sinalhan','Tagapo') NOT NULL,
-  `MESSAGE` text NOT NULL,
+  `MESSAGE` varchar(1024) NOT NULL,
+  `DATE_FROM` varchar(8) NOT NULL,
+  `DATE_TO` varchar(8) NOT NULL,
   `DATE` date NOT NULL,
   `DATE_CREATED` date NOT NULL,
   `DATE_UPDATED` date NOT NULL,
@@ -906,12 +908,6 @@ ALTER TABLE `user_account`
 --
 ALTER TABLE `administrator`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
-
---
--- AUTO_INCREMENT for table `announcement`
---
-ALTER TABLE `announcement`
-  MODIFY `ANNOUNCEMENT_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `media`
