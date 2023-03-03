@@ -160,6 +160,17 @@ function loginUser($connection, $username, $password){
     }
 }
 
+function ageCalculator($dob){
+    if(!empty($dob)){
+        $birthdate = new DateTime($dob);
+        $today   = new DateTime('today');
+        $age = $birthdate->diff($today)->y;
+        return $age;
+    }else{
+        return 0;
+    }
+}
+
 function changePassword($connection, $oldPassword, $newPassword, $confirmPassword) {
     session_start();
     $username = $_SESSION['username'];

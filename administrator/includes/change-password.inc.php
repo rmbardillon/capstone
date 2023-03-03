@@ -3,6 +3,11 @@
         $old_password = $_POST['old_password'];
         $new_password = $_POST['new_password'];
         $confirm_new_password = $_POST['confirm_new_password'];
+
+        if($old_password == $new_password){
+            header("Location: ../change-password.html?error=oldnewpasswordsame");
+            exit();
+        }
         
         require_once 'dbh.inc.php';
         require_once 'functions.inc.php';

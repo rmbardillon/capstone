@@ -1,15 +1,29 @@
 <?php 
-    $page = "pwd-application-form";
+    require_once 'includes/dbh.inc.php';
+    require_once 'includes/functions.inc.php';
+    require_once 'includes/sql.inc.php';
+    $page = "id-applications";
     include("header.html");
+    $PERSON_ID = $_SESSION['userData']['PERSON_ID'];
+    $userData = getPWDData($connection, $PERSON_ID);
+    $genderData = getPWDGender($connection, $PERSON_ID);
+    $mother = getMotherData($connection, $PERSON_ID);
+    $father = getFatherData($connection, $PERSON_ID);
+    $guardian = getGuardianData($connection, $PERSON_ID);
+
+    $result = array_map(null, $userData, $genderData, $mother, $father, $guardian);
     if (!isset($_SESSION['admin-data'])) {
         header("location: ../login/admin.html");
         exit();
     }
+    foreach($result as list($data, $gender, $mother, $father, $guardian)):
+    $typeOfDisability = explode(',', $data['TYPE_OF_DISABILITY']);
+    $congenitalInborn = explode(',', $data['CONGENITAL_INBORN']);
+    $acquired = explode(',', $data['ACQUIRED']);
 ?>
     <div class="container form">
-        <h5 class="heading">PWDF-043-<?php echo($totalPWD+1); ?></h5>
-        <form action="includes/register.inc.php" method="post" novalidate="">
-          <input type="hidden" name="formControlNumber" id="formControlNumber">
+        <h1 class="heading">PWD Renewal</h1>
+      <form action="includes/approved.inc.php" method="post" novalidate="">
         <div class="row">
           <div class="col">
             <div class="form-check">
@@ -19,7 +33,8 @@
                 id="pwdApplicationOption1"
                 name="applicationType"
                 value="NEW ID"
-                required=""
+                required
+                <?php echo ($data['TRANSACTION_TYPE'] == 'NEW ID') ? 'checked' : ''; ?>
               />
               <label class="form-check-label" for="pwdApplicationOption1">
                 NEW ID
@@ -34,7 +49,8 @@
                 id="pwdApplicationOption2"
                 name="applicationType"
                 value="RENEWAL ID"
-                required=""
+                required
+                <?php echo ($data['TRANSACTION_TYPE'] == 'RENEWAL ID') ? 'checked' : ''; ?>
               />
               <label class="form-check-label" for="pwdApplicationOption2">
                 RENEWAL ID
@@ -49,7 +65,8 @@
                 id="pwdApplicationOption3"
                 name="applicationType"
                 value="LOST ID"
-                required=""
+                required
+                <?php echo ($data['TRANSACTION_TYPE'] == 'LOST ID') ? 'checked' : ''; ?>
               />
               <label class="form-check-label" for="pwdApplicationOption3">
                 LOST ID
@@ -64,7 +81,8 @@
                 id="pwdApplicationOption4"
                 name="applicationType"
                 value="TRANSFER"
-                required=""
+                required
+                <?php echo ($data['TRANSACTION_TYPE'] == 'TRANSFER') ? 'checked' : ''; ?>
               />
               <label class="form-check-label" for="pwdApplicationOption4">
                 TRANSFER
@@ -72,7 +90,8 @@
             </div>
           </div>
         </div>
-        <div class="row" id="transfereeAddress" style="display: none;">
+        <?php if($data['TRANSACTION_TYPE'] == 'TRANSFER'){ ?>
+        <div class="row" id="transfereeAddress">
           <div class="col">
             <p>Please indicate previous address</p>
             <div class="row">
@@ -104,7 +123,7 @@
                 />
               </div>
               <div class="col">
-                <select class="form-select" id="transferBarangay"></select>
+                <select class="form-select" id="barangay"></select>
                 <input
                   class="form-control"
                   type="hidden"
@@ -115,6 +134,7 @@
             </div>
           </div>
         </div>
+        <?php } ?>
         <div class="row">
           <div class="col">
             <label class="form-label required" for="surname">SURNAME</label>
@@ -123,7 +143,8 @@
               type="text"
               id="surname"
               name="surname"
-              required=""
+              required
+              value="<?php echo($data['LAST_NAME']); ?>"
             />
           </div>
           <div class="col">
@@ -135,7 +156,8 @@
               type="text"
               id="firstName"
               name="firstName"
-              required=""
+              required
+              value="<?php echo($data['FIRST_NAME']); ?>"
             />
           </div>
           <div class="col">
@@ -145,24 +167,26 @@
               type="text"
               id="middlename"
               name="middlename"
+              required
+              value="<?php echo($data['MIDDLE_NAME']); ?>"
             />
           </div>
           <div class="col">
             <label class="form-label" for="suffix">SUFFIX</label>
-            <select id="suffix" class="form-select" name="suffix">
-              <option disabled selected value="">Please Select</option>
-              <option value="">N/A</option>
-              <option value="Jr.">Jr.</option>
-              <option value="Sr.">Sr.</option>
-              <option value="II">II</option>
-              <option value="III">III</option>
-              <option value="IV">IV</option>
-              <option value="V">V</option>
-              <option value="VI">VI</option>
-              <option value="VII">VII</option>
-              <option value="VIII">VIII</option>
-              <option value="IX">IX</option>
-              <option value="X">X</option>
+            <select id="suffix" class="form-select" name="suffix" required>
+              <option required selected value="">Please Select</option>
+              <option value="" <?php echo ($data['SUFFIX'] == '') ? 'selected' : ''; ?> >N/A</option>
+              <option value="Jr." <?php echo ($data['SUFFIX'] == 'Jr.') ? 'selected' : ''; ?> >Jr.</option>
+              <option value="Sr." <?php echo ($data['SUFFIX'] == 'Sr.') ? 'selected' : ''; ?> >Sr.</option>
+              <option value="II" <?php echo ($data['SUFFIX'] == 'II') ? 'selected' : ''; ?> >II</option>
+              <option value="III" <?php echo ($data['SUFFIX'] == 'III') ? 'selected' : ''; ?> >III</option>
+              <option value="IV" <?php echo ($data['SUFFIX'] == 'IV') ? 'selected' : ''; ?> >IV</option>
+              <option value="V" <?php echo ($data['SUFFIX'] == 'V') ? 'selected' : ''; ?> >V</option>
+              <option value="VI" <?php echo ($data['SUFFIX'] == 'VI') ? 'selected' : ''; ?> >VI</option>
+              <option value="VII" <?php echo ($data['SUFFIX'] == 'VII') ? 'selected' : ''; ?> >VII</option>
+              <option value="VIII" <?php echo ($data['SUFFIX'] == 'VIII') ? 'selected' : ''; ?> >VIII</option>
+              <option value="IX" <?php echo ($data['SUFFIX'] == 'IX') ? 'selected' : ''; ?> >IX</option>
+              <option value="X" <?php echo ($data['SUFFIX'] == 'X') ? 'selected' : ''; ?> >X</option>
             </select>
           </div>
         </div>
@@ -174,31 +198,32 @@
               type="text"
               id="address"
               name="address"
-              required=""
+              required
+                value="<?php echo($data['ADDRESS']); ?>"
             />
           </div>
           <div class="col col-3">
             <label class="form-label required" for="barangay">BARANGAY</label>
             <select id="barangay" class="form-select" name="barangay" required>
-              <option disabled selected value="">Please Select</option>
-              <option value="Aplaya">Aplaya</option>
-              <option value="Balibago">Balibago</option>
-              <option value="Caingin">Caingin</option>
-              <option value="Dila">Dila</option>
-              <option value="Dita">Dita</option>
-              <option value="Don Jose">Don Jose</option>
-              <option value="Ibaba">Ibaba</option>
-              <option value="Kalnuran">Kanluran</option>
-              <option value="Labas">Labas</option>
-              <option value="Macabling">Macabling</option>
-              <option value="Malitlit">Malitlit</option>
-              <option value="Malusak">Malusak</option>
-              <option value="Market Area">Market Area</option>
-              <option value="Pook">Pook</option>
-              <option value="Pulong Santa Cruz">Pulong Santa Cruz</option>
-              <option value="Santo Domingo">Santo Domingo</option>
-              <option value="Sinalhan">Sinalhan</option>
-              <option value="Tagapo">Tagapo</option>
+              <option required selected value="">Please Select</option>
+              <option value="Aplaya" <?php echo ($data['BARANGAY'] == 'Aplaya') ? 'selected' : ''; ?> >Aplaya</option>
+              <option value="Balibago" <?php echo ($data['BARANGAY'] == 'Balibago') ? 'selected' : ''; ?> >Balibago</option>
+              <option value="Caingin" <?php echo ($data['BARANGAY'] == 'Caingin') ? 'selected' : ''; ?> >Caingin</option>
+              <option value="Dila" <?php echo ($data['BARANGAY'] == 'Dila') ? 'selected' : ''; ?> >Dila</option>
+              <option value="Dita" <?php echo ($data['BARANGAY'] == 'Dita') ? 'selected' : ''; ?> >Dita</option>
+              <option value="Don Jose" <?php echo ($data['BARANGAY'] == 'Don Jose') ? 'selected' : ''; ?> >Don Jose</option>
+              <option value="Ibaba" <?php echo ($data['BARANGAY'] == 'Ibaba') ? 'selected' : ''; ?> >Ibaba</option>
+              <option value="Kalnuran" <?php echo ($data['BARANGAY'] == 'Kanluran') ? 'selected' : ''; ?> >Kanluran</option>
+              <option value="Labas" <?php echo ($data['BARANGAY'] == 'Labas') ? 'selected' : ''; ?> >Labas</option>
+              <option value="Macabling" <?php echo ($data['BARANGAY'] == 'Macabling') ? 'selected' : ''; ?> >Macabling</option>
+              <option value="Malitlit" <?php echo ($data['BARANGAY'] == 'Malitlit') ? 'selected' : ''; ?> >Malitlit</option>
+              <option value="Malusak" <?php echo ($data['BARANGAY'] == 'Malusak') ? 'selected' : ''; ?> >Malusak</option>
+              <option value="Market Area" <?php echo ($data['BARANGAY'] == 'Market Area') ? 'selected' : ''; ?> >Market Area</option>
+              <option value="Pook" <?php echo ($data['BARANGAY'] == 'Pook') ? 'selected' : ''; ?> >Pook</option>
+              <option value="Pulong Santa Cruz" <?php echo ($data['BARANGAY'] == 'Pulong Santa Cruz') ? 'selected' : ''; ?> >Pulong Santa Cruz</option>
+              <option value="Santo Domingo" <?php echo ($data['BARANGAY'] == 'Santo Domingo') ? 'selected' : ''; ?> >Santo Domingo</option>
+              <option value="Sinalhan" <?php echo ($data['BARANGAY'] == 'Sinalhan') ? 'selected' : ''; ?> >Sinalhan</option>
+              <option value="Tagapo" <?php echo ($data['BARANGAY'] == 'Tagapo') ? 'selected' : ''; ?> >Tagapo</option>
             </select>
           </div>
         </div>
@@ -210,6 +235,8 @@
               type="text"
               id="landline"
               name="landline"
+              required
+                value="<?php echo($data['LANDLINE_NUMBER']); ?>"
             />
           </div>
           <div class="col col-4">
@@ -221,7 +248,8 @@
               type="text"
               id="mobileNumber"
               name="mobileNumber"
-              required=""
+              required
+                value="<?php echo($data['MOBILE_NUMBER']); ?>"
             />
           </div>
           <div class="col col-4">
@@ -233,7 +261,8 @@
               type="email"
               id="emailAddress"
               name="emailAddress"
-              required=""
+              required
+                value="<?php echo($data['EMAIL']); ?>"
             />
           </div>
         </div>
@@ -247,16 +276,18 @@
               id="pwdDOB"
               type="date"
               name="pwdDOB"
-              required=""
+              required
               min="1900-01-01"
+              required
+                value="<?php echo($data['DATE_OF_BIRTH']); ?>"
             />
           </div>
           <div class="col col-2">
             <label class="form-label required" for="gender">SEX</label>
             <select id="gender" class="form-select" name="gender" required>
-              <option disabled selected value="">Please Select</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
+              <option required selected value="">Please Select</option>
+              <option value="Male" <?php echo ($gender['GENDER'] == 'Male') ? 'selected' : ''; ?> >Male</option>
+              <option value="Female" <?php echo ($gender['GENDER'] == 'Female') ? 'selected' : ''; ?> >Female</option>
             </select>
           </div>
           <div class="col">
@@ -266,7 +297,8 @@
               type="text"
               id="religion"
               name="religion"
-              required=""
+              required
+                value="<?php echo($data['RELIGION']); ?>"
             />
           </div>
           <div class="col">
@@ -279,12 +311,12 @@
               name="maritalStatus"
               required
             >
-              <option disabled selected value="">Please Select</option>
-              <option value="Single">Single</option>
-              <option value="Married">Married</option>
-              <option value="Widowed">Widowed</option>
-              <option value="Separated">Separated</option>
-              <option value="Divorced">Divorced</option>
+              <option required selected value="">Please Select</option>
+              <option value="Single" <?php echo ($gender['MARITAL_STATUS'] == 'Single') ? 'selected' : ''; ?> >Single</option>
+              <option value="Married" <?php echo ($gender['MARITAL_STATUS'] == 'Married') ? 'selected' : ''; ?> >Married</option>
+              <option value="Widowed" <?php echo ($gender['MARITAL_STATUS'] == 'Widowed') ? 'selected' : ''; ?> >Widowed</option>
+              <option value="Separated" <?php echo ($gender['MARITAL_STATUS'] == 'Separated') ? 'selected' : ''; ?> >Separated</option>
+              <option value="Divorced" <?php echo ($gender['MARITAL_STATUS'] == 'Divorced') ? 'selected' : ''; ?> >Divorced</option>
             </select>
           </div>
         </div>
@@ -299,16 +331,16 @@
               name="bloodType"
               required
             >
-              <option disabled selected value="">Please Select</option>
-              <option value="Unknown">Unknown</option>
-              <option value="A+">A+</option>
-              <option value="A-">A-</option>
-              <option value="B+">B+</option>
-              <option value="B-">B-</option>
-              <option value="AB+">AB+</option>
-              <option value="AB-">AB-</option>
-              <option value="O+">O+</option>
-              <option value="O-">O-</option>
+              <option required selected value="">Please Select</option>
+              <option value="Unknown" <?php echo ($data['BLOOD_TYPE'] == 'Unknown') ? 'selected' : ''; ?> >Unknown</option>
+              <option value="A+" <?php echo ($data['BLOOD_TYPE'] == 'A+') ? 'selected' : ''; ?> >A+</option>
+              <option value="A-" <?php echo ($data['BLOOD_TYPE'] == 'A-') ? 'selected' : ''; ?> >A-</option>
+              <option value="B+" <?php echo ($data['BLOOD_TYPE'] == 'B+') ? 'selected' : ''; ?> >B+</option>
+              <option value="B-" <?php echo ($data['BLOOD_TYPE'] == 'B-') ? 'selected' : ''; ?> >B-</option>
+              <option value="AB+" <?php echo ($data['BLOOD_TYPE'] == 'AB+') ? 'selected' : ''; ?> >AB+</option>
+              <option value="AB-" <?php echo ($data['BLOOD_TYPE'] == 'AB-') ? 'selected' : ''; ?> >AB-</option>
+              <option value="O+" <?php echo ($data['BLOOD_TYPE'] == 'O+') ? 'selected' : ''; ?> >O+</option>
+              <option value="O-" <?php echo ($data['BLOOD_TYPE'] == 'O-') ? 'selected' : ''; ?> >O-</option>
             </select>
           </div>
           <div class="col">
@@ -321,15 +353,15 @@
               name="educationalAttainment"
               required
             >
-              <option disabled selected value="">Please Select</option>
-              <option value="None">None</option>
-              <option value="Kindergarten">Kindergarten</option>
-              <option value="Elementary Education">Elementary Education</option>
-              <option value="Junior High School">Junior High School</option>
-              <option value="Senior High School">Senior High School</option>
-              <option value="College">College</option>
-              <option value="Vocational">Vocational</option>
-              <option value="Post Graduate Program">
+              <option required selected value="">Please Select</option>
+              <option value="None" <?php echo ($gender['EDUCATIONAL_ATTAINMENT'] == 'None') ? 'selected' : ''; ?> >None</option>
+              <option value="Kindergarten" <?php echo ($gender['EDUCATIONAL_ATTAINMENT'] == 'Kindergarten') ? 'selected' : ''; ?> >Kindergarten</option>
+              <option value="Elementary Education" <?php echo ($gender['EDUCATIONAL_ATTAINMENT'] == 'Elementary Education') ? 'selected' : ''; ?> >Elementary Education</option>
+              <option value="Junior High School" <?php echo ($gender['EDUCATIONAL_ATTAINMENT'] == 'Junior High School') ? 'selected' : ''; ?> >Junior High School</option>
+              <option value="Senior High School" <?php echo ($gender['EDUCATIONAL_ATTAINMENT'] == 'Senior High School') ? 'selected' : ''; ?> >Senior High School</option>
+              <option value="College" <?php echo ($gender['EDUCATIONAL_ATTAINMENT'] == 'College') ? 'selected' : ''; ?> >College</option>
+              <option value="Vocational" <?php echo ($gender['EDUCATIONAL_ATTAINMENT'] == 'Vocational') ? 'selected' : ''; ?> >Vocational</option>
+              <option value="Post Graduate Program" <?php echo ($gender['EDUCATIONAL_ATTAINMENT'] == 'Post Graduate Program') ? 'selected' : ''; ?> >
                 Post Graduate Program
               </option>
             </select>
@@ -344,9 +376,9 @@
               name="isActiveVoter"
               required
             >
-              <option disabled selected value="">Please Select</option>
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
+              <option required selected value="">Please Select</option>
+              <option value="Yes" <?php echo ($data['IS_ACTIVE_VOTER'] == 'Yes') ? 'selected' : ''; ?> >Yes</option>
+              <option value="No" <?php echo ($data['IS_ACTIVE_VOTER'] == 'No') ? 'selected' : ''; ?> >No</option>
             </select>
           </div>
           <div class="col">
@@ -354,9 +386,9 @@
               MEMBER OF 4P'S
             </label>
             <select id="is4PS" class="form-select" name="is4PS" required>
-              <option disabled selected value="">Please Select</option>
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
+              <option required selected value="">Please Select</option>
+              <option value="Yes" <?php echo ($data['IS_4PS_MEMBER'] == 'Yes') ? 'selected' : ''; ?> >Yes</option>
+              <option value="No" <?php echo ($data['IS_4PS_MEMBER'] == 'No') ? 'selected' : ''; ?> >No</option>
             </select>
           </div>
         </div>
@@ -371,14 +403,15 @@
               name="employmentStatus"
               required
             >
-              <option disabled selected value="">Please Select</option>
-              <option value="Employed">Employed</option>
-              <option value="Self-employed">Self-employed</option>
-              <option value="Unemployed">Unemployed</option>
-              <option value="Student">Student</option>
+              <option required selected value="">Please Select</option>
+              <option value="Employed" <?php echo ($data['EMPLOYMENT_STATUS'] == 'Employed') ? 'selected' : ''; ?> >Employed</option>
+              <option value="Self-employed" <?php echo ($data['EMPLOYMENT_STATUS'] == 'Self-employed') ? 'selected' : ''; ?> >Self-employed</option>
+              <option value="Unemployed" <?php echo ($data['EMPLOYMENT_STATUS'] == 'Unemployed') ? 'selected' : ''; ?> >Unemployed</option>
+              <option value="Student" <?php echo ($data['EMPLOYMENT_STATUS'] == 'Student') ? 'selected' : ''; ?> >Student</option>
             </select>
           </div>
-          <div class="col" id="categoryOfEmploymentDiv" style="display: none;">
+          <?php if($data['EMPLOYMENT_STATUS'] == 'Employed' || $data['EMPLOYMENT_STATUS'] == 'Self-employed'){ ?>
+          <div class="col" id="categoryOfEmploymentDiv">
             <label class="form-label required" for="categoryOfEmployment">
               CATEGORY OF EMPLOYMENT
             </label>
@@ -386,13 +419,14 @@
               id="categoryOfEmployment"
               class="form-select"
               name="categoryOfEmployment"
+              required
             >
-              <option disabled selected value="">Please Select</option>
-              <option value="Government">Government</option>
-              <option value="Private">Private</option>
+              <option required selected value="">Please Select</option>
+              <option value="Government" <?php echo ($data['CATEGORY_OF_EMPLOYMENT'] == 'Government') ? 'selected' : ''; ?> >Government</option>
+              <option value="Private" <?php echo ($data['CATEGORY_OF_EMPLOYMENT'] == 'Private') ? 'selected' : ''; ?> >Private</option>
             </select>
           </div>
-          <div class="col" id="natureOfEmploymentDiv" style="display: none;">
+          <div class="col" id="natureOfEmploymentDiv">
             <label class="form-label required" for="natureOfEmployment">
               NATURE OF EMPLOYMENT
             </label>
@@ -400,17 +434,18 @@
               id="natureOfEmployment"
               class="form-select"
               name="natureOfEmployment"
+              required
             >
-              <option disabled selected value="">Please Select</option>
-              <option value="Permanent/Regular">Permanent/Regular</option>
-              <option value="Seasonal">Seasonal</option>
-              <option value="Casual">Casual</option>
-              <option value="Emergency">Emergency</option>
+              <option required selected value="">Please Select</option>
+              <option value="Permanent/Regular" <?php echo ($data['NATURE_OF_EMPLOYMENT'] == 'Permanent/Regular') ? 'selected' : ''; ?> >Permanent/Regular</option>
+              <option value="Seasonal" <?php echo ($data['NATURE_OF_EMPLOYMENT'] == 'Seasonal') ? 'selected' : ''; ?> >Seasonal</option>
+              <option value="Casual" <?php echo ($data['NATURE_OF_EMPLOYMENT'] == 'Casual') ? 'selected' : ''; ?> >Casual</option>
+              <option value="Emergency" <?php echo ($data['NATURE_OF_EMPLOYMENT'] == 'Emergency') ? 'selected' : ''; ?> >Emergency</option>
             </select>
           </div>
         </div>
         <div class="row">
-          <div class="col col-6" id="occupationDiv" style="display: none;">
+          <div class="col col-6" id="occupationDiv">
             <label class="form-label required" for="occupation">
               OCCUPATION
             </label>
@@ -418,58 +453,63 @@
               id="occupation"
               class="form-select"
               name="occupation"
+              required
             >
-              <option disabled selected value="">Please Select</option>
+              <option required selected value="">Please Select</option>
               <option value="Managers">Managers</option>
               <option value="Professionals">Professionals</option>
-              <option value="Technician & Associate Professionals">
+              <option value="Technician & Associate Professionals" <?php echo ($data['JOB'] == 'Technician & Associate Professionals') ? 'selected' : ''; ?> >
                 Technician & Associate Professionals
               </option>
-              <option value="Clerical Support Workers">
+              <option value="Clerical Support Workers" <?php echo ($data['JOB'] == 'Clerical Support Workers') ? 'selected' : ''; ?> >
                 Clerical Support Workers
               </option>
-              <option value="Service & Sales Workers">
+              <option value="Service & Sales Workers" <?php echo ($data['JOB'] == 'Service & Sales Workers') ? 'selected' : ''; ?> >
                 Service & Sales Workers
               </option>
-              <option value="Skilled Agricultural, Forestry & Fishery Workers">
+              <option value="Skilled Agricultural, Forestry & Fishery Workers" <?php echo ($data['JOB'] == 'Skilled Agricultural, Forestry & Fishery Workers') ? 'selected' : ''; ?> >
                 Skilled Agricultural, Forestry & Fishery Workers
               </option>
-              <option value="Craft & Related Trade Workers">
+              <option value="Craft & Related Trade Workers" <?php echo ($data['JOB'] == 'Craft & Related Trade Workers') ? 'selected' : ''; ?> >
                 Craft & Related Trade Workers
               </option>
-              <option value="Plant & Machine Operators & Assemblers">
+              <option value="Plant & Machine Operators & Assemblers" <?php echo ($data['JOB'] == 'Plant & Machine Operators & Assemblers') ? 'selected' : ''; ?> >
                 Plant & Machine Operators & Assemblers
               </option>
-              <option value="Elementary Occupations">
+              <option value="Elementary Occupations" <?php echo ($data['JOB'] == 'Elementary Occupations') ? 'selected' : ''; ?> >
                 Elementary Occupations
               </option>
-              <option value="Armed Forces Occupations">
+              <option value="Armed Forces Occupations" <?php echo ($data['JOB'] == 'Armed Forces Occupations') ? 'selected' : ''; ?> >
                 Armed Forces Occupations
               </option>
-              <option value="Others">Others</option>
+              <option value="Others" <?php echo ($data['JOB'] == 'Others') ? 'selected' : ''; ?> >Others</option>
             </select>
+            <?php if($data['JOB'] == 'Others') { ?>
             <input
               class="form-control mt-1"
               type="text"
               id="otherOccupation"
               placeholder="specify"
               name="otherOccupation"
-              style="display: none;"
+              required
+                value="<?php echo $data['OTHER_JOB']; ?>"
             />
+            <?php } ?>
           </div>
 
-          <div class="col col-6" id="incomeDiv" style="display: none;">
+          <div class="col col-6" id="incomeDiv">
             <label class="form-label required" for="income">INCOME</label>
-            <select id="income" class="form-select" name="income">
-              <option disabled selected value="">Please Select</option>
-              <option value="Less than 10,000">Less than 10,000</option>
-              <option value="10,000-20,000">10,000-20,000</option>
-              <option value="21,000-40,000">21,000-40,000</option>
-              <option value="41,000-100,000">41,000-100,000</option>
-              <option value="More than 100,000">More than 100,000</option>
+            <select id="income" class="form-select" name="income" required>
+              <option required selected value="">Please Select</option>
+              <option value="Less than 10,000" <?php echo ($data['MONTHLY_INCOME'] == 'Less than 10,000') ? 'selected' : ''; ?> >Less than 10,000</option>
+              <option value="10,000-20,000" <?php echo ($data['MONTHLY_INCOME'] == '10,000-20,000') ? 'selected' : ''; ?> >10,000-20,000</option>
+              <option value="21,000-40,000" <?php echo ($data['MONTHLY_INCOME'] == '21,000-40,000') ? 'selected' : ''; ?> >21,000-40,000</option>
+              <option value="41,000-100,000" <?php echo ($data['MONTHLY_INCOME'] == '41,000-100,000') ? 'selected' : ''; ?> >41,000-100,000</option>
+              <option value="More than 100,000" <?php echo ($data['MONTHLY_INCOME'] == 'More than 100,000') ? 'selected' : ''; ?> >More than 100,000</option>
             </select>
           </div>
         </div>
+        <?php } ?>
         <div class="row">
             <div class="col-3">
                 <label class="form-label" for="organization">
@@ -480,9 +520,12 @@
                     type="text"
                     id="organization"
                     name="organization"
+                    required
+                    value="<?php echo($data['ORGANIZATION_AFFILIATED']); ?>"
                 />
             </div>
-            <div class="col organizationDiv" style="display: none;">
+            <?php if(!empty($data['ORGANIZATION_AFFILIATED'])) { ?>
+            <div class="col organizationDiv">
                 <label class="form-label" for="organizationContactPerson">
                 CONTACT PERSON
                 </label>
@@ -491,9 +534,11 @@
                 type="text"
                 id="organizationContactPerson"
                 name="organizationContactPerson"
+                required
+                value="<?php echo($data['CONTACT_PERSON']); ?>"
                 />
             </div>
-            <div class="col organizationDiv" style="display: none;">
+            <div class="col organizationDiv">
                 <label class="form-label" for="organizationOfficeAddress">
                 OFFICE ADDRESS
                 </label>
@@ -502,9 +547,11 @@
                 type="text"
                 id="organizationOfficeAddress"
                 name="organizationOfficeAddress"
+                required
+                value="<?php echo($data['OFFICE_ADDRESS']); ?>"
                 />
             </div>
-            <div class="col organizationDiv" style="display: none;">
+            <div class="col organizationDiv">
                 <label class="form-label" for="organizationTelephoneNumber">
                 TELEPHONE NUMBER
                 </label>
@@ -513,8 +560,11 @@
                 type="text"
                 id="organizationTelephoneNumber"
                 name="organizationTelephoneNumber"
+                required
+                value="<?php echo($data['TELEPHONE_NUMBER']); ?>"
                 />
             </div>
+            <?php } ?>
         </div>
         <div class="row">
           <div class="col">
@@ -524,6 +574,8 @@
               type="text"
               id="SSSNo"
               name="SSSNo"
+              required
+              value="<?php echo $data['SSS_NUMBER']; ?>"
             />
           </div>
           <div class="col">
@@ -533,6 +585,8 @@
               type="text"
               id="GSISNo"
               name="GSISNo"
+              required
+                value="<?php echo $data['GSIS_NUMBER']; ?>"
             />
           </div>
           <div class="col">
@@ -542,6 +596,8 @@
               type="text"
               id="PSNNo"
               name="PSNNo"
+              required
+                value="<?php echo $data['PSN_NUMBER']; ?>"
             />
           </div>
           <div class="col">
@@ -554,13 +610,14 @@
               name="isPhilhealthMember"
               required
             >
-              <option disabled selected value="">Please Select</option>
-              <option value="PhilHealth Member">PhilHealth Member</option>
-              <option value="PhilHealth Member-Dependent">
+              <option required selected value="">Please Select</option>
+              <option value="PhilHealth Member" <?php echo ($data['IS_PHILHEALTH_MEMBER'] == 'PhilHealth Member') ? 'selected' : ''; ?> >PhilHealth Member</option>
+              <option value="PhilHealth Member-Dependent" <?php echo ($data['IS_PHILHEALTH_MEMBER'] == 'PhilHealth Member-Dependent') ? 'selected' : ''; ?> >
                 PhilHealth Member-Dependent
               </option>
-              <option value="No">No</option>
+              <option value="No" <?php echo ($data['IS_PHILHEALTH_MEMBER'] == 'No') ? 'selected' : ''; ?> >No</option>
             </select>
+            <?php if($data['IS_PHILHEALTH_MEMBER'] != 'No') { ?>
             <input
               class="form-control numbers mt-1"
               type="text"
@@ -568,7 +625,9 @@
               name="philhealthNumber"
               style="display: none;"
               placeholder="PhilHealth Number"
+                value="<?php echo $data['PHILHEALTH_NUMBER']; ?>"
             />
+            <?php } ?>
           </div>
         </div>
         <div class="row">
@@ -581,7 +640,8 @@
               type="text"
               id="fatherSurname"
               name="fatherSurname"
-              required=""
+              required
+              value="<?php echo $father['LAST_NAME']; ?>"
             />
           </div>
           <div class="col">
@@ -593,7 +653,8 @@
               type="text"
               id="fatherFirstName"
               name="fatherFirstName"
-              required=""
+              required
+              value="<?php echo $father['FIRST_NAME']; ?>"
             />
           </div>
           <div class="col">
@@ -605,24 +666,26 @@
               type="text"
               id="fatherMiddlename"
               name="fatherMiddlename"
+              required
+              value="<?php echo $father['MIDDLE_NAME']; ?>"
             />
           </div>
           <div class="col">
             <label class="form-label" for="fatherSuffix">FATHER'S SUFFIX</label>
-            <select id="fatherSuffix" class="form-select" name="fatherSuffix">
-              <option disabled selected value="">Please Select</option>
-              <option value="">N/A</option>
-              <option value="Jr.">Jr.</option>
-              <option value="Sr.">Sr.</option>
-              <option value="II">II</option>
-              <option value="III">III</option>
-              <option value="IV">IV</option>
-              <option value="V">V</option>
-              <option value="VI">VI</option>
-              <option value="VII">VII</option>
-              <option value="VIII">VIII</option>
-              <option value="IX">IX</option>
-              <option value="X">X</option>
+            <select id="fatherSuffix" class="form-select" name="fatherSuffix" required>
+              <option required selected value="">Please Select</option>
+              <option value="" <?php echo ($father['SUFFIX'] == '') ? 'selected' : ''; ?> >N/A</option>
+              <option value="Jr." <?php echo ($father['SUFFIX'] == 'Jr.') ? 'selected' : ''; ?> >Jr.</option>
+              <option value="Sr." <?php echo ($father['SUFFIX'] == 'Sr.') ? 'selected' : ''; ?> >Sr.</option>
+              <option value="II" <?php echo ($father['SUFFIX'] == 'II') ? 'selected' : ''; ?> >II</option>
+              <option value="III" <?php echo ($father['SUFFIX'] == 'III') ? 'selected' : ''; ?> >III</option>
+              <option value="IV" <?php echo ($father['SUFFIX'] == 'IV') ? 'selected' : ''; ?> >IV</option>
+              <option value="V" <?php echo ($father['SUFFIX'] == 'V') ? 'selected' : ''; ?> >V</option>
+              <option value="VI" <?php echo ($father['SUFFIX'] == 'VI') ? 'selected' : ''; ?> >VI</option>
+              <option value="VII" <?php echo ($father['SUFFIX'] == 'VII') ? 'selected' : ''; ?> >VII</option>
+              <option value="VIII" <?php echo ($father['SUFFIX'] == 'VIII') ? 'selected' : ''; ?> >VIII</option>
+              <option value="IX" <?php echo ($father['SUFFIX'] == 'IX') ? 'selected' : ''; ?> >IX</option>
+              <option value="X" <?php echo ($father['SUFFIX'] == 'X') ? 'selected' : ''; ?> >X</option>
             </select>
           </div>
         </div>
@@ -636,7 +699,8 @@
               type="text"
               id="motherSurname"
               name="motherSurname"
-              required=""
+              required
+                value="<?php echo $mother['LAST_NAME']; ?>"
             />
           </div>
           <div class="col">
@@ -648,7 +712,8 @@
               type="text"
               id="motherFirstName"
               name="motherFirstName"
-              required=""
+              required
+                value="<?php echo $mother['FIRST_NAME']; ?>"
             />
           </div>
           <div class="col">
@@ -660,24 +725,26 @@
               type="text"
               id="motherMiddlename"
               name="motherMiddlename"
+              required
+                value="<?php echo $mother['MIDDLE_NAME']; ?>"
             />
           </div>
           <div class="col">
             <label class="form-label" for="motherSuffix">MOTHER'S SUFFIX</label>
-            <select id="motherSuffix" class="form-select" name="motherSuffix">
-              <option disabled selected value="">Please Select</option>
-              <option value="">N/A</option>
-              <option value="Jr.">Jr.</option>
-              <option value="Sr.">Sr.</option>
-              <option value="II">II</option>
-              <option value="III">III</option>
-              <option value="IV">IV</option>
-              <option value="V">V</option>
-              <option value="VI">VI</option>
-              <option value="VII">VII</option>
-              <option value="VIII">VIII</option>
-              <option value="IX">IX</option>
-              <option value="X">X</option>
+            <select id="motherSuffix" class="form-select" name="motherSuffix" required>
+              <option required selected value="">Please Select</option>
+              <option value="" <?php echo ($mother['SUFFIX'] == '') ? 'selected' : ''; ?> >N/A</option>
+              <option value="Jr." <?php echo ($mother['SUFFIX'] == 'Jr.') ? 'selected' : ''; ?> >Jr.</option>
+              <option value="Sr." <?php echo ($mother['SUFFIX'] == 'Sr.') ? 'selected' : ''; ?> >Sr.</option>
+              <option value="II" <?php echo ($mother['SUFFIX'] == 'II') ? 'selected' : ''; ?> >II</option>
+              <option value="III" <?php echo ($mother['SUFFIX'] == 'III') ? 'selected' : ''; ?> >III</option>
+              <option value="IV" <?php echo ($mother['SUFFIX'] == 'IV') ? 'selected' : ''; ?> >IV</option>
+              <option value="V" <?php echo ($mother['SUFFIX'] == 'V') ? 'selected' : ''; ?> >V</option>
+              <option value="VI" <?php echo ($mother['SUFFIX'] == 'VI') ? 'selected' : ''; ?> >VI</option>
+              <option value="VII" <?php echo ($mother['SUFFIX'] == 'VII') ? 'selected' : ''; ?> >VII</option>
+              <option value="VIII" <?php echo ($mother['SUFFIX'] == 'VIII') ? 'selected' : ''; ?> >VIII</option>
+              <option value="IX" <?php echo ($mother['SUFFIX'] == 'IX') ? 'selected' : ''; ?> >IX</option>
+              <option value="X" <?php echo ($mother['SUFFIX'] == 'X') ? 'selected' : ''; ?> >X</option>
             </select>
           </div>
         </div>
@@ -692,6 +759,7 @@
               id="guardianSurname"
               name="guardianSurname"
               required
+              value="<?php echo $guardian['LAST_NAME']; ?>"
             />
           </div>
           <div class="col">
@@ -704,6 +772,7 @@
               id="guardianFirstName"
               name="guardianFirstName"
               required
+                value="<?php echo $guardian['FIRST_NAME']; ?>"
             />
           </div>
           <div class="col">
@@ -715,6 +784,8 @@
               type="text"
               id="guardianMiddlename"
               name="guardianMiddlename"
+              required
+                value="<?php echo $guardian['MIDDLE_NAME']; ?>"
             />
           </div>
           <div class="col">
@@ -725,20 +796,21 @@
               id="guardianSuffix"
               class="form-select"
               name="guardianSuffix"
+              required
             >
-              <option disabled selected value="">Please Select</option>
-              <option value="">N/A</option>
-              <option value="Jr.">Jr.</option>
-              <option value="Sr.">Sr.</option>
-              <option value="II">II</option>
-              <option value="III">III</option>
-              <option value="IV">IV</option>
-              <option value="V">V</option>
-              <option value="VI">VI</option>
-              <option value="VII">VII</option>
-              <option value="VIII">VIII</option>
-              <option value="IX">IX</option>
-              <option value="X">X</option>
+              <option required selected value="">Please Select</option>
+              <option value="" <?php echo ($guardian['SUFFIX'] == '') ? 'selected' : ''; ?> >N/A</option>
+              <option value="Jr." <?php echo ($guardian['SUFFIX'] == 'Jr.') ? 'selected' : ''; ?> >Jr.</option>
+              <option value="Sr." <?php echo ($guardian['SUFFIX'] == 'Sr.') ? 'selected' : ''; ?> >Sr.</option>
+              <option value="II" <?php echo ($guardian['SUFFIX'] == 'II') ? 'selected' : ''; ?> >II</option>
+              <option value="III" <?php echo ($guardian['SUFFIX'] == 'III') ? 'selected' : ''; ?> >III</option>
+              <option value="IV" <?php echo ($guardian['SUFFIX'] == 'IV') ? 'selected' : ''; ?> >IV</option>
+              <option value="V" <?php echo ($guardian['SUFFIX'] == 'V') ? 'selected' : ''; ?> >V</option>
+              <option value="VI" <?php echo ($guardian['SUFFIX'] == 'VI') ? 'selected' : ''; ?> >VI</option>
+              <option value="VII" <?php echo ($guardian['SUFFIX'] == 'VII') ? 'selected' : ''; ?> >VII</option>
+              <option value="VIII" <?php echo ($guardian['SUFFIX'] == 'VIII') ? 'selected' : ''; ?> >VIII</option>
+              <option value="IX" <?php echo ($guardian['SUFFIX'] == 'IX') ? 'selected' : ''; ?> >IX</option>
+              <option value="X" <?php echo ($guardian['SUFFIX'] == 'X') ? 'selected' : ''; ?> >X</option>
             </select>
           </div>
         </div>
@@ -776,7 +848,8 @@
                 id="deafHardOfHearing"
                 name="typeOfDisability[]"
                 value="Deaf/Hard of Hearing"
-                required=""
+                required
+                <?php if(in_array("Deaf/Hard of Hearing", $typeOfDisability, TRUE)) echo 'checked'?>
               />
               <label class="form-check-label" for="deafHardOfHearing">
                 Deaf/Hard of Hearing
@@ -789,7 +862,8 @@
                 id="intellectualDisability"
                 name="typeOfDisability[]"
                 value="Intellectual Disability"
-                required=""
+                required
+                <?php if(in_array("Intellectual Disability", $typeOfDisability, TRUE)) echo 'checked'?>
               />
               <label class="form-check-label" for="intellectualDisability">
                 Intellectual Disability
@@ -802,7 +876,8 @@
                 id="learningDisability"
                 name="typeOfDisability[]"
                 value="Learning Disability"
-                required=""
+                required
+                <?php if(in_array("Learning Disability", $typeOfDisability, TRUE)) echo 'checked'?>
               />
               <label class="form-check-label" for="learningDisability">
                 Learning Disability
@@ -815,7 +890,8 @@
                 id="mentalDisability"
                 name="typeOfDisability[]"
                 value="Mental Disability"
-                required=""
+                required
+                <?php if(in_array("Mental Disability", $typeOfDisability, TRUE)) echo 'checked'?>
               />
               <label class="form-check-label" for="mentalDisability">
                 Mental Disability
@@ -828,7 +904,8 @@
                 id="physicalDisability"
                 name="typeOfDisability[]"
                 value="Physical Disability"
-                required=""
+                required
+                <?php if(in_array("Physical Disability", $typeOfDisability, TRUE)) echo 'checked'?>
               />
               <label class="form-check-label" for="physicalDisability">
                 Physical&nbsp;Disability (Orthopedic)
@@ -842,7 +919,8 @@
                 id="psychosocialDisability"
                 name="typeOfDisability[]"
                 value="Psychosocial Disability"
-                required=""
+                required
+                <?php if(in_array("Psychosocial Disability", $typeOfDisability, TRUE)) echo 'checked'?>
               />
               <label class="form-check-label" for="psychosocialDisability">
                 Psychosocial Disability
@@ -858,7 +936,8 @@
                 id="formCheck-7"
                 name="typeOfDisability[]"
                 value="Speech & Language Impairment"
-                required=""
+                required
+                <?php if(in_array("Speech & Language Impairment", $typeOfDisability, TRUE)) echo 'checked'?>
               />
               <label class="form-check-label" for="formCheck-7">
                 Speech & Language Impairment
@@ -871,7 +950,8 @@
                 id="visualDisability"
                 name="typeOfDisability[]"
                 value="Visual Disability"
-                required=""
+                required
+                <?php if(in_array("Visual Disability", $typeOfDisability, TRUE)) echo 'checked'?>
               />
               <label class="form-check-label" for="visualDisability">
                 Visual Disability
@@ -884,7 +964,8 @@
                 id="cancer"
                 name="typeOfDisability[]"
                 value="Cancer (RA11215)"
-                required=""
+                required
+                <?php if(in_array("Cancer (RA11215)", $typeOfDisability, TRUE)) echo 'checked'?>
               />
               <label class="form-check-label" for="cancer">
                 Cancer (RA11215)
@@ -897,7 +978,8 @@
                 id="rareDisease"
                 name="typeOfDisability[]"
                 value="Rare Disease (RA10747)"
-                required=""
+                required
+                <?php if(in_array("Rare Disease (RA10747)", $typeOfDisability, TRUE)) echo 'checked'?>
               />
               <label class="form-check-label" for="rareDisease">
                 Rare Disease (RA10747)
@@ -909,8 +991,8 @@
               type="text"
               id="medicalCondition"
               name="medicalCondition"
-              maxlength="128"
-              required=""
+              required
+                value="<?php echo($data['MEDICAL_CONDITION']);?>"
             />
           </div>
         </div>
@@ -922,10 +1004,11 @@
                 class="form-check-input"
                 type="checkbox"
                 id="congenital"
-                disabled=""
+                required=""
                 name="causeOfDisability[]"
                 value="CONGENITAL/INBORN"
-                required=""
+                required
+                 <?php echo ($data['CAUSE_OF_DISABILITY'] == 'CONGENITAL/INBORN') ? 'checked' : ''; ?> 
               />
               <label class="form-check-label" for="congenital">
                 <strong>CONGENITAL/INBORN</strong>
@@ -938,7 +1021,8 @@
                 id="autism"
                 name="inborn[]"
                 value="Autism"
-                required=""
+                required
+                <?php if(in_array("Autism", $congenitalInborn, TRUE)) echo 'checked'?>
               />
               <label class="form-check-label" for="autism">Autism</label>
             </div>
@@ -949,7 +1033,8 @@
                 id="adhd"
                 name="inborn[]"
                 value="ADHD"
-                required=""
+                required
+                <?php if(in_array("ADHD", $congenitalInborn, TRUE)) echo 'checked'?>
               />
               <label class="form-check-label" for="adhd">ADHD</label>
             </div>
@@ -960,7 +1045,8 @@
                 id="inbornCerebralPalsy"
                 name="inborn[]"
                 value="Cerebral Palsy"
-                required=""
+                required
+                <?php if(in_array("Cerebral Palsy", $congenitalInborn, TRUE)) echo 'checked'?>
               />
               <label class="form-check-label" for="inbornCerebralPalsy">
                 Cerebral Palsy
@@ -973,7 +1059,8 @@
                 id="downSyndrome"
                 name="inborn[]"
                 value="Down Syndrome"
-                required=""
+                required
+                <?php if(in_array("Down Syndrome", $congenitalInborn, TRUE)) echo 'checked'?>
               />
               <label class="form-check-label" for="downSyndrome">
                 Down Syndrome
@@ -987,10 +1074,11 @@
                 class="form-check-input"
                 type="checkbox"
                 id="acquired"
-                disabled=""
+                required=""
                 name="causeOfDisability[]"
                 value="ACQUIRED"
-                required=""
+                required
+                <?php echo ($data['CAUSE_OF_DISABILITY'] == 'ACQUIRED') ? 'checked' : ''; ?> 
               />
               <label class="form-check-label" for="acquired">
                 <strong>ACQUIRED</strong>
@@ -1003,7 +1091,8 @@
                 id="chronicIllness"
                 name="acquired[]"
                 value="Chronic Illness"
-                required=""
+                required
+                <?php if(in_array("Chronic Illness", $acquired, TRUE)) echo 'checked'?>
               />
               <label class="form-check-label" for="chronicIllness">
                 Chronic Illness
@@ -1016,7 +1105,8 @@
                 id="acquiredCerebralPalsy"
                 name="acquired[]"
                 value="Cerebral Palsy"
-                required=""
+                required
+                <?php if(in_array("Cerebral Palsy", $acquired, TRUE)) echo 'checked'?>
               />
               <label class="form-check-label" for="acquiredCerebralPalsy">
                 Cerebral Palsy
@@ -1030,7 +1120,8 @@
                 id="injury"
                 name="acquired[]"
                 value="Injury"
-                required=""
+                required
+                <?php if(in_array("Injury", $acquired, TRUE)) echo 'checked'?>
               />
               <label class="form-check-label" for="injury">Injury</label>
             </div>
@@ -1044,7 +1135,8 @@
                 id="permanent"
                 name="statusOfDisabiity"
                 value="Permanent"
-                required=""
+                required
+                <?php echo ($data['STATUS_OF_DISABILITY'] == 'Permanent') ? 'checked' : ''; ?>
               />
               <label class="form-check-label" for="permanent">Permanent</label>
             </div>
@@ -1055,7 +1147,8 @@
                 id="temporary"
                 name="statusOfDisabiity"
                 value="Temporary"
-                required=""
+                required
+                <?php echo ($data['STATUS_OF_DISABILITY'] == 'Temporary') ? 'checked' : ''; ?>
               />
               <label class="form-check-label" for="temporary">Temporary</label>
             </div>
@@ -1071,7 +1164,8 @@
               type="text"
               id="physicianName"
               name="physicianName"
-              required=""
+              required
+              value="<?php echo $data['PWD_PHYSICIAN_NAME']; ?>"
             />
           </div>
           <div class="col">
@@ -1083,8 +1177,8 @@
               type="text"
               id="physicianLicence"
               name="physicianLicence"
-              maxlength="10"
-              required=""
+              required
+                value="<?php echo $data['PHYSICIAN_LICENSE_NUMBER']; ?>"
             />
           </div>
           <div class="col">
@@ -1097,52 +1191,49 @@
               name="accomplishedBy"
               required
             >
-              <option disabled selected value="">Please Select</option>
-              <option value="Applicant">Applicant</option>
-              <option value="Guardian">Guardian</option>
-              <option value="Representative">Representative</option>
+              <option required selected value="">Please Select</option>
+              <option value="Applicant" <?php echo ($data['ACCOMPLISHED_BY'] == 'Applicant') ? 'selected' : ''; ?> >Applicant</option>
+              <option value="Guardian" <?php echo ($data['ACCOMPLISHED_BY'] == 'Guardian') ? 'selected' : ''; ?> >Guardian</option>
+              <option value="Representative" <?php echo ($data['ACCOMPLISHED_BY'] == 'Representative') ? 'selected' : ''; ?> >Representative</option>
             </select>
+            <?php if($data['ACCOMPLISHED_BY'] == 'Guardian') { ?>
             <input
               class="form-control numbers mt-1"
               type="text"
               id="accomplisherName"
               name="accomplisherName"
               placeholder="Representive Name"
-              style="display: none;"
+              required
+                value="<?php echo $data['ACCOMPLISHER_NAME']; ?>"
             />
-            <div class="mt-1" id="accomID" style="display: none;">
-                <label for="accomplisherID" class="form-label">Input Representative/Guardian ID</label>
-                <input class="form-control mt-1" type="file" name="accomplisherID" id="accomplisherID">
-            </div>
+            <?php } ?>
           </div>
         </div>
+        <?php if(!isset($_GET['event'])){ ?>
         <div class="row">
-            <div class="col">
-                <label for="applicantID" class="form-label">INPUT APPLICANT 1X1 ID</label>
-                <input class="form-control mt-1" type="file" name="applicantID" id="applicantID">
-            </div>
-            <div class="col">
-                <label for="applicantValidID" class="form-label">INPUT APPLICANT VALID ID</label>
-                <input class="form-control mt-1" type="file" name="applicantValidID" id="applicantValidID">
-            </div>
-            <div class="col">
-                <label for="applicantMedicalCertificate" class="form-label">MEDICAL CERTIFICATE</label>
-                <input class="form-control mt-1" type="file" name="applicantMedicalCertificate" id="applicantMedicalCertificate">
-            </div>
-        </div>
-        <div class="row">
+            <input type="hidden" name="person_id" value="<?php echo($PERSON_ID); ?>">
           <div class="col">
             <button
               class="btn btn-primary w-100"
               type="submit"
               name="pwdSubmit"
             >
-              Submit
+              Approved
             </button>
           </div>
+          <div class="col">
+            <a
+              class="btn btn-danger w-100"
+              href="remarks.html?application_type=pwd&person_id=<?php echo($PERSON_ID); ?>"
+            >
+              Reject
+            </a>
+          </div>
         </div>
+        <?php } ?>
       </form>
     </div>
 <?php
+    endforeach;
     include "footer.html";
 ?>

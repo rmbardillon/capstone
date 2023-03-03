@@ -44,6 +44,7 @@
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="assets/css/Login-Form-Basic-icons.css">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="../administrator/assets/bootstrap/css/style.css">
     <link rel="shortcut icon" href="assets/img/santarosa-logo.ico" type="image/x-icon">
 </head>
 <body>
@@ -55,9 +56,13 @@
                 <hr class="sidebar-divider my-0" style="background: rgba(0,0,0,0.99);">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
                     <li class="nav-item"><a class="nav-link <?php if ($page == 'home') {echo 'active';} ?>" href="home.html"><i class="fas fa-tachometer-alt"></i><span>Home</span></a></li>
-                    <li class="nav-item"><a class="nav-link <?php if ($page == 'id-applications') {echo 'active';} ?>" href="id-application.html"><i class="fas fa-user"></i><span>Renewal</span></a></li>
+                    <?php if($userType == "PWD"){ ?>
+                    <li class="nav-item"><a class="nav-link <?php if ($page == 'id-applications') {echo 'active';} ?>" href="pwd-renewal-form-filled-up.html"><i class="fas fa-user"></i><span>Renewal</span></a></li>
+                    <?php } else if($userType == "Solo Parent"){ ?>
+                    <li class="nav-item"><a class="nav-link <?php if ($page == 'id-applications') {echo 'active';} ?>" href="solo-parent-renewal-form-filled-up.html"><i class="fas fa-user"></i><span>Renewal</span></a></li>
+                    <?php } ?>
                     <li class="nav-item"><a class="nav-link <?php if ($page == 'applications') {echo 'active';} ?>" href="applications.html"><i class="fas fa-users"></i><span>Applications</span></a></li>
-                    <li class="nav-item"><a class="nav-link <?php if ($page == 'announcements') {echo 'active';} ?>" href="announcements.html" style="height: 52.4px;"><i class="fas fa-volume-up"></i><span>Announcements</span></a></li>
+                    <li class="nav-item"><a class="nav-link <?php if ($page == 'announcements') {echo 'active';} ?>" href="announcements.html" style="height: 52.4px;"><i class="fas fa-volume-up"></i><span>Events</span></a></li>
                 </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button" style="background: rgba(255, 255, 255, 0.2);"></button></div>
             </div>

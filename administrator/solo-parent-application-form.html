@@ -7,9 +7,9 @@
     }
 ?>
     <div class="container form">
-        <h1 class="heading">Solo Parent Application</h1>
+        <h5 class="heading">SPF-043-<?php echo($totalSoloParent+1); ?></h5>
       <form action="includes/register.inc.php" method="post" novalidate="">
-        <!-- <h5 class="text-center">APPLICATION&nbsp;FORM FOR SOLO PARENT</h5> -->
+        <input type="hidden" name="formControlNumber" id="formControlNumber">
         <div class="row">
           <div class="col">
             <label class="form-label required" for="surname">SURNAME</label>

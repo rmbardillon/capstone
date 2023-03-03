@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Administrator</title>
+    <title>Admin Add Administrator</title>
     <link rel="shortcut icon" href="assets/img/icons/santarosa-logo.ico" type="image/x-icon">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script defer type="text/javascript" src="assets/js/function.js"></script>
@@ -21,7 +21,7 @@
                 <div class="card-body p-0">
                     <div class="row">
                         <div class="col-lg-5 d-none d-lg-flex">
-                            <div class="flex-grow-1 bg-register-image" style="background: url(&quot;assets/img/background%20images/cswd.png&quot;) center / auto no-repeat;"></div>
+                            <div class="flex-grow-1 bg-register-image" style="background: url(assets/img/background/cswd.png) center / auto no-repeat;"></div>
                         </div>
                         <div class="col-lg-7">
                             <div class="p-5">
@@ -30,10 +30,16 @@
                                 </div>
                                 <form class="user" action="includes/add-administrator.inc.php" method="post">
                                     <div class="row mb-3">
-                                        <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" id="first_name" placeholder="First Name" name="first_name" required></div>
-                                        <div class="col-sm-6"><input class="form-control form-control-user" type="text" id="first_name" placeholder="Last Name" name="last_name" required></div>
+                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                            <input class="form-control form-control-user" type="text" id="first_name" placeholder="First Name" name="first_name" required>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input class="form-control form-control-user" type="text" id="first_name" placeholder="Last Name" name="last_name" required>
+                                        </div>
                                     </div>
-                                    <div class="mb-3"><input class="form-control form-control-user" type="email" id="email" aria-describedby="emailHelp" placeholder="Email Address" name="email" required></div>
+                                    <div class="mb-3">
+                                        <input class="form-control form-control-user" type="email" id="email" aria-describedby="emailHelp" placeholder="Email Address" name="email" required>
+                                    </div>
                                     <div class="mb-3">
                                         <select class="form-select" id="admin-type" name="admin-type" style="border-radius: 160px;" required>
                                             <option disabled selected value="">Please Select Type of Administrator</option>
@@ -41,7 +47,8 @@
                                             <option value="Solo Parent Administrator">Solo Parent Administrator</option>
                                             <option value="Senior Citizen Administrator">Senior Citizen Administrator</option>
                                             <option value="PWD Administrator">PWD Administrator</option>
-                                        </select></div>
+                                        </select>
+                                    </div>
                                     <div class="mb-3">
                                         <select class="form-select" id="barangay" name="barangay" style="border-radius: 160px;" required>
                                             <option disabled selected value="">Please Select Barangay</option>
@@ -64,17 +71,30 @@
                                             <option value="Santo Domingo">Santo Domingo</option>
                                             <option value="Sinalhan">Sinalhan</option>
                                             <option value="Tagapo">Tagapo</option>
-                                        </select></div>
+                                        </select>
+                                    </div>
                                     <div class="row mb-3">
-                                        <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="password" id="password" placeholder="Password" name="password" required></div>
-                                        <div class="col-sm-6"><input class="form-control form-control-user" type="password" id="repeat_password" placeholder="Repeat Password" name="repeat_password" required></div>
-                                    </div><button class="btn btn-primary d-block btn-user w-100" type="submit" name="add_admin_submit">Register Account</button>
+                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                            <input class="form-control form-control-user" type="password" id="password" placeholder="Password" name="password" required>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input class="form-control form-control-user" type="password" id="repeat_password" placeholder="Repeat Password" name="repeat_password" required>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary d-block btn-user w-100" type="submit" name="add_admin">Register Account</button>
                                     <hr>
                                     <hr>
                                 </form>
                                 <?php
                                     if (isset($_GET["username"])) {
                                         $username = $_GET['username'];
+                                        echo "<div class='alert alert-success d-flex align-items-center alert-dismissible fade show' role='alert'>
+                                                <svg class='bi flex-shrink-0 me-2' width='24' height='24' role='img' aria-label='Success:'><use xlink:href='#check-circle-fill'/></svg>
+                                                <div>
+                                                    Account Successfully Created. <br> Username: $username
+                                                </div>
+                                                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                                </div>";
                                     }
                                     if (isset($_GET["error"])) {
                                         if ($_GET["error"] == "userexists"){

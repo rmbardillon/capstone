@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 01, 2023 at 06:39 AM
+-- Generation Time: Mar 03, 2023 at 03:39 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -44,7 +44,7 @@ CREATE TABLE `address` (
 --
 
 CREATE TABLE `administrator` (
-  `id` int(11) NOT NULL,
+  `id` varchar(16) NOT NULL,
   `admin_type` enum('Main Administrator','Solo Parent Administrator','Senior Citizen Administrator','PWD Administrator') NOT NULL,
   `barangay` enum('City Hall','Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz','Santo Domingo','Sinalhan','Tagapo') NOT NULL,
   `username` varchar(128) NOT NULL,
@@ -53,112 +53,6 @@ CREATE TABLE `administrator` (
   `email` varchar(128) NOT NULL,
   `password` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `administrator`
---
-
-INSERT INTO `administrator` (`id`, `admin_type`, `barangay`, `username`, `first_name`, `last_name`, `email`, `password`) VALUES
-(1, 'Main Administrator', 'City Hall', 'adminrbardillon', 'Romeo Jr', 'Bardillon', 'romsky.bardillon@gmail.com', '$2y$10$.d3b7RRIujc10yKk4QE7bOoo9xnKrt9RS3TbFw2qLlpU5tIR5jcVO'),
-(2, 'Main Administrator', 'City Hall', 'adminaporlares', 'Aaron', 'Porlares', 'aaron.porlares@gmail.com', '$2y$10$J0YEkKEtOAWm2gJoxixNOeKfr.9ZxglapxKHiFiYGpdg3M9AXmgY.'),
-(3, 'Main Administrator', 'City Hall', 'adminrrivera', 'Rhodemil Zeth', 'Rivera', 'zeth@gmail.com', '$2y$10$OTYHIuEJrgLRZ3dXv07eGe9f3qos8MzMEGPFWMPa42DVVgLfLDl4y'),
-(4, 'Main Administrator', 'City Hall', 'admintocampo', 'Tresha', 'Ocampo', 'tresha@gmail.com', '$2y$10$RkNRS/OcLJktAxIw2DK27eky8HsbJJmGRg0nWlY8JdxGLah0YznKi'),
-(5, 'Main Administrator', 'City Hall', 'adminjulanday', 'Jules Jacob', 'Ulanday', 'jules.ulanday@gmail.com', '$2y$10$w1BdpAXZY/USfvDu2fdwc.nOeU/MdmTpsy3JIlQnKqe7K3g0VjWSm'),
-(6, 'Main Administrator', 'City Hall', 'admincurmatam', 'Clarence', 'Urmatam', 'clarence@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(7, 'Main Administrator', 'City Hall', 'adminlebron', 'Lebron', 'James', 'lebron@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(8, 'Main Administrator', 'City Hall', 'adminalibudbud', 'Tracie Mariz', 'Alibudbud', 'tracie@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(9, 'Main Administrator', 'City Hall', 'adminlian', 'Lian', 'Añonuevo', 'lian@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(10, 'Main Administrator', 'City Hall', 'adminmica', 'Micalyn Rose', 'Apolonia', 'mica@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(11, 'Main Administrator', 'City Hall', 'adminvienne', 'Vienne Johara', 'Aquino', 'vienne@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(12, 'Main Administrator', 'City Hall', 'adminreinier', 'Reinier', 'Balabala', 'reinier@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(13, 'Main Administrator', 'City Hall', 'adminjoshua', 'Joshua Ivan Mari', 'Basa', 'joshua@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(14, 'Main Administrator', 'City Hall', 'adminivan', 'Ivan Isaac', 'Bautista', 'ivanisaac@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(15, 'Main Administrator', 'City Hall', 'adminefhraim', 'Efhraim Jemini', 'Beato', 'efhraim@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(16, 'Main Administrator', 'City Hall', 'adminluigi', 'John Luigi', 'Billardo', 'luigi@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(17, 'Main Administrator', 'City Hall', 'adminsean', 'Sean Ren', 'Caldit', 'sean@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(18, 'Main Administrator', 'City Hall', 'admineugene', 'Eugene Rey', 'Carta', 'eugene@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(19, 'Main Administrator', 'City Hall', 'adminclarencekaye', 'Clarence Kaye', 'Catangay', 'clarencekaye@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(20, 'Main Administrator', 'City Hall', 'adminpatrick', 'Patrick', 'Clemente', 'patrick@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(21, 'Main Administrator', 'City Hall', 'adminpeter', 'John Peter', 'De Leon', 'johnpeter@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(22, 'Main Administrator', 'City Hall', 'adminalessandra', 'Alessandra Joy', 'Del Rosario', 'alessandra@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(23, 'Main Administrator', 'City Hall', 'adminlanz', 'Lanz Ezekiel', 'Dela Cruz', 'lanzezekiel@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(24, 'Main Administrator', 'City Hall', 'adminjonathan', 'Jonathan', 'Evangelio', 'jonathan@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(25, 'Main Administrator', 'City Hall', 'admincyrus', 'Cyrus Karl', 'Evangelista', 'cyruskarl@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(26, 'Main Administrator', 'City Hall', 'admindanica', 'Danica Mae', 'Evangelista', 'danica@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(27, 'Main Administrator', 'City Hall', 'adminroi', 'Roi John', 'Garcia', 'roijohn@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(28, 'Main Administrator', 'City Hall', 'adminarjohn', 'Arjohn', 'Gomez', 'arjohn@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(29, 'Main Administrator', 'City Hall', 'adminjimrossel', 'Jim Rossel', 'Heredia', 'jimrossel@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(30, 'Main Administrator', 'City Hall', 'adminmarwin', 'Marwin', 'Imperial', 'marwin@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(31, 'Solo Parent Administrator', 'Tagapo', 'adminjessie', 'Jessie', 'Lazaga', 'jessie@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(32, 'Solo Parent Administrator', 'Santo Domingo', 'adminkacy', 'Kacy', 'Maala', 'kacy@gmail.com', '$2y$10$abOo4g.55IB9d9TIB7NoEuEHSNYGeLB0EPhvZQ2F8mKWNSjrTVQJ.'),
-(33, 'Solo Parent Administrator', 'Sinalhan', 'adminlloyd', 'Frencey Lloyd', 'Manipol', 'frenceylloyd@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(34, 'PWD Administrator', 'Tagapo', 'adminedison', 'Edison', 'Medina', 'edison@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(35, 'Solo Parent Administrator', 'Pulong Santa Cruz', 'adminphilip', 'John Philip', 'Mindanao', 'philip@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(36, 'Solo Parent Administrator', 'Pulong Santa Cruz', 'adminsamuel', 'Samuel', 'Norte', 'samuel@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(37, 'Solo Parent Administrator', 'Pulong Santa Cruz', 'adminkenneth', 'Kenneth', 'Pace', 'kenneth@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(38, 'Solo Parent Administrator', 'Pulong Santa Cruz', 'adminirish', 'Irish Trixie', 'Pandonggan', 'irishtrixie@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(39, 'Solo Parent Administrator', 'Pulong Santa Cruz', 'admindaniel', 'John Daniel', 'Policarpio', 'daniel@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(40, 'Solo Parent Administrator', 'Pulong Santa Cruz', 'adminharold', 'John Harold', 'Quijano', 'harold@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(41, 'Solo Parent Administrator', 'Pulong Santa Cruz', 'adminkobe', 'Kobe', 'Raymundo', 'kobe@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(42, 'PWD Administrator', 'Pulong Santa Cruz', 'adminjonjon', 'John Ivan', 'Respende', 'jonjon@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(43, 'PWD Administrator', 'Tagapo', 'adminalyssa', 'Allysa Mae', 'Rivera', 'allysa@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(44, 'PWD Administrator', 'Pulong Santa Cruz', 'adminrovic', 'John Rovic', 'Sabalboro', 'rovic@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(45, 'PWD Administrator', 'Pulong Santa Cruz', 'adminezra', 'Ezra Lou', 'Salongga', 'ezralou@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(46, 'PWD Administrator', 'Pulong Santa Cruz', 'adminron', 'Ron Daniel', 'Sison', 'rondaniel@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(47, 'PWD Administrator', 'Pulong Santa Cruz', 'adminarianne', 'Arianne Joyce', 'Susano', 'arianne@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(48, 'PWD Administrator', 'Pulong Santa Cruz', 'adminnikko', 'Nikko', 'Trinidad', 'nikko@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(49, 'PWD Administrator', 'Pulong Santa Cruz', 'adminkristen', 'Andrea Kristen', 'Villaluz', 'andreakristen@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(50, 'PWD Administrator', 'Pulong Santa Cruz', 'adminangeli', 'Angeli Claudette', 'Villar', 'angeliclaudette@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(51, 'PWD Administrator', 'Malusak', 'adminvonjoseph', 'Von Joseph', 'Yatco', 'vonjoseph@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(52, 'PWD Administrator', 'Malusak', 'adminchristine', 'Christine Danille', 'Zamonte', 'crhistine@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(53, 'PWD Administrator', 'Malusak', 'adminjohnrick', 'John Rick', 'Cansino', 'johnrick@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(54, 'PWD Administrator', 'Malusak', 'adminhoward', 'Howard', 'Tipay', 'howard@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(55, 'PWD Administrator', 'Malusak', 'adminraymart', 'Raymart', 'Damayo', 'raymart@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(56, 'PWD Administrator', 'Malusak', 'adminleo', 'Leo', 'Agne', 'leo@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(57, 'PWD Administrator', 'Malusak', 'adminwigbert', 'Wigbert Jovie', 'Parada', 'wigbert@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(58, 'PWD Administrator', 'Malusak', 'adminaurel', 'Aurel Maurice', 'Marcelo', 'aurelmaurice@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(59, 'PWD Administrator', 'Malusak', 'admingelo', 'Gelo', 'Mariano', 'gelo@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(60, 'PWD Administrator', 'Malusak', 'adminpiolo', 'Piolo', 'Mangampo', 'piolo@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(61, 'PWD Administrator', 'Malusak', 'adminjayson', 'Jayson', 'Protacio', 'jayson@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(62, 'PWD Administrator', 'Malusak', 'adminmatt', 'Matt Salem', 'Dorado', 'mattsalem@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(63, 'PWD Administrator', 'Malusak', 'adminjethro', 'Daniel Jethro', 'Crisostomo', 'jethro@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(64, 'PWD Administrator', 'Malusak', 'adminmark', 'John Mark', 'Malate', 'johnmark@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(65, 'PWD Administrator', 'Malusak', 'adminkhristel', 'Khristel', 'Tagros', 'khristel@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(66, 'PWD Administrator', 'Balibago', 'adminjembert', 'Jembert', 'Penaloga', 'jembert@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(67, 'Solo Parent Administrator', 'Balibago', 'adminklariza', 'Klariza', 'Hernandez', 'klariza@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(68, 'Solo Parent Administrator', 'Balibago', 'adminalbert', 'Albert', 'Layug', 'albert@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(69, 'Solo Parent Administrator', 'Balibago', 'admincarl', 'Carl', 'Quirante', 'carl@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(70, 'Solo Parent Administrator', 'Balibago', 'adminhazel', 'Hazel', 'Alinsunurin', 'hazel@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(71, 'Solo Parent Administrator', 'Balibago', 'adminrenz', 'Renz', 'Mercado', 'renz@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(72, 'Solo Parent Administrator', 'Balibago', 'adminmichaela', 'Michaela', 'Guanzon', 'michaela@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(73, 'Solo Parent Administrator', 'Balibago', 'adminrebecca', 'Rebecca', 'Ramos', 'rebecca@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(74, 'Solo Parent Administrator', 'Balibago', 'admincarlos', 'Carlos', 'Librada', 'carlos@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(75, 'Solo Parent Administrator', 'Balibago', 'admindaniel', 'Daniel', 'Comiso', 'daniel@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(76, 'Solo Parent Administrator', 'Balibago', 'adminsteph', 'Stephen', 'Curry', 'curry@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(77, 'Solo Parent Administrator', 'Balibago', 'adminkyrie', 'Kyrie', 'Irving', 'irving@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(78, 'Solo Parent Administrator', 'Balibago', 'adminamir', 'Amir', 'Ezrael', 'amirezrael@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(79, 'Senior Citizen Administrator', 'Balibago', 'adminsealtiel', 'Sealtiel', 'Bueno', 'sealtiel@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(80, 'Senior Citizen Administrator', 'Aplaya', 'adminjanzen', 'Janzen', 'Caponpon', 'janzen@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(81, 'Senior Citizen Administrator', 'Aplaya', 'adminlealyn', 'Lealyn', 'Lucas', 'lealyn@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(82, 'Senior Citizen Administrator', 'Aplaya', 'adminericson', 'Ericson', 'Tabion', 'ericson@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(83, 'Senior Citizen Administrator', 'Aplaya', 'adminfaith', 'Faith Honeywell', 'Austria', 'faithhoneywell@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(84, 'Senior Citizen Administrator', 'Aplaya', 'adminrex', 'Rex', 'Tarranco', 'rex@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(85, 'Senior Citizen Administrator', 'Aplaya', 'adminaubrey', 'Aubrey Rose', 'Castanares', 'aubreyrose@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(86, 'Senior Citizen Administrator', 'Aplaya', 'adminfaye', 'Faye', 'Cancisio', 'faye@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(87, 'Senior Citizen Administrator', 'Aplaya', 'admingillian', 'Gillian Cristel', 'Samiano', 'gilliancristel@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(88, 'Senior Citizen Administrator', 'Aplaya', 'admincarlo', 'Carlo', 'Alcabasa', 'carlo@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(89, 'Senior Citizen Administrator', 'Aplaya', 'adminyvonne', 'Yvonne', 'Barrera', 'yvonne@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(90, 'Senior Citizen Administrator', 'Aplaya', 'adminneiljohn', 'Neiljohn', 'Prudente', 'neiljohn@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(91, 'Senior Citizen Administrator', 'Aplaya', 'adminnhoel', 'Nhoel', 'Castro', 'nhoel@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(92, 'Senior Citizen Administrator', 'Aplaya', 'adminjeiger', 'Jeiger James', 'Huizo', 'jeigerjames@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(93, 'Senior Citizen Administrator', 'Aplaya', 'adminxheanttle', 'Xheanttle', 'Mirasol', 'xheanttle@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(94, 'Senior Citizen Administrator', 'Aplaya', 'adminfrancisdon', 'Francis Don', 'Sadili', 'francisdon@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(95, 'Senior Citizen Administrator', 'Tagapo', 'adminlorraine', 'Lorraine', 'Castro', 'lorraine@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(96, 'Senior Citizen Administrator', 'Tagapo', 'adminthomasneo', 'Thomas Neo', 'Gatdula', 'thomasneo@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(97, 'Senior Citizen Administrator', 'Tagapo', 'adminlaverne', 'Laverne', 'Regodon', 'laverne@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(98, 'Senior Citizen Administrator', 'Tagapo', 'adminjohncurt', 'John Curt', 'Rencio', 'johncurt@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(99, 'Senior Citizen Administrator', 'Tagapo', 'adminrodolfo', 'Rodolfo', 'Lofamia', 'gelo@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte'),
-(100, 'Senior Citizen Administrator', 'Tagapo', 'adminchelleallen', 'Chelle Allen', 'Tolentino', 'chelleallen@gmail.com', '$2y$10$3bQiV6swhl.AMqMxJoh3uOtqTPRlp2PmBK/pMx3hYTIihfZPP0vte');
 
 -- --------------------------------------------------------
 
@@ -189,6 +83,7 @@ CREATE TABLE `announcement` (
 
 CREATE TABLE `applicant` (
   `APPLICANT_ID` varchar(16) NOT NULL,
+  `FORM_CONTROL_NUMBER` varchar(64) NOT NULL,
   `APPLICANT_TYPE` varchar(64) NOT NULL,
   `CITIZEN_ID` varchar(64) NOT NULL,
   `PLACE_OF_BIRTH` varchar(300) DEFAULT NULL
@@ -344,6 +239,24 @@ CREATE TABLE `income` (
   `TOTAL_FAMILY_INCOME` decimal(19,6) DEFAULT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
+  `IS_DELETED` char(1) NOT NULL,
+  `UPDATED_BY` varchar(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `issued_id`
+--
+
+CREATE TABLE `issued_id` (
+  `ISSUED_ID_ID` varchar(16) NOT NULL,
+  `PERSON_ID` varchar(16) NOT NULL,
+  `APPLICANT_TYPE` varchar(64) NOT NULL,
+  `DATE_ISSUED` date NOT NULL,
+  `EXPIRATION_DATE` date NOT NULL,
+  `DATE_CREATED` date NOT NULL,
+  `DATE_UPDATED` date NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
   `UPDATED_BY` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -773,6 +686,13 @@ ALTER TABLE `income`
   ADD KEY `FK_PERSON_INCOME_idx` (`PERSON_ID`);
 
 --
+-- Indexes for table `issued_id`
+--
+ALTER TABLE `issued_id`
+  ADD PRIMARY KEY (`ISSUED_ID_ID`),
+  ADD KEY `FK_PERSON_ID_EXPIRATION` (`PERSON_ID`);
+
+--
 -- Indexes for table `job`
 --
 ALTER TABLE `job`
@@ -904,12 +824,6 @@ ALTER TABLE `user_account`
 --
 
 --
--- AUTO_INCREMENT for table `administrator`
---
-ALTER TABLE `administrator`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
-
---
 -- AUTO_INCREMENT for table `media`
 --
 ALTER TABLE `media`
@@ -978,6 +892,12 @@ ALTER TABLE `id_reference_number`
 --
 ALTER TABLE `income`
   ADD CONSTRAINT `FK_PERSON_INCOME` FOREIGN KEY (`PERSON_ID`) REFERENCES `person` (`PERSON_ID`);
+
+--
+-- Constraints for table `issued_id`
+--
+ALTER TABLE `issued_id`
+  ADD CONSTRAINT `FK_PERSON_ID_EXPIRATION` FOREIGN KEY (`PERSON_ID`) REFERENCES `person` (`PERSON_ID`);
 
 --
 -- Constraints for table `job`

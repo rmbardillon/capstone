@@ -2,16 +2,12 @@
     require_once 'includes/dbh.inc.php';
     require_once 'includes/functions.inc.php';
     require_once 'includes/sql.inc.php';
-    if(isset($_GET['event'])) {
-        $page = "announcement";
-    } else {
-        $page = "pending-requests";
-    }
-    $PERSON_ID = $_GET['id'];
+    $page = "id-applications";
+    include("header.html");
+    $PERSON_ID = $_SESSION['userData']['PERSON_ID'];
     $userData = getSoloParentData($connection, $PERSON_ID);
     $genderData = getSoloParentGender($connection, $PERSON_ID);
     $family = getFamilyMemberData($connection, $PERSON_ID);
-    include("header.html");
     if (!isset($_SESSION['admin-data'])) {
         header("location: ../login/admin.html");
         exit();
@@ -20,7 +16,7 @@
     foreach($result as list($data, $gender)):
 ?>
     <div class="container form">
-        <h1 class="heading">Solo Parent Application</h1>
+        <h1 class="heading">Solo Parent Renewal</h1>
       <form action="includes/approved.inc.php" method="post" novalidate="">
         <!-- <h5 class="text-center">APPLICATION&nbsp;FORM FOR SOLO PARENT</h5> -->
         <div class="row">
@@ -31,7 +27,7 @@
               type="text"
               id="surname"
               name="surname"
-              readonly=""
+              required=""
               value="<?php echo($data['LAST_NAME']); ?>"
             />
           </div>
@@ -44,7 +40,7 @@
                 type="text"
                 id="firstName"
                 name="firstName"
-                readonly=""
+                required=""
                 value="<?php echo($data['FIRST_NAME']); ?>"
             />
           </div>
@@ -55,14 +51,14 @@
               type="text"
               id="middlename"
               name="middlename"
-              readonly=""
+              required=""
                 value="<?php echo($data['MIDDLE_NAME']); ?>"
             />
           </div>
           <div class="col">
             <label class="form-label" for="suffix">SUFFIX</label>
-            <select id="suffix" class="form-select" name="suffix" disabled>
-              <option disabled selected value="">Please Select</option>
+            <select id="suffix" class="form-select" name="suffix" required>
+              <option required selected value="">Please Select</option>
               <option value="" <?php echo ($data['SUFFIX'] == '') ? 'selected' : ''; ?> >N/A</option>
               <option value="Jr." <?php echo ($data['SUFFIX'] == 'Jr.') ? 'selected' : ''; ?> >Jr.</option>
               <option value="Sr." <?php echo ($data['SUFFIX'] == 'Sr.') ? 'selected' : ''; ?> >Sr.</option>
@@ -88,9 +84,9 @@
               id="soloParentDOB"
               type="date"
               name="soloParentDOB"
-              disabled
+              required
               min="1900-01-01"
-              readonly
+              required
                 value="<?php echo($data['DATE_OF_BIRTH']); ?>"
             />
           </div>
@@ -100,7 +96,7 @@
               class="form-control"
               type="text"
               id="age"
-              disabled=""
+              required=""
               name="age"
               value="<?php echo(ageCalculator($data['DATE_OF_BIRTH'])); ?>"
             />
@@ -114,7 +110,7 @@
               type="text"
               id="placeOfBirth"
               name="placeOfBirth"
-              disabled
+              required
                 value="<?php echo($data['PLACE_OF_BIRTH']); ?>"
             />
           </div>
@@ -122,16 +118,16 @@
         <div class="row">
           <div class="col col-2">
             <label class="form-label required" for="gender">SEX</label>
-            <select id="gender" class="form-select" name="gender" disabled>
-              <option disabled selected value="">Please Select</option>
+            <select id="gender" class="form-select" name="gender" required>
+              <option required selected value="">Please Select</option>
               <option value="Male" <?php echo ($gender['GENDER'] == 'Male') ? 'selected' : ''; ?> >Male</option>
               <option value="Female" <?php echo ($gender['GENDER'] == 'Female') ? 'selected' : ''; ?> >Female</option>
             </select>
           </div>
           <div class="col col-3">
             <label class="form-label required" for="barangay">BARANGAY</label>
-            <select id="barangay" class="form-select" name="barangay" disabled>
-              <option disabled selected value="">Please Select</option>
+            <select id="barangay" class="form-select" name="barangay" required>
+              <option required selected value="">Please Select</option>
               <option value="Aplaya" <?php echo ($data['BARANGAY'] == 'Aplaya') ? 'selected' : ''; ?> >Aplaya</option>
               <option value="Balibago" <?php echo ($data['BARANGAY'] == 'Balibago') ? 'selected' : ''; ?> >Balibago</option>
               <option value="Caingin" <?php echo ($data['BARANGAY'] == 'Caingin') ? 'selected' : ''; ?> >Caingin</option>
@@ -159,7 +155,7 @@
               type="text"
               id="address"
               name="address"
-              disabled
+              required
                 value="<?php echo($data['ADDRESS']); ?>"
             />
           </div>
@@ -174,7 +170,7 @@
               type="text"
               id="educationalAttainment"
               name="educationalAttainment"
-              disabled
+              required
                 value="<?php echo($gender['EDUCATIONAL_ATTAINMENT']); ?>"
             />
           </div>
@@ -189,7 +185,7 @@
               type="text"
               id="job"
               name="job"
-              disabled
+              required
                 value="<?php echo($data['JOB']); ?>"
             />
           </div>
@@ -202,7 +198,7 @@
               type="text"
               id="company"
               name="company"
-              disabled
+              required
                 value="<?php echo($data['COMPANY']); ?>"
             />
           </div>
@@ -217,7 +213,7 @@
               type="text"
               id="monthlyIncome"
               name="monthlyIncome"
-              disabled
+              required
                 value="<?php echo($data['MONTHLY_INCOME']); ?>"
             />
           </div>
@@ -233,7 +229,7 @@
               type="text"
               id="totalFamilyIncome"
               name="totalFamilyIncome"
-              disabled
+              required
                 value="<?php echo($data['TOTAL_FAMILY_INCOME']); ?>"
             />
           </div>
@@ -247,7 +243,7 @@
               id="telephone"
               name="telephone"
               placeholder="09##-###-####"
-                disabled
+                required
                     value="<?php echo($data['TELEPHONE_NUMBER']); ?>"
             />
           </div>
@@ -261,7 +257,7 @@
               id="email"
               name="email"
               placeholder="email@example.com"
-              disabled
+              required
                 value="<?php echo($data['EMAIL']); ?>"
             />
           </div>
@@ -284,7 +280,7 @@
                 id="childLastName"
                 name="childLastName[]"
                 placeholder="SURNAME"
-                readonly
+                required
                 value="<?php echo($familyData['CHILD_LAST_NAME']); ?>"
               />
             </div>
@@ -295,7 +291,7 @@
                 id="childFirstName"
                 name="childFirstName[]"
                 placeholder="FIRST NAME"
-                readonly
+                required
                 value="<?php echo($familyData['CHILD_FIRST_NAME']); ?>"
               />
             </div>
@@ -306,7 +302,7 @@
                 id="childMiddleName"
                 name="childMiddleName[]"
                 placeholder="MIDDLE NAME"
-                readonly
+                required
                 value="<?php echo($familyData['CHILD_MIDDLE_NAME']); ?>"
               />
             </div>
@@ -317,7 +313,7 @@
                 id="childSuffix"
                 name="childSuffix[]"
                 placeholder="SUFFIX"
-                readonly
+                required
                 value="<?php echo($familyData['CHILD_SUFFIX']); ?>"
               />
             </div>
@@ -332,7 +328,7 @@
                 id="soloParentChildRelationship"
                 type="text"
                 name="soloParentChildRelationship[]"
-                readonly
+                required
                 value="<?php echo($familyData['RELATIONSHIP_TYPE']); ?>"
               />
             </div>
@@ -346,7 +342,7 @@
                 type="date"
                 name="soloParentChildDOB[]"
                 min="1900-01-01"
-                readonly
+                required
                 value="<?php echo($familyData['CHILD_DOB']); ?>"
               />
             </div>
@@ -358,9 +354,9 @@
                 id="maritalStatus"
                 class="form-select"
                 name="maritalStatus[]"
-                disabled
+                required
               >
-                <option disabled selected value="">Please Select</option>
+                <option required selected value="">Please Select</option>
               <option value="Single" <?php echo ($familyData['FAMILY_MARITAL_STATUS'] == 'Single') ? 'selected' : ''; ?> >Single</option>
               <option value="Married" <?php echo ($familyData['FAMILY_MARITAL_STATUS'] == 'Married') ? 'selected' : ''; ?> >Married</option>
               <option value="Widowed" <?php echo ($familyData['FAMILY_MARITAL_STATUS'] == 'Widowed') ? 'selected' : ''; ?> >Widowed</option>
@@ -379,7 +375,7 @@
                 type="text"
                 id="childEducationalAttainment"
                 name="childEducationalAttainment[]"
-                readonly
+                required
                 value="<?php echo($familyData['EDUCATIONAL_ATTAINMENT']); ?>"
               />
             </div>
@@ -392,7 +388,7 @@
                 type="text"
                 id="childIncome"
                 name="childIncome[]"
-                readonly
+                required
                 value="<?php echo($familyData['MONTHLY_INCOME']); ?>"
               />
             </div>
@@ -422,7 +418,7 @@
                   class="form-control"
                   id="soloParentClassification"
                   name="soloParentClassification"
-                  disabled
+                  required
                 ><?php echo($data['CLASSIFICATION_CIRCUMSTANCES']); ?></textarea>
               </div>
             </div>
@@ -444,7 +440,7 @@
                   class="form-control"
                   id="soloParentNeeds"
                   name="soloParentNeeds"
-                  disabled
+                  required
                 ><?php echo($data['NEEDS_PROBLEMS']); ?></textarea>
               </div>
             </div>
@@ -466,7 +462,7 @@
                   class="form-control"
                   id="soloParentFamilyResources"
                   name="soloParentFamilyResources"
-                  disabled
+                  required
                 ><?php echo($data['FAMILY_RESOURCES']); ?></textarea>
               </div>
             </div>

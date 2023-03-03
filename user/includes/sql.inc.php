@@ -1,39 +1,80 @@
 <?php
-// GET PWD DATA
-function getPWDData($connection) {
-    $data = [];
-    $username = $_SESSION['username'];
-    $user_type = "PWD";
-    $sql = "SELECT APPLICANT_TYPE, TRANSACTION_TYPE, REGION, CITY, PROVINCE, previous_address.BARANGAY, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, LANDLINE_NUMBER, telephone.TELEPHONE_NUMBER, EMAIL, DATE_OF_BIRTH, RELIGION, BLOOD_TYPE, IS_ACTIVE_VOTER, IS_4PS_MEMBER, EMPLOYMENT_STATUS, CATEGORY_OF_EMPLOYMENT, NATURE_OF_EMPLOYMENT, JOB, MONTHLY_INCOME, ORGANIZATION_AFFILIATED, CONTACT_PERSON, OFFICE_ADDRESS, organization.TELEPHONE_NUMBER, SSS_NUMBER, GSIS_NUMBER,PSN_NUMBER, IS_PHILHEALTH_MEMBER, PHILHEALTH_NUMBER, TYPE_OF_DISABILITY, MEDICAL_CONDITION, CAUSE_OF_DISABILITY, CONGENITAL_INBORN, ACQUIRED, STATUS_OF_DISABILITY, PWD_PHYSICIAN_NAME, PHYSICIAN_LICENSE_NUMBER, ACCOMPLISHED_BY, ACCOMPLISHER_NAME, transaction_type.DATE_UPDATED, STATUS
-    FROM person 
-    JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
-    JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
-    JOIN previous_address ON person.PERSON_ID = previous_address.PERSON_ID AND previous_address.IS_DELETED = 'N'
-    JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
-    JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
-    JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
-    JOIN landline ON person.PERSON_ID = landline.PERSON_ID AND landline.IS_DELETED = 'N'
-    JOIN telephone ON person.PERSON_ID = telephone.PERSON_ID AND telephone.IS_DELETED = 'N'
-    JOIN user_account ON person.PERSON_ID = user_account.PERSON_ID AND user_account.IS_DELETED = 'N'
-    JOIN religion ON person.PERSON_ID = religion.PERSON_ID AND religion.IS_DELETED = 'N'
-    JOIN blood_type ON person.PERSON_ID = blood_type.PERSON_ID AND blood_type.IS_DELETED = 'N'
-    JOIN government_membership ON person.PERSON_ID = government_membership.PERSON_ID AND government_membership.IS_DELETED = 'N'
-    JOIN employment_status ON person.PERSON_ID = employment_status.PERSON_ID AND employment_status.IS_DELETED = 'N'
-    JOIN job ON person.PERSON_ID = job.PERSON_ID AND job.IS_DELETED = 'N'
-    JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
-    JOIN organization ON person.PERSON_ID = organization.PERSON_ID AND organization.IS_DELETED = 'N'
-    JOIN id_reference_number ON person.PERSON_ID = id_reference_number.PERSON_ID AND id_reference_number.IS_DELETED = 'N'
-    JOIN pwd_disease ON person.PERSON_ID = pwd_disease.PERSON_ID AND pwd_disease.IS_DELETED = 'N'
-    JOIN pwd_physician ON person.PERSON_ID = pwd_physician.PERSON_ID AND pwd_physician.IS_DELETED = 'N'
-    JOIN pwd_application_accomplisher ON person.PERSON_ID = pwd_application_accomplisher.PERSON_ID AND pwd_application_accomplisher.IS_DELETED = 'N'
-    WHERE USERNAME = ? AND APPLICANT_TYPE = ? AND person.IS_DELETED = 'N'";
-    $stmt = $connection->prepare($sql);
+// GET CITIZEN COUNT
+function getTotalCitizen($connection, $applicationType) {
+    $sql = "SELECT COUNT(*) AS TOTAL_CITIZEN FROM applicant WHERE APPLICANT_TYPE = '$applicationType'";
+    $result = mysqli_query($connection, $sql);
+    $row = mysqli_fetch_assoc($result);
+    return $row['TOTAL_CITIZEN'];
+}
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+// GET PWD DATA
+function getPWDData($connection, $personID) {
+    $data = [];
+    if(!empty($personID)) {
+        $sql = "SELECT APPLICANT_TYPE, CITIZEN_ID, TRANSACTION_TYPE, REGION, CITY, PROVINCE, previous_address.BARANGAY, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, LANDLINE_NUMBER, telephone.TELEPHONE_NUMBER AS MOBILE_NUMBER, EMAIL, DATE_OF_BIRTH, RELIGION, BLOOD_TYPE, IS_ACTIVE_VOTER, IS_4PS_MEMBER, EMPLOYMENT_STATUS, CATEGORY_OF_EMPLOYMENT, NATURE_OF_EMPLOYMENT, JOB, OTHER_JOB, MONTHLY_INCOME, ORGANIZATION_AFFILIATED, CONTACT_PERSON, OFFICE_ADDRESS, organization.TELEPHONE_NUMBER, SSS_NUMBER, GSIS_NUMBER,PSN_NUMBER, IS_PHILHEALTH_MEMBER, PHILHEALTH_NUMBER, TYPE_OF_DISABILITY, MEDICAL_CONDITION, CAUSE_OF_DISABILITY, CONGENITAL_INBORN, ACQUIRED, STATUS_OF_DISABILITY, PWD_PHYSICIAN_NAME, PHYSICIAN_LICENSE_NUMBER, ACCOMPLISHED_BY, ACCOMPLISHER_NAME, transaction_type.DATE_UPDATED, STATUS
+        FROM person 
+        JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+        JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
+        JOIN previous_address ON person.PERSON_ID = previous_address.PERSON_ID AND previous_address.IS_DELETED = 'N'
+        JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+        JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+        JOIN landline ON person.PERSON_ID = landline.PERSON_ID AND landline.IS_DELETED = 'N'
+        JOIN telephone ON person.PERSON_ID = telephone.PERSON_ID AND telephone.IS_DELETED = 'N'
+        JOIN religion ON person.PERSON_ID = religion.PERSON_ID AND religion.IS_DELETED = 'N'
+        JOIN blood_type ON person.PERSON_ID = blood_type.PERSON_ID AND blood_type.IS_DELETED = 'N'
+        JOIN government_membership ON person.PERSON_ID = government_membership.PERSON_ID AND government_membership.IS_DELETED = 'N'
+        JOIN employment_status ON person.PERSON_ID = employment_status.PERSON_ID AND employment_status.IS_DELETED = 'N'
+        JOIN job ON person.PERSON_ID = job.PERSON_ID AND job.IS_DELETED = 'N'
+        JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
+        JOIN organization ON person.PERSON_ID = organization.PERSON_ID AND organization.IS_DELETED = 'N'
+        JOIN id_reference_number ON person.PERSON_ID = id_reference_number.PERSON_ID AND id_reference_number.IS_DELETED = 'N'
+        JOIN pwd_disease ON person.PERSON_ID = pwd_disease.PERSON_ID AND pwd_disease.IS_DELETED = 'N'
+        JOIN pwd_physician ON person.PERSON_ID = pwd_physician.PERSON_ID AND pwd_physician.IS_DELETED = 'N'
+        JOIN pwd_application_accomplisher ON person.PERSON_ID = pwd_application_accomplisher.PERSON_ID AND pwd_application_accomplisher.IS_DELETED = 'N'
+        WHERE person.PERSON_ID = ? AND APPLICANT_TYPE = 'PWD' AND person.IS_DELETED = 'N'";
+    } else {
+        $sql = "SELECT APPLICANT_TYPE, TRANSACTION_TYPE, REGION, CITY, PROVINCE, previous_address.BARANGAY, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, LANDLINE_NUMBER, telephone.TELEPHONE_NUMBER, EMAIL, DATE_OF_BIRTH, RELIGION, BLOOD_TYPE, IS_ACTIVE_VOTER, IS_4PS_MEMBER, EMPLOYMENT_STATUS, CATEGORY_OF_EMPLOYMENT, NATURE_OF_EMPLOYMENT, JOB, MONTHLY_INCOME, ORGANIZATION_AFFILIATED, CONTACT_PERSON, OFFICE_ADDRESS, organization.TELEPHONE_NUMBER, SSS_NUMBER, GSIS_NUMBER,PSN_NUMBER, IS_PHILHEALTH_MEMBER, PHILHEALTH_NUMBER, TYPE_OF_DISABILITY, MEDICAL_CONDITION, CAUSE_OF_DISABILITY, CONGENITAL_INBORN, ACQUIRED, STATUS_OF_DISABILITY, PWD_PHYSICIAN_NAME, PHYSICIAN_LICENSE_NUMBER, ACCOMPLISHED_BY, ACCOMPLISHER_NAME, transaction_type.DATE_UPDATED, STATUS
+        FROM person 
+        JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+        JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
+        JOIN previous_address ON person.PERSON_ID = previous_address.PERSON_ID AND previous_address.IS_DELETED = 'N'
+        JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+        JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+        JOIN landline ON person.PERSON_ID = landline.PERSON_ID AND landline.IS_DELETED = 'N'
+        JOIN telephone ON person.PERSON_ID = telephone.PERSON_ID AND telephone.IS_DELETED = 'N'
+        JOIN user_account ON person.PERSON_ID = user_account.PERSON_ID AND user_account.IS_DELETED = 'N'
+        JOIN religion ON person.PERSON_ID = religion.PERSON_ID AND religion.IS_DELETED = 'N'
+        JOIN blood_type ON person.PERSON_ID = blood_type.PERSON_ID AND blood_type.IS_DELETED = 'N'
+        JOIN government_membership ON person.PERSON_ID = government_membership.PERSON_ID AND government_membership.IS_DELETED = 'N'
+        JOIN employment_status ON person.PERSON_ID = employment_status.PERSON_ID AND employment_status.IS_DELETED = 'N'
+        JOIN job ON person.PERSON_ID = job.PERSON_ID AND job.IS_DELETED = 'N'
+        JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
+        JOIN organization ON person.PERSON_ID = organization.PERSON_ID AND organization.IS_DELETED = 'N'
+        JOIN id_reference_number ON person.PERSON_ID = id_reference_number.PERSON_ID AND id_reference_number.IS_DELETED = 'N'
+        JOIN pwd_disease ON person.PERSON_ID = pwd_disease.PERSON_ID AND pwd_disease.IS_DELETED = 'N'
+        JOIN pwd_physician ON person.PERSON_ID = pwd_physician.PERSON_ID AND pwd_physician.IS_DELETED = 'N'
+        JOIN pwd_application_accomplisher ON person.PERSON_ID = pwd_application_accomplisher.PERSON_ID AND pwd_application_accomplisher.IS_DELETED = 'N'
+        WHERE APPLICANT_TYPE = 'PWD' AND person.IS_DELETED = 'N'";
+    }
+    try {
+        $stmt = $connection->prepare($sql);
+
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
-    $stmt->bind_param("ss", $username, $user_type);
+    if(!empty($personID)) {
+        $stmt->bind_param("s", $personID);
+    }
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){
@@ -50,7 +91,7 @@ function getPWDData($connection) {
 
 }
 
-function getPWDGender($connection, $username) {
+function getPWDGender($connection, $personID) {
     $data = [];
     $sql = "SELECT APPLICANT_TYPE, GENDER, MARITAL_STATUS, EDUCATIONAL_ATTAINMENT
     FROM person 
@@ -58,15 +99,23 @@ function getPWDGender($connection, $username) {
     JOIN gender ON person.PERSON_ID = gender.PERSON_ID AND gender.IS_DELETED = 'N'
     JOIN marital_status ON person.PERSON_ID = marital_status.PERSON_ID AND marital_status.IS_DELETED = 'N'
     JOIN educational_attainment ON person.PERSON_ID = educational_attainment.PERSON_ID AND educational_attainment.IS_DELETED = 'N'
-    WHERE USERNAME = ? AND APPLICANT_TYPE = 'PWD' AND person.IS_DELETED = 'N'";
+    WHERE person.PERSON_ID = ? AND APPLICANT_TYPE = 'PWD' AND person.IS_DELETED = 'N'";
 
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
-    $stmt->bind_param("s", $username);
+    $stmt->bind_param("s", $personID);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){
@@ -82,9 +131,8 @@ function getPWDGender($connection, $username) {
     $connection->close();
 }
 
-function getFatherData($connection) {
+function getFatherData($connection, $personID) {
     $data = [];
-    $userData = $_SESSION['userData'];
     $sql = "SELECT LAST_NAME, FIRST_NAME, MIDDLE_NAME, SUFFIX, RELATIONSHIP_TYPE
     FROM person
     JOIN name ON person.PERSON_ID = name.PERSON_ID
@@ -93,13 +141,21 @@ function getFatherData($connection) {
     AND relationship.APPLICANT_ID = ?
     AND person.IS_DELETED = 'N'
     AND name.IS_DELETED = 'N'";
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
-    $stmt->bind_param("s", $userData['PERSON_ID']);
+    $stmt->bind_param("s", $personID);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){
@@ -115,9 +171,8 @@ function getFatherData($connection) {
     $connection->close();
 }
 
-function getMotherData($connection) {
+function getMotherData($connection, $personID) {
     $data = [];
-    $userData = $_SESSION['userData'];
     $sql = "SELECT LAST_NAME, FIRST_NAME, MIDDLE_NAME, SUFFIX, RELATIONSHIP_TYPE
     FROM person
     JOIN name ON person.PERSON_ID = name.PERSON_ID
@@ -126,13 +181,21 @@ function getMotherData($connection) {
     AND relationship.APPLICANT_ID = ?
     AND person.IS_DELETED = 'N'
     AND name.IS_DELETED = 'N'";
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
-    $stmt->bind_param("s", $userData['PERSON_ID']);
+    $stmt->bind_param("s", $personID);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){
@@ -148,9 +211,8 @@ function getMotherData($connection) {
     $connection->close();
 }
 
-function getGuardianData($connection) {
+function getGuardianData($connection, $personID) {
     $data = [];
-    $userData = $_SESSION['userData'];
     $sql = "SELECT LAST_NAME, FIRST_NAME, MIDDLE_NAME, SUFFIX, RELATIONSHIP_TYPE
     FROM person
     JOIN name ON person.PERSON_ID = name.PERSON_ID
@@ -159,13 +221,21 @@ function getGuardianData($connection) {
     AND relationship.APPLICANT_ID = ?
     AND person.IS_DELETED = 'N'
     AND name.IS_DELETED = 'N'";
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
-    $stmt->bind_param("s", $userData['PERSON_ID']);
+    $stmt->bind_param("s", $personID);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){
@@ -181,30 +251,55 @@ function getGuardianData($connection) {
     $connection->close();
 }
 // GET SOLO PARENT DATA
-function getSoloParentData($connection) {
+function getSoloParentData($connection, $personID) {
     $data = [];
-    $username = $_SESSION['username'];
-    $sql = "SELECT APPLICANT_TYPE, TRANSACTION_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, BARANGAY, ADDRESS, DATE_OF_BIRTH, PLACE_OF_BIRTH, EMAIL, TELEPHONE_NUMBER, JOB, COMPANY, MONTHLY_INCOME, TOTAL_FAMILY_INCOME, CLASSIFICATION_CIRCUMSTANCES, NEEDS_PROBLEMS, FAMILY_RESOURCES, transaction_type.DATE_UPDATED, STATUS
-    FROM person 
-    JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
-    JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
-    JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
-    JOIN user_account ON person.PERSON_ID = user_account.PERSON_ID AND user_account.IS_DELETED = 'N'
-    JOIN telephone ON person.PERSON_ID = telephone.PERSON_ID AND telephone.IS_DELETED = 'N'
-    JOIN job ON person.PERSON_ID = job.PERSON_ID AND job.IS_DELETED = 'N'
-    JOIN company ON person.PERSON_ID = company.PERSON_ID AND company.IS_DELETED = 'N'
-    JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
-    JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
-    JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
-    JOIN solo_parent_long_text ON person.PERSON_ID = solo_parent_long_text.PERSON_ID AND solo_parent_long_text.IS_DELETED = 'N'
-    WHERE USERNAME = ? AND APPLICANT_TYPE = 'Solo Parent' AND person.IS_DELETED = 'N';";
-    $stmt = $connection->prepare($sql);
+    if(!empty($personID)) {
+        $sql = "SELECT APPLICANT_TYPE, CITIZEN_ID, TRANSACTION_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, BARANGAY, ADDRESS, DATE_OF_BIRTH, PLACE_OF_BIRTH, EMAIL, TELEPHONE_NUMBER, JOB, COMPANY, MONTHLY_INCOME, TOTAL_FAMILY_INCOME, CLASSIFICATION_CIRCUMSTANCES, NEEDS_PROBLEMS, FAMILY_RESOURCES, transaction_type.DATE_UPDATED, STATUS
+        FROM person 
+        JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
+        JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+        JOIN telephone ON person.PERSON_ID = telephone.PERSON_ID AND telephone.IS_DELETED = 'N'
+        JOIN job ON person.PERSON_ID = job.PERSON_ID AND job.IS_DELETED = 'N'
+        JOIN company ON person.PERSON_ID = company.PERSON_ID AND company.IS_DELETED = 'N'
+        JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+        JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+        JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
+        JOIN solo_parent_long_text ON person.PERSON_ID = solo_parent_long_text.PERSON_ID AND solo_parent_long_text.IS_DELETED = 'N'
+        WHERE person.PERSON_ID = ? AND APPLICANT_TYPE = 'Solo Parent' AND person.IS_DELETED = 'N';";
+    } else {
+        $sql = "SELECT APPLICANT_TYPE, TRANSACTION_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, BARANGAY, ADDRESS, DATE_OF_BIRTH, PLACE_OF_BIRTH, EMAIL, TELEPHONE_NUMBER, JOB, COMPANY, MONTHLY_INCOME, TOTAL_FAMILY_INCOME, CLASSIFICATION_CIRCUMSTANCES, NEEDS_PROBLEMS, FAMILY_RESOURCES, transaction_type.DATE_UPDATED, STATUS
+        FROM person 
+        JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
+        JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+        JOIN user_account ON person.PERSON_ID = user_account.PERSON_ID AND user_account.IS_DELETED = 'N'
+        JOIN telephone ON person.PERSON_ID = telephone.PERSON_ID AND telephone.IS_DELETED = 'N'
+        JOIN job ON person.PERSON_ID = job.PERSON_ID AND job.IS_DELETED = 'N'
+        JOIN company ON person.PERSON_ID = company.PERSON_ID AND company.IS_DELETED = 'N'
+        JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+        JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+        JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
+        JOIN solo_parent_long_text ON person.PERSON_ID = solo_parent_long_text.PERSON_ID AND solo_parent_long_text.IS_DELETED = 'N'
+        WHERE APPLICANT_TYPE = 'Solo Parent' AND person.IS_DELETED = 'N';";
+    }
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
-    $stmt->bind_param("s", $username);
+    if(!empty($personID)) {
+        $stmt->bind_param("s", $personID);
+    }
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){
@@ -221,22 +316,30 @@ function getSoloParentData($connection) {
 
 }
 
-function getSoloParentGender($connection, $username) {
+function getSoloParentGender($connection, $personID) {
     $data = [];
     $sql = "SELECT APPLICANT_TYPE, GENDER, EDUCATIONAL_ATTAINMENT
     FROM person 
     JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
     JOIN gender ON person.PERSON_ID = gender.PERSON_ID AND gender.IS_DELETED = 'N'
     JOIN educational_attainment ON person.PERSON_ID = educational_attainment.PERSON_ID AND educational_attainment.IS_DELETED = 'N'
-    WHERE USERNAME = ? AND APPLICANT_TYPE = 'Solo Parent' AND person.IS_DELETED = 'N'";
+    WHERE person.PERSON_ID = ? AND APPLICANT_TYPE = 'Solo Parent' AND person.IS_DELETED = 'N'";
 
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
-    $stmt->bind_param("s", $username);
+    $stmt->bind_param("s", $personID);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){
@@ -252,9 +355,8 @@ function getSoloParentGender($connection, $username) {
     $connection->close();
 }
 
-function getFamilyMemberData($connection) {
+function getFamilyMemberData($connection, $personID) {
     $data = [];
-    $userData = $_SESSION['userData'];
     $sql = "SELECT LAST_NAME AS CHILD_LAST_NAME, FIRST_NAME AS CHILD_FIRST_NAME, MIDDLE_NAME AS CHILD_MIDDLE_NAME, SUFFIX AS CHILD_SUFFIX, DATE_OF_BIRTH AS CHILD_DOB, MARITAL_STATUS AS FAMILY_MARITAL_STATUS, EDUCATIONAL_ATTAINMENT, MONTHLY_INCOME, RELATIONSHIP_TYPE
     FROM person
     JOIN name ON person.PERSON_ID = name.PERSON_ID
@@ -262,20 +364,29 @@ function getFamilyMemberData($connection) {
     JOIN marital_status ON person.PERSON_ID = marital_status.PERSON_ID
     JOIN educational_attainment ON person.PERSON_ID = educational_attainment.PERSON_ID
     JOIN income ON person.PERSON_ID = income.PERSON_ID
-    WHERE relationship.RELATIONSHIP_TYPE = 'Family Member'
+    WHERE relationship.RELATIONSHIP_TYPE = 'Son' OR relationship.RELATIONSHIP_TYPE = 'Daughter'
     AND relationship.APPLICANT_ID = ?
     AND person.IS_DELETED = 'N'
     AND name.IS_DELETED = 'N'
     AND educational_attainment.IS_DELETED = 'N'
     AND income.IS_DELETED = 'N'
-    AND marital_status.IS_DELETED = 'N';";
-    $stmt = $connection->prepare($sql);
+    AND marital_status.IS_DELETED = 'N'
+    LIMIT 5;";
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
-    $stmt->bind_param("s", $userData['PERSON_ID']);
+    $stmt->bind_param("s", $personID);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){
@@ -291,29 +402,53 @@ function getFamilyMemberData($connection) {
     $connection->close();
 }
 // GET SR CITIZEN DATA
-function getSeniorCitizenData($connection) {
+function getSeniorCitizenData($connection, $personId) {
     $data = [];
-    $username = $_SESSION['username'];
-    $sql = "SELECT APPLICANT_TYPE, TRANSACTION_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, BARANGAY, ADDRESS, DATE_OF_BIRTH, PLACE_OF_BIRTH, EMAIL, TELEPHONE_NUMBER, RELIGION, JOB, HAS_PENSION, TYPE, AMOUNT, STATUS, transaction_type.DATE_UPDATED
-    FROM person 
-    JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
-    JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
-    JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
-    JOIN user_account ON person.PERSON_ID = user_account.PERSON_ID AND user_account.IS_DELETED = 'N'
-    JOIN telephone ON person.PERSON_ID = telephone.PERSON_ID AND telephone.IS_DELETED = 'N'
-    JOIN religion ON person.PERSON_ID = religion.PERSON_ID AND religion.IS_DELETED = 'N'
-    JOIN job ON person.PERSON_ID = job.PERSON_ID AND job.IS_DELETED = 'N'
-    JOIN pension ON person.PERSON_ID = pension.PERSON_ID AND pension.IS_DELETED = 'N'
-    JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
-    JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
-    WHERE USERNAME = ? AND APPLICANT_TYPE = 'Senior Citizen' AND person.IS_DELETED = 'N'";
-    $stmt = $connection->prepare($sql);
+    if(!empty($personId)) {
+        $sql = "SELECT APPLICANT_TYPE, CITIZEN_ID, ID_NUMBER, TRANSACTION_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, BARANGAY, ADDRESS, DATE_OF_BIRTH, PLACE_OF_BIRTH, EMAIL, TELEPHONE_NUMBER, RELIGION, JOB, HAS_PENSION, TYPE, AMOUNT, STATUS, transaction_type.DATE_UPDATED
+        FROM person 
+        JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
+        JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+        JOIN telephone ON person.PERSON_ID = telephone.PERSON_ID AND telephone.IS_DELETED = 'N'
+        JOIN religion ON person.PERSON_ID = religion.PERSON_ID AND religion.IS_DELETED = 'N'
+        JOIN job ON person.PERSON_ID = job.PERSON_ID AND job.IS_DELETED = 'N'
+        JOIN pension ON person.PERSON_ID = pension.PERSON_ID AND pension.IS_DELETED = 'N'
+        JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+        JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+        WHERE person.PERSON_ID = ? AND APPLICANT_TYPE = 'Senior Citizen' AND person.IS_DELETED = 'N'";
+    } else {
+        $sql = "SELECT APPLICANT_TYPE, TRANSACTION_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, BARANGAY, ADDRESS, DATE_OF_BIRTH, PLACE_OF_BIRTH, EMAIL, TELEPHONE_NUMBER, RELIGION, JOB, HAS_PENSION, TYPE, AMOUNT, STATUS, transaction_type.DATE_UPDATED
+        FROM person 
+        JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
+        JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+        JOIN user_account ON person.PERSON_ID = user_account.PERSON_ID AND user_account.IS_DELETED = 'N'
+        JOIN telephone ON person.PERSON_ID = telephone.PERSON_ID AND telephone.IS_DELETED = 'N'
+        JOIN religion ON person.PERSON_ID = religion.PERSON_ID AND religion.IS_DELETED = 'N'
+        JOIN job ON person.PERSON_ID = job.PERSON_ID AND job.IS_DELETED = 'N'
+        JOIN pension ON person.PERSON_ID = pension.PERSON_ID AND pension.IS_DELETED = 'N'
+        JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+        JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+        WHERE APPLICANT_TYPE = 'Senior Citizen' AND person.IS_DELETED = 'N'";
+    }
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
-    $stmt->bind_param("s", $username);
+    if(!empty($personId)) {
+        $stmt->bind_param("s", $personId);
+    }
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){
@@ -330,22 +465,30 @@ function getSeniorCitizenData($connection) {
 
 }
 
-function getSeniorCitizenGender($connection, $username) {
+function getSeniorCitizenGender($connection, $personId) {
     $data = [];
     $sql = "SELECT APPLICANT_TYPE, GENDER, MARITAL_STATUS
     FROM person 
     JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
     JOIN marital_status ON person.PERSON_ID = marital_status.PERSON_ID AND marital_status.IS_DELETED = 'N'
     JOIN gender ON person.PERSON_ID = gender.PERSON_ID AND gender.IS_DELETED = 'N'
-    WHERE USERNAME = ? AND APPLICANT_TYPE = 'Senior Citizen' AND person.IS_DELETED = 'N'";
+    WHERE person.PERSON_ID = ? AND APPLICANT_TYPE = 'Senior Citizen' AND person.IS_DELETED = 'N'";
 
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
-    $stmt->bind_param("s", $username);
+    $stmt->bind_param("s", $personId);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){
@@ -361,22 +504,29 @@ function getSeniorCitizenGender($connection, $username) {
     $connection->close();
 }
 
-function getSPouseData($connection) {
+function getSPouseData($connection, $personID) {
     $data = [];
-    $userData = $_SESSION['userData'];
     $sql = "SELECT LAST_NAME AS SPOUSE_LAST_NAME, FIRST_NAME SPOUSE_FIRST_NAME, MIDDLE_NAME AS SPOUSE_MIDDLE_NAME , SUFFIX AS SPOUSE_SUFFIX, DATE_OF_BIRTH AS SPOUSE_DOB
     FROM person
     JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
     WHERE name.PERSON_ID = (SELECT PERSON_ID
     FROM relationship
     WHERE RELATIONSHIP_TYPE = 'Spouse' AND relationship.APPLICANT_ID = ?) AND person.IS_DELETED = 'N'";
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
-    $stmt->bind_param("s", $userData['PERSON_ID']);
+    $stmt->bind_param("s", $personID);
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){
@@ -392,9 +542,8 @@ function getSPouseData($connection) {
     $connection->close();
 }
 
-function getChildrenData($connection) {
+function getChildrenData($connection, $personID) {
     $data = [];
-    $userData = $_SESSION['userData'];
     $sql = "SELECT LAST_NAME AS CHILD_LAST_NAME, FIRST_NAME AS CHILD_FIRST_NAME, MIDDLE_NAME AS CHILD_MIDDLE_NAME, SUFFIX AS CHILD_SUFFIX, DATE_OF_BIRTH AS CHILD_DOB, TELEPHONE_NUMBER AS CHILD_TELEPHONE, BARANGAY, ADDRESS, RELATIONSHIP_TYPE
     FROM person
     JOIN name ON person.PERSON_ID = name.PERSON_ID
@@ -408,13 +557,413 @@ function getChildrenData($connection) {
     AND name.IS_DELETED = 'N'
     AND telephone.IS_DELETED = 'N'
     AND address.IS_DELETED = 'N';";
-    $stmt = $connection->prepare($sql);
+    try {
+        $stmt = $connection->prepare($sql);
 
-    if (!$stmt) {
-        header("location: ../error.html?error=stmterror");
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
-    $stmt->bind_param("s", $userData['PERSON_ID']);
+    $stmt->bind_param("s", $personID);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0){
+        while($row = $result->fetch_assoc()) {
+            array_push($data, $row);
+        }
+        return $data;
+    } else{
+        return $data;
+    }
+
+    $stmt->close();
+    $connection->close();
+}
+
+// GET APPLICATIONS
+function getPWDStatus($connection, $status, $barangay) {
+    $data = [];
+    if(!empty($barangay)) {
+        $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, MONTHLY_INCOME, STATUS
+        FROM person 
+        JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+        JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
+        JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+        JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+        JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
+        WHERE APPLICANT_TYPE = 'PWD' AND STATUS = '$status' AND address.BARANGAY = '$barangay' AND person.IS_DELETED = 'N'";
+    } else {
+        $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, MONTHLY_INCOME, STATUS
+        FROM person 
+        JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+        JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
+        JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+        JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+        JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
+        WHERE APPLICANT_TYPE = 'PWD' AND STATUS = '$status' AND person.IS_DELETED = 'N'";
+    }
+    
+    try {
+        $stmt = $connection->prepare($sql);
+
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0){
+        while($row = $result->fetch_assoc()) {
+            array_push($data, $row);
+        }
+        return $data;
+    } else{
+        return $data;
+    }
+
+    $stmt->close();
+    $connection->close();
+
+}
+
+function getSoloParentStatus($connection, $status, $barangay) {
+    $data = [];
+    if(!empty($barangay)) {
+        $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, MONTHLY_INCOME, STATUS
+        FROM person 
+        JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+        JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
+        JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+        JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+        JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
+        WHERE APPLICANT_TYPE = 'Solo Parent' AND STATUS = '$status' AND address.BARANGAY = '$barangay' AND person.IS_DELETED = 'N'";
+    } else {
+        $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, MONTHLY_INCOME, STATUS
+        FROM person 
+        JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+        JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
+        JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+        JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+        JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
+        WHERE APPLICANT_TYPE = 'Solo Parent' AND STATUS = '$status' AND person.IS_DELETED = 'N'";
+    }
+    try {
+        $stmt = $connection->prepare($sql);
+
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0){
+        while($row = $result->fetch_assoc()) {
+            array_push($data, $row);
+        }
+        return $data;
+    } else{
+        return $data;
+    }
+
+    $stmt->close();
+    $connection->close();
+
+}
+
+function getSeniorCitizenStatus($connection, $status, $barangay) {
+    $data = [];
+    if(!empty($barangay)) {
+        $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS
+        FROM person 
+        JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+        JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
+        JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+        JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+        WHERE APPLICANT_TYPE = 'Senior Citizen' AND STATUS = '$status' AND address.BARANGAY = '$barangay' AND person.IS_DELETED = 'N'";
+    } else {
+        $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS
+        FROM person 
+        JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+        JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
+        JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+        JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+        WHERE APPLICANT_TYPE = 'Senior Citizen' AND STATUS = '$status' AND person.IS_DELETED = 'N'";
+    }
+    try {
+        $stmt = $connection->prepare($sql);
+
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0){
+        while($row = $result->fetch_assoc()) {
+            array_push($data, $row);
+        }
+        return $data;
+    } else{
+        return $data;
+    }
+
+    $stmt->close();
+    $connection->close();
+
+}
+
+// GET APPLICATIONS PER BARANGAY
+function getPWDPerBarangay($connection, $barangay) {
+    $data = [];
+    if(!empty($barangay)) {
+        $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, MONTHLY_INCOME, STATUS, transaction_type.DATE_UPDATED
+        FROM person 
+        JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+        JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
+        JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+        JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+        JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
+        WHERE APPLICANT_TYPE = 'PWD' AND address.BARANGAY = '$barangay' AND person.IS_DELETED = 'N'";
+    } else {
+        $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, MONTHLY_INCOME, STATUS, transaction_type.DATE_UPDATED
+        FROM person 
+        JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+        JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
+        JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+        JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+        JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
+        WHERE APPLICANT_TYPE = 'PWD' AND person.IS_DELETED = 'N'";
+    }
+    try {
+        $stmt = $connection->prepare($sql);
+
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0){
+        while($row = $result->fetch_assoc()) {
+            array_push($data, $row);
+        }
+        return $data;
+    } else{
+        return $data;
+    }
+
+    $stmt->close();
+    $connection->close();
+
+}
+
+function getSoloParentPerBarangay($connection, $barangay) {
+    $data = [];
+    if(!empty($barangay)) {
+        $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, MONTHLY_INCOME, STATUS, transaction_type.DATE_UPDATED
+        FROM person 
+        JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+        JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
+        JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+        JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+        JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
+        WHERE APPLICANT_TYPE = 'Solo Parent' AND address.BARANGAY = '$barangay' AND person.IS_DELETED = 'N'";
+    } else {
+        $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, MONTHLY_INCOME, STATUS, transaction_type.DATE_UPDATED
+        FROM person 
+        JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+        JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
+        JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+        JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+        JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
+        WHERE APPLICANT_TYPE = 'Solo Parent' AND person.IS_DELETED = 'N'";
+    }
+    try {
+        $stmt = $connection->prepare($sql);
+
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0){
+        while($row = $result->fetch_assoc()) {
+            array_push($data, $row);
+        }
+        return $data;
+    } else{
+        return $data;
+    }
+
+    $stmt->close();
+    $connection->close();
+
+}
+
+function getSeniorCitizenPerBarangay($connection, $barangay) {
+    $data = [];
+    if(!empty($barangay)) {
+        $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS, transaction_type.DATE_UPDATED
+        FROM person 
+        JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+        JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
+        JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+        JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+        WHERE APPLICANT_TYPE = 'Senior Citizen' AND address.BARANGAY = '$barangay' AND person.IS_DELETED = 'N'";
+    } else {
+        $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS, transaction_type.DATE_UPDATED
+        FROM person 
+        JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+        JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
+        JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+        JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+        WHERE APPLICANT_TYPE = 'Senior Citizen' AND person.IS_DELETED = 'N'";
+    }
+    try {
+        $stmt = $connection->prepare($sql);
+
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0){
+        while($row = $result->fetch_assoc()) {
+            array_push($data, $row);
+        }
+        return $data;
+    } else{
+        return $data;
+    }
+
+    $stmt->close();
+    $connection->close();
+
+}
+
+// GET EVENTS PER BARANGAY
+function getEvents($connection, $event_id, $for, $barangay) {
+    $data = [];
+    if(!empty($barangay)) {
+        $sql = "SELECT * FROM announcement WHERE ANNOUNCEMENT_FOR = '$for' AND BARANGAY = '$barangay';";
+    } else {
+        $sql = "SELECT * FROM announcement WHERE ANNOUNCEMENT_ID = '$event_id'";
+    }
+    try {
+        $stmt = $connection->prepare($sql);
+
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0){
+        while($row = $result->fetch_assoc()) {
+            array_push($data, $row);
+        }
+        return $data;
+    } else{
+        return $data;
+    }
+
+    $stmt->close();
+    $connection->close();
+}
+
+function getEventsPer($connection, $event_id, $for, $barangay) {
+    $data = [];
+    $sql = "SELECT FIRST_NAME,MIDDLE_NAME,LAST_NAME,SUFFIX,BARANGAY,APPLICANT_TYPE,person.PERSON_ID,applicant.CITIZEN_ID
+            FROM PERSON 
+            JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
+            JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+            JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+            JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+            WHERE barangay = '$barangay' AND APPLICANT_TYPE = '$for';";
+    try {
+        $stmt = $connection->prepare($sql);
+
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
     $stmt->execute();
     $result = $stmt->get_result();
     if ($result->num_rows > 0){

@@ -5,6 +5,7 @@
     require_once 'sql.inc.php';
     // Senior Citizen
     if(isset($_POST['srCitizenSubmit'])) {
+        $formControlNumber = $_POST['formControlNumber'];
         $personId = generateUUID();
         $spouseId = generateUUID();
         $applicantType = "Senior Citizen";
@@ -52,7 +53,7 @@
 
             // Call your functions to insert data
             insertPerson($connection, $personId, $srCitizenDOB, $email);
-            insertApplicant($connection, $personId, $applicantType, $id_number, $placeOfBirth);
+            insertApplicant($connection, $personId, $applicantType, $id_number, $placeOfBirth, $formControlNumber);
             insertTransactionType($connection, $personId, $applicationType, $id_number);
             insertName($connection, $personId, $firstName, $middlename, $surname, $suffix);
             insertAddress($connection, $barangayId, $barangay, $address);
@@ -101,6 +102,7 @@
     }
     // Solo Parent
     if(isset($_POST['soloParentSubmit'])) {
+        $formControlNumber = $_POST['formControlNumber'];
         $applicationType = "New Application";
         $personId = generateUUID();
         $id_number = date("Y") . "-" . generateSoloParentID()[0];
@@ -151,7 +153,7 @@
 
             // Call your functions to insert data
             insertPerson($connection, $personId, $soloParentDOB, $email);
-            insertApplicant($connection, $personId, $applicantType, $id_number, $placeOfBirth);
+            insertApplicant($connection, $personId, $applicantType, $id_number, $placeOfBirth, $formControlNumber);
             insertTransactionType($connection, $personId, $applicationType, $id_number);
             insertName($connection, $personId, $firstName, $middlename, $surname, $suffix);
             insertAddress($connection, $barangayId, $barangay, $address);
@@ -199,6 +201,7 @@
     }
     // Person with Disability
     if (isset($_POST['pwdSubmit'])) {
+        $formControlNumber = $_POST['formControlNumber'];
         $timestamp = microtime(true);
         $timestamp = substr($timestamp, -4);
         $id_number =  "043428023-" . generatePWDID()[0];
@@ -302,7 +305,7 @@
 
             // Call your functions to insert data
             insertPerson($connection, $personId, $pwdDOB, $emailAddress);
-            insertApplicant($connection, $personId, $applicantType, $id_number, NULL);
+            insertApplicant($connection, $personId, $applicantType, $id_number, NULL, $formControlNumber);
             insertTransactionType($connection, $personId, $applicationType, $id_number);
             insertPreviousAddress($connection, $personId, $old_region, $old_province, $old_city, $old_barangay, $previousAddress);
             insertName($connection, $personId, $firstName, $middlename, $surname, $suffix);

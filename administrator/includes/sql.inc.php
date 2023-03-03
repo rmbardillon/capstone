@@ -1,4 +1,12 @@
 <?php
+// GET CITIZEN COUNT
+function getTotalCitizen($connection, $applicationType) {
+    $sql = "SELECT COUNT(*) AS TOTAL_CITIZEN FROM applicant WHERE APPLICANT_TYPE = '$applicationType'";
+    $result = mysqli_query($connection, $sql);
+    $row = mysqli_fetch_assoc($result);
+    return $row['TOTAL_CITIZEN'];
+}
+
 // GET PWD DATA
 function getPWDData($connection, $personID) {
     $data = [];
@@ -1087,6 +1095,7 @@ $isDeleted =  'N';
 if (isset($_SESSION['admin-data'])) {
     $getActiveUser = $_SESSION['admin-data']['username'];
 }
+
 function generateUUID() {
     $uuid = sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
             mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
@@ -1169,14 +1178,14 @@ function insertPerson($connection, $personId, $dateOfBirth, $email) {
     $stmt->close();
 }
 
-function insertApplicant($connection, $applicantId, $applicantType, $citizenId, $placeOfBirth) {
+function insertApplicant($connection, $applicantId, $applicantType, $citizenId, $placeOfBirth, $formControlNumber) {
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO applicant (APPLICANT_ID, APPLICANT_TYPE, CITIZEN_ID, PLACE_OF_BIRTH) VALUES (?, ?, ?, ?)");
+    $stmt = $connection->prepare("INSERT INTO applicant (APPLICANT_ID, FORM_CONTROL_NUMBER, APPLICANT_TYPE, CITIZEN_ID, PLACE_OF_BIRTH) VALUES (?, ?, ?, ?, ?)");
 
     // Bind the values to the placeholders
-    $stmt->bind_param("ssss", $applicantId, $applicantType, $citizenId, $placeOfBirth);
+    $stmt->bind_param("sssss", $applicantId, $formControlNumber, $applicantType, $citizenId, $placeOfBirth);
 
     // Execute the query
     if($stmt->execute() === TRUE){
@@ -1770,4 +1779,25 @@ function insertPWDApplicationAccomplisher($connection, $personId, $accomplishedB
     // Close the statement
     $stmt->close();
 
+}
+
+function insertIssuedId($connection, $personId, $applicantType, $currentDate, $expirationDate, $adminUsername) {
+    // Prepare the SQL query
+    global $isDeleted;
+    $stmt = $connection->prepare("INSERT INTO issued_id (ISSUED_ID_ID , PERSON_ID, APPLICANT_TYPE, DATE_ISSUED, EXPIRATION_DATE, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$adminUsername')");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("ssss", $personId, $applicantType, $currentDate, $expirationDate);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully inserted";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
 }

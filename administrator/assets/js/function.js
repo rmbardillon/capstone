@@ -117,6 +117,45 @@ $("#deleteAnnouncement").click(function(event) {
     });
 });
 
+$(".deleteAdmin").click(function(event) {
+    event.preventDefault(); // prevent the default behavior of the anchor tag
+
+    const deleteUrl = $(this).attr('href'); // store the URL of the anchor tag
+
+    Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: 'Are you sure you want to delete?',
+        showConfirmButton: true,
+        showCancelButton: true, // show "Cancel" button
+        confirmButtonColor: '#dc3545', // set color of "OK" button
+        cancelButtonColor: '#6c757d', // set color of "Cancel" button
+        confirmButtonText: 'Yes, delete it',
+        cancelButtonText: 'Cancel' // customize text of "Cancel" button
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // User clicked "OK", perform deletion here
+            $.ajax({
+                url: deleteUrl, // use the stored URL for the AJAX request
+                method: 'POST',
+                data: {
+                    delete: "<?php echo $admin['id']; ?>"
+                },
+                success: function(response) {
+                    // Handle successful deletion here
+                    console.log(response);
+                    // Redirect to the URL specified in the href attribute
+                    window.location.href = deleteUrl;
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Handle error here
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        }
+    });
+});
+
 $("#logout").click(function(event) {
     event.preventDefault(); // prevent the default behavior of the anchor tag
 
@@ -155,9 +194,6 @@ $("#logout").click(function(event) {
         }
     });
 });
-
-
-
 
 // Profile Picture
 const imgDiv = document.querySelector('#profilePicDiv');
@@ -210,7 +246,8 @@ $("#printBtn").click(function() {
     newWin.close();
 });
 
-
+let formControlNumber = $('h5.heading').text();
+$("#formControlNumber").val(formControlNumber);
 $(document).on('keyup change', 'input[type="text"],textarea', function() {
     $(this).val($(this).val().toUpperCase());
 });

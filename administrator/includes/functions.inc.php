@@ -206,7 +206,7 @@ function changePassword($connection, $oldPassword, $newPassword, $confirmPasswor
 }
 
 function insertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $username, $email, $password){
-    $sql = "INSERT INTO administrator (admin_type, barangay, username, first_name, last_name, email, password) VALUES (?, ?, ?, ?, ?, ?, ?);";
+    $sql = "INSERT INTO administrator (id, admin_type, barangay, username, first_name, last_name, email, password) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, ?, ?);";
     $stmt = $connection->prepare($sql);
 
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
@@ -214,7 +214,20 @@ function insertAdmin($connection, $firstName, $lastName, $adminType, $barangay, 
     mysqli_stmt_bind_param($stmt, "sssssss", $adminType, $barangay, $username, $firstName, $lastName, $email, $hashedPassword);
     mysqli_stmt_execute($stmt); 
     mysqli_stmt_close($stmt);
-    header("location: ../administrator-list.html?error=none&username=".$username);
+    header("location: ../add-administrator.html?error=none&username=".$username);
+    exit();
+}
+
+function adminInsertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $username, $email, $password){
+    $sql = "INSERT INTO administrator (id, admin_type, barangay, username, first_name, last_name, email, password) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, ?, ?);";
+    $stmt = $connection->prepare($sql);
+
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    mysqli_stmt_bind_param($stmt, "sssssss", $adminType, $barangay, $username, $firstName, $lastName, $email, $hashedPassword);
+    mysqli_stmt_execute($stmt); 
+    mysqli_stmt_close($stmt);
+    header("location: ../add-administrator-admin.html?error=none&username=".$username);
     exit();
 }
 
@@ -343,14 +356,14 @@ function insertProfile($connection, $username, $fileName, $fileTmpName, $fileDes
 }
 
 function updateProfile($connection, $username, $firstName, $lastName, $barangay, $email) {
-    $sql = "UPDATE administrator SET first_name = ?, last_name = ?, barangay = ?, email = ? WHERE username = ?;";
+    $sql = "UPDATE administrator SET first_name = ?, last_name = ?, email = ? WHERE username = ?;";
     $stmt = $connection->prepare($sql);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../profile.html?error=stmterror");
         exit();
     }
 
-    mysqli_stmt_bind_param($stmt, "sssss", $firstName, $lastName, $barangay, $email, $username);
+    mysqli_stmt_bind_param($stmt, "ssss", $firstName, $lastName, $email, $username);
     mysqli_stmt_execute($stmt); 
     mysqli_stmt_close($stmt);
     header("location: ../profile.html?error=none");

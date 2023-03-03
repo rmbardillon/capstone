@@ -1,5 +1,6 @@
 <?php
     if(isset($_GET['person_id'])) {
+        session_start();
         $page = "print-id";
         require_once '../includes/dbh.inc.php';
         require_once '../includes/sql.inc.php';
@@ -26,8 +27,11 @@
 
 <body>
     <?php foreach($result as list($data, $gender, $idData)): ?>
-    <div class="d-flex d-flex align-items-center justify-content-center">
-        <div id="id" class="mx-auto mt-5 p-3" style="height: 240px;width: 365px;">
+    <div class="d-flex align-items-start">
+        <input type="hidden" id="person_id" value="<?php echo($person_id); ?>">
+        <input type="hidden" id="applicant_type" value="<?php echo($data['APPLICANT_TYPE']); ?>">
+        <input type="hidden" id="admin_username" value="<?php echo($_SESSION['admin-data']['username']); ?>">
+        <div id="id" class="p-3" style="height: 240px;width: 365px;">
             <div class="row">
                 <div class="col col-2"><img src="assets/img/santarosa-logo.png" width="50px" height="50px" style="padding-right: 0px;padding-left: 0px;"></div>
                 <div class="col text-center" style="padding-left: 0px;padding-right: 0px;">
@@ -61,7 +65,7 @@
                                     ?></strong></p>
                             </div>
                             <div class="col col-3">
-                                <p style="font-size: 10px;">Gender:<strong style="margin-left: 10px;font-size: 10px;"><?php echo(strtoupper($gender['GENDER'][0])); ?></strong></p>
+                                <p style="font-size: 10px;">Gender:<strong style="margin-left: 5px;font-size: 10px;"><?php echo(strtoupper($gender['GENDER'][0])); ?></strong></p>
                             </div>
                         </div>
                     </div>
@@ -93,8 +97,11 @@
             </div>
         </div>
     </div>
+    <button class="btn btn-primary" id="print_button">Print</button>
     <?php endforeach; ?>
+    <script src="../assets/js/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/function.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+    </body>
 
 </html>

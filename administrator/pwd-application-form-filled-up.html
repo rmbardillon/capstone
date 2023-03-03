@@ -2,7 +2,11 @@
     require_once 'includes/dbh.inc.php';
     require_once 'includes/functions.inc.php';
     require_once 'includes/sql.inc.php';
-    $page = "pending-requests";
+    if(isset($_GET['event'])) {
+        $page = "announcement";
+    } else {
+        $page = "pending-requests";
+    }
     $PERSON_ID = $_GET['id'];
     $userData = getPWDData($connection, $PERSON_ID);
     $genderData = getPWDGender($connection, $PERSON_ID);
