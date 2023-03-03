@@ -76,6 +76,14 @@ $(document).ready( function () {
     announcementsTable.buttons().container().appendTo('#announcements_wrapper .col-md-6:eq(0)');
     
 });
+// Announcement
+$('#announcementFor').change(function() {
+    if($(this).val() == "Senior Citizen") {
+        $("#coveredMonths").show();
+    } else {
+        $("#coveredMonths").hide();
+    }
+});
 
 // Alert
 $("#deleteAnnouncement").click(function(event) {
@@ -237,6 +245,7 @@ forms.forEach(function(form) {
         form.classList.add('was-validated');
     });
 });
+
 // Print Button
 $("#printBtn").click(function() {
     var divToPrint = $(".printPage").html();

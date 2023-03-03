@@ -30,111 +30,18 @@
               <input
                 class="form-check-input"
                 type="radio"
-                id="pwdApplicationOption1"
-                name="applicationType"
-                value="NEW ID"
-                required
-                <?php echo ($data['TRANSACTION_TYPE'] == 'NEW ID') ? 'checked' : ''; ?>
-              />
-              <label class="form-check-label" for="pwdApplicationOption1">
-                NEW ID
-              </label>
-            </div>
-          </div>
-          <div class="col">
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
                 id="pwdApplicationOption2"
                 name="applicationType"
                 value="RENEWAL ID"
                 required
-                <?php echo ($data['TRANSACTION_TYPE'] == 'RENEWAL ID') ? 'checked' : ''; ?>
+                checked
               />
               <label class="form-check-label" for="pwdApplicationOption2">
                 RENEWAL ID
               </label>
             </div>
           </div>
-          <div class="col">
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                id="pwdApplicationOption3"
-                name="applicationType"
-                value="LOST ID"
-                required
-                <?php echo ($data['TRANSACTION_TYPE'] == 'LOST ID') ? 'checked' : ''; ?>
-              />
-              <label class="form-check-label" for="pwdApplicationOption3">
-                LOST ID
-              </label>
-            </div>
-          </div>
-          <div class="col">
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                id="pwdApplicationOption4"
-                name="applicationType"
-                value="TRANSFER"
-                required
-                <?php echo ($data['TRANSACTION_TYPE'] == 'TRANSFER') ? 'checked' : ''; ?>
-              />
-              <label class="form-check-label" for="pwdApplicationOption4">
-                TRANSFER
-              </label>
-            </div>
-          </div>
         </div>
-        <?php if($data['TRANSACTION_TYPE'] == 'TRANSFER'){ ?>
-        <div class="row" id="transfereeAddress">
-          <div class="col">
-            <p>Please indicate previous address</p>
-            <div class="row">
-              <div class="col">
-                <select class="form-select" id="region"></select>
-                <input
-                  class="form-control"
-                  type="hidden"
-                  name="region_text"
-                  id="region-text"
-                />
-              </div>
-              <div class="col">
-                <select class="form-select" id="province"></select>
-                <input
-                  class="form-control"
-                  type="hidden"
-                  name="province_text"
-                  id="province-text"
-                />
-              </div>
-              <div class="col">
-                <select class="form-select" id="city"></select>
-                <input
-                  class="form-control"
-                  type="hidden"
-                  name="city_text"
-                  id="city-text"
-                />
-              </div>
-              <div class="col">
-                <select class="form-select" id="barangay"></select>
-                <input
-                  class="form-control"
-                  type="hidden"
-                  name="barangay_text"
-                  id="barangay-text"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <?php } ?>
         <div class="row">
           <div class="col">
             <label class="form-label required" for="surname">SURNAME</label>
@@ -278,13 +185,13 @@
               name="pwdDOB"
               required
               min="1900-01-01"
-              required
+              disabled
                 value="<?php echo($data['DATE_OF_BIRTH']); ?>"
             />
           </div>
           <div class="col col-2">
             <label class="form-label required" for="gender">SEX</label>
-            <select id="gender" class="form-select" name="gender" required>
+            <select id="gender" class="form-select" name="gender" disabled>
               <option required selected value="">Please Select</option>
               <option value="Male" <?php echo ($gender['GENDER'] == 'Male') ? 'selected' : ''; ?> >Male</option>
               <option value="Female" <?php echo ($gender['GENDER'] == 'Female') ? 'selected' : ''; ?> >Female</option>
@@ -329,7 +236,7 @@
               id="bloodType"
               class="form-select"
               name="bloodType"
-              required
+              disabled
             >
               <option required selected value="">Please Select</option>
               <option value="Unknown" <?php echo ($data['BLOOD_TYPE'] == 'Unknown') ? 'selected' : ''; ?> >Unknown</option>
@@ -410,7 +317,6 @@
               <option value="Student" <?php echo ($data['EMPLOYMENT_STATUS'] == 'Student') ? 'selected' : ''; ?> >Student</option>
             </select>
           </div>
-          <?php if($data['EMPLOYMENT_STATUS'] == 'Employed' || $data['EMPLOYMENT_STATUS'] == 'Self-employed'){ ?>
           <div class="col" id="categoryOfEmploymentDiv">
             <label class="form-label required" for="categoryOfEmployment">
               CATEGORY OF EMPLOYMENT
@@ -484,7 +390,6 @@
               </option>
               <option value="Others" <?php echo ($data['JOB'] == 'Others') ? 'selected' : ''; ?> >Others</option>
             </select>
-            <?php if($data['JOB'] == 'Others') { ?>
             <input
               class="form-control mt-1"
               type="text"
@@ -494,7 +399,6 @@
               required
                 value="<?php echo $data['OTHER_JOB']; ?>"
             />
-            <?php } ?>
           </div>
 
           <div class="col col-6" id="incomeDiv">
@@ -509,7 +413,6 @@
             </select>
           </div>
         </div>
-        <?php } ?>
         <div class="row">
             <div class="col-3">
                 <label class="form-label" for="organization">
@@ -524,7 +427,6 @@
                     value="<?php echo($data['ORGANIZATION_AFFILIATED']); ?>"
                 />
             </div>
-            <?php if(!empty($data['ORGANIZATION_AFFILIATED'])) { ?>
             <div class="col organizationDiv">
                 <label class="form-label" for="organizationContactPerson">
                 CONTACT PERSON
@@ -564,7 +466,6 @@
                 value="<?php echo($data['TELEPHONE_NUMBER']); ?>"
                 />
             </div>
-            <?php } ?>
         </div>
         <div class="row">
           <div class="col">
@@ -1196,7 +1097,6 @@
               <option value="Guardian" <?php echo ($data['ACCOMPLISHED_BY'] == 'Guardian') ? 'selected' : ''; ?> >Guardian</option>
               <option value="Representative" <?php echo ($data['ACCOMPLISHED_BY'] == 'Representative') ? 'selected' : ''; ?> >Representative</option>
             </select>
-            <?php if($data['ACCOMPLISHED_BY'] == 'Guardian') { ?>
             <input
               class="form-control numbers mt-1"
               type="text"
@@ -1206,7 +1106,6 @@
               required
                 value="<?php echo $data['ACCOMPLISHER_NAME']; ?>"
             />
-            <?php } ?>
           </div>
         </div>
         <?php if(!isset($_GET['event'])){ ?>

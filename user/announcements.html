@@ -4,10 +4,8 @@
     foreach($data as $userData){
         $barangay = $userData['BARANGAY'];
         $for = $userData['APPLICANT_TYPE'];
-        $specificAnnouncements = $_SESSION['announcements'] = getAnnouncements($connection, $barangay, $for);
-        $allBarangayAnnouncements = $_SESSION['announcements'] = getAnnouncements($connection, $barangay, "All");
-        $allCitizenAnnouncements = $_SESSION['announcements'] = getAnnouncements($connection, "All", "All");
-        $announcements = array_merge($specificAnnouncements, $allBarangayAnnouncements, $allCitizenAnnouncements);
+        $userBirthday = $userData['DATE_OF_BIRTH'];
+        $specificAnnouncements = $_SESSION['announcements'] = getAnnouncements($connection, $barangay, $for, $userBirthday);
     }
     if(!isset($_SESSION['username'])) {
         header("location: ../login/citizen.html");
@@ -28,7 +26,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach($announcements as $announcement): ?>
+                            <?php foreach($specificAnnouncements as $announcement): ?>
                             <tr>
                                 <td style="text-align: center;"><?php echo($announcement['TITLE']) ?></td>
                                 <td style="text-align: center;"><?php echo($announcement['MESSAGE']) ?></td>

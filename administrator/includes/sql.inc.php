@@ -908,7 +908,7 @@ function getSeniorCitizenPerBarangay($connection, $barangay) {
 function getEvents($connection, $event_id, $for, $barangay) {
     $data = [];
     if(!empty($barangay)) {
-        $sql = "SELECT * FROM announcement WHERE ANNOUNCEMENT_FOR = '$for' AND BARANGAY = '$barangay';";
+        $sql = "SELECT * FROM announcement WHERE (BARANGAY = '$barangay' OR BARANGAY = 'All') AND (ANNOUNCEMENT_FOR = '$for' OR ANNOUNCEMENT_FOR = 'All')";
     } else {
         $sql = "SELECT * FROM announcement WHERE ANNOUNCEMENT_ID = '$event_id'";
     }

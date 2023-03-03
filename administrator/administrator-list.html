@@ -44,7 +44,7 @@
                                 <td style="text-align: center;"><?php echo($admin['admin_type']); ?></td>
                                 <td style="text-align: center;"><?php echo($admin['barangay']); ?></td>
                                 <td style="text-align: center;"><a class="btn btn-secondary" href="employee-profile.html?id=<?php echo($admin['id']); ?>">View Profile</a></td>
-                                <td style="text-align: center;"><a class="btn btn-danger deleteAdmin" href="includes/delete-admin.inc.php?id=<?php echo($admin['id']); ?>">Delete Profile</a></td>
+                                <td style="text-align: center;"><a class="btn btn-danger deleteAdmin <?php if($admin['username'] == $_SESSION['admin-username']){ echo('disabled'); }?>" href="includes/delete-admin.inc.php?id=<?php echo($admin['id']); ?>">Delete Profile</a></td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>
@@ -135,7 +135,7 @@
         <br>
         <div class="card shadow">
             <div class="card-header py-3">
-                <p class="text-primary m-0 fw-bold">Senior Citizens Adminisrators</p>
+                <p class="text-primary m-0 fw-bold">Senior Citizens Administrators</p>
             </div>
             <div class="card-body">
                 <div class="table-responsive table mt-2 data_table" id="dataTable-2" role="grid" aria-describedby="dataTable_info">
