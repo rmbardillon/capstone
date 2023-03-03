@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 03, 2023 at 03:39 AM
+-- Generation Time: Mar 03, 2023 at 03:15 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -67,7 +67,6 @@ CREATE TABLE `announcement` (
   `BARANGAY` enum('All','City Hall','Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz','Santo Domingo','Sinalhan','Tagapo') NOT NULL,
   `MESSAGE` varchar(1024) NOT NULL,
   `DATE_FROM` varchar(8) NOT NULL,
-  `DATE_TO` varchar(8) NOT NULL,
   `DATE` date NOT NULL,
   `DATE_CREATED` date NOT NULL,
   `DATE_UPDATED` date NOT NULL,
@@ -254,7 +253,7 @@ CREATE TABLE `issued_id` (
   `PERSON_ID` varchar(16) NOT NULL,
   `APPLICANT_TYPE` varchar(64) NOT NULL,
   `DATE_ISSUED` date NOT NULL,
-  `EXPIRATION_DATE` date NOT NULL,
+  `EXPIRATION_DATE` date DEFAULT NULL,
   `DATE_CREATED` date NOT NULL,
   `DATE_UPDATED` date NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
