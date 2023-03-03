@@ -38,7 +38,7 @@
                                             <td style="text-align: center;">Barangay <?php echo($userPWDData['BARANGAY']); ?>&nbsp;</td>
                                             <td style="text-align: center;"><?php echo(ageCalculator($userPWDData['DATE_OF_BIRTH'])); ?></td>
                                             <td style="text-align: center;"><?php echo($userPWDData['DATE_UPDATED']); ?></td>
-                                            <td style="text-align: center;"><?php echo($userPWDData['STATUS']); ?></td>
+                                            <td style="text-align: center;" class="<?php if($userPWDData['STATUS'] == 'APPROVED') echo'text-success'; else if($userPWDData['STATUS'] == 'PENDING') echo'text-warning'; else echo'text-danger'; ?>"><?php echo($userPWDData['STATUS']); ?></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -76,7 +76,7 @@
                                             <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
                                             <td style="text-align: center;"><?php echo(ageCalculator($user['DATE_OF_BIRTH'])); ?></td>
                                             <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
-                                            <td style="text-align: center;"><?php echo($user['STATUS']); ?></td>
+                                            <td style="text-align: center;" class="<?php if($user['STATUS'] == 'APPROVED') echo'text-success'; else if($user['STATUS'] == 'PENDING') echo'text-warning'; else echo'text-danger'; ?>"><?php echo($user['STATUS']); ?></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -114,7 +114,7 @@
                                             <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
                                             <td style="text-align: center;"><?php echo(ageCalculator($user['DATE_OF_BIRTH'])); ?></td>
                                             <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
-                                            <td style="text-align: center;"><?php echo($user['STATUS']); ?></td>
+                                            <td style="text-align: center;" class="<?php if($user['STATUS'] == 'APPROVED') echo'text-success'; else if($user['STATUS'] == 'PENDING') echo'text-warning'; else echo'text-danger'; ?>"><?php echo($user['STATUS']); ?></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -157,7 +157,7 @@
                                             <td style="text-align: center;">Barangay <?php echo($userPWDData['BARANGAY']); ?>&nbsp;</td>
                                             <td style="text-align: center;"><?php echo(ageCalculator($userPWDData['DATE_OF_BIRTH'])); ?></td>
                                             <td style="text-align: center;"><?php echo($userPWDData['DATE_UPDATED']); ?></td>
-                                            <td style="text-align: center;"><?php echo($userPWDData['STATUS']); ?></td>
+                                            <td style="text-align: center;" class="<?php if($userPWDData['STATUS'] == 'APPROVED') echo'text-success'; else if($userPWDData['STATUS'] == 'PENDING') echo'text-warning'; else echo'text-danger'; ?>"><?php echo($userPWDData['STATUS']); ?></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -199,7 +199,7 @@
                                             <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
                                             <td style="text-align: center;"><?php echo(ageCalculator($user['DATE_OF_BIRTH'])); ?></td>
                                             <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
-                                            <td style="text-align: center;"><?php echo($user['STATUS']); ?></td>
+                                            <td style="text-align: center;" class="<?php if($user['STATUS'] == 'APPROVED') echo'text-success'; else if($user['STATUS'] == 'PENDING') echo'text-warning'; else echo'text-danger'; ?>"><?php echo($user['STATUS']); ?></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -241,7 +241,7 @@
                                             <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
                                             <td style="text-align: center;"><?php echo(ageCalculator($user['DATE_OF_BIRTH'])); ?></td>
                                             <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
-                                            <td style="text-align: center;"><?php echo($user['STATUS']); ?></td>
+                                            <td style="text-align: center;" class="<?php if($user['STATUS'] == 'APPROVED') echo'text-success'; else if($user['STATUS'] == 'PENDING') echo'text-warning'; else echo'text-danger'; ?>"><?php echo($user['STATUS']); ?></td>
                                         </tr>
                                         <?php endforeach;
                 echo <<<HTML

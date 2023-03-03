@@ -369,6 +369,16 @@ $(document).ready(function() {
             $(".howMuchPension").removeClass("required");
         }
     });
+    $("#maritalStatus").on('change', function() {
+        if ($('#maritalStatus').val() != "Single") {
+            $("#hiddenSpouseData").show();
+            $("#spouseFirstName").prop("required", true);
+            $("#spouseLastName").prop("required", true);
+            $("#spouseDOB").prop("required", true);
+        } else {
+            $("#hiddenSpouseData").hide();
+        }
+    });
     $("#seniorCitizenDuplicateButton").click(function() {
         var originalDiv = $("#child").parent().clone();
         newId = "srCitizenRelative" + (++counter);
@@ -502,9 +512,12 @@ $(document).ready(function() {
     $("#job").change(function() {
         if ($(this).val() == "Unemployed") {
             $("#company").prop("disabled", true);
+            $("#monthlyIncome").prop("disabled", true);
         } else {
             $("#company").removeAttr("disabled");
+            $("#monthlyIncome").removeAttr("disabled");
             $("#company").focus();
+            $("#monthlyIncome").prop("required", true);
             $("#company").prop("required", true);
         }
     });
