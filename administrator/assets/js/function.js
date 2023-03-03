@@ -382,13 +382,15 @@ $(document).ready(function() {
         }
     });
     $("#spouseLastName, #spouseFirstName, #spouseMiddlename, #spouseSuffix").change(function() {
-        if ($(this).val().trim() !== "") {
+        if ($('#spouseLastName').val().trim() !== "" || $('#spouseFirstName').val().trim() !== "" ) {
             $("#dobSpouse").show();
             $("#spouseFirstName").prop("required", true);
+            $("#spouseLastName").prop("required", true);
             $("#spouseDOB").prop("required", true);
         } else {
             $("#dobSpouse").hide();
             $("#spouseFirstName").prop("required", false);
+            $("#spouseLastName").prop("required", false);
             $("#spouseDOB").prop("required", false);
         }
     });
