@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 03, 2023 at 03:15 PM
+-- Generation Time: Mar 04, 2023 at 03:17 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -102,6 +102,23 @@ CREATE TABLE `blood_type` (
   `DATE_UPDATED` datetime(6) NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
   `UPDATED_BY` varchar(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `claimed_benefits`
+--
+
+CREATE TABLE `claimed_benefits` (
+  `CLAIMED_BENEFITS_ID` varchar(16) NOT NULL,
+  `PERSON_ID` varchar(16) NOT NULL,
+  `APPLICATION_TYPE` varchar(32) NOT NULL,
+  `STATUS_OF_CLAIMS` varchar(16) NOT NULL,
+  `DATE_CREATED` date NOT NULL,
+  `DATE_UPDATED` date NOT NULL,
+  `IS_DELETED` char(1) NOT NULL,
+  `UPDATED_BY` varchar(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -629,6 +646,13 @@ ALTER TABLE `blood_type`
   ADD KEY `FK_PERSON_BLOOD_TYPE_idx` (`PERSON_ID`);
 
 --
+-- Indexes for table `claimed_benefits`
+--
+ALTER TABLE `claimed_benefits`
+  ADD PRIMARY KEY (`CLAIMED_BENEFITS_ID`),
+  ADD KEY `FK_PERSON_CLAIMED_BENEFITS` (`PERSON_ID`);
+
+--
 -- Indexes for table `company`
 --
 ALTER TABLE `company`
@@ -843,6 +867,12 @@ ALTER TABLE `applicant`
 --
 ALTER TABLE `blood_type`
   ADD CONSTRAINT `FK_PERSON_BLOOD_TYPE` FOREIGN KEY (`PERSON_ID`) REFERENCES `person` (`PERSON_ID`);
+
+--
+-- Constraints for table `claimed_benefits`
+--
+ALTER TABLE `claimed_benefits`
+  ADD CONSTRAINT `FK_PERSON_CLAIMED_BENEFITS` FOREIGN KEY (`PERSON_ID`) REFERENCES `person` (`PERSON_ID`);
 
 --
 -- Constraints for table `company`

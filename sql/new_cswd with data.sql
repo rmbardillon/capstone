@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 03, 2023 at 03:15 PM
+-- Generation Time: Mar 04, 2023 at 03:17 AM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -98,7 +98,7 @@ CREATE TABLE `announcement` (
 
 INSERT INTO `announcement` (`ANNOUNCEMENT_ID`, `TITLE`, `ANNOUNCEMENT_FOR`, `BARANGAY`, `MESSAGE`, `DATE_FROM`, `DATE`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
 ('88fa3302b8fb11ed', 'SENIOR CITIZEN CASH OUT', 'Senior Citizen', 'Tagapo', 'DISTRIBUTION OF BIRTHDAY CASH GIFT', '01', '2023-03-03', '2023-03-02', '2023-03-02', 'N', 'adminrbardillon'),
-('8fcc3e1ab9b911ed', 'CASH OUT', 'Solo Parent', 'Tagapo', 'ALL CASH OUT', '02', '2023-03-15', '2023-03-03', '2023-03-03', 'N', 'adminrbardillon'),
+('8fcc3e1ab9b911ed', 'CASH OUT NA', 'Solo Parent', 'Tagapo', 'ALL CASH OUT', '02', '2023-03-15', '2023-03-03', '2023-03-04', 'N', 'adminjjasil'),
 ('c44a43b0b9ba11ed', 'CASH OUT', 'All', 'All', 'ASD', '02', '2023-03-09', '2023-03-03', '2023-03-03', 'N', 'adminrbardillon'),
 ('f58f15f5b9bb11ed', 'CASH OUT', 'PWD', 'Malusak', 'KP', '02', '2023-03-03', '2023-03-03', '2023-03-03', 'N', 'adminrbardillon');
 
@@ -148,6 +148,31 @@ CREATE TABLE `blood_type` (
 
 INSERT INTO `blood_type` (`BLOOD_TYPE_ID`, `PERSON_ID`, `BLOOD_TYPE`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
 ('10276803b96311ed', 'a9ac28bdad9a46b2', 'Unknown', '2023-03-03 00:00:00.000000', '2023-03-03 00:00:00.000000', 'N', 'adminrbardillon');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `claimed_benefits`
+--
+
+CREATE TABLE `claimed_benefits` (
+  `CLAIMED_BENEFITS_ID` varchar(16) NOT NULL,
+  `PERSON_ID` varchar(16) NOT NULL,
+  `APPLICATION_TYPE` varchar(32) NOT NULL,
+  `STATUS_OF_CLAIMS` varchar(16) NOT NULL,
+  `DATE_CREATED` date NOT NULL,
+  `DATE_UPDATED` date NOT NULL,
+  `IS_DELETED` char(1) NOT NULL,
+  `UPDATED_BY` varchar(32) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `claimed_benefits`
+--
+
+INSERT INTO `claimed_benefits` (`CLAIMED_BENEFITS_ID`, `PERSON_ID`, `APPLICATION_TYPE`, `STATUS_OF_CLAIMS`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
+('1707dc81ba3011ed', '047c96e7ccbb4110', 'Senior Citizen', 'CLAIMED', '2023-03-04', '2023-03-04', 'N', ''),
+('3930685fba3011ed', 'a9ac28bdad9a46b2', 'PWD', 'CLAIMED', '2023-03-04', '2023-03-04', 'N', '');
 
 -- --------------------------------------------------------
 
@@ -550,7 +575,7 @@ CREATE TABLE `pension` (
 --
 
 INSERT INTO `pension` (`PENSION_ID`, `PERSON_ID`, `HAS_PENSION`, `TYPE`, `AMOUNT`, `DATE_CREATED`, `DATE_UPDATED`, `IS_DELETED`, `UPDATED_BY`) VALUES
-('22ee890bb9c411ed', '35fdbcb2602d4513', 'N', NULL, NULL, '2023-03-03 00:00:00.000000', '2023-03-03 00:00:00.000000', 'N', 'adminrbardillon'),
+('22ee890bb9c411ed', '35fdbcb2602d4513', 'Y', 'SSS', '5000.000000', '2023-03-03 00:00:00.000000', '2023-03-03 00:00:00.000000', 'N', 'adminrbardillon'),
 ('a8eedf02b83e11ed', '047c96e7ccbb4110', 'N', NULL, NULL, '2023-03-01 00:00:00.000000', '2023-03-01 00:00:00.000000', 'N', 'adminrbardillon');
 
 -- --------------------------------------------------------
@@ -913,6 +938,13 @@ ALTER TABLE `blood_type`
   ADD KEY `FK_PERSON_BLOOD_TYPE_idx` (`PERSON_ID`);
 
 --
+-- Indexes for table `claimed_benefits`
+--
+ALTER TABLE `claimed_benefits`
+  ADD PRIMARY KEY (`CLAIMED_BENEFITS_ID`),
+  ADD KEY `FK_PERSON_CLAIMED_BENEFITS` (`PERSON_ID`);
+
+--
 -- Indexes for table `company`
 --
 ALTER TABLE `company`
@@ -1127,6 +1159,12 @@ ALTER TABLE `applicant`
 --
 ALTER TABLE `blood_type`
   ADD CONSTRAINT `FK_PERSON_BLOOD_TYPE` FOREIGN KEY (`PERSON_ID`) REFERENCES `person` (`PERSON_ID`);
+
+--
+-- Constraints for table `claimed_benefits`
+--
+ALTER TABLE `claimed_benefits`
+  ADD CONSTRAINT `FK_PERSON_CLAIMED_BENEFITS` FOREIGN KEY (`PERSON_ID`) REFERENCES `person` (`PERSON_ID`);
 
 --
 -- Constraints for table `company`
