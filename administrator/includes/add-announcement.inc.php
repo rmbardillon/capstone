@@ -19,5 +19,5 @@ if (isset($_POST['add-announcement-submit'])) {
     $date = $_POST['announcementDate']; 
     $message = $_POST['announcementMessage'];
 
-    updateAnnouncement($connection, $title, $for, $where, $message, $id, $date, $from);
+    updateAnnouncement($connection, $title, $for, $where, $message, $id, $date);
 }

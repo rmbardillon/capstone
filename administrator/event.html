@@ -39,7 +39,7 @@
                                 <td style="text-align: center;"><?php echo($event['FIRST_NAME']." ".$event['MIDDLE_NAME'][0].". ".$event['LAST_NAME']." ".$event['SUFFIX']) ?></td>
                                 <td style="text-align: center;"><?php echo($event['APPLICANT_TYPE']) ?></td>
                                 <td style="text-align: center;"><?php echo($event['BARANGAY']) ?></td>
-                                <td style="text-align: center;"><a class="btn btn-primary" href="<?php 
+                                <td style="text-align: center;"><a class="btn btn-primary <?php if($event['STATUS_OF_CLAIMS'] == 'CLAIMED') echo'disabled'; ?>" href="<?php 
                                     if ($event['APPLICANT_TYPE'] == 'PWD') {
                                         echo("pwd-application-form-filled-up.html?id=".$event['PERSON_ID']."&event=".$event_id);
                                     } else if ($event['APPLICANT_TYPE'] == 'Senior Citizen') {
@@ -48,8 +48,16 @@
                                         echo("solo-parent-application-form-filled-up.html?id=".$event['PERSON_ID']."&event=".$event_id);
                                     }
                                     ?>
-                                    ">Show Information</a></td>
-                                <td style="text-align: center;">Claimed</td>
+                                    ">Claim</a></td>
+                                <td style="text-align: center;" class="<?php if($event['STATUS_OF_CLAIMS'] == 'CLAIMED') echo'text-success'; else echo'text-warning'; ?>">
+                                    <?php if (empty($event['STATUS_OF_CLAIMS'])) {
+                                        echo 'NOT CLAIMED';
+                                        } else {
+                                        echo $event['STATUS_OF_CLAIMS'];
+                                        }
+                                    ?>
+                                </td>
+                                 
                             </tr>
                             <?php endforeach; ?>
                         </tbody>

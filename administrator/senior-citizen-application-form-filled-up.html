@@ -598,9 +598,18 @@
               Reject
             </a>
           </div>
+          <?php } else {?>
+            <div class="col">
+            <a
+            class="btn btn-success w-100"
+            href="includes/claim.inc.php?application_type=seniorCitizen&person_id=<?php echo($PERSON_ID); ?>">
+              Claim
+            </a>
+          </div>
         </div>
         <?php } ?>
       </form>
+    </div>
     </div>
 <?php
     endforeach;

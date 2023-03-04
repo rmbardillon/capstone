@@ -492,9 +492,19 @@
               Reject
             </a>
           </div>
-        </div>
+          <?php } else {?>
+            <div class="col">
+            <a
+              class="btn btn-success w-100"
+              href="includes/claim.inc.php?application_type=soloParent&person_id=<?php echo($PERSON_ID); ?>"
+            >
+              Claim
+            </a>
+          </div>
         <?php } ?>
+        </div>
       </form>
+    </div>
     </div>
 <?php
     endforeach;

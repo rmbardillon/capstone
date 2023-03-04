@@ -11,12 +11,12 @@
     }
 ?>
     <div class="container-fluid">
-        <h3 class="text-dark mb-4">Announcements</h3>
+        <h3 class="text-dark mb-4">Events</h3>
         <div class="row d-flex justify-content-center">
             <div class="col-md-8 col-lg-6 col-xl-5 col-xxl-4">
                 <div class="card mb-5">
                     <div class="card-body p-sm-5">
-                        <h2 class="text-center mb-4">Announcement</h2>
+                        <h2 class="text-center mb-4">Update Event</h2>
                         <form action="includes/add-announcement.inc.php?edit=<?php echo($id); ?>" method="post">
                             <?php foreach($announcement as $user): ?>
                             <div class="mb-3"><input class="form-control" type="text" id="announcement" name="announcement" placeholder="Announcement Title" value="<?php echo($user['TITLE']); ?>"></div>
@@ -35,12 +35,24 @@
                                         }
                                     ?>
                                 </select></div>
+                            <div class="mb-3" id="coveredMonths">
+                                <label for="">Covered Birthday Months</label>
+                                <div class="row">
+                                    <div class="col">
+                                        <select class="form-select" id="from" name="from" disabled>
+                                            <option disabled selected value="">Date</option>
+                                            <option value="01" <?php echo ($user['DATE_FROM'] == '01') ? 'selected' : ''; ?> >January - June</option>
+                                            <option value="02" <?php echo ($user['DATE_FROM'] == '02') ? 'selected' : ''; ?> >July - December</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="mb-3">
                                 <select class="form-select" id="barangay" name="barangay" required>
                                     <option disabled selected value="">Please Select Barangay</option>
                                     <?php 
                                         $selected = $user['BARANGAY'];
-                                        $barangay = array('All','City Hall','Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz'
+                                        $barangay = array('All','Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz'
                                         ,'Santo Domingo','Sinalhan','Tagapo');
                                         foreach($barangay as $option) {
                                             if($selected == $option) {
@@ -52,6 +64,7 @@
                                     ?>
                                 </select></div>
                             <div class="mb-3">
+                                <label for="announcementDate">Set Date for event</label>
                                 <input class="form-control" type="date" name="announcementDate" id="announcementDate" min="1900-01-01" required value="<?php echo($user['DATE']); ?>">
                             </div>
                             <div class="mb-3"><textarea class="form-control" id="announcementMessage" name="announcementMessage" rows="6" placeholder="Announcement Message" ><?php echo($user['MESSAGE']); ?></textarea></div>

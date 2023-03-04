@@ -943,12 +943,13 @@ function getEvents($connection, $event_id, $for, $barangay) {
 
 function getEventsPer($connection, $event_id, $for, $barangay) {
     $data = [];
-    $sql = "SELECT FIRST_NAME,MIDDLE_NAME,LAST_NAME,SUFFIX,BARANGAY,APPLICANT_TYPE,person.PERSON_ID,applicant.CITIZEN_ID
+    $sql = "SELECT FIRST_NAME,MIDDLE_NAME,LAST_NAME,SUFFIX,BARANGAY,APPLICANT_TYPE,person.PERSON_ID,applicant.CITIZEN_ID,claimed_benefits.STATUS_OF_CLAIMS
             FROM PERSON 
             JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
             JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
             JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
             JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+            LEFT JOIN claimed_benefits ON person.PERSON_ID = claimed_benefits.PERSON_ID
             WHERE barangay = '$barangay' AND APPLICANT_TYPE = '$for';";
     try {
         $stmt = $connection->prepare($sql);
@@ -1792,6 +1793,30 @@ function insertIssuedId($connection, $personId, $applicantType, $currentDate, $e
     // Execute the query
     if($stmt->execute() === TRUE){
         echo "Successfully inserted";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+function insertClaimedBenefits($connection, $personId, $applicantType) {
+    // Prepare the SQL query
+    global $isDeleted;
+    global $getActiveUser;
+    $status = "CLAIMED";
+    $stmt = $connection->prepare("INSERT INTO claimed_benefits (CLAIMED_BENEFITS_ID , PERSON_ID, APPLICATION_TYPE, STATUS_OF_CLAIMS, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("sss", $personId, $applicantType, $status);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        header("location: ../announcement.html");
+        exit();
     } else {
         $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
         header("location: ../error.html?error_message=" . urlencode($errorMessage));
