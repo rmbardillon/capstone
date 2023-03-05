@@ -264,7 +264,7 @@ function getUserDataPerBarangay($connection, $table, $where, $condition, $where2
     return $data;
 }
 
-function addAnnouncement($connection, $title, $for, $where, $message, $date, $from, $to) {
+function addAnnouncement($connection, $title, $for, $where, $message, $date, $from) {
     session_start();
     global $isDeleted;
     $getActiveUser = $_SESSION['admin-username'];
