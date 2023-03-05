@@ -27,7 +27,9 @@
                                         <tr>
                                             <th style="text-align: center;">Name</th>
                                             <th style="text-align: center;">Address</th>
-                                            <!-- <th style="text-align: center;"></th> -->
+                                            <th style="text-align: center;">Registration Date</th>
+                                            <th style="text-align: center;">Expiration Date</th>
+                                            <th style="text-align: center;">Renew</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -37,7 +39,9 @@
                                             <td style="text-align: center;">
                                                 <?php echo($userPWDData['FIRST_NAME']." ".$userPWDData['MIDDLE_NAME']." ".$userPWDData['LAST_NAME']); ?></td>
                                             <td style="text-align: center;">Barangay <?php echo($userPWDData['BARANGAY']); ?>&nbsp;</td>
-                                            <!-- <td style="text-align: center;"><a class="btn btn-secondary" href="pwd-application-form-filled-up.html?id=<?php echo($userPWDData['PERSON_ID']); ?>">View Information</a></td> -->
+                                            <td style="text-align: center;"><?php echo($userPWDData['DATE_ISSUED']); ?></td>
+                                            <td style="text-align: center;"><?php echo($userPWDData['EXPIRATION_DATE']); ?></td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="pwd-application-form-filled-up.html?id=<?php echo($userPWDData['PERSON_ID']); ?>">View Information</a></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -97,7 +101,9 @@
                                         <tr>
                                             <th style="text-align: center;">Name</th>
                                             <th style="text-align: center;">Address</th>
-                                            <!-- <th style="text-align: center;"></th> -->
+                                            <th style="text-align: center;">Registration Date</th>
+                                            <th style="text-align: center;">Expiration Date</th>
+                                            <th style="text-align: center;">Renew</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -107,7 +113,9 @@
                                             <td style="text-align: center;">
                                                 <?php echo($user['FIRST_NAME']." ".$user['MIDDLE_NAME']." ".$user['LAST_NAME']); ?></td>
                                             <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
-                                            <!-- <td style="text-align: center;"><a class="btn btn-secondary" href="solo-parent-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>">View Information</a></td> -->
+                                            <td style="text-align: center;"><?php echo($user['DATE_ISSUED']); ?></td>
+                                            <td style="text-align: center;"><?php echo($user['EXPIRATION_DATE']); ?></td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="solo-parent-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>">View Information</a></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -134,7 +142,9 @@
                                         <tr>
                                             <th style="text-align: center;">Name</th>
                                             <th style="text-align: center;">Address</th>
-                                            <!-- <th style="text-align: center;"></th> -->
+                                            <th style="text-align: center;">Registration Date</th>
+                                            <th style="text-align: center;">Expiration Date</th>
+                                            <th style="text-align: center;">Renew</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -144,7 +154,9 @@
                                             <td style="text-align: center;">
                                                 <?php echo($userPWDData['FIRST_NAME']." ".$userPWDData['MIDDLE_NAME']." ".$userPWDData['LAST_NAME']); ?></td>
                                             <td style="text-align: center;">Barangay <?php echo($userPWDData['BARANGAY']); ?>&nbsp;</td>
-                                            <!-- <td style="text-align: center;"><a class="btn btn-secondary" href="pwd-application-form-filled-up.html?id=<?php echo($userPWDData['PERSON_ID']); ?>">View Information</a></td> -->
+                                            <td style="text-align: center;"><?php echo($userPWDData['DATE_ISSUED']); ?></td>
+                                            <td style="text-align: center;"><?php echo($userPWDData['EXPIRATION_DATE']); ?></td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="pwd-application-form-filled-up.html?id=<?php echo($userPWDData['PERSON_ID']); ?>">View Information</a></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -208,7 +220,9 @@
                                         <tr>
                                             <th style="text-align: center;">Name</th>
                                             <th style="text-align: center;">Address</th>
-                                            <!-- <th style="text-align: center;"></th> -->
+                                            <th style="text-align: center;">Registration Date</th>
+                                            <th style="text-align: center;">Expiration Date</th>
+                                            <th style="text-align: center;">Renew</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -218,7 +232,9 @@
                                             <td style="text-align: center;">
                                                 <?php echo($user['FIRST_NAME']." ".$user['MIDDLE_NAME']." ".$user['LAST_NAME']); ?></td>
                                             <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
-                                            <!-- <td style="text-align: center;"><a class="btn btn-secondary" href="solo-parent-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>">View Information</a></td> -->
+                                            <td style="text-align: center;"><?php echo($user['DATE_ISSUED']); ?></td>
+                                            <td style="text-align: center;"><?php echo($user['EXPIRATION_DATE']); ?></td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="solo-parent-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>">View Information</a></td>
                                         </tr>
                                         <?php endforeach;
                 echo <<<HTML
