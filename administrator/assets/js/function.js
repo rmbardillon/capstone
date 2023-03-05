@@ -246,6 +246,34 @@ forms.forEach(function(form) {
     });
 });
 
+// Name validation
+$('#surname').on('keyup blur',function(){ 
+    var node = $(this);
+    node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
+);
+$('#firstName').on('keyup blur',function(){ 
+    var node = $(this);
+    node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
+);
+$('#middlename').on('keyup blur',function(){ 
+    var node = $(this);
+    node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
+);
+
+$('#childLastName').on('keyup blur',function(){ 
+    var node = $(this);
+    node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
+);
+$('#childFirstName').on('keyup blur',function(){ 
+    var node = $(this);
+    node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
+);
+$('#childMiddlename').on('keyup blur',function(){ 
+    var node = $(this);
+    node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
+);
+
+
 // Print Button
 $("#printBtn").click(function() {
     var divToPrint = $(".printPage").html();
