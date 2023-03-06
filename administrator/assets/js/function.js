@@ -249,28 +249,28 @@ forms.forEach(function(form) {
 // Name validation
 $('#surname').on('keyup blur',function(){ 
     var node = $(this);
-    node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
+    node.val(node.val().replace(/[^A-Za-z\s]/g,'') ); }
 );
 $('#firstName').on('keyup blur',function(){ 
     var node = $(this);
-    node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
+    node.val(node.val().replace(/[^A-Za-z\s]/g,'') ); }
 );
 $('#middlename').on('keyup blur',function(){ 
     var node = $(this);
-    node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
+    node.val(node.val().replace(/[^A-Za-z\s]/g,'') ); }
 );
 
 $('#childLastName').on('keyup blur',function(){ 
     var node = $(this);
-    node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
+    node.val(node.val().replace(/[^A-Za-z\s]/g,'') ); }
 );
 $('#childFirstName').on('keyup blur',function(){ 
     var node = $(this);
-    node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
+    node.val(node.val().replace(/[^A-Za-z\s]/g,'') ); }
 );
 $('#childMiddlename').on('keyup blur',function(){ 
     var node = $(this);
-    node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
+    node.val(node.val().replace(/[^A-Za-z\s]/g,'') ); }
 );
 
 
