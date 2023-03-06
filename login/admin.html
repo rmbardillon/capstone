@@ -46,20 +46,20 @@
                         <div class="mb-3">
                             <?php
                                 if (isset($_GET["error"])) {
-                                    if ($_GET["error"] == "wrongaccount"){
+                                    if ($_GET["error"] == "error"){
                                     echo "<div class='alert alert-danger d-flex align-items-center alert-dismissible fade show' role='alert'>
                                             <svg class='bi flex-shrink-0 me-2' width='24' height='24' role='img' aria-label='Danger:'><use xlink:href='#exclamation-triangle-fill'/></svg>
                                             <div>
-                                                User not existing.
+                                                Please check your username or email and password.
                                             </div>
                                             <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                                             </div>";
                                     }
-                                    else if ($_GET["error"] == "wrongpassword"){
+                                    else if ($_GET["error"] == "accountlocked"){
                                     echo "<div class='alert alert-danger d-flex align-items-center alert-dismissible fade show' role='alert'>
                                             <svg class='bi flex-shrink-0 me-2' width='24' height='24' role='img' aria-label='Danger:'><use xlink:href='#exclamation-triangle-fill'/></svg>
                                             <div>
-                                                Password is incorrect.
+                                                Your account is locked. Please contact the administrator.
                                             </div>
                                             <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                                             </div>";
@@ -95,6 +95,16 @@
                                             <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                                             </div>";
                                     }
+                                }
+                                if (isset($_GET["login_attempts"])) {
+                                    $loginAttempts = 3 - (int)$_GET["login_attempts"];
+                                    echo "<div class='alert alert-danger d-flex align-items-center alert-dismissible fade show' role='alert'>
+                                        <svg class='bi flex-shrink-0 me-2' width='24' height='24' role='img' aria-label='Danger:'><use xlink:href='#exclamation-triangle-fill'/></svg>
+                                        <div>
+                                            You have $loginAttempts attempts left.
+                                        </div>
+                                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                        </div>";
                                 }
                             ?>
                         </div>

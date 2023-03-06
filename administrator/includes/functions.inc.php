@@ -155,21 +155,78 @@ function loginCredentialsExists($connection, $username, $email) {
     mysqli_stmt_close($stmt);
 }
 
+function updateLoginAttempt($connection, $loginAttempts, $id) {
+    $sql = "UPDATE administrator SET LOGIN_ATTEMPTS = ? WHERE id = ?;";
+    try {
+        $stmt = $connection->prepare($sql);
+
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "ss", $loginAttempts, $id);
+    mysqli_stmt_execute($stmt); 
+    mysqli_stmt_close($stmt);
+}
+
+function updateAccountStatus($connection, $isLocked, $id) {
+    $sql = "UPDATE administrator SET IS_LOCKED = ? WHERE id = ?;";
+    try {
+        $stmt = $connection->prepare($sql);
+
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "ss", $isLocked, $id);
+    mysqli_stmt_execute($stmt); 
+    mysqli_stmt_close($stmt);
+}
+
 function loginUser($connection, $username, $password){
     $loginCredentialsExists = loginCredentialsExists($connection, $username, $username);
     if ($loginCredentialsExists === false) {
-        header("location: ../../login/admin.html?error=wrongaccount");
+        header("location: ../../login/admin.html?error=error");
+        exit();
+    }
+    if ($loginCredentialsExists['IS_LOCKED'] === 1) {
+        header("location: ../../login/admin.html?error=accountlocked");
         exit();
     }
     $passwordhashed = $loginCredentialsExists['password'];
     $checkPassword = password_verify($password, $passwordhashed);
 
     if ($checkPassword === false) {
-        header("location: ../../login/admin.html?error=wrongpassword");
+        $loginAttempts = $loginCredentialsExists['LOGIN_ATTEMPTS'] + 1;
+        updateLoginAttempt($connection, $loginAttempts, $loginCredentialsExists['id']);
+        $loginCredentialsExists = loginCredentialsExists($connection, $username, $username);
+        if($loginCredentialsExists['LOGIN_ATTEMPTS'] == 3) {
+            updateAccountStatus($connection, 1, $loginCredentialsExists['id']);
+            header("location: ../../login/admin.html?error=accountlocked");
+            exit();
+        }
+        header("location: ../../login/admin.html?login_attempts=$loginAttempts");
         exit();
     }
     else if($checkPassword === true) {
         session_start();
+        updateLoginAttempt($connection, 0, $loginCredentialsExists['id']);
         $adminData = $_SESSION['admin-data'] = $loginCredentialsExists;
         header("location: ../dashboard.html");
         exit();
