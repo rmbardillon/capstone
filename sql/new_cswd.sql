@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 05, 2023 at 04:20 PM
+-- Generation Time: Mar 06, 2023 at 03:01 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -151,6 +151,22 @@ CREATE TABLE `document` (
   `NAME` varchar(128) NOT NULL,
   `TYPE` varchar(128) NOT NULL,
   `CONTENT` varchar(128) NOT NULL,
+  `DATE_CREATED` date NOT NULL,
+  `DATE_UPDATED` date NOT NULL,
+  `IS_DELETED` char(1) NOT NULL,
+  `UPDATED_BY` varchar(16) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `draft`
+--
+
+CREATE TABLE `draft` (
+  `DRAFT_ID` varchar(16) NOT NULL,
+  `APPLICATION_TYPE` varchar(32) NOT NULL,
+  `APPLICANT_NAME` varchar(128) NOT NULL,
   `DATE_CREATED` date NOT NULL,
   `DATE_UPDATED` date NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
@@ -686,6 +702,12 @@ ALTER TABLE `company`
 ALTER TABLE `document`
   ADD PRIMARY KEY (`DOCUMENT_ID`),
   ADD KEY `FK_PERSON_DOCUMENT` (`PERSON_ID`);
+
+--
+-- Indexes for table `draft`
+--
+ALTER TABLE `draft`
+  ADD PRIMARY KEY (`DRAFT_ID`);
 
 --
 -- Indexes for table `educational_attainment`

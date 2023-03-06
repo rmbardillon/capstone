@@ -216,16 +216,17 @@ $("#logout").click(function(event) {
     });
 });
 
-// Save Form Data
-$("#saveForm").click(function() {
-    $('#name-modal').modal('show');
-})
-
+var formName; // declare a variable to store formName
 $("#save_name").click(function(){
     // Get applicant's name, save form data to JSON file, and submit form
-    var applicantName = $('#applicant-name').val();
+    var applicantName = new URLSearchParams(window.location.search).get('name');
     var applicantType = $('#applicantType').val();
-    var formName = generateUUID();
+
+    // Check if formName already exists
+    if(formName === undefined) {
+        var applicantName = $('#applicant-name').val();
+        formName = generateUUID();
+    }
     var formData = $('form').serializeArray();
     var jsonData = {
         "formName": formName,
@@ -235,18 +236,16 @@ $("#save_name").click(function(){
     };
     $.ajax({
         type: "POST",
-        url: "includes/save-data.inc.php", // replace with the URL of the server-side script that will save the data
+        url: "includes/save-data.inc.php",
         data: JSON.stringify(jsonData),
         success: function(response) {
-            // handle success
-            console.log(response.message);
             $('#name-modal').modal('hide');
             $('form').attr('action', 'includes/save-drafts.inc.php?applicant_name=' + encodeURIComponent(applicantName) + '&form_name=' + encodeURIComponent(formName) + '&applicant_type=' + encodeURIComponent(applicantType));
             $('form').submit();
             alert("Data saved successfully.");
         },
-        error: function() {
-            // handle error
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
             alert("Failed to save data.");
         },
         dataType: "json"
@@ -259,9 +258,10 @@ $('.edit-draft').click(function(event) {
     // Get the value of the "draftid" parameter
     var draftId = $(this).data('draftid');
     var page = $(this).data('page');
-    window.location.href = page + draftId;
+    var userName = $(this).data('name');
+    // alert(page + draftId + "&name=" + userName);
+    window.location.href = page + draftId + "&name=" + userName;
 });
-
 
 // Populate form with draft data
 $(document).ready(function() {
@@ -269,17 +269,21 @@ $(document).ready(function() {
     var userId = new URLSearchParams(window.location.search).get('userId');
 
     if(userId != null) {
+        $("#saveForm").click(function() {
+            $("#save_name").click();
+        });
         // Get saved form data and populate fields
         $.ajax({
             type: "GET",
-            url: "includes/get-json.inc.php?userId=" + userId, // replace with the URL of the server-side script that will retrieve the data
+            url: "includes/get-json.inc.php?userId=" + userId,
             dataType: "json",
             success: function(data) {
-                console.log(data);
                 if (data) {
+                    // Store formName value from retrieved data
+                    formName = data.formName;
+
                     $.each(data.formData, function(index, item) {
                         $('[name="' + item.name + '"]').val(item.value);
-                        console.log(item.name + ': ' + item.value);
                     });
                     alert('Draft loaded!');
                 }
@@ -288,11 +292,11 @@ $(document).ready(function() {
                 alert("Failed to load draft.");
             }
         });
-
-        // Clear localStorage on form submit
-        $('form').submit(function() {
-            alert('Form submitted!');
-        });
+    } else {
+        // Save Form Data
+        $("#saveForm").click(function() {
+            $('#name-modal').modal('show');
+        })
     }
 });
 // Profile Picture

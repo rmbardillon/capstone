@@ -86,6 +86,10 @@
             header("location: ../add-administrator-admin.html?error=passwordnotmatch");
             exit();
         }
+        if (validatePassword($password) !== true) {
+            header("location: ../add-administrator-admin.html?error=passwordmustcontain");
+            exit();
+        }
         adminInsertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $currentUsername, $email, $password, $securityQuestion1, $securityAnswer1, $securityQuestion2, $securityAnswer2,  $securityQuestion3, $securityAnswer3);
     
     } else {

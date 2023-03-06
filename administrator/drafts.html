@@ -34,8 +34,8 @@
                                     if($draft['APPLICATION_TYPE'] == "PWD") {
                                         $page = "pwd-application-form.html?userId=";
                                     } else if($draft['APPLICATION_TYPE'] == "Solo Parent") {
-                                        $Page = "solo-parent-application-form.html?userId=";
-                                    } else {
+                                        $page = "solo-parent-application-form.html?userId=";
+                                    } else if($draft['APPLICATION_TYPE'] == "Senior Citizen") {
                                         $page = "senior-citizen-application-form.html?userId=";
                                     }
                                 ?>
@@ -43,7 +43,7 @@
                                     <td style="text-align: center;"><?php echo($draft['APPLICATION_TYPE']); ?></td>
                                     <td style="text-align: center;"><?php echo($draft['APPLICANT_NAME']); ?></td>
                                     <td style="text-align: center;"><?php echo($draft['DATE_CREATED']); ?></td>
-                                    <td style="text-align: center;"><button class="btn btn-success edit-draft" data-draftid="<?php echo $draft['DRAFT_ID']; ?>" data-page="<?php echo $page; ?>">Continue</button></td>
+                                    <td style="text-align: center;"><button class="btn btn-success edit-draft" data-draftid="<?php echo $draft['DRAFT_ID']; ?>" data-page="<?php echo $page; ?>" data-name="<?php echo($draft['APPLICANT_NAME']); ?>">Continue</button></td>
                                 </tr>
                             <?php endforeach; ?>
 
