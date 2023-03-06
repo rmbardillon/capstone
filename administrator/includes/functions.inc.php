@@ -262,7 +262,28 @@ function changePassword($connection, $oldPassword, $newPassword, $confirmPasswor
     }
 }
 
-function insertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $username, $email, $password){
+function insertSecurityQuestions($connection, $id, $securityQ1, $securityAnswer1, $securityQ2, $securityAnswer2,  $securityQ3, $securityAnswer3) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("INSERT INTO security_questions(SECURITY_QUESTIONS_ID, ADMINISTRATOR_ID, SECURITY_QUESTION_1, SECURITY_ANSWER_1, SECURITY_QUESTION_2, SECURITY_ANSWER_2, SECURITY_QUESTION_3, SECURITY_ANSWER_3) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, ?, ?)");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("sssssss", $id, $securityQ1, $securityAnswer1, $securityQ2, $securityAnswer2, $securityQ3, $securityAnswer3);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        header("location: ../administrator-list.html");
+        exit();
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+function insertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $username, $email, $password, $securityQuestion1, $securityAnswer1, $securityQuestion2, $securityAnswer2,  $securityQuestion3, $securityAnswer3){
     $sql = "INSERT INTO administrator (id, admin_type, barangay, username, first_name, last_name, email, password) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, ?, ?);";
     $stmt = $connection->prepare($sql);
 
@@ -271,11 +292,17 @@ function insertAdmin($connection, $firstName, $lastName, $adminType, $barangay, 
     mysqli_stmt_bind_param($stmt, "sssssss", $adminType, $barangay, $username, $firstName, $lastName, $email, $hashedPassword);
     mysqli_stmt_execute($stmt); 
     mysqli_stmt_close($stmt);
+
+    $loginCredentialsExists = loginCredentialsExists($connection, $username, $username);
+    $id = $loginCredentialsExists['id'];
+    insertSecurityQuestions($connection, $id, $securityQuestion1, $securityAnswer1, $securityQuestion2, $securityAnswer2, $securityQuestion3, $securityAnswer3);
+
     header("location: ../add-administrator.html?error=none&username=".$username);
     exit();
 }
 
-function adminInsertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $username, $email, $password){
+
+function adminInsertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $username, $email, $password, $securityQuestion1, $securityAnswer1, $securityQuestion2, $securityAnswer2,  $securityQuestion3, $securityAnswer3){
     $sql = "INSERT INTO administrator (id, admin_type, barangay, username, first_name, last_name, email, password) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, ?, ?);";
     $stmt = $connection->prepare($sql);
 
@@ -284,6 +311,11 @@ function adminInsertAdmin($connection, $firstName, $lastName, $adminType, $baran
     mysqli_stmt_bind_param($stmt, "sssssss", $adminType, $barangay, $username, $firstName, $lastName, $email, $hashedPassword);
     mysqli_stmt_execute($stmt); 
     mysqli_stmt_close($stmt);
+
+    $loginCredentialsExists = loginCredentialsExists($connection, $username, $username);
+    $id = $loginCredentialsExists['id'];
+    insertSecurityQuestions($connection, $id, $securityQuestion1, $securityAnswer1, $securityQuestion2, $securityAnswer2, $securityQuestion3, $securityAnswer3);
+
     header("location: ../add-administrator-admin.html?error=none&username=".$username);
     exit();
 }

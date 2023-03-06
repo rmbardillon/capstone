@@ -73,15 +73,61 @@
                                             <option value="Tagapo">Tagapo</option>
                                         </select>
                                     </div>
-                                    <div class="row mb-3">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <input class="form-control form-control-user" type="password" id="password" placeholder="Password" name="password" required>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <input class="form-control form-control-user" type="password" id="repeat_password" placeholder="Repeat Password" name="repeat_password" required>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-primary d-block btn-user w-100" type="submit" name="add_admin">Register Account</button>
+                                    <div class="mb-3">
+                                    <label for="security_question">Security Question 1</label>
+                                    <select class="form-select" id="security_question" name="security_question1" style="border-radius: 160px;" required>
+                                        <option value="" disabled selected>-- Select a security question --</option>
+                                        <option value="childhood_nickname">What was your childhood nickname?</option>
+                                        <option value="favorite_teacher">What is the name of your favorite teacher?</option>
+                                        <option value="mother_maiden_name">What is your mother's maiden name?</option>
+                                        <option value="city_of_birth">What is the name of the city where you were born?</option>
+                                        <option value="first_pet">What is the name of your first pet?</option>
+                                        <option value="favorite_book">What is your favorite book?</option>
+                                        <option value="favorite_color">What is your favorite color?</option>
+                                        <option value="favorite_movie">What is the name of your favorite movie?</option>
+                                        <option value="favorite_food">What is your favorite food?</option>
+                                        <option value="first_car">What was the make and model of your first car?</option>
+                                    </select>
+                                    <input class="form-control mt-1" type="text" name="securityAnswer1" id="securityAnswer1" placeholder="Answer to Security Question 1" style="border-radius: 160px;" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="security_question">Security Question 2</label>
+                                    <select class="form-select" id="security_question" name="security_question2" style="border-radius: 160px;" required>
+                                        <option value="" disabled selected>-- Select a security question --</option>
+                                        <option value="childhood_nickname">What was your childhood nickname?</option>
+                                        <option value="favorite_teacher">What is the name of your favorite teacher?</option>
+                                        <option value="mother_maiden_name">What is your mother's maiden name?</option>
+                                        <option value="city_of_birth">What is the name of the city where you were born?</option>
+                                        <option value="first_pet">What is the name of your first pet?</option>
+                                        <option value="favorite_book">What is your favorite book?</option>
+                                        <option value="favorite_color">What is your favorite color?</option>
+                                        <option value="favorite_movie">What is the name of your favorite movie?</option>
+                                        <option value="favorite_food">What is your favorite food?</option>
+                                        <option value="first_car">What was the make and model of your first car?</option>
+                                    </select>
+                                    <input class="form-control mt-1" type="text" name="securityAnswer2" id="securityAnswer2" placeholder="Answer to Security Question 2" style="border-radius: 160px;" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="security_question">Security Question 3</label>
+                                    <select class="form-select" id="security_question" name="security_question3" style="border-radius: 160px;" required>
+                                        <option value="" disabled selected>-- Select a security question --</option>
+                                        <option value="childhood_nickname">What was your childhood nickname?</option>
+                                        <option value="favorite_teacher">What is the name of your favorite teacher?</option>
+                                        <option value="mother_maiden_name">What is your mother's maiden name?</option>
+                                        <option value="city_of_birth">What is the name of the city where you were born?</option>
+                                        <option value="first_pet">What is the name of your first pet?</option>
+                                        <option value="favorite_book">What is your favorite book?</option>
+                                        <option value="favorite_color">What is your favorite color?</option>
+                                        <option value="favorite_movie">What is the name of your favorite movie?</option>
+                                        <option value="favorite_food">What is your favorite food?</option>
+                                        <option value="first_car">What was the make and model of your first car?</option>
+                                    </select>
+                                    <input class="form-control mt-1" type="text" name="securityAnswer3" id="securityAnswer3" placeholder="Answer to Security Question 3" style="border-radius: 160px;" required>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="password" id="password" placeholder="Password" name="password" required></div>
+                                    <div class="col-sm-6"><input class="form-control form-control-user" type="password" id="repeat_password" placeholder="Confirm Password" name="repeat_password" required></div>
+                                </div><button class="btn btn-primary d-block btn-user w-100" type="submit" name="add_admin_submit">Add Administrator Account</button>
                                     <hr>
                                     <hr>
                                 </form>

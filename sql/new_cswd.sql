@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 04, 2023 at 03:17 AM
+-- Generation Time: Mar 05, 2023 at 04:20 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -51,7 +51,9 @@ CREATE TABLE `administrator` (
   `first_name` varchar(128) NOT NULL,
   `last_name` varchar(128) NOT NULL,
   `email` varchar(128) NOT NULL,
-  `password` varchar(128) NOT NULL
+  `password` varchar(128) NOT NULL,
+  `LOGIN_ATTEMPTS` int(2) NOT NULL DEFAULT 0,
+  `IS_LOCKED` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -66,7 +68,7 @@ CREATE TABLE `announcement` (
   `ANNOUNCEMENT_FOR` enum('All','Administrator','PWD','Senior Citizen','Solo Parent') NOT NULL,
   `BARANGAY` enum('All','City Hall','Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz','Santo Domingo','Sinalhan','Tagapo') NOT NULL,
   `MESSAGE` varchar(1024) NOT NULL,
-  `DATE_FROM` varchar(8) NOT NULL,
+  `DATE_FROM` varchar(8) DEFAULT NULL,
   `DATE` date NOT NULL,
   `DATE_CREATED` date NOT NULL,
   `DATE_UPDATED` date NOT NULL,
@@ -542,6 +544,23 @@ CREATE TABLE `religion` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `security_questions`
+--
+
+CREATE TABLE `security_questions` (
+  `SECURITY_QUESTIONS_ID` varchar(16) NOT NULL,
+  `ADMINISTRATOR_ID` varchar(16) NOT NULL,
+  `SECURITY_QUESTION_1` varchar(64) NOT NULL,
+  `SECURITY_ANSWER_1` varchar(128) NOT NULL,
+  `SECURITY_QUESTION_2` varchar(64) NOT NULL,
+  `SECURITY_ANSWER_2` varchar(128) NOT NULL,
+  `SECURITY_QUESTION_3` varchar(64) NOT NULL,
+  `SECURITY_ANSWER_3` varchar(128) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `solo_parent_long_text`
 --
 
@@ -603,6 +622,8 @@ CREATE TABLE `user_account` (
   `PERSON_ID` varchar(16) NOT NULL,
   `USERNAME` varchar(128) NOT NULL,
   `PASSWORD` varchar(128) NOT NULL,
+  `LOGIN_ATTEMPTS` int(2) NOT NULL DEFAULT 0,
+  `IS_LOCKED` tinyint(1) NOT NULL DEFAULT 0,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
@@ -815,6 +836,13 @@ ALTER TABLE `religion`
   ADD KEY `FK_PERSON_RELIGION` (`PERSON_ID`);
 
 --
+-- Indexes for table `security_questions`
+--
+ALTER TABLE `security_questions`
+  ADD PRIMARY KEY (`SECURITY_QUESTIONS_ID`),
+  ADD KEY `FK_ADMINISTRATOR_SEC_QUESTIONS` (`ADMINISTRATOR_ID`);
+
+--
 -- Indexes for table `solo_parent_long_text`
 --
 ALTER TABLE `solo_parent_long_text`
@@ -1001,6 +1029,12 @@ ALTER TABLE `relationship`
 --
 ALTER TABLE `religion`
   ADD CONSTRAINT `FK_PERSON_RELIGION` FOREIGN KEY (`PERSON_ID`) REFERENCES `person` (`PERSON_ID`);
+
+--
+-- Constraints for table `security_questions`
+--
+ALTER TABLE `security_questions`
+  ADD CONSTRAINT `FK_ADMINISTRATOR_SEC_QUESTIONS` FOREIGN KEY (`ADMINISTRATOR_ID`) REFERENCES `administrator` (`id`);
 
 --
 -- Constraints for table `solo_parent_long_text`

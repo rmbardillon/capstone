@@ -1,4 +1,7 @@
 <?php
+    require_once 'dbh.inc.php';
+    require_once 'functions.inc.php';
+    require_once 'sql.inc.php';
     if (isset($_POST['add_admin_submit'])) {
         $lastName = $_POST['last_name'];
         $firstName = $_POST['first_name'];
@@ -7,13 +10,16 @@
         $email = $_POST["email"];
         $password = $_POST["password"];
         $confirmPassword = $_POST["repeat_password"];
+        $securityQuestion1 = $_POST["security_question1"];
+        $securityQuestion2 = $_POST["security_question2"];
+        $securityQuestion3 = $_POST["security_question3"];
+        $securityAnswer1 = $_POST["securityAnswer1"];
+        $securityAnswer2 = $_POST["securityAnswer2"];
+        $securityAnswer3 = $_POST["securityAnswer3"];
         $currentUsername = "admin".str_replace(" ", "", strtolower($firstName[0].$lastName));
         $username = $currentUsername;
         $i = 0;
     
-        require_once 'dbh.inc.php';
-        require_once 'functions.inc.php';
-
         while (usernameExists($connection, $currentUsername) !== false) {
             $i++;
             $currentUsername = "";
@@ -49,12 +55,15 @@
         $email = $_POST["email"];
         $password = $_POST["password"];
         $confirmPassword = $_POST["repeat_password"];
+        $securityQuestion1 = $_POST["security_question1"];
+        $securityQuestion2 = $_POST["security_question2"];
+        $securityQuestion3 = $_POST["security_question3"];
+        $securityAnswer1 = $_POST["securityAnswer1"];
+        $securityAnswer2 = $_POST["securityAnswer2"];
+        $securityAnswer3 = $_POST["securityAnswer3"];
         $currentUsername = "admin".str_replace(" ", "", strtolower($firstName[0].$lastName));
         $username = $currentUsername;
         $i = 0;
-    
-        require_once 'dbh.inc.php';
-        require_once 'functions.inc.php';
 
         while (usernameExists($connection, $currentUsername) !== false) {
             $i++;
@@ -76,10 +85,6 @@
         if (passwordMatch($password, $confirmPassword) !== false) {
             header("location: ../add-administrator-admin.html?error=passwordnotmatch");
             exit();
-        }
-        if (validatePassword($password) !== true) {
-            header("location: ../add-administrator-admin.html?error=passwordmustcontain");
-           exit();
         }
         adminInsertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $currentUsername, $email, $password);
     

@@ -1059,6 +1059,7 @@ function getIDData($connection, $person_id) {
     $connection->close();
 
 }
+
 // Get Remarks
 function getRemarks($connection, $person_id) {
     $data = [];
@@ -1093,6 +1094,40 @@ function getRemarks($connection, $person_id) {
     $stmt->close();
     $connection->close();
 }
+
+// GET DRAFTS
+function getDrafts($connection) {
+    $data = [];
+    $sql = "SELECT * FROM draft WHERE IS_DELETED = 'N';";
+    try {
+        $stmt = $connection->prepare($sql);
+
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0){
+        while($row = $result->fetch_assoc()) {
+            array_push($data, $row);
+        }
+        return $data;
+    } else{
+        return $data;
+    }
+
+    $stmt->close();
+    $connection->close();
+}
+
 // Inserting User Data
 
 $isDeleted =  'N';
@@ -1819,6 +1854,30 @@ function insertClaimedBenefits($connection, $personId, $applicantType) {
     // Execute the query
     if($stmt->execute() === TRUE){
         header("location: ../announcement.html");
+        exit();
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+function insertDrafts($connection, $applicationType, $applicantName, $formID) {
+    // Prepare the SQL query
+    global $isDeleted;
+    global $getActiveUser;
+    $status = "CLAIMED";
+    $stmt = $connection->prepare("INSERT INTO draft(DRAFT_ID, APPLICATION_TYPE, APPLICANT_NAME, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("sss", $formID, $applicationType, $applicantName);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        header("location: ../drafts.html");
         exit();
     } else {
         $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;

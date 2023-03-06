@@ -1,0 +1,58 @@
+<?php 
+    $page = "drafts";
+    include("header.html");
+    $drafts = getDrafts($connection);
+    if (!isset($_SESSION['admin-data'])) {
+        header("location: ../login/admin.html");
+        exit();
+    }
+?>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h3 class="text-dark mb-4">Application Drafts</h3>
+            </div>
+        </div>
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <p class="text-primary m-0 fw-bold">List of Application Drafts</p>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive table mt-2" id="dataTable-1" role="grid" aria-describedby="dataTable_info">
+                    <table class="table my-0" id="drafts">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center;">Application Type</th>
+                                <th style="text-align: center;">Application Name</th>
+                                <th style="text-align: center;">Date Created</th>
+                                <th style="text-align: center;">Continue Application</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php 
+                                foreach($drafts as $draft):
+                                if($draft['APPLICATION_TYPE'] == "PWD") {
+                                    $page = "pwd-application-form.html";
+                                } else if($draft['APPLICATION_TYPE'] == "Solo Parent") {
+                                    $Page = "solo-parent-application-form.html";
+                                } else {
+                                    $page = "senior-citizen-application-form.html";
+                                }
+                            ?>
+                            <tr>
+                                <input type="hidden" id="draftID" value="<?php echo($draft['DRAFT_ID']); ?>">
+                                <td style="text-align: center;"><?php echo($draft['APPLICATION_TYPE']); ?></td>
+                                <td style="text-align: center;"><?php echo($draft['APPLICANT_NAME']); ?></td>
+                                <td style="text-align: center;"><?php echo($draft['DATE_CREATED']); ?></td>
+                                <td style="text-align: center;"><a class="btn btn-success" id="edit-draft" href="<?php echo($page); ?>">Continue</a></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php
+    include "footer.html";
+?>
