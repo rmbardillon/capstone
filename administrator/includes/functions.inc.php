@@ -270,13 +270,10 @@ function insertSecurityQuestions($connection, $id, $securityQ1, $securityAnswer1
     $stmt->bind_param("sssssss", $id, $securityQ1, $securityAnswer1, $securityQ2, $securityAnswer2, $securityQ3, $securityAnswer3);
 
     // Execute the query
-    if($stmt->execute() === TRUE){
-        header("location: ../administrator-list.html");
-        exit();
-    } else {
+    if($stmt->execute() === FALSE){
         $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
         header("location: ../error.html?error_message=" . urlencode($errorMessage));
-        exit();
+        exit();        
     }
 
     // Close the statement
