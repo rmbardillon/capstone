@@ -369,4 +369,21 @@ function updateProfile($connection, $username, $firstName, $lastName, $barangay,
     header("location: ../profile.html?error=none");
     exit();
 }
+//password validation
+function validatePassword($password) {
+    $hasNumber = false;
+    $hasUppercase = false;
+    $hasSpecialChar = false;
 
+    for ($i = 0; $i < strlen($password); $i++) {
+        if (is_numeric($password[$i])) {
+            $hasNumber = true;
+        } else if (ctype_upper($password[$i])) {
+            $hasUppercase = true;
+        } else if (ctype_punct($password[$i])) {
+            $hasSpecialChar = true;
+        }
+    }
+
+    return $hasNumber && $hasUppercase && $hasSpecialChar && strlen($password) <= 64;
+}

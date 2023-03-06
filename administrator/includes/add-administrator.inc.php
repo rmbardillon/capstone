@@ -35,6 +35,10 @@
             header("location: ../add-administrator.html?error=passwordnotmatch");
             exit();
         }
+        if (validatePassword($password) !== true) {
+            header("location: ../add-administrator.html?error=passwordmustcontain");
+           exit();
+        }
         insertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $currentUsername, $email, $password);
     
     } else if (isset($_POST['add_admin'])) {
@@ -72,6 +76,10 @@
         if (passwordMatch($password, $confirmPassword) !== false) {
             header("location: ../add-administrator-admin.html?error=passwordnotmatch");
             exit();
+        }
+        if (validatePassword($password) !== true) {
+            header("location: ../add-administrator-admin.html?error=passwordmustcontain");
+           exit();
         }
         adminInsertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $currentUsername, $email, $password);
     
