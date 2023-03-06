@@ -239,6 +239,7 @@
               type="text"
               id="monthlyIncome"
               name="monthlyIncome"
+              oninput="javascript: if (this.value.length > 1 && this.value.charAt(0) === '0') this.value = this.value.substr(1);"
               disabled
             />
           </div>
@@ -255,6 +256,7 @@
               id="totalFamilyIncome"
               name="totalFamilyIncome"
               required=""
+              oninput="javascript: if (this.value.length > 1 && this.value.charAt(0) === '0') this.value = this.value.substr(1);"
             />
           </div>
           <div class="col">
@@ -467,6 +469,7 @@
                 type="text"
                 id="childIncome"
                 name="childIncome[]"
+                oninput="javascript: if (this.value.length > 1 && this.value.charAt(0) === '0') this.value = this.value.substr(1);"
                 required
               />
             </div>

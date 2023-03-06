@@ -360,6 +360,7 @@
               id="howMuchPension"
               name="howMuchPension"
               disabled=""
+              oninput="javascript: if (this.value.length > 1 && this.value.charAt(0) === '0') this.value = this.value.substr(1);"
             />
           </div>
         </div>
