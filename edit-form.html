@@ -1,0 +1,31 @@
+<!-- HTML form with fields to edit draft -->
+<form>
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name"><br><br>
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email"><br><br>
+  <button type="submit">Submit</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    // Get user ID from URL parameters
+    var userId = new URLSearchParams(window.location.search).get('userId');
+    
+    // Get saved form data and populate fields
+    var savedFormData = JSON.parse(localStorage.getItem('form-data-' + userId));
+    if (savedFormData) {
+      $.each(savedFormData, function(index, item) {
+        $('input[name=' + item.name + ']').val(item.value);
+      });
+      alert('Draft loaded!');
+    }
+
+    // Clear localStorage on form submit
+    $('form').submit(function() {
+      localStorage.removeItem('form-data-' + userId);
+      alert('Form submitted!');
+    });
+  });
+</script>

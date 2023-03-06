@@ -31,22 +31,22 @@
                         <tbody>
                             <?php 
                                 foreach($drafts as $draft):
-                                if($draft['APPLICATION_TYPE'] == "PWD") {
-                                    $page = "pwd-application-form.html";
-                                } else if($draft['APPLICATION_TYPE'] == "Solo Parent") {
-                                    $Page = "solo-parent-application-form.html";
-                                } else {
-                                    $page = "senior-citizen-application-form.html";
-                                }
-                            ?>
-                            <tr>
-                                <input type="hidden" id="draftID" value="<?php echo($draft['DRAFT_ID']); ?>">
-                                <td style="text-align: center;"><?php echo($draft['APPLICATION_TYPE']); ?></td>
-                                <td style="text-align: center;"><?php echo($draft['APPLICANT_NAME']); ?></td>
-                                <td style="text-align: center;"><?php echo($draft['DATE_CREATED']); ?></td>
-                                <td style="text-align: center;"><a class="btn btn-success" id="edit-draft" href="<?php echo($page); ?>">Continue</a></td>
-                            </tr>
+                                    if($draft['APPLICATION_TYPE'] == "PWD") {
+                                        $page = "pwd-application-form.html?userId=";
+                                    } else if($draft['APPLICATION_TYPE'] == "Solo Parent") {
+                                        $Page = "solo-parent-application-form.html?userId=";
+                                    } else {
+                                        $page = "senior-citizen-application-form.html?userId=";
+                                    }
+                                ?>
+                                <tr>
+                                    <td style="text-align: center;"><?php echo($draft['APPLICATION_TYPE']); ?></td>
+                                    <td style="text-align: center;"><?php echo($draft['APPLICANT_NAME']); ?></td>
+                                    <td style="text-align: center;"><?php echo($draft['DATE_CREATED']); ?></td>
+                                    <td style="text-align: center;"><button class="btn btn-success edit-draft" data-draftid="<?php echo $draft['DRAFT_ID']; ?>" data-page="<?php echo $page; ?>">Continue</button></td>
+                                </tr>
                             <?php endforeach; ?>
+
                         </tbody>
                     </table>
                 </div>

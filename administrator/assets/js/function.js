@@ -222,29 +222,79 @@ $("#saveForm").click(function() {
 })
 
 $("#save_name").click(function(){
-    // Get applicant's name, save form data to localStorage, and submit form
+    // Get applicant's name, save form data to JSON file, and submit form
     var applicantName = $('#applicant-name').val();
     var applicantType = $('#applicantType').val();
     var formName = generateUUID();
     var formData = $('form').serializeArray();
-    localStorage.setItem('form-data-' + formName, JSON.stringify(formData));
-    $('#name-modal').modal('hide');
-    $('form').attr('action', 'includes/save-drafts.inc.php?applicant_name=' + encodeURIComponent(applicantName) + '&form_name=' + encodeURIComponent(formName) + '&applicant_type=' + encodeURIComponent(applicantType));
-    $('form').submit();
-})
-
-// Edit Draft Form
-$('#edit-draft').click(function(event) {
-    // Get the value of the "draftid" parameter
-    var draftId = $("#draftID").val();
-    alert('Draft loaded!');
-    // Get user ID and saved form data from localStorage and populate form fields
-    var savedFormData = JSON.parse(localStorage.getItem('form-data-' + draftId));
-    $.each(savedFormData, function(index, item) {
-        $('input[name=' + item.name + ']').val(item.value);
+    var jsonData = {
+        "formName": formName,
+        "formData": formData,
+        "applicantName": applicantName,
+        "applicantType": applicantType
+    };
+    $.ajax({
+        type: "POST",
+        url: "includes/save-data.inc.php", // replace with the URL of the server-side script that will save the data
+        data: JSON.stringify(jsonData),
+        success: function(response) {
+            // handle success
+            console.log(response.message);
+            $('#name-modal').modal('hide');
+            $('form').attr('action', 'includes/save-drafts.inc.php?applicant_name=' + encodeURIComponent(applicantName) + '&form_name=' + encodeURIComponent(formName) + '&applicant_type=' + encodeURIComponent(applicantType));
+            $('form').submit();
+            alert("Data saved successfully.");
+        },
+        error: function() {
+            // handle error
+            alert("Failed to save data.");
+        },
+        dataType: "json"
     });
 });
 
+
+// Edit Draft Form
+$('.edit-draft').click(function(event) {
+    // Get the value of the "draftid" parameter
+    var draftId = $(this).data('draftid');
+    var page = $(this).data('page');
+    window.location.href = page + draftId;
+});
+
+
+// Populate form with draft data
+$(document).ready(function() {
+    // Get user ID from URL parameters
+    var userId = new URLSearchParams(window.location.search).get('userId');
+
+    if(userId != null) {
+        // Get saved form data and populate fields
+        $.ajax({
+            type: "GET",
+            url: "includes/get-json.inc.php?userId=" + userId, // replace with the URL of the server-side script that will retrieve the data
+            dataType: "json",
+            success: function(data) {
+                console.log(data);
+                if (data) {
+                    $.each(data.formData, function(index, item) {
+                        $('[name="' + item.name + '"]').val(item.value);
+                        console.log(item.name + ': ' + item.value);
+                    });
+                    alert('Draft loaded!');
+                }
+            },
+            error: function() {
+                alert("Failed to load draft.");
+            }
+        });
+
+        // Clear localStorage on form submit
+        $('form').submit(function() {
+            alert('Form submitted!');
+        });
+    }
+});
 // Profile Picture
 const imgDiv = document.querySelector('#profilePicDiv');
 if (imgDiv !== null) {

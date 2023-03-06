@@ -1,51 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <!-- HTML form with fields to save as draft -->
-    <form>
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name"><br><br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email"><br><br>
-        <button type="button" id="save-draft">Save Draft</button>
-        <button type="button" id="edit-draft">Edit Draft</button>
-        <button type="submit">Submit</button>
-    </form>
+<!-- HTML form with fields to save as draft -->
+<form>
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name"><br><br>
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email"><br><br>
+  <button type="button" id="save-draft">Save Draft</button>
+  <button type="button" id="edit-draft">Edit Draft</button>
+  <button type="submit">Submit</button>
+</form>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-    $(document).ready(function() {
-        // Save draft button click event
-        $('#save-draft').click(function() {
-        // Get form data and save to localStorage
-        var formData = $('form').serializeArray();
-        localStorage.setItem('form-data', JSON.stringify(formData));
-        alert('Draft saved!');
-        });
-
-        // Edit draft button click event
-        $('#edit-draft').click(function() {
-        // Get saved form data from localStorage and populate form fields
-        var savedFormData = JSON.parse(localStorage.getItem('form-data'));
-        $.each(savedFormData, function(index, item) {
-            $('input[name=' + item.name + ']').val(item.value);
-        });
-        alert('Draft loaded!');
-        });
-
-        // Clear localStorage on form submit
-        $('form').submit(function() {
-        localStorage.removeItem('form-data');
-        alert('Form submitted!');
-        });
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    // Save draft button click event
+    $('#save-draft').click(function() {
+      // Get user ID and form data and save to localStorage
+      var userId = '1234'; // Replace with actual user ID
+      var formData = $('form').serializeArray();
+      localStorage.setItem('form-data-' + userId, JSON.stringify(formData));
+      alert('Draft saved!');
     });
-    </script>
 
-</body>
-</html>
+    // Redirect to edit page with user ID
+    $('#edit-draft').click(function() {
+      var userId = '1234'; // Replace with actual user ID
+      window.location.href = 'edit-form.html?userId=' + userId;
+    });
+
+    // Clear localStorage on form submit
+    $('form').submit(function() {
+      var userId = '1234'; // Replace with actual user ID
+      localStorage.removeItem('form-data-' + userId);
+      alert('Form submitted!');
+    });
+  });
+</script>

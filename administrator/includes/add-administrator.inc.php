@@ -45,7 +45,7 @@
             header("location: ../add-administrator.html?error=passwordmustcontain");
            exit();
         }
-        insertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $currentUsername, $email, $password);
+        insertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $currentUsername, $email, $password, $securityQuestion1, $securityAnswer1, $securityQuestion2, $securityAnswer2,  $securityQuestion3, $securityAnswer3);
     
     } else if (isset($_POST['add_admin'])) {
         $lastName = $_POST['last_name'];
@@ -86,7 +86,7 @@
             header("location: ../add-administrator-admin.html?error=passwordnotmatch");
             exit();
         }
-        adminInsertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $currentUsername, $email, $password);
+        adminInsertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $currentUsername, $email, $password, $securityQuestion1, $securityAnswer1, $securityQuestion2, $securityAnswer2,  $securityQuestion3, $securityAnswer3);
     
     } else {
         header("location: ../add-administrator.html");
