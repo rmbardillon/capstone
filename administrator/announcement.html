@@ -59,7 +59,9 @@
             <div class="col">
                 <h3 class="text-dark mb-4">Events</h3>
             </div>
+            <?php if($adminData['admin_type'] == "Main Administrator"){ ?>
             <div class="col"><a class="float-end btn btn-primary" href="create-announcement.html">Add Event</a></div>
+            <?php } ?>
         </div>
         <div class="card shadow">
             <div class="card-header py-3">

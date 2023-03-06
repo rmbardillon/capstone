@@ -76,6 +76,19 @@ $(document).ready( function () {
     announcementsTable.buttons().container().appendTo('#announcements_wrapper .col-md-6:eq(0)');
     
 });
+
+// GENERATE UUID
+function generateUUID() {
+  var cryptoObj = window.crypto || window.msCrypto;
+  var uuid = '';
+  var byteArray = new Uint8Array(8);
+  cryptoObj.getRandomValues(byteArray);
+  for (var i = 0; i < byteArray.length; i++) {
+    uuid += byteArray[i].toString(16).padStart(2, '0');
+  }
+  return uuid;
+}
+
 // Announcement
 $('#announcementFor').change(function() {
     if($(this).val() == "Senior Citizen") {
@@ -85,7 +98,7 @@ $('#announcementFor').change(function() {
     }
 });
 
-// Alert
+// Sweet Alert
 $("#deleteAnnouncement").click(function(event) {
     event.preventDefault(); // prevent the default behavior of the anchor tag
 
@@ -203,6 +216,35 @@ $("#logout").click(function(event) {
     });
 });
 
+// Save Form Data
+$("#saveForm").click(function() {
+    $('#name-modal').modal('show');
+})
+
+$("#save_name").click(function(){
+    // Get applicant's name, save form data to localStorage, and submit form
+    var applicantName = $('#applicant-name').val();
+    var applicantType = $('#applicantType').val();
+    var formName = generateUUID();
+    var formData = $('form').serializeArray();
+    localStorage.setItem('form-data-' + formName, JSON.stringify(formData));
+    $('#name-modal').modal('hide');
+    $('form').attr('action', 'includes/save-drafts.inc.php?applicant_name=' + encodeURIComponent(applicantName) + '&form_name=' + encodeURIComponent(formName) + '&applicant_type=' + encodeURIComponent(applicantType));
+    $('form').submit();
+})
+
+// Edit Draft Form
+$('#edit-draft').click(function(event) {
+    // Get the value of the "draftid" parameter
+    var draftId = $("#draftID").val();
+    alert('Draft loaded!');
+    // Get user ID and saved form data from localStorage and populate form fields
+    var savedFormData = JSON.parse(localStorage.getItem('form-data-' + draftId));
+    $.each(savedFormData, function(index, item) {
+        $('input[name=' + item.name + ']').val(item.value);
+    });
+});
+
 // Profile Picture
 const imgDiv = document.querySelector('#profilePicDiv');
 if (imgDiv !== null) {
@@ -260,15 +302,15 @@ $('#middlename').on('keyup blur',function(){
     node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
 );
 
-$('#childLastName').on('keyup blur',function(){ 
+$('.childLastName').on('keyup blur',function(){ 
     var node = $(this);
     node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
 );
-$('#childFirstName').on('keyup blur',function(){ 
+$('.childFirstName').on('keyup blur',function(){ 
     var node = $(this);
     node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
 );
-$('#childMiddlename').on('keyup blur',function(){ 
+$('.childMiddlename').on('keyup blur',function(){ 
     var node = $(this);
     node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
 );
@@ -495,6 +537,18 @@ $(document).ready(function() {
             newDiv.find('input[type="text"],input[type="date"],input[type="tel"],select').val('');
             // add the new div to the container
             $('#relativesContainer').append(newDiv);
+            $('.childLastName').on('keyup blur',function(){ 
+                var node = $(this);
+                node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
+            );
+            $('.childFirstName').on('keyup blur',function(){ 
+                var node = $(this);
+                node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
+            );
+            $('.childMiddlename').on('keyup blur',function(){ 
+                var node = $(this);
+                node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
+            );
         }
     });
     $("#job").change(function() {
@@ -577,6 +631,18 @@ $(document).ready(function() {
             var id = soloParentNewId.replace(soloParentRelativeCounter, soloParentRelativeCounter - 1);
             originalDiv.insertAfter($("#" + id));
         }
+        $('.childLastName').on('keyup blur',function(){ 
+            var node = $(this);
+            node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
+        );
+        $('.childFirstName').on('keyup blur',function(){ 
+            var node = $(this);
+            node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
+        );
+        $('.childMiddlename').on('keyup blur',function(){ 
+            var node = $(this);
+            node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
+        );
     });
 });
 function soloParentRemoveRelative(button) {

@@ -7,6 +7,7 @@
     }
 ?>
     <div class="container form">
+        <button id="edit-draft">edit</button>
         <h5 class="heading">PWDF-043-<?php echo($totalPWD+1); ?></h5>
         <form action="includes/register.inc.php" method="post" novalidate="">
           <input type="hidden" name="formControlNumber" id="formControlNumber">
@@ -180,7 +181,19 @@
           <div class="col col-3">
             <label class="form-label required" for="barangay">BARANGAY</label>
             <select id="barangay" class="form-select" name="barangay" required>
-              <option disabled selected value="">Please Select</option>
+                <option disabled selected value="">Please Select</option>
+                <?php
+                $selected = $adminData['barangay'];
+                $barangay = array('City Hall','Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz'
+                ,'Santo Domingo','Sinalhan','Tagapo');
+                if($selected != "City Hall") {
+                    foreach($barangay as $option) {
+                        if($selected == $option) {
+                            echo '<option value="'; echo $option; echo'"   >'; echo $option; echo'</option>';
+                        }
+                    }
+                } else {
+                ?>
               <option value="Aplaya">Aplaya</option>
               <option value="Balibago">Balibago</option>
               <option value="Caingin">Caingin</option>
@@ -199,6 +212,7 @@
               <option value="Santo Domingo">Santo Domingo</option>
               <option value="Sinalhan">Sinalhan</option>
               <option value="Tagapo">Tagapo</option>
+                <?php } ?>
             </select>
           </div>
         </div>
@@ -1103,12 +1117,13 @@
               <option value="Representative">Representative</option>
             </select>
             <input
-              class="form-control numbers mt-1"
+              class="form-control mt-1"
               type="text"
               id="accomplisherName"
               name="accomplisherName"
               placeholder="Representive Name"
               style="display: none;"
+              maxlength="128"
             />
             <div class="mt-1" id="accomID" style="display: none;">
                 <label for="accomplisherID" class="form-label">Input Representative/Guardian ID</label>
@@ -1135,6 +1150,16 @@
             <button
               class="btn btn-primary w-100"
               type="submit"
+              id="saveForm"
+              name="pwdSave"
+            >
+              Save as Draft
+            </button>
+          </div>
+          <div class="col">
+            <button
+              class="btn btn-primary w-100"
+              type="submit"
               name="pwdSubmit"
             >
               Submit
@@ -1142,6 +1167,29 @@
           </div>
         </div>
       </form>
+    </div>
+    <div class="modal" id="name-modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="applicantType" value="PWD">
+                <h5 class="modal-title">Enter Applicant's Name</h5>
+                <button type="button" class="btn close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                <label for="applicant-name">Applicant's Name:</label>
+                <input type="text" class="form-control" id="applicant-name" name="applicant_name">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" id="save_name" name="pwdSave" class="btn btn-primary">Save</button>
+            </div>
+            </div>
+        </div>
     </div>
 <?php
     include "footer.html";
