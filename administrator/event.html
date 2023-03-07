@@ -36,7 +36,7 @@
                             <?php foreach($events as $event): ?>
                             <tr>
                                 <td style="text-align: center;"><?php echo($event['CITIZEN_ID']) ?></td>
-                                <td style="text-align: center;"><?php echo($event['FIRST_NAME']." ".$event['MIDDLE_NAME'][0].". ".$event['LAST_NAME']." ".$event['SUFFIX']) ?></td>
+                                <td style="text-align: center;"><?php echo($event['FIRST_NAME']." ".$event['LAST_NAME']) ?></td>
                                 <td style="text-align: center;"><?php echo($event['APPLICANT_TYPE']) ?></td>
                                 <td style="text-align: center;"><?php echo($event['BARANGAY']) ?></td>
                                 <td style="text-align: center;"><a class="btn btn-primary <?php if($event['STATUS_OF_CLAIMS'] == 'CLAIMED') echo'disabled'; ?>" href="<?php 

@@ -562,8 +562,13 @@ function getUserData($connection, $table, $where, $condition) {
 
 function getAnnouncements($connection, $barangay, $for, $userBirthday) {
     $data = [];
-    $sql = "SELECT * FROM announcement WHERE (BARANGAY = '$barangay' OR BARANGAY = 'All') AND (ANNOUNCEMENT_FOR = '$for' OR ANNOUNCEMENT_FOR = 'All') AND ((MONTH('$userBirthday') BETWEEN 1 AND 6 AND DATE_FROM = '01')
-    OR (MONTH('$userBirthday') BETWEEN 7 AND 12 AND DATE_FROM = '02'))";
+    if($for == "Senior Citizen") {
+        $sql = "SELECT * FROM announcement WHERE (BARANGAY = '$barangay' OR BARANGAY = 'All') AND (ANNOUNCEMENT_FOR = '$for' OR ANNOUNCEMENT_FOR = 'All') OR ((MONTH('$userBirthday') BETWEEN 1 AND 6 AND DATE_FROM = '01')
+        OR (MONTH('$userBirthday') BETWEEN 7 AND 12 AND DATE_FROM = '02'))";
+    } else {
+        $sql = "SELECT * FROM announcement WHERE (BARANGAY = '$barangay' OR BARANGAY = 'All') AND (ANNOUNCEMENT_FOR = '$for' OR ANNOUNCEMENT_FOR = 'All')";
+    }
+    
     $result = $connection->query($sql);
 
     if ($result->num_rows > 0) {

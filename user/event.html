@@ -1,27 +1,27 @@
 <?php 
     $page = "announcement";
-    $id = $_GET['edit'];
-    require_once 'includes/dbh.inc.php';
-    require_once 'includes/functions.inc.php';
-    $announcement = getUserData($connection, "announcement", "ANNOUNCEMENT_ID", $id);
     include("header.html");
-    if (!isset($_SESSION['admin-data'])) {
-        header("location: ../login/admin.html");
+    $id = $_GET['id'];
+    $announcement = getUserData($connection, "announcement", "ANNOUNCEMENT_ID", $id);
+    if (!isset($_SESSION['username'])) {
+        header("location: ../login/citizen.html");
         exit();
     }
 ?>
     <div class="container-fluid">
-        <h3 class="text-dark mb-4">Events</h3>
         <div class="row d-flex justify-content-center">
             <div class="col-md-8 col-lg-6 col-xl-5 col-xxl-4">
                 <div class="card mb-5">
                     <div class="card-body p-sm-5">
-                        <h2 class="text-center mb-4">Update Event</h2>
+                        <h2 class="text-center mb-4">Event Information</h2>
                         <form action="includes/add-announcement.inc.php?edit=<?php echo($id); ?>" method="post" novalidate>
                             <?php foreach($announcement as $user): ?>
-                            <div class="mb-3"><input class="form-control" type="text" id="announcement" name="announcement" placeholder="Announcement Title" value="<?php echo($user['TITLE']); ?>"></div>
                             <div class="mb-3">
-                                <select class="form-select" id="announcementFor" name="announcementFor" required>
+                                <label class="form-label" for="">Event Title</label>
+                                <input class="form-control" type="text" id="announcement" name="announcement" placeholder="Event Title" value="<?php echo($user['TITLE']); ?>" disabled></div>
+                            <div class="mb-3">
+                                <label class="form-label" for="">Event Citizen Participants</label>
+                                <select class="form-select" id="announcementFor" name="announcementFor" disabled>
                                     <option disabled selected value="">Announcement For?</option>
                                     <?php 
                                         $selected = $user['ANNOUNCEMENT_FOR'];
@@ -48,7 +48,8 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <select class="form-select" id="barangay" name="barangay" required>
+                                <label class="form-label" for="">Event Barangay Participants</label>
+                                <select class="form-select" id="barangay" name="barangay" disabled>
                                     <option disabled selected value="">Please Select Barangay</option>
                                     <?php 
                                         $selected = $user['BARANGAY'];
@@ -65,10 +66,12 @@
                                 </select></div>
                             <div class="mb-3">
                                 <label for="announcementDate">Set Date for event</label>
-                                <input class="form-control" type="date" name="announcementDate" id="announcementDate" min="1900-01-01" required value="<?php echo($user['DATE']); ?>">
+                                <input class="form-control" type="date" name="announcementDate" id="announcementDate" min="1900-01-01" required value="<?php echo($user['DATE']); ?>" disabled>
                             </div>
-                            <div class="mb-3"><textarea class="form-control" id="announcementMessage" name="announcementMessage" rows="6" placeholder="Announcement Message" ><?php echo($user['MESSAGE']); ?></textarea></div>
-                            <div><button class="btn btn-primary d-block w-100" type="submit" name="update-announcement-submit">Update Announcement</button></div>
+                            <div class="mb-3">
+                                <label class="form-label" for="">Event Message</label>
+                                <textarea class="form-control" id="announcementMessage" name="announcementMessage" rows="6" placeholder="Announcement Message" disabled><?php echo($user['MESSAGE']); ?></textarea></div>
+                            <div>
                             <?php endforeach; ?>
                         </form>
                     </div>

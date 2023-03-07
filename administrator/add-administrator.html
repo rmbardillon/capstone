@@ -20,10 +20,16 @@
                             </div>
                             <form class="user" action="includes/add-administrator.inc.php" method="post" novalidate>
                                 <div class="row mb-3">
-                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" id="first_name" placeholder="First Name" name="first_name" required></div>
-                                    <div class="col-sm-6"><input class="form-control form-control-user" type="text" id="last_name" placeholder="Last Name" name="last_name" required></div>
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input class="form-control form-control-user name" type="text" id="first_name" placeholder="First Name" name="first_name" maxlength="64" required>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input class="form-control form-control-user name" type="text" id="last_name" placeholder="Last Name" name="last_name" maxlength="64" required>
+                                    </div>
                                 </div>
-                                <div class="mb-3"><input class="form-control form-control-user" type="email" id="email" aria-describedby="emailHelp" placeholder="Email Address" name="email" required></div>
+                                <div class="mb-3">
+                                    <input class="form-control form-control-user" type="email" id="email" aria-describedby="emailHelp" placeholder="Email Address" name="email" required>
+                                </div>
                                 <div class="mb-3">
                                     <select class="form-select" id="admin-type" name="admin-type" style="border-radius: 160px;" required>
                                         <option disabled selected value="">Please Select Type of Administrator</option>
@@ -57,7 +63,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="security_question">Security Question 1</label>
-                                    <select class="form-select" id="security_question" name="security_question1" style="border-radius: 160px;" required>
+                                    <select class="form-select" id="security_question1" name="security_question1" style="border-radius: 160px;" required>
                                         <option value="" disabled selected>-- Select a security question --</option>
                                         <option value="childhood_nickname">What was your childhood nickname?</option>
                                         <option value="favorite_teacher">What is the name of your favorite teacher?</option>
@@ -74,7 +80,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="security_question">Security Question 2</label>
-                                    <select class="form-select" id="security_question" name="security_question2" style="border-radius: 160px;" required>
+                                    <select class="form-select" id="security_question2" name="security_question2" style="border-radius: 160px;" required>
                                         <option value="" disabled selected>-- Select a security question --</option>
                                         <option value="childhood_nickname">What was your childhood nickname?</option>
                                         <option value="favorite_teacher">What is the name of your favorite teacher?</option>
@@ -91,7 +97,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="security_question">Security Question 3</label>
-                                    <select class="form-select" id="security_question" name="security_question3" style="border-radius: 160px;" required>
+                                    <select class="form-select" id="security_question3" name="security_question3" style="border-radius: 160px;" required>
                                         <option value="" disabled selected>-- Select a security question --</option>
                                         <option value="childhood_nickname">What was your childhood nickname?</option>
                                         <option value="favorite_teacher">What is the name of your favorite teacher?</option>
@@ -107,9 +113,16 @@
                                     <input class="form-control mt-1" type="text" name="securityAnswer3" id="securityAnswer3" placeholder="Answer to Security Question 3" style="border-radius: 160px;" required>
                                 </div>
                                 <div class="row mb-3">
-                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="password" id="password" placeholder="Password" name="password" required></div>
-                                    <div class="col-sm-6"><input class="form-control form-control-user" type="password" id="repeat_password" placeholder="Confirm Password" name="repeat_password" required></div>
-                                </div><button class="btn btn-primary d-block btn-user w-100" type="submit" name="add_admin_submit">Add Administrator Account</button>
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input class="form-control form-control-user password" type="password" id="password" placeholder="Password" name="password" required>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input class="form-control form-control-user" type="password" id="repeat_password" placeholder="Confirm Password" name="repeat_password" required>
+                                    </div>
+                                    <div id="error-message" class='text-danger'></div>
+                                    <a class="toggle-password">Show Password</a>
+                                </div>
+                                <button class="btn btn-primary d-block btn-user w-100" type="submit" name="add_admin_submit">Add Administrator Account</button>
                                 <hr>
                                 <hr>
                             </form>

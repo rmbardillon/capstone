@@ -23,6 +23,7 @@
                                 <th style="text-align: center;">Message</th>
                                 <th style="text-align: center;">Announcement For</th>
                                 <th style="text-align: center;">Address</th>
+                                <th style="text-align: center;">Show Information</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -32,6 +33,7 @@
                                 <td style="text-align: center;"><?php echo($announcement['MESSAGE']) ?></td>
                                 <td style="text-align: center;"><?php echo($announcement['ANNOUNCEMENT_FOR']) ?></td>
                                 <td style="text-align: center;">Barangay <?php echo($announcement['BARANGAY']) ?>&nbsp;</td>
+                                <td style="text-align: center;"><a class="btn btn-primary" href="event.html?id=<?php echo($announcement['ANNOUNCEMENT_ID']); ?>">Show Information</a></td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>

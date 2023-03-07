@@ -31,14 +31,14 @@
                                     </thead>
                                     <tbody>
                 HTML; ?>
-                                        <?php foreach($pwdData as $userPWDData):?>
+                                        <?php foreach($pwdData as $user):?>
                                         <tr>
                                             <td style="text-align: left;">
-                                            <?php echo($userPWDData['FIRST_NAME']." ".$userPWDData['MIDDLE_NAME'][0].". ".$userPWDData['LAST_NAME']); ?></td>
-                                            <td style="text-align: center;">Barangay <?php echo($userPWDData['BARANGAY']); ?>&nbsp;</td>
-                                            <td style="text-align: center;"><?php echo(ageCalculator($userPWDData['DATE_OF_BIRTH'])); ?></td>
-                                            <td style="text-align: center;"><?php echo($userPWDData['DATE_UPDATED']); ?></td>
-                                            <td style="text-align: center;" class="<?php if($userPWDData['STATUS'] == 'APPROVED') echo'text-success'; else if($userPWDData['STATUS'] == 'PENDING') echo'text-warning'; else echo'text-danger'; ?>"><?php echo($userPWDData['STATUS']); ?></td>
+                                            <?php echo($user['NAME']); ?></td>
+                                            <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
+                                            <td style="text-align: center;"><?php echo(ageCalculator($user['DATE_OF_BIRTH'])); ?></td>
+                                            <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
+                                            <td style="text-align: center;" class="<?php if($user['STATUS'] == 'APPROVED') echo'text-success'; else if($user['STATUS'] == 'PENDING') echo'text-warning'; else echo'text-danger'; ?>"><?php echo($user['STATUS']); ?></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -72,7 +72,7 @@
                                         <?php foreach($soloParentData as $user): ?>
                                         <tr>
                                             <td style="text-align: left;">
-                                                <?php echo($user['FIRST_NAME']." ".$user['MIDDLE_NAME'][0].". ".$user['LAST_NAME']); ?></td>
+                                                <?php echo($user['NAME']); ?></td>
                                             <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
                                             <td style="text-align: center;"><?php echo(ageCalculator($user['DATE_OF_BIRTH'])); ?></td>
                                             <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
@@ -110,7 +110,7 @@
                                         <?php foreach($seniorCitizenData as $user): ?>
                                         <tr>
                                             <td style="text-align: left;">
-                                                <?php echo($user['FIRST_NAME']." ".$user['MIDDLE_NAME'][0].". ".$user['LAST_NAME']); ?></td>
+                                                <?php echo($user['NAME']); ?></td>
                                             <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
                                             <td style="text-align: center;"><?php echo(ageCalculator($user['DATE_OF_BIRTH'])); ?></td>
                                             <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
@@ -150,14 +150,14 @@
                                     </thead>
                                     <tbody>
                 HTML; ?>
-                                        <?php foreach($pwdDataPerBarangay as $userPWDData): ?>
+                                        <?php foreach($pwdDataPerBarangay as $user): ?>
                                         <tr>
                                             <td style="text-align: left;">
-                                            <?php echo($userPWDData['FIRST_NAME']." ".$userPWDData['MIDDLE_NAME'][0].". ".$userPWDData['LAST_NAME']); ?></td>
-                                            <td style="text-align: center;">Barangay <?php echo($userPWDData['BARANGAY']); ?>&nbsp;</td>
-                                            <td style="text-align: center;"><?php echo(ageCalculator($userPWDData['DATE_OF_BIRTH'])); ?></td>
-                                            <td style="text-align: center;"><?php echo($userPWDData['DATE_UPDATED']); ?></td>
-                                            <td style="text-align: center;" class="<?php if($userPWDData['STATUS'] == 'APPROVED') echo'text-success'; else if($userPWDData['STATUS'] == 'PENDING') echo'text-warning'; else echo'text-danger'; ?>"><?php echo($userPWDData['STATUS']); ?></td>
+                                            <?php echo($user['NAME']); ?></td>
+                                            <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
+                                            <td style="text-align: center;"><?php echo(ageCalculator($user['DATE_OF_BIRTH'])); ?></td>
+                                            <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
+                                            <td style="text-align: center;" class="<?php if($user['STATUS'] == 'APPROVED') echo'text-success'; else if($user['STATUS'] == 'PENDING') echo'text-warning'; else echo'text-danger'; ?>"><?php echo($user['STATUS']); ?></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -195,7 +195,7 @@
                                         <?php foreach($soloParentDataPerBarangay as $user): ?>
                                         <tr>
                                             <td style="text-align: left;">
-                                                <?php echo($user['FIRST_NAME']." ".$user['MIDDLE_NAME'][0].". ".$user['LAST_NAME']); ?></td>
+                                                <?php echo($user['NAME']); ?></td>
                                             <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
                                             <td style="text-align: center;"><?php echo(ageCalculator($user['DATE_OF_BIRTH'])); ?></td>
                                             <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
@@ -237,7 +237,7 @@
                                         <?php foreach($seniorCitizenDataPerBarangay as $user): ?>
                                         <tr>
                                             <td style="text-align: left;">
-                                                <?php echo($user['FIRST_NAME']." ".$user['MIDDLE_NAME'][0].". ".$user['LAST_NAME']); ?></td>
+                                                <?php echo($user['NAME']); ?></td>
                                             <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
                                             <td style="text-align: center;"><?php echo(ageCalculator($user['DATE_OF_BIRTH'])); ?></td>
                                             <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>

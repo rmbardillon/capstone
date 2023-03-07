@@ -31,10 +31,10 @@
                                 <form class="user" action="includes/add-administrator.inc.php" method="post">
                                     <div class="row mb-3">
                                         <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <input class="form-control form-control-user" type="text" id="first_name" placeholder="First Name" name="first_name" required>
+                                            <input class="form-control form-control-user name" type="text" id="first_name" placeholder="First Name" name="first_name" maxlength="64" required>
                                         </div>
                                         <div class="col-sm-6">
-                                            <input class="form-control form-control-user" type="text" id="first_name" placeholder="Last Name" name="last_name" required>
+                                            <input class="form-control form-control-user name" type="text" id="first_name" placeholder="Last Name" name="last_name" maxlength="64" required>
                                         </div>
                                     </div>
                                     <div class="mb-3">
@@ -125,9 +125,16 @@
                                     <input class="form-control mt-1" type="text" name="securityAnswer3" id="securityAnswer3" placeholder="Answer to Security Question 3" style="border-radius: 160px;" required>
                                 </div>
                                 <div class="row mb-3">
-                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="password" id="password" placeholder="Password" name="password" required></div>
-                                    <div class="col-sm-6"><input class="form-control form-control-user" type="password" id="repeat_password" placeholder="Confirm Password" name="repeat_password" required></div>
-                                </div><button class="btn btn-primary d-block btn-user w-100" type="submit" name="add_admin">Add Administrator Account</button>
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input class="form-control form-control-user password" type="password" id="password" placeholder="Password" name="password" required>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input class="form-control form-control-user" type="password" id="repeat_password" placeholder="Confirm Password" name="repeat_password" required>
+                                    </div>
+                                    <div id="error-message" class='text-danger'></div>
+                                    <a class="toggle-password">Show Password</a>
+                                </div>
+                                <button class="btn btn-primary d-block btn-user w-100" type="submit" name="add_admin">Add Administrator Account</button>
                                     <hr>
                                     <hr>
                                 </form>
@@ -219,8 +226,13 @@
     </div>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/function.js"></script>
     <script>
         $(document).ready(function() {
+            $('.name').on('keyup blur',function(){ 
+                var node = $(this);
+                node.val(node.val().replace(/[^A-Za-z\s]/g,'') ); }
+            );
             var originalBarangayOptions = $("#barangay").html();
             $("#admin-type").change(function() {
                 if ($(this).val() == "Main Administrator") {

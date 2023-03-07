@@ -370,12 +370,10 @@ $(document).ready(function() {
                         $("#accomplisherName").focus();
                         $("#accomplisherName").prop("required", true);
                     }
-
                     if ($("#accomplishedBy").val() == "Guardian") {
                         $("#guardianSurname").prop("required", true);
                         $("#guardianFirstName").prop("required", true);
                     }
-
                     if ($("#accomplishedBy").val() == "Guardian" || $("#accomplishedBy").val() == "Representative") {
                         $("#accomID").show();
                         $("#accomID").prop("required", true);
@@ -437,45 +435,65 @@ forms.forEach(function(form) {
 });
 
 // Name validation
-$('#surname').on('keyup blur',function(){ 
-    var node = $(this);
-    node.val(node.val().replace(/[^A-Za-z\s]/g,'') ); }
-);
-$('#firstName').on('keyup blur',function(){ 
-    var node = $(this);
-    node.val(node.val().replace(/[^A-Za-z\s]/g,'') ); }
-);
-$('#middlename').on('keyup blur',function(){ 
+$('.name').on('keyup blur',function(){ 
     var node = $(this);
     node.val(node.val().replace(/[^A-Za-z\s]/g,'') ); }
 );
 
-$('.childLastName').on('keyup blur',function(){ 
-    var node = $(this);
-    node.val(node.val().replace(/[^A-Za-z\s]/g,'') ); }
-);
-$('.childFirstName').on('keyup blur',function(){ 
-    var node = $(this);
-    node.val(node.val().replace(/[^A-Za-z\s]/g,'') ); }
-);
-$('.childMiddlename').on('keyup blur',function(){ 
-    var node = $(this);
-    node.val(node.val().replace(/[^A-Za-z\s]/g,'') ); }
-);
+// Password validation
+$(".toggle-password").click(function() {
+    const passwordField = $('.password');
 
+    if (passwordField.attr("type") === "password") {
+        passwordField.attr("type", "text");
+        $(".toggle-password").text("Hide Password");
+    } else {
+        passwordField.attr("type", "password");
+        $(".toggle-password").text("Show Password");
+    }
 
-// Print Button
-$("#printBtn").click(function() {
-    var divToPrint = $(".printPage").html();
-    var newWin = window.open("");
-    newWin.document.write(divToPrint);
-    newWin.print();
-    newWin.close();
+    return false; // prevent the link from triggering navigation
+});
+$("#repeat_password").on('change', function() {
+    if($(this).val() != $("#password").val()) {
+        $("#error-message").text("Password does not match.");
+    } else {
+        $("#error-message").text("");
+    }
+});
+// Select the password input field
+var passwordField = $('.password[type=password]');
+
+// Attach a keyup event listener to the password field
+passwordField.on('keyup', function() {
+    // Get the password value
+    var password = $(this).val();
+
+    // Set the regular expressions for each password requirement
+    var regexCapitalLetter = /[A-Z]/;
+    var regexSymbol = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+    var regexNumber = /\d/;
+    var regexSpace = /\s/;
+
+    // Check if the password meets all requirements
+    if (password.length < 8) {
+        $('#error-message').text('Password must be at least 8 characters long');
+    } else if (regexSpace.test(password)) {
+        $('#error-message').text('Password must not contain spaces');
+    } else if (!regexCapitalLetter.test(password)) {
+        $('#error-message').text('Password must contain at least one capital letter');
+    } else if (!regexSymbol.test(password)) {
+        $('#error-message').text('Password must contain at least one symbol');
+    } else if (!regexNumber.test(password)) {
+        $('#error-message').text('Password must contain at least one number');
+    } else {
+        $('#error-message').text('');
+    }
 });
 
-let formControlNumber = $('h5.heading').text();
-$("#formControlNumber").val(formControlNumber);
-$(document).on('keyup change', 'input[type="text"],textarea', function() {
+
+
+$(document).on('keyup change', 'input[type="text"]:not(.password[type="text"]),textarea', function() {
     $(this).val($(this).val().toUpperCase());
 });
 $(document).on('keypress', '.numbers', function(e) {

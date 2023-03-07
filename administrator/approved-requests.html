@@ -34,14 +34,14 @@
                                     </thead>
                                     <tbody>
                 HTML; ?>
-                                        <?php foreach($approvedPWD as $userPWDData): ?>
+                                        <?php foreach($approvedPWD as $user): ?>
                                         <tr>
                                             <td style="text-align: center;">
-                                                <?php echo($userPWDData['FIRST_NAME']." ".$userPWDData['MIDDLE_NAME']." ".$userPWDData['LAST_NAME']); ?></td>
-                                            <td style="text-align: center;">Barangay <?php echo($userPWDData['BARANGAY']); ?>&nbsp;</td>
-                                            <td style="text-align: center;"><?php echo($userPWDData['DATE_ISSUED']); ?></td>
-                                            <td style="text-align: center;"><?php echo($userPWDData['EXPIRATION_DATE']); ?></td>
-                                            <td style="text-align: center;"><a class="btn btn-secondary" href="pwd-application-form-filled-up.html?id=<?php echo($userPWDData['PERSON_ID']); ?>">View Information</a></td>
+                                                <?php echo($user['NAME']); ?></td>
+                                            <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
+                                            <td style="text-align: center;"><?php echo($user['DATE_ISSUED']); ?></td>
+                                            <td style="text-align: center;"><?php echo($user['EXPIRATION_DATE']); ?></td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="pwd-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>">View Information</a></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -74,7 +74,7 @@
                                         <?php foreach($approvedSrCitizen as $user): ?>
                                         <tr>
                                             <td style="text-align: center;">
-                                                <?php echo($user['FIRST_NAME']." ".$user['MIDDLE_NAME']." ".$user['LAST_NAME']); ?></td>
+                                                <?php echo($user['NAME']); ?></td>
                                             <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
                                             <!-- <td style="text-align: center;"><a class="btn btn-secondary" href="senior-citizen-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>">View Information</a></td> -->
                                         </tr>
@@ -111,7 +111,7 @@
                                         <?php foreach($approvedSoloParent as $user): ?>
                                         <tr>
                                             <td style="text-align: center;">
-                                                <?php echo($user['FIRST_NAME']." ".$user['MIDDLE_NAME']." ".$user['LAST_NAME']); ?></td>
+                                                <?php echo($user['NAME']); ?></td>
                                             <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
                                             <td style="text-align: center;"><?php echo($user['DATE_ISSUED']); ?></td>
                                             <td style="text-align: center;"><?php echo($user['EXPIRATION_DATE']); ?></td>
@@ -149,14 +149,14 @@
                                     </thead>
                                     <tbody>
                 HTML; ?>
-                                        <?php foreach($approvedPWDPerBarangay as $userPWDData): ?>
+                                        <?php foreach($approvedPWDPerBarangay as $user): ?>
                                         <tr>
                                             <td style="text-align: center;">
-                                                <?php echo($userPWDData['FIRST_NAME']." ".$userPWDData['MIDDLE_NAME']." ".$userPWDData['LAST_NAME']); ?></td>
-                                            <td style="text-align: center;">Barangay <?php echo($userPWDData['BARANGAY']); ?>&nbsp;</td>
-                                            <td style="text-align: center;"><?php echo($userPWDData['DATE_ISSUED']); ?></td>
-                                            <td style="text-align: center;"><?php echo($userPWDData['EXPIRATION_DATE']); ?></td>
-                                            <td style="text-align: center;"><a class="btn btn-secondary" href="pwd-application-form-filled-up.html?id=<?php echo($userPWDData['PERSON_ID']); ?>">View Information</a></td>
+                                                <?php echo($user['NAME']); ?></td>
+                                            <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
+                                            <td style="text-align: center;"><?php echo($user['DATE_ISSUED']); ?></td>
+                                            <td style="text-align: center;"><?php echo($user['EXPIRATION_DATE']); ?></td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="pwd-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>">View Information</a></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -191,7 +191,7 @@
                                         <?php foreach($approvedSrCitizenPerBarangay as $user): ?>
                                         <tr>
                                             <td style="text-align: center;">
-                                                <?php echo($user['FIRST_NAME']." ".$user['MIDDLE_NAME']." ".$user['LAST_NAME']); ?></td>
+                                                <?php echo($user['NAME']); ?></td>
                                             <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
                                             <!-- <td style="text-align: center;"><a class="btn btn-secondary" href="senior-citizen-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>">View Information</a></td> -->
                                         </tr>
@@ -230,7 +230,7 @@
                                         <?php foreach($approvedSoloParentPerBarangay as $user): ?>
                                         <tr>
                                             <td style="text-align: center;">
-                                                <?php echo($user['FIRST_NAME']." ".$user['MIDDLE_NAME']." ".$user['LAST_NAME']); ?></td>
+                                                <?php echo($user['NAME']); ?></td>
                                             <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
                                             <td style="text-align: center;"><?php echo($user['DATE_ISSUED']); ?></td>
                                             <td style="text-align: center;"><?php echo($user['EXPIRATION_DATE']); ?></td>
