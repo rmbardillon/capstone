@@ -17,7 +17,7 @@
                 <div class="card mb-5">
                     <div class="card-body p-sm-5">
                         <h2 class="text-center mb-4">Update Event</h2>
-                        <form action="includes/add-announcement.inc.php?edit=<?php echo($id); ?>" method="post">
+                        <form action="includes/add-announcement.inc.php?edit=<?php echo($id); ?>" method="post" novalidate>
                             <?php foreach($announcement as $user): ?>
                             <div class="mb-3"><input class="form-control" type="text" id="announcement" name="announcement" placeholder="Announcement Title" value="<?php echo($user['TITLE']); ?>"></div>
                             <div class="mb-3">
