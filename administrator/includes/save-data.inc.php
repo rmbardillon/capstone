@@ -6,7 +6,7 @@
     $data = json_decode($jsonData, true);
 
     // Create a unique filename for the JSON file based on the form name
-    $filename = '../assets/savedata/form-data-' . $data['formName'] . '.json';
+    $filename = '../savedata/form-data-' . $data['formName'] . '.json';
 
     // Write the JSON data to the file
     $file = fopen($filename, 'w');

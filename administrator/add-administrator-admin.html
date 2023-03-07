@@ -218,6 +218,20 @@
         </div>
     </div>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var originalBarangayOptions = $("#barangay").html();
+            $("#admin-type").change(function() {
+                if ($(this).val() == "Main Administrator") {
+                    $("#barangay").val("City Hall");
+                    $("#barangay option[value!='City Hall']").remove();
+                } else {
+                    $("#barangay").html(originalBarangayOptions);
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
