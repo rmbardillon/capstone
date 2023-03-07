@@ -1873,7 +1873,7 @@ function insertIssuedId($connection, $personId, $applicantType, $currentDate, $e
     $stmt->close();
 }
 
-function insertClaimedBenefits($connection, $personId, $applicantType) {
+function insertClaimedBenefits($connection, $personId, $applicantType, $event_id) {
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
@@ -1885,7 +1885,7 @@ function insertClaimedBenefits($connection, $personId, $applicantType) {
 
     // Execute the query
     if($stmt->execute() === TRUE){
-        header("location: ../announcement.html");
+        header("location: ../event.html?id=$event_id");
         exit();
     } else {
         $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;

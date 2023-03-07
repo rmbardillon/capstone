@@ -4,6 +4,7 @@
     require_once 'includes/sql.inc.php';
     if(isset($_GET['event'])) {
         $page = "announcement";
+        $event_id = $_GET['event'];
     } else {
         $page = "pending-requests";
     }
@@ -1235,13 +1236,13 @@
           </div>
         <?php } else {?>
             <div class="col">
+                <input class="form-control" type="file" name="" id="">
             <a
               class="btn btn-success w-100"
-              href="includes/claim.inc.php?application_type=PWD&person_id=<?php echo($PERSON_ID); ?>">
+              href="includes/claim.inc.php?event_id=$event_id&application_type=PWD&person_id=<?php echo($PERSON_ID); ?>">
               Claim
             </a>
           </div>
-          <input class="form-control" type="file" name="" id="">
         <?php } ?>
         </div>
       </form>
