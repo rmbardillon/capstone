@@ -217,7 +217,7 @@ function getGuardianData($connection, $personID) {
     FROM person
     JOIN name ON person.PERSON_ID = name.PERSON_ID
     JOIN relationship ON person.PERSON_ID = relationship.PERSON_ID
-    WHERE relationship.RELATIONSHIP_TYPE == 'Guardian'
+    WHERE relationship.RELATIONSHIP_TYPE = 'Guardian'
     AND relationship.APPLICANT_ID = ?
     AND person.IS_DELETED = 'N'
     AND name.IS_DELETED = 'N'";
