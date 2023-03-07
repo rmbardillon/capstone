@@ -90,6 +90,7 @@ function generateUUID() {
 }
 
 // Announcement
+$('#announcementFor').val() == "Senior Citizen" ? $("#coveredMonths").show() : $("#coveredMonths").hide();
 $('#announcementFor').change(function() {
     if($(this).val() == "Senior Citizen") {
         $("#coveredMonths").show();
