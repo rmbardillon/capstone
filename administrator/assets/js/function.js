@@ -93,6 +93,7 @@ function generateUUID() {
 $('#announcementFor').change(function() {
     if($(this).val() == "Senior Citizen") {
         $("#coveredMonths").show();
+        $("#from").prop("disabled", false);
     } else {
         $("#coveredMonths").hide();
     }
