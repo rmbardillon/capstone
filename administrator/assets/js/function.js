@@ -99,7 +99,7 @@ $('#announcementFor').change(function() {
 });
 
 // Sweet Alert
-$("#deleteAnnouncement").click(function(event) {
+$(".deleteAnnouncement").click(function(event) {
     event.preventDefault(); // prevent the default behavior of the anchor tag
 
     const deleteUrl = $(this).attr('href'); // store the URL of the anchor tag
