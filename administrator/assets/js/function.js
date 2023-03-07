@@ -90,13 +90,20 @@ function generateUUID() {
 }
 
 // Announcement
-$('#announcementFor').val() == "Senior Citizen" ? $("#coveredMonths").show() : $("#coveredMonths").hide();
+if($('#announcementFor').val() == "Senior Citizen"){
+    $("#coveredMonths").show();
+    $("#from").prop("disabled", false);
+} else {
+    $("#coveredMonths").hide();
+    $("#from").prop("disabled", true);
+}
 $('#announcementFor').change(function() {
     if($(this).val() == "Senior Citizen") {
         $("#coveredMonths").show();
         $("#from").prop("disabled", false);
     } else {
         $("#coveredMonths").hide();
+        $("#from").prop("disabled", true);
     }
 });
 
