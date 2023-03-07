@@ -15,9 +15,10 @@ if (isset($_POST['add-announcement-submit'])) {
     $id = $_GET['edit'];
     $title = $_POST['announcement'];
     $for = $_POST['announcementFor']; 
+    $from = $_POST['from'];
     $where = $_POST['barangay']; 
     $date = $_POST['announcementDate']; 
     $message = $_POST['announcementMessage'];
 
-    updateAnnouncement($connection, $title, $for, $where, $message, $id, $date);
+    updateAnnouncement($connection, $title, $for, $from, $where, $message, $id, $date);
 }

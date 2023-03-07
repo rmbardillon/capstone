@@ -35,11 +35,11 @@
                                         }
                                     ?>
                                 </select></div>
-                            <div class="mb-3" id="coveredMonths">
+                            <div class="mb-3" id="coveredMonths" style="display: none;">
                                 <label for="">Covered Birthday Months</label>
                                 <div class="row">
                                     <div class="col">
-                                        <select class="form-select" id="from" name="from" disabled>
+                                        <select class="form-select" id="from" name="from">
                                             <option disabled selected value="">Date</option>
                                             <option value="01" <?php echo ($user['DATE_FROM'] == '01') ? 'selected' : ''; ?> >January - June</option>
                                             <option value="02" <?php echo ($user['DATE_FROM'] == '02') ? 'selected' : ''; ?> >July - December</option>

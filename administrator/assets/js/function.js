@@ -90,16 +90,18 @@ function generateUUID() {
 }
 
 // Announcement
+$('#announcementFor').val() == "Senior Citizen" ? $("#coveredMonths").show() : $("#coveredMonths").hide();
 $('#announcementFor').change(function() {
     if($(this).val() == "Senior Citizen") {
         $("#coveredMonths").show();
+        $("#from").prop("disabled", false);
     } else {
         $("#coveredMonths").hide();
     }
 });
 
 // Sweet Alert
-$("#deleteAnnouncement").click(function(event) {
+$(".deleteAnnouncement").click(function(event) {
     event.preventDefault(); // prevent the default behavior of the anchor tag
 
     const deleteUrl = $(this).attr('href'); // store the URL of the anchor tag
@@ -267,7 +269,7 @@ $('.edit-draft').click(function(event) {
 $(document).ready(function() {
     // Get user ID from URL parameters
     var userId = new URLSearchParams(window.location.search).get('userId');
-
+    
     if(userId != null) {
         $("#saveForm").click(function() {
             $("#save_name").click();
@@ -286,6 +288,91 @@ $(document).ready(function() {
                         $('[name="' + item.name + '"]').val(item.value);
                     });
                     alert('Draft loaded!');
+                    // Senior Citizen Form
+                    if($("#numberOfChildren").val() > 0) {
+                        $("#childLastName").prop("required", true);
+                        $("#childFirstName").prop("required", true);
+                        $("#srCitizenChildDOB").prop("required", true);
+                        $("#childBarangay").prop("required", true);
+                        $("#childAddress").prop("required", true);
+                        $("#childLastName").removeAttr("disabled");
+                        $("#childFirstName").removeAttr("disabled");
+                        $("#childMiddlename").removeAttr("disabled");
+                        $("#childSuffix").removeAttr("disabled");
+                        $("#childTelephone").removeAttr("disabled");
+                        $("#srCitizenChildDOB").removeAttr("disabled");
+                        $("#childBarangay").removeAttr("disabled");
+                        $("#childAddress").removeAttr("disabled");
+                    }
+                    if ($('#hasPension').val() == "Y") {
+                        $("#whatPension").prop("required", true);
+                        $("#whatPension").removeAttr("disabled");
+                        $(".whatPension").addClass("required");
+                        $("#howMuchPension").prop("required", true);
+                        $("#howMuchPension").removeAttr("disabled");
+                        $(".howMuchPension").addClass("required");
+                    }
+                    // Solo Parent Form
+                    if ($("#job").val() != "Unemployed") {
+                        $("#company").removeAttr("disabled");
+                        $("#monthlyIncome").removeAttr("disabled");
+                        $("#monthlyIncome").prop("required", true);
+                        $("#company").prop("required", true);
+                    } 
+                    if($("#job").val() == "Others") {
+                        $("#otherOccupation").show();
+                        $("#otherOccupation").prop("required", true);
+                    }
+                    if ($("#childOccupation").val() == "Others") {
+                        $("#otherChildOccupation").show();
+                        $("#otherChildOccupation").prop("required", true);
+                    }
+                    // PWD Application Form
+                    if ($("#employmentStatus").val() == "Employed" || $(this).val() == "Self-employed") {
+                        $("#categoryOfEmploymentDiv").show();
+                        $("#natureOfEmploymentDiv").show();
+                        $("#occupationDiv").show();
+                        $("#incomeDiv").show();
+                        $("#categoryOfEmployment").prop("required", true);
+                        $("#natureOfEmployment").prop("required", true);
+                        $("#occupation").prop("required", true);
+                        $("#income").prop("required", true);
+                    }
+                    if ($("#occupation").val() == "Others") {
+                        $("#otherOccupation").show();
+                        $("#otherOccupation").prop("required", true);
+                    }
+                    if ($("#organization").val().trim() !== "") {
+                        $(".organizationDiv").show();
+                        $("#organizationContactPerson").prop("required", true);
+                        $("#organizationOfficeAddress").prop("required", true);
+                        $("#organizationTelephoneNumber").prop("required", true);
+                    }
+                    if ($("#isPhilhealthMember").val() != "No") {
+                        $("#philhealthNumber").show();
+                        $("#philhealthNumber").prop("required", true);
+                    }
+                    if ($("#guardianSurname").val().trim() !== "") {
+                        $("#guardian").show();
+                        $("#guardianFirstName").prop("required", true);
+                        $("#guardianRelationship").prop("required", true);
+                        $("#guardianContactNumber").prop("required", true);
+                    }
+                    if ($("#accomplishedBy").val() == "Representative") {
+                        $("#accomplisherName").show();
+                        $("#accomplisherName").focus();
+                        $("#accomplisherName").prop("required", true);
+                    }
+
+                    if ($("#accomplishedBy").val() == "Guardian") {
+                        $("#guardianSurname").prop("required", true);
+                        $("#guardianFirstName").prop("required", true);
+                    }
+
+                    if ($("#accomplishedBy").val() == "Guardian" || $("#accomplishedBy").val() == "Representative") {
+                        $("#accomID").show();
+                        $("#accomID").prop("required", true);
+                    }
                 }
             },
             error: function() {
@@ -528,7 +615,7 @@ $(document).ready(function() {
             $("#spouseDOB").prop("required", false);
         }
     });
-    if($('#numberOfChildren').val() === "") {
+    if ($('#numberOfChildren').val() === "") {
         $("#childLastName").prop("disabled", true);
         $("#childFirstName").prop("disabled", true);
         $("#childMiddlename").prop("disabled", true);
@@ -538,6 +625,7 @@ $(document).ready(function() {
         $("#childBarangay").prop("disabled", true);
         $("#childAddress").prop("disabled", true);
     }
+
     // listen for changes to the number input field
     $('#numberOfChildren').on('input', function() {
         // get the current number of relatives entered by the user
@@ -630,8 +718,8 @@ $(document).ready(function() {
         var soloParentDOBNow = new Date(data.datetime);
         var soloParentChildDOBNow = new Date(data.datetime);
         var now = new Date(data.datetime);
-        const soloParentDOBMaxDate = new Date(soloParentDOBNow.setFullYear(soloParentDOBNow.getFullYear() - 6));
-        const soloParentChildDOBMaxDate = new Date(soloParentChildDOBNow.setFullYear(soloParentChildDOBNow.getFullYear() - 1));
+        const soloParentDOBMaxDate = new Date(soloParentDOBNow.setFullYear(soloParentDOBNow.getFullYear() - 13));
+        const soloParentChildDOBMaxDate = new Date(soloParentChildDOBNow.setFullYear(soloParentChildDOBNow.getFullYear()));
         const soloParentDOBMax = soloParentDOBMaxDate.toISOString().split('T')[0];
         const soloParentChildDOBMax = soloParentChildDOBMaxDate.toISOString().split('T')[0];
         $("#soloParentDOB").attr("max", soloParentDOBMax);

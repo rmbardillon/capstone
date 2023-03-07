@@ -368,18 +368,18 @@ function addAnnouncement($connection, $title, $for, $where, $message, $date, $fr
     exit();
 }
 
-function updateAnnouncement($connection, $title, $for, $where, $message, $id, $date) {
+function updateAnnouncement($connection, $title, $for, $from, $where, $message, $id, $date) {
     session_start();
     global $isDeleted;
     $getActiveUser = $_SESSION['admin-username'];
-    $sql = "UPDATE announcement SET TITLE = ?, ANNOUNCEMENT_FOR = ?, BARANGAY = ?, DATE = ?, MESSAGE = ?, DATE_UPDATED = CURDATE(), UPDATED_BY = '$getActiveUser' WHERE ANNOUNCEMENT_ID = ?;";
+    $sql = "UPDATE announcement SET TITLE = ?, ANNOUNCEMENT_FOR = ?, BARANGAY = ?, DATE_FROM = ?, DATE = ?, MESSAGE = ?, DATE_UPDATED = CURDATE(), UPDATED_BY = '$getActiveUser' WHERE ANNOUNCEMENT_ID = ?;";
     $stmt = $connection->prepare($sql);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../announcement.html?error=stmterror");
         exit();
     }
 
-    mysqli_stmt_bind_param($stmt, "ssssss", $title, $for, $where, $date, $message, $id);
+    mysqli_stmt_bind_param($stmt, "sssssss", $title, $for, $where, $from, $date, $message, $id);
     mysqli_stmt_execute($stmt); 
     mysqli_stmt_close($stmt);
     header("location: ../announcement.html?error=none");

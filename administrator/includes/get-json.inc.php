@@ -3,7 +3,7 @@
 $userId = $_GET['userId'];
 
 // Create a unique filename for the JSON file based on the user ID
-$filename = '../assets/savedata/form-data-' . $userId . '.json';
+$filename = '../savedata/form-data-' . $userId . '.json';
 
 // Check if the JSON file exists
 if (file_exists($filename)) {

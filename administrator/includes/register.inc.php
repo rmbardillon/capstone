@@ -342,7 +342,7 @@
             if (!empty($guardianFirstName)) {
                 insertPerson($connection, $guardianId, NULL, NULL);
                 insertName($connection, $guardianId, $guardianFirstName, $guardianMiddleName, $guardianSurname, $guardianSuffix);
-                insertRelationship($connection, $personId, $guardianId, $guardianRelationship);
+                insertRelationship($connection, $personId, $guardianId, "Guardian");
                 insertTelephone($connection, $guardianId, $guardianContactNumber);
             }
             insertPWDDisease($connection, $personId, $typeOfDisability, $medicalCondition, $causeOfDisability, $inborn, $acquired, $statusOfDisability);
