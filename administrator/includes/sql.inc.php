@@ -591,22 +591,20 @@ function getChildrenData($connection, $personID) {
 function getPWDStatus($connection, $status, $barangay) {
     $data = [];
     if(!empty($barangay)) {
-        $sql = "SELECT person.PERSON_ID, applicant.APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, MONTHLY_INCOME, STATUS, DATE_ISSUED, EXPIRATION_DATE
+        $sql = "SELECT person.PERSON_ID, applicant.APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, MONTHLY_INCOME, STATUS
         FROM person 
         JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
         JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
-        JOIN issued_id ON person.PERSON_ID = issued_id.PERSON_ID AND issued_id.IS_DELETED = 'N'
         JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
         JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
         JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
         JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
         WHERE applicant.APPLICANT_TYPE = 'PWD' AND STATUS = '$status' AND address.BARANGAY = '$barangay' AND person.IS_DELETED = 'N'";
     } else {
-        $sql = "SELECT person.PERSON_ID, applicant.APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, MONTHLY_INCOME, STATUS, DATE_ISSUED, EXPIRATION_DATE
+        $sql = "SELECT person.PERSON_ID, applicant.APPLICANT_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, MONTHLY_INCOME, STATUS
         FROM person 
         JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
         JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
-        JOIN issued_id ON person.PERSON_ID = issued_id.PERSON_ID AND issued_id.IS_DELETED = 'N'
         JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
         JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
         JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
@@ -749,6 +747,41 @@ function getSeniorCitizenStatus($connection, $status, $barangay) {
 
 }
 
+// GET ID INFORMATION
+function getIDInformation($connection, $personID) {
+    $data = [];
+    $sql = "SELECT person.PERSON_ID, DATE_ISSUED, EXPIRATION_DATE
+    FROM person 
+    JOIN issued_id ON person.PERSON_ID = issued_id.PERSON_ID AND issued_id.IS_DELETED = 'N'
+    WHERE person.PERSON_ID = '$personID' AND person.IS_DELETED = 'N'";    
+    try {
+        $stmt = $connection->prepare($sql);
+
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0){
+        while($row = $result->fetch_assoc()) {
+            array_push($data, $row);
+        }
+        return $data;
+    } else{
+        return $data;
+    }
+
+    $stmt->close();
+    $connection->close();
+}
 // GET APPLICATIONS PER BARANGAY
 function getPWDPerBarangay($connection, $barangay) {
     $data = [];
