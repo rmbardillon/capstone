@@ -999,3 +999,13 @@ $(document).ready(function() {
         }
     });
 });
+
+// security question validation
+$(document).ready(function() {
+    var selects = $('select[id^="security_question"]');
+
+    selects.change(function() {
+        var selectedOption = $(this).find('option:selected').val();
+        selects.not($(this)).find('option[value="' + selectedOption + '"]').hide();
+    });
+});
