@@ -1940,7 +1940,7 @@ function insertDrafts($connection, $applicationType, $applicantName, $formID) {
 
 function updateEmail($connection, $person_id) {
     // Prepare the SQL query
-    $stmt = $connection->prepare("UPDATE email SET EMAIL = NULL FROM person WHERE PERSON_ID = ?");
+    $stmt = $connection->prepare("UPDATE person SET EMAIL = NULL WHERE PERSON_ID = ?");
 
     // Bind the values to the placeholders
     $stmt->bind_param("s", $person_id);
