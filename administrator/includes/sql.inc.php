@@ -1959,6 +1959,7 @@ function updateEmail($connection, $person_id) {
 }
 
 function deleteUserData($connection, $person_id, $applicantType) {
+    updateEmail($connection, $person_id);
     if ($applicantType == "pwd") {
         $sql = "DELETE previous_address, landline, telephone, gender, religion, marital_status, blood_type, educational_attainment, government_membership, employment_status, job, income, organization, id_reference_number, relationship, pwd_disease, pwd_physician, pwd_application_accomplisher
         FROM person
