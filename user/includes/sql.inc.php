@@ -982,7 +982,7 @@ function getEventsPer($connection, $event_id, $for, $barangay) {
 function getApplicantData($connection, $username, $userType) {
     $data = [];
     $username = $_SESSION['username'];
-    $sql = "SELECT APPLICANT_TYPE, TRANSACTION_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, EMAIL, DATE_OF_BIRTH, transaction_type.DATE_UPDATED, STATUS
+    $sql = "SELECT APPLICANT_TYPE, TRANSACTION_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, EMAIL, DATE_OF_BIRTH, transaction_type.DATE_UPDATED, transaction_type.UPDATED_BY, STATUS
     FROM person 
     JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
     JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
