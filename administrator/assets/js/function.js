@@ -76,7 +76,21 @@ $(document).ready( function () {
     announcementsTable.buttons().container().appendTo('#announcements_wrapper .col-md-6:eq(0)');
     
 });
-
+// CLEAR BUTTON
+// When the "Clear" button is clicked
+$('#clear-button').click(function() {
+    // Clear all text input fields
+    $('input[type="text"]').val('');
+    $('input[type="email"]').val('');
+    $('input[type="number"]').val('');
+    $('input[type="date"]').val('');
+    // Clear all select fields
+    $('select').val('');
+    // Clear all checkboxes and radio buttons
+    $('input[type="checkbox"], input[type="radio"]').prop('checked', false);
+    // Clear all textareas
+    $('textarea').val('');
+});
 // GENERATE UUID
 function generateUUID() {
   var cryptoObj = window.crypto || window.msCrypto;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2023 at 03:01 PM
+-- Generation Time: Mar 08, 2023 at 12:30 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -660,7 +660,8 @@ ALTER TABLE `address`
 -- Indexes for table `administrator`
 --
 ALTER TABLE `administrator`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- Indexes for table `announcement`

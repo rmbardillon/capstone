@@ -66,6 +66,7 @@
 
     if (isset($_POST['reject'])) {
         $PERSON_ID = $_POST['person_id'];
+        $applicationType = $_POST['application_type'];
         $remarks = $_POST['reason'];
         $status = "REJECTED";
         $sql = "UPDATE transaction_type SET STATUS=?,REMARKS=?,DATE_UPDATED=CURDATE(),UPDATED_BY=? WHERE PERSON_ID='$PERSON_ID'";
@@ -87,8 +88,7 @@
         $stmt->bind_param("sss", $status, $remarks, $_SESSION['admin-username']);
         // Execute the query
         if ($stmt->execute() === TRUE) {
-            header("location: ../rejected-requests.html");
-            exit();
+            deleteUserData($connection, $PERSON_ID, $applicationType);
         } else {
             $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
             header("location: error.html?error_message=" . urlencode($errorMessage));

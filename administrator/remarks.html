@@ -2,6 +2,7 @@
     $page = "profile";
     include("header.html");
     $PERSON_ID = $_GET['person_id'];
+    $applicationType = $_GET['application_type'];
     if (!isset($_SESSION['admin-data'])) {
         header("location: ../login/admin.html");
         exit();
@@ -16,6 +17,7 @@
                     <p>We regret to inform you that your request to create an account and obtain an ID in the CSWD has been rejected due to the following reason(s):</p>
                     <form action="includes/approved.inc.php" method="post" novalidate="">
                         <input type="hidden" name="person_id" value="<?php echo($PERSON_ID); ?>">
+                        <input type="hidden" name="application_type" value="<?php echo($applicationType); ?>">
                         <div class="mb-3">
                             <label for="reason" class="form-label">Reason for rejection</label>
                             <textarea class="form-control" id="reason" name="reason" rows="10" required></textarea>
