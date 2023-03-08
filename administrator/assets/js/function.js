@@ -250,6 +250,10 @@ $("#save_name").click(function(){
         var applicantName = $('#applicant-name').val();
         formName = generateUUID();
     }
+    if(applicantName == "") {
+        console.log("empty name")
+        return;
+    }
     var formData = $('form').serializeArray();
     var jsonData = {
         "formName": formName,
@@ -1041,10 +1045,14 @@ $(document).ready(function() {
 
 // security question validation
 $(document).ready(function() {
-    var selects = $('select[id^="security_question"]');
-
-    selects.change(function() {
-        var selectedOption = $(this).find('option:selected').val();
-        selects.not($(this)).find('option[value="' + selectedOption + '"]').hide();
-    });
+  var selectedOptions = []; // stores the previously selected option for each select element
+  $('.security_question').change(function() {
+    var selectedOption = $(this).find(':selected').val();
+    var index = $('.security_question').index(this);
+    if (selectedOptions[index]) {
+      $('.security_question').not(this).append('<option value="' + selectedOptions[index] + '">' + selectedOptions[index] + '</option>');
+    }
+    selectedOptions[index] = selectedOption;
+    $('.security_question').not(this).find('option[value="' + selectedOption + '"]').remove();
+  });
 });

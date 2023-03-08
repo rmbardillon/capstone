@@ -796,7 +796,7 @@ function getPWDPerBarangay($connection, $barangay) {
         JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
         JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
         JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
-        WHERE APPLICANT_TYPE = 'PWD' AND address.BARANGAY = '$barangay' AND person.IS_DELETED = 'N'";
+        WHERE APPLICANT_TYPE = 'PWD' AND (address.BARANGAY = '$barangay' OR address.BARANGAY = 'City Hall') AND person.IS_DELETED = 'N'";
     } else {
         $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, CONCAT(LAST_NAME, ' ', CASE WHEN SUFFIX IS NOT NULL THEN CONCAT(' ', SUFFIX) ELSE '' END, FIRST_NAME,' ',
               CASE WHEN MIDDLE_NAME IS NOT NULL THEN CONCAT(LEFT(MIDDLE_NAME, 1), '. ') ELSE '' END) AS NAME, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, MONTHLY_INCOME, STATUS, transaction_type.DATE_UPDATED
@@ -851,7 +851,7 @@ function getSoloParentPerBarangay($connection, $barangay) {
         JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
         JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
         JOIN income ON person.PERSON_ID = income.PERSON_ID AND income.IS_DELETED = 'N'
-        WHERE APPLICANT_TYPE = 'Solo Parent' AND address.BARANGAY = '$barangay' AND person.IS_DELETED = 'N'";
+        WHERE APPLICANT_TYPE = 'Solo Parent' AND (address.BARANGAY = '$barangay' OR address.BARANGAY = 'City Hall') AND person.IS_DELETED = 'N'";
     } else {
         $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, CONCAT(LAST_NAME, ' ', CASE WHEN SUFFIX IS NOT NULL THEN CONCAT(' ', SUFFIX) ELSE '' END, FIRST_NAME,' ',
               CASE WHEN MIDDLE_NAME IS NOT NULL THEN CONCAT(LEFT(MIDDLE_NAME, 1), '. ') ELSE '' END) AS NAME, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, MONTHLY_INCOME, STATUS, transaction_type.DATE_UPDATED
@@ -905,7 +905,7 @@ function getSeniorCitizenPerBarangay($connection, $barangay) {
         JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
         JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
         JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
-        WHERE APPLICANT_TYPE = 'Senior Citizen' AND address.BARANGAY = '$barangay' AND person.IS_DELETED = 'N'";
+        WHERE APPLICANT_TYPE = 'Senior Citizen' AND (address.BARANGAY = '$barangay' OR address.BARANGAY = 'City Hall') AND person.IS_DELETED = 'N'";
     } else {
         $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, CONCAT(LAST_NAME, ' ', CASE WHEN SUFFIX IS NOT NULL THEN CONCAT(' ', SUFFIX) ELSE '' END, FIRST_NAME,' ',
               CASE WHEN MIDDLE_NAME IS NOT NULL THEN CONCAT(LEFT(MIDDLE_NAME, 1), '. ') ELSE '' END) AS NAME, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS, transaction_type.DATE_UPDATED
