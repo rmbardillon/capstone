@@ -1938,6 +1938,26 @@ function insertDrafts($connection, $applicationType, $applicantName, $formID) {
     $stmt->close();
 }
 
+function updateEmail($connection, $person_id) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE email SET EMAIL = NULL WHERE PERSON_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("s", $person_id);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
 function deleteUserData($connection, $person_id, $applicantType) {
     if ($applicantType == "pwd") {
         $sql = "DELETE previous_address, landline, telephone, gender, religion, marital_status, blood_type, educational_attainment, government_membership, employment_status, job, income, organization, id_reference_number, relationship, pwd_disease, pwd_physician, pwd_application_accomplisher
@@ -1962,9 +1982,28 @@ function deleteUserData($connection, $person_id, $applicantType) {
         LEFT JOIN pwd_application_accomplisher ON person.PERSON_ID = pwd_application_accomplisher.PERSON_ID
         WHERE person.PERSON_ID = '$person_id'";
     } else if ($applicantType == "seniorCitizen") {
-        
+        $sql = "DELETE gender, marital_status, telephone, religion, job, pension, relationship
+        FROM person
+        LEFT JOIN gender ON person.PERSON_ID = gender.PERSON_ID
+        LEFT JOIN marital_status ON person.PERSON_ID = marital_status.PERSON_ID
+        LEFT JOIN telephone ON person.PERSON_ID = telephone.PERSON_ID
+        LEFT JOIN religion ON person.PERSON_ID = religion.PERSON_ID
+        LEFT JOIN job ON person.PERSON_ID = job.PERSON_ID
+        LEFT JOIN pension ON person.PERSON_ID = pension.PERSON_ID
+        LEFT JOIN relationship ON person.PERSON_ID = relationship.PERSON_ID
+        WHERE person.PERSON_ID = '$person_id'";
     } else if ($applicantType == "soloParent") {
-
+        $sql = "DELETE gender, educational_attainment, company, income, telephone, job, relationship, solo_parent_long_text
+        FROM person
+        LEFT JOIN gender ON person.PERSON_ID = gender.PERSON_ID
+        LEFT JOIN educational_attainment ON person.PERSON_ID = educational_attainment.PERSON_ID
+        LEFT JOIN company ON person.PERSON_ID = company.PERSON_ID
+        LEFT JOIN income ON person.PERSON_ID = income.PERSON_ID
+        LEFT JOIN telephone ON person.PERSON_ID = telephone.PERSON_ID
+        LEFT JOIN job ON person.PERSON_ID = job.PERSON_ID
+        LEFT JOIN relationship ON person.PERSON_ID = relationship.PERSON_ID
+        LEFT JOIN solo_parent_long_text ON person.PERSON_ID = solo_parent_long_text.PERSON_ID
+        WHERE person.PERSON_ID = '$person_id'";
     }
     $stmt = $connection->prepare($sql);
     if($stmt->execute() === TRUE){
