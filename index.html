@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Example Page</title>
+	<!-- Include jQuery and SweetAlert -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.6/dist/sweetalert2.all.min.js"></script>
+</head>
+<body>
+    <a href="page.html">Click me</a>
+	<form id="myForm">
+		<label for="name">Name:</label>
+		<input type="text" id="name" name="name">
+		<br>
+		<label for="email">Email:</label>
+		<input type="email" id="email" name="email">
+		<br>
+		<button type="submit">Submit</button>
+	</form>
+
+	<!-- Include this script at the end of the body -->
+	<script>
+		$(document).ready(function() {
+			var formChanged = false;
+
+			// Add an event listener to the form
+			$('#myForm').on('change', function() {
+				formChanged = true;
+			});
+
+			// Add an event listener to all links on the page
+			$('a').on('click', function(e) {
+				// Check if the form has unsaved changes
+				if (formChanged) {
+					e.preventDefault(); // Prevent the link from being followed
+					Swal.fire({
+						title: 'Unsaved Changes',
+						text: 'You have unsaved changes. Are you sure you want to leave?',
+						icon: 'warning',
+						showCancelButton: true,
+						confirmButtonText: 'Yes, leave anyway',
+						cancelButtonText: 'No, stay here'
+					}).then((result) => {
+						if (result.isConfirmed) {
+							// User clicked "Yes, leave anyway"
+							window.location = this.href;
+						}
+					});
+				}
+			});
+		});
+	</script>
+</body>
+</html>
