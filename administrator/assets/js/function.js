@@ -466,14 +466,13 @@ $(".toggle-password").click(function() {
 
     if (passwordField.attr("type") === "password") {
         passwordField.attr("type", "text");
-        $(".toggle-password").text("Hide Password");
+        $("#showPasswordLabel").text("Hide Password");
     } else {
         passwordField.attr("type", "password");
-        $(".toggle-password").text("Show Password");
+        $("#showPasswordLabel").text("Show Password");
     }
-
-    return false; // prevent the link from triggering navigation
 });
+
 $("#repeat_password").on('change', function() {
     if($(this).val() != $("#password").val()) {
         $("#error-message").text("Password does not match.");

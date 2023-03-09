@@ -282,9 +282,10 @@ function insertSecurityQuestions($connection, $id, $securityQ1, $securityAnswer1
 
 function insertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $username, $email, $password){
     $message =  "Thank you for creating an account in our CSWD System!<br><br>" .
-                "Your account details are:<br>" .
-                "Username: $username<br>" .
-                "Password: $password<br><br>";
+            "Your account details are:<br>" .
+            "<b>Username</b>: $username<br>" .
+            "<b>Password</b>: $password<br><br>" .
+            "Please remember to update your security questions in your profile page to ensure the security of your account.";
     $sql = "INSERT INTO administrator (id, admin_type, barangay, username, first_name, last_name, email, password) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, ?, ?);";
     $stmt = $connection->prepare($sql);
 
@@ -303,9 +304,10 @@ function insertAdmin($connection, $firstName, $lastName, $adminType, $barangay, 
 
 function adminInsertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $username, $email, $password){
     $message =  "Thank you for creating an account in our CSWD System!<br><br>" .
-                "Your account details are:<br>" .
-                "Username: $username<br>" .
-                "Password: $password<br><br>";
+            "Your account details are:<br>" .
+            "Username: $username<br>" .
+            "Password: $password<br><br>" .
+            "Please remember to update your security questions in your profile page to ensure the security of your account.";
     $sql = "INSERT INTO administrator (id, admin_type, barangay, username, first_name, last_name, email, password) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, ?, ?);";
     $stmt = $connection->prepare($sql);
 
