@@ -19,6 +19,7 @@ if(isset($_POST["reset-password-submit"])){
     $currentDate = date("U");
 
     require 'dbh.inc.php';
+    require 'functions.inc.php';
 
     $sql = "SELECT * FROM pwdReset WHERE pwdResetSelector =? AND pwdResetExpires >= ?";
     $stmt = mysqli_stmt_init($connection);
@@ -78,8 +79,13 @@ if(isset($_POST["reset-password-submit"])){
                                 exit();
                             }
                             else{
+                                $message =  "Your password has been successfully reset.<br><br>" .
+                                            "Please log in to your account with your new password.<br>" .
+                                            "If you have any further questions or concerns, please contact our support team.<br><br>" .
+                                            "Thank you.";
                                 mysqli_stmt_bind_param($stmt, "s", $tokenEmail);
                                 mysqli_stmt_execute($stmt);
+                                email("CSWDO Santa Rosa", "Reset Password Sucessfull", "populationmanagementsystem@gmail.com", "", $tokenEmail, $message);
                                 header("Location: ../../login/admin.html?newpwd=passwordupdated");
                             }
                         }
