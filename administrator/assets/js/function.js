@@ -244,16 +244,18 @@ $("#save_name").click(function(){
     // Get applicant's name, save form data to JSON file, and submit form
     var applicantName = new URLSearchParams(window.location.search).get('name');
     var applicantType = $('#applicantType').val();
-
+    if(applicantName === null) {
+        if($('#applicant-name').val() == "") {
+            console.log("empty name")
+            return;
+        }
+    }
     // Check if formName already exists
     if(formName === undefined) {
         var applicantName = $('#applicant-name').val();
         formName = generateUUID();
     }
-    if(applicantName == "") {
-        console.log("empty name")
-        return;
-    }
+
     var formData = $('form').serializeArray();
     var jsonData = {
         "formName": formName,
@@ -1067,7 +1069,7 @@ $(document).ready(function() {
     });
 
     // Add an event listener to all links on the page
-    $('a').on('click', function(e) {
+    $('a:not([id="newApplication"])').on('click', function(e) {
         // Check if the form has unsaved changes
         if (formChanged) {
             e.preventDefault(); // Prevent the link from being followed

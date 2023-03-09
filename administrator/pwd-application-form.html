@@ -11,6 +11,9 @@
         <form action="includes/register.inc.php" method="post" novalidate="">
           <input type="hidden" name="formControlNumber" id="formControlNumber">
         <div class="row">
+            <div class="col">
+                <label class="form-label required" for="">TRANSACTION TYPE</label>
+            </div>
           <div class="col">
             <div class="form-check">
               <input
@@ -495,7 +498,7 @@
                 />
             </div>
             <div class="col organizationDiv" style="display: none;">
-                <label class="form-label" for="organizationContactPerson">
+                <label class="form-label required" for="organizationContactPerson">
                 CONTACT PERSON
                 </label>
                 <input
@@ -506,7 +509,7 @@
                 />
             </div>
             <div class="col organizationDiv" style="display: none;">
-                <label class="form-label" for="organizationOfficeAddress">
+                <label class="form-label required" for="organizationOfficeAddress">
                 OFFICE ADDRESS
                 </label>
                 <input
@@ -517,7 +520,7 @@
                 />
             </div>
             <div class="col organizationDiv" style="display: none;">
-                <label class="form-label" for="organizationTelephoneNumber">
+                <label class="form-label required" for="organizationTelephoneNumber">
                 TELEPHONE NUMBER
                 </label>
                 <input
@@ -695,7 +698,7 @@
         </div>
         <div class="row">
           <div class="col">
-            <label class="form-label" for="guardianSurname">
+            <label class="form-label required" for="guardianSurname">
               GUARDIAN'S&nbsp;SURNAME
             </label>
             <input
@@ -707,7 +710,7 @@
             />
           </div>
           <div class="col">
-            <label class="form-label" for="guardianFirstName">
+            <label class="form-label required" for="guardianFirstName">
               GUARDIAN'S FIRST NAME
             </label>
             <input
@@ -780,7 +783,7 @@
         </div>
         <div class="row">
           <div class="col">
-            <label class="form-label">TYPE OF DISABILITY</label>
+            <label class="form-label required">TYPE OF DISABILITY</label>
             <div class="form-check">
               <input
                 class="form-check-input"
@@ -928,7 +931,7 @@
         </div>
         <div class="row">
           <div class="col">
-            <label class="form-label">CAUSE OF DISABILITY</label>
+            <label class="form-label required">CAUSE OF DISABILITY</label>
             <div class="form-check">
               <input
                 class="form-check-input"
@@ -1048,7 +1051,7 @@
             </div>
           </div>
           <div class="col">
-            <label class="form-label">STATUS OF DISABILITY</label>
+            <label class="form-label required">STATUS OF DISABILITY</label>
             <div class="form-check">
               <input
                 class="form-check-input"
@@ -1131,15 +1134,15 @@
         </div>
         <div class="row">
             <div class="col">
-                <label for="applicantID" class="form-label">INPUT APPLICANT 1X1 ID</label>
+                <label for="applicantID" class="form-label required">INPUT APPLICANT 1X1 ID</label>
                 <input class="form-control mt-1" type="file" name="applicantID" id="applicantID">
             </div>
             <div class="col">
-                <label for="applicantValidID" class="form-label">INPUT APPLICANT VALID ID</label>
+                <label for="applicantValidID" class="form-label required">INPUT APPLICANT VALID ID</label>
                 <input class="form-control mt-1" type="file" name="applicantValidID" id="applicantValidID">
             </div>
             <div class="col">
-                <label for="applicantMedicalCertificate" class="form-label">MEDICAL CERTIFICATE</label>
+                <label for="applicantMedicalCertificate" class="form-label required">MEDICAL CERTIFICATE</label>
                 <input class="form-control mt-1" type="file" name="applicantMedicalCertificate" id="applicantMedicalCertificate">
             </div>
         </div>

@@ -280,7 +280,11 @@ function insertSecurityQuestions($connection, $id, $securityQ1, $securityAnswer1
     $stmt->close();
 }
 
-function insertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $username, $email, $password, $securityQuestion1, $securityAnswer1, $securityQuestion2, $securityAnswer2,  $securityQuestion3, $securityAnswer3){
+function insertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $username, $email, $password){
+    $message =  "Thank you for creating an account in our CSWD System!<br><br>" .
+                "Your account details are:<br>" .
+                "Username: $username<br>" .
+                "Password: $password<br><br>";
     $sql = "INSERT INTO administrator (id, admin_type, barangay, username, first_name, last_name, email, password) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, ?, ?);";
     $stmt = $connection->prepare($sql);
 
@@ -291,15 +295,17 @@ function insertAdmin($connection, $firstName, $lastName, $adminType, $barangay, 
     mysqli_stmt_close($stmt);
 
     $loginCredentialsExists = loginCredentialsExists($connection, $username, $username);
-    $id = $loginCredentialsExists['id'];
-    insertSecurityQuestions($connection, $id, $securityQuestion1, $securityAnswer1, $securityQuestion2, $securityAnswer2, $securityQuestion3, $securityAnswer3);
-
+    email("CSWDO Santa Rosa", "Account Creation", "populationmanagementsystem@gmail.com", "$firstName $lastName", $email, $message);
     header("location: ../add-administrator.html?error=none&username=".$username);
     exit();
 }
 
 
-function adminInsertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $username, $email, $password, $securityQuestion1, $securityAnswer1, $securityQuestion2, $securityAnswer2,  $securityQuestion3, $securityAnswer3){
+function adminInsertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $username, $email, $password){
+    $message =  "Thank you for creating an account in our CSWD System!<br><br>" .
+                "Your account details are:<br>" .
+                "Username: $username<br>" .
+                "Password: $password<br><br>";
     $sql = "INSERT INTO administrator (id, admin_type, barangay, username, first_name, last_name, email, password) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, ?, ?);";
     $stmt = $connection->prepare($sql);
 
@@ -310,9 +316,7 @@ function adminInsertAdmin($connection, $firstName, $lastName, $adminType, $baran
     mysqli_stmt_close($stmt);
 
     $loginCredentialsExists = loginCredentialsExists($connection, $username, $username);
-    $id = $loginCredentialsExists['id'];
-    insertSecurityQuestions($connection, $id, $securityQuestion1, $securityAnswer1, $securityQuestion2, $securityAnswer2, $securityQuestion3, $securityAnswer3);
-
+    email("CSWDO Santa Rosa", "Account Creation", "populationmanagementsystem@gmail.com", "$firstName $lastName", $email, $message);
     header("location: ../add-administrator-admin.html?error=none&username=".$username);
     exit();
 }

@@ -69,6 +69,7 @@
                             </div>
                             <div class="card-body">
                                 <form action="includes/update-profile.inc.php" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="adminID" value="<?php echo($adminData['id']); ?>">
                                     <input type="file" id="file" name="file" accept="image/*">
                                     <div class="row">
                                         <div class="col">
@@ -107,6 +108,59 @@
                                         </div>
                                         <div class="col">
                                             <div class="mb-3"><label class="form-label" for="admin-type"><strong>Administrator Type</strong></label><input class="form-control" type="text" id="admin-type" placeholder="Main Administrator" name="admin-type" value="<?php echo($adminData['admin_type']); ?>" readonly></div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <label for="security_question">Security Question 1</label>
+                                            <select class="form-select security_question" id="security_question1" name="security_question1" required>
+                                                <option value="" disabled selected>-- Select a security question --</option>
+                                                <option value="What was your childhood nickname?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_1'] == 'What was your childhood nickname?') ? 'selected' : ''; ?> >What was your childhood nickname?</option>
+                                                <option value="What is the name of your favorite teacher?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_1'] == 'What is the name of your favorite teacher?') ? 'selected' : ''; ?> >What is the name of your favorite teacher?</option>
+                                                <option value="What is your mother's maiden name?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_1'] == 'What is your mother\'s maiden name?') ? 'selected' : ''; ?> >What is your mother's maiden name?</option>
+                                                <option value="What is the name of the city where you were born?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_1'] == 'What is the name of the city where you were born?') ? 'selected' : ''; ?> >What is the name of the city where you were born?</option>
+                                                <option value="What is the name of your first pet?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_1'] == 'What is the name of your first pet?') ? 'selected' : ''; ?> >What is the name of your first pet?</option>
+                                                <option value="What is your favorite book?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_1'] == 'What is your favorite book?') ? 'selected' : ''; ?> >What is your favorite book?</option>
+                                                <option value="What is your favorite color?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_1'] == 'What is your favorite color?') ? 'selected' : ''; ?> >What is your favorite color?</option>
+                                                <option value="What is the name of your favorite movie?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_1'] == 'What is the name of your favorite movie?') ? 'selected' : ''; ?> >What is the name of your favorite movie?</option>
+                                                <option value="What is your favorite food?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_1'] == 'What is your favorite food?') ? 'selected' : ''; ?> >What is your favorite food?</option>
+                                                <option value="What was the make and model of your first car?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_1'] == 'What was the make and model of your first car?') ? 'selected' : ''; ?> >What was the make and model of your first car?</option>
+                                            </select>
+                                            <input class="form-control mt-1" type="text" name="securityAnswer1" id="securityAnswer1" placeholder="Answer to Security Question 1" value="<?php echo ($securityQuestions != NULL) ? $securityQuestions[0]['SECURITY_ANSWER_1'] : '' ?>" required>
+                                        </div>
+                                        <div class="col">
+                                            <label for="security_question">Security Question 2</label>
+                                            <select class="form-select security_question" id="security_question2" name="security_question2" required>
+                                                <option value="" disabled selected>-- Select a security question --</option>
+                                                <option value="What was your childhood nickname?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_2'] == 'What was your childhood nickname?') ? 'selected' : ''; ?> >What was your childhood nickname?</option>
+                                                <option value="What is the name of your favorite teacher?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_2'] == 'What is the name of your favorite teacher?') ? 'selected' : ''; ?> >What is the name of your favorite teacher?</option>
+                                                <option value="What is your mother's maiden name?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_2'] == 'What is your mother\'s maiden name?') ? 'selected' : ''; ?> >What is your mother's maiden name?</option>
+                                                <option value="What is the name of the city where you were born?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_2'] == 'What is the name of the city where you were born?') ? 'selected' : ''; ?> >What is the name of the city where you were born?</option>
+                                                <option value="What is the name of your first pet?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_2'] == 'What is the name of your first pet?') ? 'selected' : ''; ?> >What is the name of your first pet?</option>
+                                                <option value="What is your favorite book?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_2'] == 'What is your favorite book?') ? 'selected' : ''; ?> >What is your favorite book?</option>
+                                                <option value="What is your favorite color?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_2'] == 'What is your favorite color?') ? 'selected' : ''; ?> >What is your favorite color?</option>
+                                                <option value="What is the name of your favorite movie?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_2'] == 'What is the name of your favorite movie?') ? 'selected' : ''; ?> >What is the name of your favorite movie?</option>
+                                                <option value="What is your favorite food?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_2'] == 'What is your favorite food?') ? 'selected' : ''; ?> >What is your favorite food?</option>
+                                                <option value="What was the make and model of your first car?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_2'] == 'What was the make and model of your first car?') ? 'selected' : ''; ?> >What was the make and model of your first car?</option>
+                                            </select>
+                                            <input class="form-control mt-1" type="text" name="securityAnswer2" id="securityAnswer2" placeholder="Answer to Security Question 2" value="<?php echo ($securityQuestions != NULL) ? $securityQuestions[0]['SECURITY_ANSWER_2'] : ''; ?>"required>
+                                        </div>
+                                        <div class="col">
+                                            <label for="security_question">Security Question 3</label>
+                                            <select class="form-select security_question" id="security_question3" name="security_question3" required>
+                                                <option value="" disabled selected>-- Select a security question --</option>
+                                                <option value="What was your childhood nickname?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_3'] == 'What was your childhood nickname?') ? 'selected' : ''; ?> >What was your childhood nickname?</option>
+                                                <option value="What is the name of your favorite teacher?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_3'] == 'What is the name of your favorite teacher?') ? 'selected' : ''; ?> >What is the name of your favorite teacher?</option>
+                                                <option value="What is your mother's maiden name?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_3'] == 'What is your mother\'s maiden name?') ? 'selected' : ''; ?> >What is your mother's maiden name?</option>
+                                                <option value="What is the name of the city where you were born?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_3'] == 'What is the name of the city where you were born?') ? 'selected' : ''; ?> >What is the name of the city where you were born?</option>
+                                                <option value="What is the name of your first pet?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_3'] == 'What is the name of your first pet?') ? 'selected' : ''; ?> >What is the name of your first pet?</option>
+                                                <option value="What is your favorite book?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_3'] == 'What is your favorite book?') ? 'selected' : ''; ?> >What is your favorite book?</option>
+                                                <option value="What is your favorite color?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_3'] == 'What is your favorite color?') ? 'selected' : ''; ?> >What is your favorite color?</option>
+                                                <option value="What is the name of your favorite movie?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_3'] == 'What is the name of your favorite movie?') ? 'selected' : ''; ?> >What is the name of your favorite movie?</option>
+                                                <option value="What is your favorite food?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_3'] == 'What is your favorite food?') ? 'selected' : ''; ?> >What is your favorite food?</option>
+                                                <option value="What was the make and model of your first car?" <?php echo (!empty($securityQuestions) && $securityQuestions[0]['SECURITY_QUESTION_3'] == 'What was the make and model of your first car?') ? 'selected' : ''; ?> >What was the make and model of your first car?</option>
+                                            </select>
+                                            <input class="form-control mt-1" type="text" name="securityAnswer3" id="securityAnswer3" placeholder="Answer to Security Question 3" value="<?php echo ($securityQuestions != NULL) ? $securityQuestions[0]['SECURITY_ANSWER_3'] : ''; ?>" required>
                                         </div>
                                     </div>
                                     <div class="mb-3"><button class="btn btn-primary btn-sm" type="submit" name="update-profile">Update Profile</button></div>

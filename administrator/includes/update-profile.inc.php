@@ -6,11 +6,18 @@
     if (isset($_POST['update-profile'])) {
         session_start();
         $username = $_SESSION['admin-data']['username'];
+        $id = $_POST['adminID'];
         $firstName = $_POST['first_name'];
         $lastName = $_POST['last_name']; 
         $barangay = $_POST['barangay'];
         $email = $_POST['email'];
         $image = $_FILES['file'];
+        $securityQuestion1 = $_POST["security_question1"];
+        $securityQuestion2 = $_POST["security_question2"];
+        $securityQuestion3 = $_POST["security_question3"];
+        $securityAnswer1 = $_POST["securityAnswer1"];
+        $securityAnswer2 = $_POST["securityAnswer2"];
+        $securityAnswer3 = $_POST["securityAnswer3"];
 
         if ($image['name'] != "") {
             $fileName = $image['name'];
@@ -37,6 +44,7 @@
                 exit();
             }
         }
+        insertSecurityQuestions($connection, $id, $securityQuestion1, $securityAnswer1, $securityQuestion2, $securityAnswer2, $securityQuestion3, $securityAnswer3);
         updateProfile($connection, $username, $firstName, $lastName, $barangay, $email);
 
     }

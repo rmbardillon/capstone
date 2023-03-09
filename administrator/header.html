@@ -8,6 +8,7 @@
         $_SESSION['admin-username'] = $_SESSION['admin-data']['username'];
         $loginCredentialsExists = loginCredentialsExists($connection, $_SESSION['admin-username'], $_SESSION['admin-username']);
         $adminData = $loginCredentialsExists;
+        $securityQuestions = getSecurityQuestions($connection, $adminData['id']);
         $admin_name = $adminData['first_name']." ".$adminData['last_name'];
         $profile = getUserData($connection, "media", "username", $adminData['username']);
         $adminType = implode(" ", array_slice(explode(" ", $adminData['admin_type']), 0, -1));
