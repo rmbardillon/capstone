@@ -97,7 +97,7 @@
             header("location: ../error.html?error_message=" . urlencode($errorMessage));
             exit();
         }
-        header("location: ../dashboard.html");
+        header("location: ../dashboard.html?success=true");
         exit();
     }
     // Solo Parent
@@ -196,7 +196,7 @@
             header("location: ../error.html?error_message=" . urlencode($errorMessage));
             exit();
         }
-        header("location: ../dashboard.html");
+        header("location: ../dashboard.html?success=true");
         exit();
     }
     // Person with Disability
@@ -358,7 +358,7 @@
             header("location: ../error.html?error_message=" . urlencode($errorMessage));
             exit();
         }
-        header("location: ../dashboard.html");
+        header("location: ../dashboard.html?success=true");
         exit();
     }
 ?>

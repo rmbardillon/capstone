@@ -76,6 +76,7 @@ $(document).ready( function () {
     announcementsTable.buttons().container().appendTo('#announcements_wrapper .col-md-6:eq(0)');
     
 });
+var formChanged = false;
 // CLEAR BUTTON
 // When the "Clear" button is clicked
 $('#clear-button').click(function() {
@@ -90,6 +91,8 @@ $('#clear-button').click(function() {
     $('input[type="checkbox"], input[type="radio"]').prop('checked', false);
     // Clear all textareas
     $('textarea').val('');
+    swal.fire("Success!", "The form has been successfully cleared.", "success");
+    formChanged = false;
 });
 // GENERATE UUID
 function generateUUID() {
@@ -1060,8 +1063,6 @@ $(document).ready(function() {
 
 // Form warning before leaving
 $(document).ready(function() {
-    var formChanged = false;
-
     // Add an event listener to the form
     $('form').on('change', function() {
         formChanged = true;
