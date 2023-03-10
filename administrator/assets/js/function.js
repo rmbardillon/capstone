@@ -1101,7 +1101,8 @@ $(document).ready(function() {
     });
 
     // Add an event listener to all links on the page
-    $('a:not([id="newApplication"])').on('click', function(e) {
+    $('a:not([id="newApplication"], .profileDropdown)').on('click', function(e) {
+        console.log("test")
         // Check if the form has unsaved changes
         if (formChanged) {
             e.preventDefault(); // Prevent the link from being followed
@@ -1120,6 +1121,7 @@ $(document).ready(function() {
             });
         }
     });
+    
     // Add an event listener to all links on the page
     $('.cancelButton').on('click', function(e) {
         // Check if the form has unsaved changes
