@@ -1214,7 +1214,7 @@
             <?php } ?>
           </div>
         </div>
-        <?php if(!isset($_GET['event'])){ ?>
+        <?php endforeach; if(!isset($_GET['event'])){ ?>
         <div class="row">
             <input type="hidden" name="person_id" value="<?php echo($PERSON_ID); ?>">
           <div class="col">
@@ -1243,7 +1243,7 @@
               Claim
             </a>
           </div>
-        <?php } endforeach;?>
+        <?php } ?>
         </div>
       </form>
     </div>
