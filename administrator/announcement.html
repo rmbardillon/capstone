@@ -102,6 +102,13 @@
         </div>
     </div>
     <?php } ?>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        var result = '<?php echo $_GET["deleted"]; ?>';
+        if(result == "success") {
+            swal("Success!", "Event has been deleted!", "success");
+        }
+    </script>
 <?php
     include "footer.html";
 ?>

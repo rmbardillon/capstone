@@ -464,6 +464,66 @@ $('.name').on('keyup blur',function(){
 );
 
 // Password validation
+$(document).ready(function() {
+    // Get the input fields
+    var username = $("#username");
+    var oldPassword = $("#old_password");
+    var newPassword = $("#new_password");
+    var confirmNewPassword = $("#confirm_new_password");
+
+    // Add event listener to old password
+    oldPassword.on("change", function() {
+        $.ajax({
+            url: "includes/get_user_password.php",
+            method: "POST",
+            dataType: "json",
+            data: {
+                username: username.val(),
+                oldPassword: oldPassword.val(),
+            },
+            success: function(response) {
+                // Handle the response from the server
+                if (response === "Correct Old Password") {
+                    $("#oldpassworderror").html("");                    
+                } else {
+                    $("#oldpassworderror").html("Old password is incorrect.");
+
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                // Show an error message to the user
+                Swal.fire({
+                    title: "Error",
+                    text: "Failed to make the request to the server.",
+                    icon: "error"
+                });
+            }
+        });
+    });
+
+    // Add event listeners to the input fields
+    newPassword.on("input", function() {
+        // Compare the values of newPassword and oldPassword
+        if (newPassword.val() === oldPassword.val()) {
+            // Display an error message
+            $("#newpassworderror").html("New password cannot be the same as old password.");
+        } else {
+            // Clear the error message
+            $("#newpassworderror").html("");
+        }
+    });
+
+    confirmNewPassword.on("input", function() {
+        // Compare the values of newPassword and confirmNewPassword
+        if (newPassword.val() !== confirmNewPassword.val()) {
+            // Display an error message
+            $("#confirmpassworderror").html("New password and confirmed password do not match.");
+        } else {
+            // Clear the error message
+            $("#confirmpassworderror").html("");
+        }
+    });
+});
 $(".toggle-password").click(function() {
     const passwordField = $('.password');
 
@@ -484,7 +544,8 @@ $("#repeat_password").on('change', function() {
     }
 });
 // Select the password input field
-var passwordField = $('.password[type=password]');
+// var passwordField = $('.password[type=password]');
+var passwordField = $('.password[type=password]:not(#old_password)');
 
 // Attach a keyup event listener to the password field
 passwordField.on('keyup', function() {
@@ -1016,35 +1077,6 @@ $('input[name="acquired[]"]').click(function() {
 });
 $('input[name="statusOfDisability"]').click(function() {
     $("input[name='statusOfDisability']").removeAttr("required");
-});
-$(document).ready(function() {
-    // Get the input fields
-    var oldPassword = $("#old_password");
-    var newPassword = $("#new_password");
-    var confirmNewPassword = $("#confirm_new_password");
-
-    // Add event listeners to the input fields
-    newPassword.on("input", function() {
-        // Compare the values of newPassword and oldPassword
-        if (newPassword.val() === oldPassword.val()) {
-            // Display an error message
-            $("#error-message").html("New password cannot be the same as old password.");
-        } else {
-            // Clear the error message
-            $("#error-message").html("");
-        }
-    });
-
-    confirmNewPassword.on("input", function() {
-        // Compare the values of newPassword and confirmNewPassword
-        if (newPassword.val() !== confirmNewPassword.val()) {
-            // Display an error message
-            $("#error-message").html("New password and confirmed password do not match.");
-        } else {
-            // Clear the error message
-            $("#error-message").html("");
-        }
-    });
 });
 
 // security question validation
