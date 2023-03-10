@@ -364,7 +364,7 @@ function getFamilyMemberData($connection, $personID) {
     JOIN marital_status ON person.PERSON_ID = marital_status.PERSON_ID
     JOIN educational_attainment ON person.PERSON_ID = educational_attainment.PERSON_ID
     JOIN income ON person.PERSON_ID = income.PERSON_ID
-    WHERE relationship.RELATIONSHIP_TYPE = 'Son' OR relationship.RELATIONSHIP_TYPE = 'Daughter'
+    WHERE (relationship.RELATIONSHIP_TYPE = 'Son' OR relationship.RELATIONSHIP_TYPE = 'Daughter')
     AND relationship.APPLICANT_ID = ?
     AND person.IS_DELETED = 'N'
     AND name.IS_DELETED = 'N'

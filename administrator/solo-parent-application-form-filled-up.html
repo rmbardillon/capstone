@@ -20,6 +20,7 @@
     $result = array_map(null, $userData, $genderData);
     foreach($result as list($data, $gender)):
 ?>
+<div>
     <div class="container form">
         <h1 class="heading">Solo Parent Application</h1>
       <form action="includes/approved.inc.php" method="post" novalidate="">
@@ -272,7 +273,7 @@
             <h5 class="text-start">I. FAMILY COMPOSITION</h5>
           </div>
         </div>
-        <?php foreach($family as $familyData): ?>
+        <?php print_r($family); foreach($family as $familyData): ?>
         <div id="soloParentRelative" class="soloParentRelative">
           <div class="row" id="child">
             <div class="col col-2 d-flex align-items-center">
