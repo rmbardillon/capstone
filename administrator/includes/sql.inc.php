@@ -1263,7 +1263,7 @@ function generateRandomPassword() {
     $uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     $lowercase = "abcdefghijklmnopqrstuvwxyz";
     $numbers = "0123456789";
-    $symbols = "!@#$%^&*()_+-={}[]|\\:;\"'<>,.?/";
+    $symbols = "!@$%^&*()_+-={}[]|\\:;\"'<>,.?/";
     $all = $uppercase . $lowercase . $numbers . $symbols;
     $password = "";
     $password .= substr($uppercase, rand(0, strlen($uppercase) - 1), 1);
