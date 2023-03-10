@@ -280,6 +280,24 @@ function insertSecurityQuestions($connection, $id, $securityQ1, $securityAnswer1
     $stmt->close();
 }
 
+function updateSecurityQuestions($connection, $id, $securityQ1, $securityAnswer1, $securityQ2, $securityAnswer2,  $securityQ3, $securityAnswer3) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE security_questions SET SECURITY_QUESTION_1 = ?, SECURITY_ANSWER_1 = ?, SECURITY_QUESTION_2 = ?, SECURITY_ANSWER_2 = ?, SECURITY_QUESTION_3 = ?, SECURITY_ANSWER_3 = ? WHERE ADMINISTRATOR_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("sssssss", $securityQ1, $securityAnswer1, $securityQ2, $securityAnswer2, $securityQ3, $securityAnswer3, $id);
+
+    // Execute the query
+    if($stmt->execute() === FALSE){
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();        
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
 function insertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $username, $email, $password){
     $message =  "Thank you for creating an account in our CSWD System!<br><br>" .
             "Your account details are:<br>" .

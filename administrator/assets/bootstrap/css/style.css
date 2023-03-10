@@ -75,7 +75,7 @@ th, td {
 }
 
 .required:after {
-  content: " *";
+  content: "*";
   color: red;
 }
 

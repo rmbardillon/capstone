@@ -1,7 +1,7 @@
 <?php 
     $page = "drafts";
     include("header.html");
-    $drafts = getDrafts($connection);
+    $drafts = getDrafts($connection, $adminData['barangay'], str_replace(" Administrator", "", $adminData['admin_type']));
     if (!isset($_SESSION['admin-data'])) {
         header("location: ../login/admin.html");
         exit();
@@ -24,8 +24,10 @@
                             <tr>
                                 <th style="text-align: center;">Application Type</th>
                                 <th style="text-align: center;">Application Name</th>
+                                <th style="text-align: center;">Application Barangay</th>
                                 <th style="text-align: center;">Date Created</th>
                                 <th style="text-align: center;">Continue Application</th>
+                                <th style="text-align: center;">Delete</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -42,8 +44,10 @@
                                 <tr>
                                     <td style="text-align: center;"><?php echo($draft['APPLICATION_TYPE']); ?></td>
                                     <td style="text-align: center;"><?php echo($draft['APPLICANT_NAME']); ?></td>
+                                    <td style="text-align: center;"><?php echo($draft['APPLICANT_BARANGAY']); ?></td>
                                     <td style="text-align: center;"><?php echo($draft['DATE_CREATED']); ?></td>
-                                    <td style="text-align: center;"><button class="btn btn-success edit-draft" data-draftid="<?php echo $draft['DRAFT_ID']; ?>" data-page="<?php echo $page; ?>" data-name="<?php echo($draft['APPLICANT_NAME']); ?>">Continue</button></td>
+                                    <td style="text-align: center;"><button class="btn btn-success edit-draft" data-draftid="<?php echo $draft['DRAFT_ID']; ?>" data-page="<?php echo $page; ?>" data-name="<?php echo($draft['APPLICANT_NAME']); ?>" data-barangay="<?php echo($draft['APPLICANT_BARANGAY']); ?>">Continue</button></td>
+                                    <td style="text-align: center;"><a class="btn btn-danger deleteDraft" id="deleteDraft" href="includes/delete-draft.inc.php?delete=<?php echo($draft['DRAFT_ID']) ?>">Delete</a></td>
                                 </tr>
                             <?php endforeach; ?>
 
@@ -53,6 +57,13 @@
             </div>
         </div>
     </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        var result = '<?php echo $_GET["deleted"]; ?>';
+        if(result == "success") {
+            swal("Success!", "Draft has been deleted!", "success");
+        }
+    </script>
 <?php
     include "footer.html";
 ?>

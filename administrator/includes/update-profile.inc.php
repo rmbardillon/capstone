@@ -44,7 +44,12 @@
                 exit();
             }
         }
-        insertSecurityQuestions($connection, $id, $securityQuestion1, $securityAnswer1, $securityQuestion2, $securityAnswer2, $securityQuestion3, $securityAnswer3);
+        $securityQuestions = getUserData($connection, "security_questions", "ADMINISTRATOR_ID", $id);
+        if($securityQuestions == null) {
+            insertSecurityQuestions($connection, $id, $securityQuestion1, $securityAnswer1, $securityQuestion2, $securityAnswer2, $securityQuestion3, $securityAnswer3);
+        } else {
+            updateSecurityQuestions($connection, $id, $securityQuestion1, $securityAnswer1, $securityQuestion2, $securityAnswer2, $securityQuestion3, $securityAnswer3);
+        }
         updateProfile($connection, $username, $firstName, $lastName, $barangay, $email);
 
     }

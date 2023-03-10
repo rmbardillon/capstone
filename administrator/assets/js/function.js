@@ -1,4 +1,9 @@
 $(document).ready( function () {
+    var drafts = $('#drafts').DataTable({
+        
+        buttons:['copy', 'csv', 'excel', 'pdf', 'print']
+        
+    });
     var mainAdministratorsTable = $('#mainAdministrators').DataTable({
         
         buttons:['copy', 'csv', 'excel', 'pdf', 'print']
@@ -66,6 +71,7 @@ $(document).ready( function () {
     pwdID.buttons().container().appendTo('#pwdIDTable_wrapper .col-md-6:eq(0)');
     spID.buttons().container().appendTo('#spIDTable_wrapper .col-md-6:eq(0)');
     scID.buttons().container().appendTo('#scIDTable_wrapper .col-md-6:eq(0)');
+    drafts.buttons().container().appendTo('#drafts_wrapper .col-md-6:eq(0)');
     mainAdministratorsTable.buttons().container().appendTo('#mainAdministrators_wrapper .col-md-6:eq(0)');
     pwdAdministratorsTable.buttons().container().appendTo('#pwdAdministrators_wrapper .col-md-6:eq(0)');
     soloparentAdministratorsTable.buttons().container().appendTo('#soloparentAdministrators_wrapper .col-md-6:eq(0)');
@@ -80,19 +86,33 @@ var formChanged = false;
 // CLEAR BUTTON
 // When the "Clear" button is clicked
 $('#clear-button').click(function() {
-    // Clear all text input fields
-    $('input[type="text"]').val('');
-    $('input[type="email"]').val('');
-    $('input[type="number"]').val('');
-    $('input[type="date"]').val('');
-    // Clear all select fields
-    $('select').val('');
-    // Clear all checkboxes and radio buttons
-    $('input[type="checkbox"], input[type="radio"]').prop('checked', false);
-    // Clear all textareas
-    $('textarea').val('');
-    swal.fire("Success!", "The form has been successfully cleared.", "success");
-    formChanged = false;
+    Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: 'Are you sure you want to empty the form?',
+        showConfirmButton: true,
+        showCancelButton: true, // show "Cancel" button
+        confirmButtonColor: '#dc3545', // set color of "OK" button
+        cancelButtonColor: '#6c757d', // set color of "Cancel" button
+        confirmButtonText: 'Yes, empty the form',
+        cancelButtonText: 'Cancel' // customize text of "Cancel" button
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Clear all text input fields
+            $('input[type="text"]').val('');
+            $('input[type="email"]').val('');
+            $('input[type="number"]').val('');
+            $('input[type="date"]').val('');
+            // Clear all select fields
+            $('select').val('');
+            // Clear all checkboxes and radio buttons
+            $('input[type="checkbox"], input[type="radio"]').prop('checked', false);
+            // Clear all textareas
+            $('textarea').val('');
+            swal.fire("Success!", "The form has been successfully cleared.", "success");
+            formChanged = false;
+        }
+    });
 });
 // GENERATE UUID
 function generateUUID() {
@@ -148,6 +168,47 @@ $(".deleteAnnouncement").click(function(event) {
                 method: 'POST',
                 data: {
                     delete: "<?php echo $announcement['ANNOUNCEMENT_ID']; ?>"
+                },
+                success: function(response) {
+                    // Handle successful deletion here
+                    console.log(response);
+                    // Redirect to the URL specified in the href attribute
+                    window.location.href = deleteUrl;
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Handle error here
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        }
+    });
+});
+
+$(".deleteDraft").click(function(event) {
+    console.log("Clicked 1")
+    event.preventDefault(); // prevent the default behavior of the anchor tag
+
+    const deleteUrl = $(this).attr('href'); // store the URL of the anchor tag
+
+    Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: 'Are you sure you want to delete?',
+        showConfirmButton: true,
+        showCancelButton: true, // show "Cancel" button
+        confirmButtonColor: '#dc3545', // set color of "OK" button
+        cancelButtonColor: '#6c757d', // set color of "Cancel" button
+        confirmButtonText: 'Yes, delete it',
+        cancelButtonText: 'Cancel' // customize text of "Cancel" button
+    }).then((result) => {
+        if (result.isConfirmed) {
+            console.log("Clicked 2")
+            // User clicked "OK", perform deletion here
+            $.ajax({
+                url: deleteUrl, // use the stored URL for the AJAX request
+                method: 'POST',
+                data: {
+                    delete: "<?php echo $draft['DRAFT_ID']; ?>"
                 },
                 success: function(response) {
                     // Handle successful deletion here
@@ -246,16 +307,19 @@ var formName; // declare a variable to store formName
 $("#save_name").click(function(){
     // Get applicant's name, save form data to JSON file, and submit form
     var applicantName = new URLSearchParams(window.location.search).get('name');
+    var applicantBarangay = new URLSearchParams(window.location.search).get('barangay');
     var applicantType = $('#applicantType').val();
-    if(applicantName === null) {
-        if($('#applicant-name').val() == "") {
-            console.log("empty name")
+    
+    if(applicantName === null || applicantBarangay === null) {
+        if($('#applicant-name').val() == "" || $('#applicant-barangay').val() == null) {
+            console.log("empty name and barangay")
             return;
         }
     }
     // Check if formName already exists
     if(formName === undefined) {
         var applicantName = $('#applicant-name').val();
+        var applicantBarangay = $('#applicant-barangay').val();
         formName = generateUUID();
     }
 
@@ -264,6 +328,7 @@ $("#save_name").click(function(){
         "formName": formName,
         "formData": formData,
         "applicantName": applicantName,
+        "applicantBarangay": applicantBarangay,
         "applicantType": applicantType
     };
     $.ajax({
@@ -272,7 +337,7 @@ $("#save_name").click(function(){
         data: JSON.stringify(jsonData),
         success: function(response) {
             $('#name-modal').modal('hide');
-            $('form').attr('action', 'includes/save-drafts.inc.php?applicant_name=' + encodeURIComponent(applicantName) + '&form_name=' + encodeURIComponent(formName) + '&applicant_type=' + encodeURIComponent(applicantType));
+            $('form').attr('action', 'includes/save-drafts.inc.php?applicant_name=' + encodeURIComponent(applicantName) + '&form_name=' + encodeURIComponent(formName) + '&applicant_type=' + encodeURIComponent(applicantType) + '&applicant_barangay=' + encodeURIComponent(applicantBarangay));
             $('form').submit();
             alert("Data saved successfully.");
         },
@@ -291,8 +356,9 @@ $('.edit-draft').click(function(event) {
     var draftId = $(this).data('draftid');
     var page = $(this).data('page');
     var userName = $(this).data('name');
+    var userBarangay = $(this).data('barangay');
     // alert(page + draftId + "&name=" + userName);
-    window.location.href = page + draftId + "&name=" + userName;
+    window.location.href = page + draftId + "&name=" + userName + "&barangay=" + userBarangay;
 });
 
 // Populate form with draft data
@@ -406,6 +472,36 @@ $(document).ready(function() {
             error: function() {
                 alert("Failed to load draft.");
             }
+        });
+        // Set up form submission event handler
+        $("form").submit(function(event) {
+            var applicantType = $('#applicantType').val();
+            event.preventDefault(); // Prevent default form submission
+
+            // Send form data to server
+            $.ajax({
+                type: "POST",
+                url: "includes/submit.inc.php?applicantType=" + encodeURIComponent(applicantType),
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Remove record from database and JSON file
+                    $.ajax({
+                        type: "GET",
+                        url: "includes/delete-draft.inc.php",
+                        data: { delete: userId },
+                        success: function() {
+                            console.log("Record deleted.");
+                            window.location.href = "dashboard.html?success=true";
+                        },
+                        error: function() {
+                            alert("Failed to delete record.");
+                        }
+                    });
+                },
+                error: function() {
+                    alert("Failed to submit form.");
+                }
+            });
         });
     } else {
         // Save Form Data

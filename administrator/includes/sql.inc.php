@@ -1137,9 +1137,13 @@ function getRemarks($connection, $person_id) {
 }
 
 // GET DRAFTS
-function getDrafts($connection) {
+function getDrafts($connection, $barangay, $administratorType) {
     $data = [];
-    $sql = "SELECT * FROM draft WHERE IS_DELETED = 'N';";
+    if (!empty($barangay)) {
+        $sql = "SELECT * FROM draft WHERE IS_DELETED = 'N' AND (APPLICANT_BARANGAY = '$barangay' OR '$barangay' = 'City Hall') AND (APPLICATION_TYPE = '$administratorType' OR '$administratorType' = 'Main');";
+    } else {
+        $sql = "SELECT * FROM draft WHERE IS_DELETED = 'N';";
+    }
     try {
         $stmt = $connection->prepare($sql);
 
@@ -1151,7 +1155,7 @@ function getDrafts($connection) {
     
     } catch (Exception $e) {
         $errorMessage =  "Error: " . $e->getMessage();
-        header("location: error.html?error_message=" . urlencode($errorMessage));
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
     $stmt->execute();
@@ -1942,15 +1946,15 @@ function insertClaimedBenefits($connection, $personId, $applicantType, $event_id
     $stmt->close();
 }
 
-function insertDrafts($connection, $applicationType, $applicantName, $formID) {
+function insertDrafts($connection, $applicationType, $applicantName, $applicantBarangay, $formID) {
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
     $status = "CLAIMED";
-    $stmt = $connection->prepare("INSERT INTO draft(DRAFT_ID, APPLICATION_TYPE, APPLICANT_NAME, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO draft(DRAFT_ID, APPLICATION_TYPE, APPLICANT_NAME, APPLICANT_BARANGAY, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (?, ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
-    $stmt->bind_param("sss", $formID, $applicationType, $applicantName);
+    $stmt->bind_param("ssss", $formID, $applicationType, $applicantName, $applicantBarangay);
 
     // Execute the query
     if($stmt->execute() === TRUE){

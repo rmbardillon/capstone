@@ -85,6 +85,8 @@ if(isset($_POST["reset-password-submit"])){
                                             "Thank you.";
                                 mysqli_stmt_bind_param($stmt, "s", $tokenEmail);
                                 mysqli_stmt_execute($stmt);
+                                $loginCredentialsExists = loginCredentialsExists($connection, $tokenEmail, $tokenEmail);
+                                updateLoginAttempt($connection, 0, $loginCredentialsExists['id']);
                                 email("CSWDO Santa Rosa", "Reset Password Sucessfull", "populationmanagementsystem@gmail.com", "", $tokenEmail, $message);
                                 header("Location: ../../login/admin.html?newpwd=passwordupdated");
                             }

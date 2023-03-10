@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 08, 2023 at 12:30 PM
+-- Generation Time: Mar 10, 2023 at 03:21 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -167,6 +167,7 @@ CREATE TABLE `draft` (
   `DRAFT_ID` varchar(16) NOT NULL,
   `APPLICATION_TYPE` varchar(32) NOT NULL,
   `APPLICANT_NAME` varchar(128) NOT NULL,
+  `APPLICANT_BARANGAY` varchar(64) NOT NULL,
   `DATE_CREATED` date NOT NULL,
   `DATE_UPDATED` date NOT NULL,
   `IS_DELETED` char(1) NOT NULL,

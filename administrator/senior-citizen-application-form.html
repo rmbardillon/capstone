@@ -517,16 +517,16 @@
             />
             </div>
             <div class="col col-1 d-flex align-items-center">
-            <h6 class="text-start required">TELEPONO</h6>
+                <h6 class="text-start required">TELEPONO</h6>
             </div>
-            <div class="col col-3">
-            <input
-                class="form-control numbers telephone"
-                type="tel"
-                id="childTelephone"
-                name="childTelephone[]"
-                placeholder="09##-###-####"
-            />
+            <div class="col col-3 mx-1">
+                <input
+                    class="form-control numbers telephone"
+                    type="tel"
+                    id="childTelephone"
+                    name="childTelephone[]"
+                    placeholder="09##-###-####"
+                />
             </div>
         </div>
         <div class="row">
@@ -621,8 +621,32 @@
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                <label for="applicant-name">Applicant's Name:</label>
-                <input type="text" class="form-control" id="applicant-name" name="applicant_name" required>
+                    <label for="applicant-name">Applicant's Name:</label>
+                    <input type="text" class="form-control name" id="applicant-name" name="applicant_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="applicant-barangay">Applicant's Barangay:</label>
+                    <select class="form-select" id="applicant-barangay" name="barangay" required>
+                        <option disabled selected value="">Please Select Barangay</option>
+                        <option value="Aplaya">Aplaya</option>
+                        <option value="Balibago">Balibago</option>
+                        <option value="Caingin">Caingin</option>
+                        <option value="Dila">Dila</option>
+                        <option value="Dita">Dita</option>
+                        <option value="Don Jose">Don Jose</option>
+                        <option value="Ibaba">Ibaba</option>
+                        <option value="Kalnuran">Kanluran</option>
+                        <option value="Labas">Labas</option>
+                        <option value="Macabling">Macabling</option>
+                        <option value="Malitlit">Malitlit</option>
+                        <option value="Malusak">Malusak</option>
+                        <option value="Market Area">Market Area</option>
+                        <option value="Pook">Pook</option>
+                        <option value="Pulong Santa Cruz">Pulong Santa Cruz</option>
+                        <option value="Santo Domingo">Santo Domingo</option>
+                        <option value="Sinalhan">Sinalhan</option>
+                        <option value="Tagapo">Tagapo</option>
+                    </select>
                 </div>
             </div>
             <div class="modal-footer">
