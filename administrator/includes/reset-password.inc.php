@@ -1,25 +1,36 @@
 <?php
-
+require 'dbh.inc.php';
+require 'functions.inc.php';
 if(isset($_POST["reset-password-submit"])){
 
     $selector = $_POST["selector"];
     $validator = $_POST["validator"];
+    $email = $_POST["email"];
     $password = $_POST["pwd"];
     $passwordRepeat = $_POST["pwd-repeat"];
 
     if(empty($password) || empty($passwordRepeat)){
-        header("Location: ../create-new-password.html?newpwd=empty");
+        header("Location: ../create-new-password.html?error=empty&selector=" . $selector . "&validator=" . $validator . "&email=" . $email);
         exit();
     }
     else if($password != $passwordRepeat){
-        header("Location: ../create-new-password.html?newpwd=pwdnotsame");
+        header("Location: ../create-new-password.html?error=passwordcheck&selector=" . $selector . "&validator=" . $validator . "&email=" . $email);
         exit();
     }
+    if(!validatePassword($password)) {
+        header("Location: ../create-new-password.html?error=invalidpassword&selector=" . $selector . "&validator=" . $validator . "&email=" . $email);
+        exit();
+    }
+    $userdata = loginCredentialsExists($connection, $email, $email);
 
+    $passwordhashed = $userdata['password'];
+    $checkPassword = password_verify($password, $passwordhashed);
+
+    if($checkPassword){
+        header("Location: ../create-new-password.html?error=useoldpassword&selector=" . $selector . "&validator=" . $validator . "&email=" . $email);
+        exit();
+    }
     $currentDate = date("U");
-
-    require 'dbh.inc.php';
-    require 'functions.inc.php';
 
     $sql = "SELECT * FROM pwdReset WHERE pwdResetSelector =? AND pwdResetExpires >= ?";
     $stmt = mysqli_stmt_init($connection);

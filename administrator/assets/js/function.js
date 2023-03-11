@@ -82,6 +82,39 @@ $(document).ready( function () {
     announcementsTable.buttons().container().appendTo('#announcements_wrapper .col-md-6:eq(0)');
     
 });
+
+// Email validation
+$(".email").on("change", function() {
+    var email = $(this).val();
+    if (email) {
+        $.ajax({
+            url: "includes/email-validation.inc.php",
+            type: "POST",
+            data: {
+                email: email
+            },
+            success: function(data) {
+                if (data == 0) {
+                    $(".email").removeClass("is-invalid");
+                    $(".email").addClass("is-valid");
+                    $(".email").attr("value", email);
+                    $("#emailError").html("");
+                    console.log(data);
+                } else {
+                    $(".email").removeClass("is-valid");
+                    $(".email").addClass("is-invalid");
+                    $(".email").attr("value", "");
+                    $("#emailError").html("Email is already in use");
+                    console.log(data);
+                }
+            }
+        });
+    } else {
+        $(".email").removeClass("is-valid");
+        $(".email").removeClass("is-invalid");
+        $(".email").attr("value", "");
+    }
+});
 var formChanged = false;
 // CLEAR BUTTON
 // When the "Clear" button is clicked
@@ -303,6 +336,7 @@ $("#logout").click(function(event) {
     });
 });
 
+// Save Drafts
 var formName; // declare a variable to store formName
 $("#save_name").click(function(){
     // Get applicant's name, save form data to JSON file, and submit form
@@ -348,7 +382,6 @@ $("#save_name").click(function(){
         dataType: "json"
     });
 });
-
 
 // Edit Draft Form
 $('.edit-draft').click(function(event) {
@@ -580,9 +613,13 @@ $(document).ready(function() {
             success: function(response) {
                 // Handle the response from the server
                 if (response === "Correct Old Password") {
-                    $("#oldpassworderror").html("");                    
+                    $("#oldpassworderror").html("");
+                    $("#old_password").removeClass("is-invalid");
+                    $("#old_password").addClass("is-valid");
                 } else {
                     $("#oldpassworderror").html("Old password is incorrect.");
+                    $("#old_password").removeClass("is-valid");
+                    $("#old_password").addClass("is-invalid");
 
                 }
             },

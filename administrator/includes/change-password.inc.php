@@ -1,4 +1,5 @@
 <?php
+    require_once 'functions.inc.php';
     if(isset($_POST['change-password'])){
         $old_password = $_POST['old_password'];
         $new_password = $_POST['new_password'];
@@ -6,6 +7,10 @@
 
         if($old_password == $new_password){
             header("Location: ../change-password.html?error=oldnewpasswordsame");
+            exit();
+        } 
+        if(!validatePassword($new_password)) {
+            header("Location: ../change-password.html?error=invalidpassword");
             exit();
         }
         

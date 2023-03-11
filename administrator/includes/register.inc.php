@@ -47,6 +47,7 @@
         $childTelephone = $_POST['childTelephone'];
         $childBarangay = $_POST['childBarangay'];
         $childAddress = $_POST['childAddress'];
+        $result = getUserData($connection, "person", "EMAIL", $email);
         try {
             // Begin transaction
             $connection->begin_transaction();

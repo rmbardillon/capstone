@@ -580,7 +580,8 @@
           </div>
         </div>
         <?php endforeach; ?>
-        <?php endforeach; if(!isset($_GET['event'])){ ?>
+        <?php endforeach; if(!isset($_GET['event'])){ 
+            if($adminData['admin_type'] == "Main Administrator" || ($adminData['admin_type'] == "Senior Citizen Administrator" && $adminData['barangay'] == "City Hall")){ ?>
         <div class="mt-1 row">
           <div class="col">
             <input type="hidden" name="person_id" value="<?php echo($PERSON_ID); ?>">
@@ -600,7 +601,7 @@
               Reject
             </a>
           </div>
-          <?php } else {?>
+          <?php } } else {?>
             <div class="col">
                 <input class="form-control" type="file" name="" id="">
             <a

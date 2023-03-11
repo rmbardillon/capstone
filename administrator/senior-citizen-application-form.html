@@ -147,6 +147,18 @@
             <label class="form-label required" for="barangay">BARANGAY</label>
             <select id="barangay" class="form-select" name="barangay" required>
               <option disabled selected value="">Please Select</option>
+              <?php
+                $selected = $adminData['barangay'];
+                $barangay = array('City Hall','Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz'
+                ,'Santo Domingo','Sinalhan','Tagapo');
+                if($selected != "City Hall") {
+                    foreach($barangay as $option) {
+                        if($selected == $option) {
+                            echo '<option value="'; echo $option; echo'"   >'; echo $option; echo'</option>';
+                        }
+                    }
+                } else {
+                ?>
               <option value="Aplaya">Aplaya</option>
               <option value="Balibago">Balibago</option>
               <option value="Caingin">Caingin</option>
@@ -165,6 +177,7 @@
               <option value="Santo Domingo">Santo Domingo</option>
               <option value="Sinalhan">Sinalhan</option>
               <option value="Tagapo">Tagapo</option>
+                <?php } ?>
             </select>
           </div>
           <div class="col">
@@ -247,13 +260,14 @@
           <div class="col">
             <label class="form-label" for="email">EMAIL</label>
             <input
-              class="form-control"
+              class="form-control email"
               type="email"
               id="email"
               name="email"
               placeholder="example@email.com"
               required
             />
+            <span id="emailError" class="text-danger"></span>
           </div>
           <div class="col">
             <label class="form-label" for="telephone">TELEPONO</label>
