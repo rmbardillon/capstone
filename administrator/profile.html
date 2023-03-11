@@ -46,6 +46,14 @@
                                 </div>
                                 <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                                 </div>";
+                            } else if($_GET['error'] == "emailalreadyused") {
+                                echo "<div class='alert alert-danger d-flex align-items-center alert-dismissible fade show m-2' role='alert'>
+                                <svg class='bi flex-shrink-0 me-2' width='24' height='24' role='img' aria-label='Danger:'><use xlink:href='#exclamation-triangle-fill'/></svg>
+                                <div>
+                                    Email is already used.
+                                </div>
+                                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                </div>";
                             } else {
                                 echo "<div class='alert alert-danger d-flex align-items-center alert-dismissible fade show m-2' role='alert'>
                                 <svg class='bi flex-shrink-0 me-2' width='24' height='24' role='img' aria-label='Danger:'><use xlink:href='#exclamation-triangle-fill'/></svg>

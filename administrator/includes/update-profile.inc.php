@@ -18,7 +18,12 @@
         $securityAnswer1 = $_POST["securityAnswer1"];
         $securityAnswer2 = $_POST["securityAnswer2"];
         $securityAnswer3 = $_POST["securityAnswer3"];
+        $result = getUserData($connection, "administrator", "EMAIL", $email);
 
+        if(!empty($result)) {
+            header("Location: ../profile.html?error=emailalreadyused");
+            exit();
+        }
         if ($image['name'] != "") {
             $fileName = $image['name'];
             $fileTmpName = $image['tmp_name'];

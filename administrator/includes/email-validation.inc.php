@@ -6,8 +6,8 @@
     $result = getUserData($connection, "person", "EMAIL", $email);
 
     if(!empty($result)) {
-        echo(1);
+        echo(1); // Email already exists
     } else {
-        echo(0);
+        echo(0); // Email does not exist
     }
 ?>

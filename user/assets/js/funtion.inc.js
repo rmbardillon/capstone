@@ -29,7 +29,92 @@ if (imgDiv !== null) {
         }
     });
 }
-
+// On Load
+// $(document).ready(function() {
+//     // Senior Citizen Form
+//     if($("#numberOfChildren").val() > 0) {
+//         $("#childLastName").prop("required", true);
+//         $("#childFirstName").prop("required", true);
+//         $("#srCitizenChildDOB").prop("required", true);
+//         $("#childBarangay").prop("required", true);
+//         $("#childAddress").prop("required", true);
+//         $("#childLastName").removeAttr("disabled");
+//         $("#childFirstName").removeAttr("disabled");
+//         $("#childMiddlename").removeAttr("disabled");
+//         $("#childSuffix").removeAttr("disabled");
+//         $("#childTelephone").removeAttr("disabled");
+//         $("#srCitizenChildDOB").removeAttr("disabled");
+//         $("#childBarangay").removeAttr("disabled");
+//         $("#childAddress").removeAttr("disabled");
+//     }
+//     if ($('#hasPension').val() == "Y") {
+//         $("#whatPension").prop("required", true);
+//         $("#whatPension").removeAttr("disabled");
+//         $(".whatPension").addClass("required");
+//         $("#howMuchPension").prop("required", true);
+//         $("#howMuchPension").removeAttr("disabled");
+//         $(".howMuchPension").addClass("required");
+//     }
+//     // Solo Parent Form
+//     if ($("#job").val() != "Unemployed") {
+//         $("#company").removeAttr("disabled");
+//         $("#monthlyIncome").removeAttr("disabled");
+//         $("#monthlyIncome").prop("required", true);
+//         $("#company").prop("required", true);
+//     } 
+//     if($("#job").val() == "Others") {
+//         $("#otherOccupation").show();
+//         $("#otherOccupation").prop("required", true);
+//     }
+//     if ($("#childOccupation").val() == "Others") {
+//         $("#otherChildOccupation").show();
+//         $("#otherChildOccupation").prop("required", true);
+//     }
+//     // PWD Application Form
+//     if ($("#employmentStatus").val() == "Employed" || $(this).val() == "Self-employed") {
+//         $("#categoryOfEmploymentDiv").show();
+//         $("#natureOfEmploymentDiv").show();
+//         $("#occupationDiv").show();
+//         $("#incomeDiv").show();
+//         $("#categoryOfEmployment").prop("required", true);
+//         $("#natureOfEmployment").prop("required", true);
+//         $("#occupation").prop("required", true);
+//         $("#income").prop("required", true);
+//     }
+//     if ($("#occupation").val() == "Others") {
+//         $("#otherOccupation").show();
+//         $("#otherOccupation").prop("required", true);
+//     }
+//     if ($("#organization").val().trim() !== "") {
+//         $(".organizationDiv").show();
+//         $("#organizationContactPerson").prop("required", true);
+//         $("#organizationOfficeAddress").prop("required", true);
+//         $("#organizationTelephoneNumber").prop("required", true);
+//     }
+//     if ($("#isPhilhealthMember").val() != "No") {
+//         $("#philhealthNumber").show();
+//         $("#philhealthNumber").prop("required", true);
+//     }
+//     if ($("#guardianSurname").val().trim() !== "") {
+//         $("#guardian").show();
+//         $("#guardianFirstName").prop("required", true);
+//         $("#guardianRelationship").prop("required", true);
+//         $("#guardianContactNumber").prop("required", true);
+//     }
+//     if ($("#accomplishedBy").val() == "Representative") {
+//         $("#accomplisherName").show();
+//         $("#accomplisherName").focus();
+//         $("#accomplisherName").prop("required", true);
+//     }
+//     if ($("#accomplishedBy").val() == "Guardian") {
+//         $("#guardianSurname").prop("required", true);
+//         $("#guardianFirstName").prop("required", true);
+//     }
+//     if ($("#accomplishedBy").val() == "Guardian" || $("#accomplishedBy").val() == "Representative") {
+//         $("#accomID").show();
+//         $("#accomID").prop("required", true);
+//     }
+// });
 // Forms Validation
 const forms = document.querySelectorAll("form");
 forms.forEach(function(form) {
