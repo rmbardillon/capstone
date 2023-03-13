@@ -47,6 +47,12 @@
         $childTelephone = $_POST['childTelephone'];
         $childBarangay = $_POST['childBarangay'];
         $childAddress = $_POST['childAddress'];
+        
+        $userExists = checkUser($connection, $firstName, $surname, $srCitizenDOB, $barangay);
+        if($userExists == "exists") {
+            header("location: ../error.html?error_message=" . urlencode("User already exists"));
+            exit();
+        }
         try {
             // Begin transaction
             $connection->begin_transaction();

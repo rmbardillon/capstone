@@ -1243,6 +1243,28 @@ function getSecurityQuestions($connection, $person_id) {
     $connection->close();
 }
 
+// Check User
+function checkUser($connection, $first_name, $last_name, $birthday, $barangay) {
+    // Check if the user already exists in the database
+    $sql = "SELECT * FROM person 
+            JOIN name ON person.PERSON_ID = name.PERSON_ID
+            JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
+            JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
+            WHERE FIRST_NAME='$first_name' AND LAST_NAME='$last_name' AND DATE_OF_BIRTH='$birthday' AND BARANGAY='$barangay'";
+    $result = mysqli_query($connection, $sql);
+
+    if(mysqli_num_rows($result) > 0) {
+    // User already exists
+    return 'exists';
+    } else {
+    // User does not exist
+    return 'not_exists';
+    }
+
+    // Close the database connection
+    mysqli_close($connection);
+}
+
 // Inserting User Data
 
 $isDeleted =  'N';

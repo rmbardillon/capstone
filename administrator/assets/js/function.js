@@ -82,6 +82,70 @@ $(document).ready( function () {
     announcementsTable.buttons().container().appendTo('#announcements_wrapper .col-md-6:eq(0)');
     
 });
+// User exists checker
+$(document).ready(function() {
+  // Bind keyup and change events to the input fields
+  $('#firstName, #surname, .birthday, #barangay').on('change', function() {
+    if ($('#firstName').val() != '' && $('#surname').val() != '' && $('.birthday').val() != '' && $('#barangay').val() != ''){
+        checkUser();
+    }
+  });
+});
+
+function checkUser() {
+  var first_name = $('#firstName').val();
+  var last_name = $('#surname').val();
+  var birthday = $('.birthday').val();
+  var barangay = $('#barangay').val();
+
+  $.ajax({
+    url: 'includes/check-user.inc.php',
+    type: 'POST',
+    data: {
+      first_name: first_name,
+      last_name: last_name,
+      birthday: birthday,
+      barangay: barangay
+    },
+    success: function(response) {
+      if(response == 'exists') {
+        // Show SweetAlert modal with two buttons
+        Swal.fire({
+          title: 'User already exists in the database.',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Go to Dashboard',
+          cancelButtonText: 'Reset Form',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Redirect to dashboard page
+            window.location.href = 'dashboard.html';
+          } else {
+            // Clear all text input fields
+            $('input[type="text"]').val('');
+            $('input[type="tel"]').val('');
+            $('input[type="email"]').val('');
+            $('input[type="number"]').val('');
+            $('input[type="date"]').val('');
+            // Clear all select fields
+            $('select').val('');
+            // Clear all checkboxes and radio buttons
+            $('input[type="checkbox"], input[type="radio"]').prop('checked', false);
+            // Clear all textareas
+            $('textarea').val('');
+            swal.fire("Success!", "The form has been successfully cleared.", "success");
+            formChanged = false;
+          }
+        });
+      } else {
+        // alert('User does not exist in the database.');
+      }
+    }
+  });
+}
+
 // Print Button
 $("#printBtn").click(function() {
     var printContents = $(".printPage").html();
@@ -140,11 +204,12 @@ $('#clear-button').click(function() {
         confirmButtonColor: '#dc3545', // set color of "OK" button
         cancelButtonColor: '#6c757d', // set color of "Cancel" button
         confirmButtonText: 'Yes, empty the form',
-        cancelButtonText: 'Cancel' // customize text of "Cancel" button
+        cancelButtonText: 'Cancel', // customize text of "Cancel" button
     }).then((result) => {
         if (result.isConfirmed) {
             // Clear all text input fields
             $('input[type="text"]').val('');
+            $('input[type="tel"]').val('');
             $('input[type="email"]').val('');
             $('input[type="number"]').val('');
             $('input[type="date"]').val('');
@@ -1255,7 +1320,6 @@ $(document).ready(function() {
     // Add an event listener to the form
     $('form').on('change', function() {
         formChanged = !isFormEmpty();
-        console.log(formChanged);
         // formChanged = true;
     });
     
