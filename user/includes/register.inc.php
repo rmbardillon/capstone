@@ -1,679 +1,267 @@
-<?php
-
-if (isset($_POST['pwd-register'])) {
-    session_start();
+<?php 
     require_once 'dbh.inc.php';
     require_once 'functions.inc.php';
-    
-    $username = $_SESSION['username'];
-    $registrationType = $_POST['idType'];
-    $transferID = $_POST['textTransfer'];
-    $changeInfoID = $_POST['textChangeInfo'];
-    if (!empty($_POST['pwdNumber1']) and !empty($_POST['pwdNumber2'])) {
-        $pwdNumber = "0434280".$_POST['pwdNumber1'].$_POST['pwdNumber2'];
-    } else {
-        $pwdNumber = NULL;
-    }
-    $dateApplied = date('Y-m-d', strtotime($_POST['dateApplied']));
-    $pwdLastName = $_POST['lastName'];
-    $pwdFirstName = $_POST['firstName'];
-    $pwdMiddleName = $_POST['middleName'];
-    $pwdSuffix = $_POST['suffix'];
-    if (isset($_POST['typeOfDisability'])) {
-        $str = $_POST['typeOfDisability'];
-        $typeOfDisability = implode (",", $str);
-    } else {
-        $typeOfDisability = NULL;
-    }
-    if (!empty($_POST['medicalCondition'])) {
-        $medicalCondition = $_POST['medicalCondition'];
-    } else {
-        $medicalCondition = NULL;
-    }
-    $causeOfDisabilityArray = array();
-    if(isset($_POST['congenital']) ){
-        if (sizeOf($_POST['congenital']) > 0) {
-            array_push($causeOfDisabilityArray, "Congenital/Inborn");
-        }
-    }
-    if (isset($_POST['acquired'])) {
-        if (sizeOf($_POST['acquired']) > 0) {
-            array_push($causeOfDisabilityArray, "Acquired");
-        }
-    }
-    $causeOfDisability = implode (",", $causeOfDisabilityArray);
+    require_once 'sql.inc.php';
 
-    if (isset($_POST['congenital'])) {
-        $str = $_POST['congenital'];
-        $congenitalInborn = implode (",", $str);
-    } else {
-        $congenitalInborn = NULL;
-    }
-    if (isset($_POST['acquired'])) {
-        $str = $_POST['acquired'];
-        $acquired = implode (",", $str);
-    } else {
-        $acquired = NULL;
-    }
-    $statusOfDisability = $_POST['statusOfDisability'];
-    if (!empty($_POST['address'])) {
+    if(isset($_POST['soloParentRenew'])) {
+        $formControlNumber = $_POST['formControlNumber'];
+        $applicationType = "New Application";
+        $personId = generateUUID();
+        $id_number = date("Y") . "-" . generateSoloParentID()[0];
+        $applicantType = "Solo Parent";
+        $surname = $_POST['surname'];
+        $firstName = $_POST['firstName'];
+        $middlename = $_POST['middlename'];
+        $suffix = $_POST['suffix'];
+        $soloParentDOB = $_POST['soloParentDOB'];
+        $age = $_POST['age'];
+        $placeOfBirth = $_POST['placeOfBirth'];
+        $gender = $_POST['gender'];
+        $barangayId = generateUUID();
+        $barangay = $_POST['barangay'];
         $address = $_POST['address'];
-    } else {
-        $address = NULL;
-    }
-    $barangay = $_POST['barangay'];
-    if (!empty($_POST['landline'])) {
-        $landline = $_POST['landline'];
-    } else {
-        $landline = NULL;
-    }
-    if (!empty($_POST['mobileNumber'])) {
-        $mobileNumber = $_POST['mobileNumber'];
-    } else {
-        $mobileNumber = NULL;
-    }
-    $email = $_POST['email'];
-    $dateOfBirth = date('Y-m-d', strtotime($_POST['PWDDob']));
-    $sex = $_POST['sex'];
-    $religion = $_POST['religion'];
-    $civilStatus = $_POST['civilStatus'];
-    $educationalAttainment = $_POST['educationalAttainment'];
-    $isVoter = $_POST['isVoter'];
-    $employmentStatus = $_POST['employmentStatus'];
-    if (isset($_POST['income'])) {
-        $income = $_POST['income'];
-    } else {
-        $income = "0.00";
-    }
-    if (isset($_POST['categoryOfEmployment'])) {
-        $categoryOfEmployment = $_POST['categoryOfEmployment'];
-    } else {
-        $categoryOfEmployment = NULL;
-    }
-    if (isset($_POST['natureOfEmployment'])) {
-        $natureOfEmployment = $_POST['natureOfEmployment'];
-    } else {
-        $natureOfEmployment = NULL;
-    }
-    if (isset($_POST['occupation'])) {
-        $occupation = $_POST['occupation'];
-    } else {
-        $occupation = NULL;
-    }
-    if (!empty($_POST['otherOccupation'])) {
+        $educationalAttainment = $_POST['educationalAttainment'];
+        $job = $_POST['job'];
         $otherOccupation = $_POST['otherOccupation'];
-    } else {
-        $otherOccupation = NULL;
-    }
-    $is4PsBeneficiary = $_POST['4psBeneficiary'];
-    if (isset($_POST['bloodType'])) {
-        $bloodType = $_POST['bloodType'];
-    } else {
-        $bloodType = NULL;
-    }
-    if (!empty($_POST['organization'])) {
-        $organizationAffiliated = $_POST['organization'];
-    } else {
-        $organizationAffiliated = NULL;
-    }
-    if (!empty($_POST['contactPerson'])) {
-        $contactPerson = $_POST['contactPerson'];
-    } else {
-        $contactPerson = NULL;
-    }
-    if (!empty($_POST['officeAddress'])) {
-        $officeAddress = $_POST['officeAddress'];
-    } else {
-        $officeAddress = NULL;
-    }
-    if (!empty($_POST['telNumber'])) {
-        $telNumber = $_POST['telNumber'];
-    } else {
-        $telNumber = NULL;
-    }
-    if (!empty($_POST['sssNumber'])) {
-        $sssNumber = $_POST['sssNumber'];
-    } else {
-        $sssNumber = NULL;
-    }
-    if (!empty($_POST['gsisNumber'])) {
-        $gsisNumber = $_POST['gsisNumber'];
-    } else {
-        $gsisNumber = NULL;
-    }
-    if (!empty($_POST['psnNumber'])) {
-        $psnNumber = $_POST['psnNumber'];
-    } else {
-        $psnNumber = NULL;
-    }
-    if (!empty($_POST['philHealthNumber'])) {
-        $philHealthNumber = $_POST['philHealthNumber'];
-    } else {
-        $philHealthNumber = NULL;
-    }
-    if (isset($_POST['philHealthMemberType'])) {
-        $philHealthMemberType = $_POST['philHealthMemberType'];
-    } else {
-        $philHealthMemberType = NULL;
-    }
-    if (!empty($_POST['fatherLastName'])) {
-        $fatherLastName = $_POST['fatherLastName'];
-    } else {
-        $fatherLastName = NULL;
-    }
-    if (!empty($_POST['fatherFirstName'])) {
-        $fatherFirstName = $_POST['fatherFirstName'];
-    } else {
-        $fatherFirstName = NULL;
-    }
-    if (!empty($_POST['fatherMiddleName'])) {
-        $fatherMiddleName = $_POST['fatherMiddleName'];
-    } else {
-        $fatherMiddleName = NULL;
-    }
-    if (!empty($_POST['motherLastName'])) {
-        $motherLastName = $_POST['motherLastName'];
-    } else {
-        $motherLastName = NULL;
-    }
-    if (!empty($_POST['motherFirstName'])) {
-        $motherFirstName = $_POST['motherFirstName'];
-    } else {
-        $motherFirstName = NULL;
-    }
-    if (!empty($_POST['motherMiddleName'])) {
-        $motherMiddleName = $_POST['motherMiddleName'];
-    } else {
-        $motherMiddleName = NULL;
-    }
-    if (!empty($_POST['guardianLastName'])) {
-        $guardianLastName = $_POST['guardianLastName'];
-    } else {
-        $guardianLastName = NULL;
-    }
-    if (!empty($_POST['guardianFirstName'])) {
-        $guardianFirstName = $_POST['guardianFirstName'];
-    } else {
-        $guardianFirstName = NULL;
-    }
-    if (!empty($_POST['guardianMiddleName'])) {
-        $guardianMiddleName = $_POST['guardianMiddleName'];
-    } else {
-        $guardianMiddleName = NULL;
-    }
-    if (!empty($_POST['guardianRelationship'])) {
-        $guardianRelationship = $_POST['guardianRelationship'];
-    } else {
-        $guardianRelationship = NULL;
-    }
-    if (!empty($_POST['guardianContactNumber'])) {
-        $guardianContactNumber = $_POST['guardianContactNumber'];
-    } else {
-        $guardianContactNumber = NULL;
-    }
-    $accomplishedBy = $_POST['accomplishedBy'];
-    $nameOfAccomplisher = $_POST['nameOfAccomplisher'];
-    $nameOfPhysician = $_POST['nameOfPhysician'];
-    $licenseNumber = $_POST['licenseNumber'];
-    $status = "Pending";
-    $columnName = "is_pwd";
-    $image = $_FILES['file'];
+        $company = $_POST['company'];
+        $monthlyIncome = $_POST['monthlyIncome'];
+        $totalFamilyIncome = $_POST['totalFamilyIncome'];
+        $telephone = $_POST['telephone'];
+        $email = $_POST['email'];
+        $childLastName = $_POST['childLastName'];
+        $childFirstName = $_POST['childFirstName'];
+        $childMiddleName = $_POST['childMiddleName'];
+        $childSuffix = $_POST['childSuffix'];
+        $childRelationship = $_POST['soloParentChildRelationship'];
+        $soloParentChildDOB = $_POST['soloParentChildDOB'];
+        $maritalStatus = $_POST['maritalStatus'];
+        $childEducationalAttainment = $_POST['childEducationalAttainment'];
+        $childOccupation = $_POST['childOccupation'];
+        $otherChildOccupation = $_POST['otherChildOccupation'];
+        $childIncome = $_POST['childIncome'];
 
-    if ($image['name'] != "") {
-        $fileName = $image['name'];
-        $fileTmpName = $image['tmp_name'];
-        $fileSize = $image['size'];
-        $fileError = $image['error'];
-        $fileType = $image['type'];
-        $fileExt = explode('.', $fileName);
-        $fileActualExt = strtolower(end($fileExt));
-        $allowed = array('jpg', 'jpeg', 'png', '');
-
-        if (in_array($fileActualExt, $allowed)) {
-            if ($fileError === 0) {
-                $newFileName = uniqid('', true).".".$fileActualExt;
-                $fileDestination = "../uploads/".$newFileName;
-                $_SESSION['profileDestination'] = $fileDestination;
-                insertProfile($connection, $username, $newFileName, $fileTmpName, $fileDestination);
-            } else {
-                header("location: ../profile.html?error=therewasanerror");
-                exit();
-            }
+        $soloParentClassification = $_POST['soloParentClassification'];
+        if (isset($_POST['soloParentClassification'])) {
+            $str = $_POST['soloParentClassification'];
+            $soloParentClassification = implode (",", $str);
         } else {
-            header("location: ../profile.html?error=filenotallowed");
+            $soloParentClassification = NULL;
+        }
+        $soloParentNeeds = $_POST['soloParentNeeds'];
+        $soloParentFamilyResources = $_POST['soloParentFamilyResources'];
+        try {
+            // Begin transaction
+            $connection->begin_transaction();
+
+            // Call your functions to insert data
+            updatePerson($connection, $person_id, $email);
+            updateApplicant($connection, $person_id, $formControlNumber);
+            insertTransactionType($connection, $personId, $applicationType, $id_number);
+            insertName($connection, $personId, $firstName, $middlename, $surname, $suffix);
+            insertAddress($connection, $barangayId, $barangay, $address);
+            insertPersonAddress($connection, $personId, $barangayId);
+            insertGender($connection, $personId, $gender);
+            insertEducationalAttainment($connection, $personId, $educationalAttainment);
+            insertCompany($connection, $personId, $company);
+            insertIncome($connection, $personId, $monthlyIncome, $totalFamilyIncome);
+            insertTelephone($connection, $personId, $telephone);
+            if($job == "Other") {
+                insertJob($connection, $personId, NULL, $otherOccupation);
+            } else {
+                insertJob($connection, $personId, $job, NULL);
+            }
+            if (count($childFirstName) >= 1) {
+                for ($i=0; $i < count($childFirstName); $i++) {
+                    $childId = generateUUID();
+                    $childBarangayId = generateUUID();
+                    insertPerson($connection, $childId, $soloParentChildDOB[$i], NULL);
+                    insertName($connection, $childId, $childFirstName[$i], $childMiddleName[$i], $childLastName[$i], $childSuffix[$i]);
+                    insertMaritalStatus($connection, $childId, $maritalStatus[$i]);
+                    insertEducationalAttainment($connection, $childId, $childEducationalAttainment[$i]);
+                    if($childOccupation[$i] == "Other") {
+                        insertJob($connection, $childId, NULL, $otherChildOccupation);
+                    } else {
+                        insertJob($connection, $childId, $childOccupation[$i], NULL);
+                    }
+                    insertIncome($connection, $childId, $childIncome[$i], NULL);
+                    insertRelationship($connection, $personId, $childId, $childRelationship[$i]);
+                }
+            }
+            insertSoloParentLongText($connection, $personId, $soloParentClassification, $soloParentNeeds, $soloParentFamilyResources);
+            // Commit the transaction
+            $connection->commit();
+            echo "All queries executed successfully";
+        } catch (Exception $e) {
+            // Rollback the transaction in case of any errors
+            $connection->rollback();
+            $errorMessage =  "Error: " . $e->getMessage();
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
             exit();
         }
-    } 
-    insertPWDData($connection, $username, $registrationType, $transferID, $changeInfoID, $pwdNumber, $dateApplied, $pwdLastName, $pwdFirstName, $pwdMiddleName, $pwdSuffix, $typeOfDisability, $medicalCondition,
-                $causeOfDisability, $congenitalInborn, $acquired, $statusOfDisability, $address, $barangay, $landline, $mobileNumber, $email, $dateOfBirth, $sex, $religion, $civilStatus,
-                $educationalAttainment, $isVoter, $employmentStatus, $income, $categoryOfEmployment, $natureOfEmployment, $occupation, $otherOccupation, $is4PsBeneficiary, $bloodType,
-                $organizationAffiliated, $contactPerson, $officeAddress, $telNumber, $sssNumber, $gsisNumber, $psnNumber, $philHealthNumber, $philHealthMemberType, $fatherLastName, 
-                $fatherFirstName, $fatherMiddleName, $motherLastName, $motherFirstName, $motherMiddleName, $guardianLastName, $guardianFirstName, $guardianMiddleName, $guardianRelationship,
-                $guardianContactNumber, $accomplishedBy, $nameOfAccomplisher, $nameOfPhysician, $licenseNumber, $status, $columnName);
-
-} 
-else if (isset($_POST['pwd-update'])) {
-    session_start();
-    require_once 'dbh.inc.php';
-    require_once 'functions.inc.php';
-    
-    $username = $_SESSION['username'];
-    $registrationType = $_POST['idType'];
-    $transferID = $_POST['textTransfer'];
-    $changeInfoID = $_POST['textChangeInfo'];
-    if (!empty($_POST['pwdNumber1']) and !empty($_POST['pwdNumber2'])) {
-        $pwdNumber = "0434280".$_POST['pwdNumber1'].$_POST['pwdNumber2'];
-    } else {
-        $pwdNumber = NULL;
-    }
-    $dateApplied = date('Y-m-d', strtotime($_POST['dateApplied']));
-    $pwdLastName = $_SESSION['last_name'];
-    $pwdFirstName = $_SESSION['first_name'];
-    $pwdMiddleName = $_SESSION['middle_name'];
-    $pwdSuffix = $_SESSION['suffix'];
-    if (isset($_POST['typeOfDisability'])) {
-        $str = $_POST['typeOfDisability'];
-        $typeOfDisability = implode (",", $str);
-    } else {
-        $typeOfDisability = NULL;
-    }
-    if (!empty($_POST['medicalCondition'])) {
-        $medicalCondition = $_POST['medicalCondition'];
-    } else {
-        $medicalCondition = NULL;
-    }
-    $causeOfDisabilityArray = array();
-    if(isset($_POST['congenital']) ){
-        if (sizeOf($_POST['congenital']) > 0) {
-            array_push($causeOfDisabilityArray, "Congenital/Inborn");
-        }
-    }
-    if (isset($_POST['acquired'])) {
-        if (sizeOf($_POST['acquired']) > 0) {
-            array_push($causeOfDisabilityArray, "Acquired");
-        }
-    }
-    $causeOfDisability = implode (",", $causeOfDisabilityArray);
-
-    if (isset($_POST['congenital'])) {
-        $str = $_POST['congenital'];
-        $congenitalInborn = implode (",", $str);
-    } else {
-        $congenitalInborn = NULL;
-    }
-    if (isset($_POST['acquired'])) {
-        $str = $_POST['acquired'];
-        $acquired = implode (",", $str);
-    } else {
-        $acquired = NULL;
-    }
-    $statusOfDisability = $_POST['statusOfDisability'];
-    if (!empty($_POST['address'])) {
+        header("location: ../home.html?success=true");
+        exit();
+    } else if (isset($_POST['pwdRenew'])) {
+        $formControlNumber = $_POST['formControlNumber'];
+        $timestamp = microtime(true);
+        $timestamp = substr($timestamp, -4);
+        $id_number =  "043428023-" . generatePWDID()[0];
+        $personId = generateUUID();
+        $applicationType = $_POST['applicationType'];
+        $applicantType = "PWD";
+        $old_region = $_POST['region_text'];
+        $old_province = $_POST['province_text'];
+        $old_city = $_POST['city_text'];
+        $old_barangay = $_POST['barangay_text'];
+        $surname = $_POST['surname'];
+        $firstName = $_POST['firstName'];
+        $middlename = $_POST['middlename'];
+        $suffix = $_POST['suffix'];
         $address = $_POST['address'];
-    } else {
-        $address = NULL;
-    }
-    $barangay = $_POST['barangay'];
-    if (!empty($_POST['landline'])) {
+        $barangayId = generateUUID();
+        $barangay = $_POST['barangay'];
         $landline = $_POST['landline'];
-    } else {
-        $landline = NULL;
-    }
-    if (!empty($_POST['mobileNumber'])) {
         $mobileNumber = $_POST['mobileNumber'];
-    } else {
-        $mobileNumber = NULL;
-    }
-    $email = $_SESSION['email'];
-    $dateOfBirth = date('Y-m-d', strtotime($_POST['PWDDob']));
-    $sex = $_POST['sex'];
-    $religion = $_POST['religion'];
-    $civilStatus = $_POST['civilStatus'];
-    $educationalAttainment = $_POST['educationalAttainment'];
-    $isVoter = $_POST['isVoter'];
-    $employmentStatus = $_POST['employmentStatus'];
-    if (isset($_POST['income'])) {
-        $income = $_POST['income'];
-    } else {
-        $income = NULL;
-    }
-    if (isset($_POST['categoryOfEmployment'])) {
-        $categoryOfEmployment = $_POST['categoryOfEmployment'];
-    } else {
-        $categoryOfEmployment = NULL;
-    }
-    if (isset($_POST['natureOfEmployment'])) {
-        $natureOfEmployment = $_POST['natureOfEmployment'];
-    } else {
-        $natureOfEmployment = NULL;
-    }
-    if (isset($_POST['occupation'])) {
-        $occupation = $_POST['occupation'];
-    } else {
-        $occupation = NULL;
-    }
-    if (!empty($_POST['otherOccupation'])) {
-        $otherOccupation = $_POST['otherOccupation'];
-    } else {
-        $otherOccupation = NULL;
-    }
-    $is4PsBeneficiary = $_POST['4psBeneficiary'];
-    if (isset($_POST['bloodType'])) {
+        $emailAddress = $_POST['emailAddress'];
+        $pwdDOB = $_POST['pwdDOB'];
+        $gender = $_POST['gender'];
+        $religion = $_POST['religion'];
+        $maritalStatus = $_POST['maritalStatus'];
         $bloodType = $_POST['bloodType'];
-    } else {
-        $bloodType = NULL;
-    }
-    if (!empty($_POST['organization'])) {
-        $organizationAffiliated = $_POST['organization'];
-    } else {
-        $organizationAffiliated = NULL;
-    }
-    if (!empty($_POST['contactPerson'])) {
-        $contactPerson = $_POST['contactPerson'];
-    } else {
-        $contactPerson = NULL;
-    }
-    if (!empty($_POST['officeAddress'])) {
-        $officeAddress = $_POST['officeAddress'];
-    } else {
-        $officeAddress = NULL;
-    }
-    if (!empty($_POST['telNumber'])) {
-        $telNumber = $_POST['telNumber'];
-    } else {
-        $telNumber = NULL;
-    }
-    if (!empty($_POST['sssNumber'])) {
-        $sssNumber = $_POST['sssNumber'];
-    } else {
-        $sssNumber = NULL;
-    }
-    if (!empty($_POST['gsisNumber'])) {
-        $gsisNumber = $_POST['gsisNumber'];
-    } else {
-        $gsisNumber = NULL;
-    }
-    if (!empty($_POST['psnNumber'])) {
-        $psnNumber = $_POST['psnNumber'];
-    } else {
-        $psnNumber = NULL;
-    }
-    if (!empty($_POST['philHealthNumber'])) {
-        $philHealthNumber = $_POST['philHealthNumber'];
-    } else {
-        $philHealthNumber = NULL;
-    }
-    if (isset($_POST['philHealthMemberType'])) {
-        $philHealthMemberType = $_POST['philHealthMemberType'];
-    } else {
-        $philHealthMemberType = NULL;
-    }
-    if (!empty($_POST['fatherLastName'])) {
-        $fatherLastName = $_POST['fatherLastName'];
-    } else {
-        $fatherLastName = NULL;
-    }
-    if (!empty($_POST['fatherFirstName'])) {
+        $educationalAttainment = $_POST['educationalAttainment'];
+        $isActiveVoter = $_POST['isActiveVoter'];
+        $is4psMember = $_POST['is4PS'];
+        $employmentStatus = $_POST['employmentStatus'];
+        $categoryOfEmployment = $_POST['categoryOfEmployment'];
+        $natureOfEmployment = $_POST['natureOfEmployment'];
+        $occupation = $_POST['occupation'];
+        $otherOccupation = $_POST['otherOccupation'];
+        $income = $_POST['income'];
+        $organization = $_POST['organization'];
+        $organizationContactPerson = $_POST['organizationContactPerson'];
+        $organizationOfficeAddress = $_POST['organizationOfficeAddress'];
+        $organizationTelephoneNumber = $_POST['organizationTelephoneNumber'];
+        $SSSNo = $_POST['SSSNo'];
+        $GSISNo = $_POST['GSISNo'];
+        $PSNNo = $_POST['PSNNo'];
+        $isPhilhealthMember = $_POST['isPhilhealthMember'];
+        $philhealthNumber = $_POST['philhealthNumber'];
+        $fatherId = generateUUID();
+        $fatherSurname = $_POST['fatherSurname'];
         $fatherFirstName = $_POST['fatherFirstName'];
-    } else {
-        $fatherFirstName = NULL;
-    }
-    if (!empty($_POST['fatherMiddleName'])) {
-        $fatherMiddleName = $_POST['fatherMiddleName'];
-    } else {
-        $fatherMiddleName = NULL;
-    }
-    if (!empty($_POST['motherLastName'])) {
-        $motherLastName = $_POST['motherLastName'];
-    } else {
-        $motherLastName = NULL;
-    }
-    if (!empty($_POST['motherFirstName'])) {
+        $fatherMiddleName = $_POST['fatherMiddlename'];
+        $fatherSuffix = $_POST['fatherSuffix'];
+        $motherId = generateUUID();
+        $motherSurname = $_POST['motherSurname'];
         $motherFirstName = $_POST['motherFirstName'];
-    } else {
-        $motherFirstName = NULL;
-    }
-    if (!empty($_POST['motherMiddleName'])) {
-        $motherMiddleName = $_POST['motherMiddleName'];
-    } else {
-        $motherMiddleName = NULL;
-    }
-    if (!empty($_POST['guardianLastName'])) {
-        $guardianLastName = $_POST['guardianLastName'];
-    } else {
-        $guardianLastName = NULL;
-    }
-    if (!empty($_POST['guardianFirstName'])) {
+        $motherMiddleName = $_POST['motherMiddlename'];
+        $motherSuffix = $_POST['motherSuffix'];
+        $guardianId = generateUUID();
+        $guardianSurname = $_POST['guardianSurname'];
         $guardianFirstName = $_POST['guardianFirstName'];
-    } else {
-        $guardianFirstName = NULL;
-    }
-    if (!empty($_POST['guardianMiddleName'])) {
-        $guardianMiddleName = $_POST['guardianMiddleName'];
-    } else {
-        $guardianMiddleName = NULL;
-    }
-    if (!empty($_POST['guardianRelationship'])) {
+        $guardianMiddleName = $_POST['guardianMiddlename'];
+        $guardianSuffix = $_POST['guardianSuffix'];
         $guardianRelationship = $_POST['guardianRelationship'];
-    } else {
-        $guardianRelationship = NULL;
-    }
-    if (!empty($_POST['guardianContactNumber'])) {
         $guardianContactNumber = $_POST['guardianContactNumber'];
-    } else {
-        $guardianContactNumber = NULL;
-    }
-    $accomplishedBy = $_POST['accomplishedBy'];
-    $nameOfAccomplisher = $_POST['nameOfAccomplisher'];
-    $nameOfPhysician = $_POST['nameOfPhysician'];
-    $licenseNumber = $_POST['licenseNumber'];
-    $status = "Pending";
-    $columnName = "is_pwd";
-    $image = $_FILES['file'];
 
-    if ($image['name'] != "") {
-        $fileName = $image['name'];
-        $fileTmpName = $image['tmp_name'];
-        $fileSize = $image['size'];
-        $fileError = $image['error'];
-        $fileType = $image['type'];
-        $fileExt = explode('.', $fileName);
-        $fileActualExt = strtolower(end($fileExt));
-        $allowed = array('jpg', 'jpeg', 'png', '');
-
-        if (in_array($fileActualExt, $allowed)) {
-            if ($fileError === 0) {
-                $newFileName = uniqid('', true).".".$fileActualExt;
-                $fileDestination = "../uploads/".$newFileName;
-                $_SESSION['profileDestination'] = $fileDestination;
-                insertProfile($connection, $username, $newFileName, $fileTmpName, $fileDestination);
-            } else {
-                header("location: ../profile.html?error=therewasanerror");
-                exit();
-            }
+        if (isset($_POST['typeOfDisability'])) {
+            $str = $_POST['typeOfDisability'];
+            $typeOfDisability = implode (",", $str);
         } else {
-            header("location: ../profile.html?error=filenotallowed");
+            $typeOfDisability = NULL;
+        }
+        if (!empty($_POST['medicalCondition'])) {
+            $medicalCondition = $_POST['medicalCondition'];
+        } else {
+            $medicalCondition = NULL;
+        }
+        if (isset($_POST['inborn'])) {
+            $str = $_POST['inborn'];
+            $inborn = implode (",", $str);
+            $causeOfDisability = "CONGENITAL/INBORN";
+        } else {
+            $inborn = NULL;
+        }
+        if (isset($_POST['acquired'])) {
+            $str = $_POST['acquired'];
+            $acquired = implode (",", $str);
+            $causeOfDisability = "ACQUIRED";
+        } else {
+            $acquired = NULL;
+        }
+        $statusOfDisability = $_POST['statusOfDisabiity'];
+        $physicianName = $_POST['physicianName'];
+        $physicianLicence = $_POST['physicianLicence'];
+        $accomplishedBy = $_POST['accomplishedBy'];
+        if ($accomplishedBy == "Applicant") {
+            $accomplisherName = $firstName . " " . $middlename . " " . $surname . " " . $suffix;
+        } else if ($accomplishedBy == "Guardian") {
+            $accomplisherName = $guardianFirstName . " " . $guardianMiddleName . " " . $guardianSurname . " " . $guardianSuffix;
+        } else {
+            $accomplisherName = $_POST['accomplisherName'];
+        }
+        try {
+            // Begin transaction
+            $connection->begin_transaction();
+
+            // Call your functions to insert data
+            insertPerson($connection, $personId, $pwdDOB, $emailAddress);
+            insertApplicant($connection, $personId, $applicantType, $id_number, NULL, $formControlNumber);
+            insertTransactionType($connection, $personId, $applicationType, $id_number);
+            insertPreviousAddress($connection, $personId, $old_region, $old_province, $old_city, $old_barangay, $previousAddress);
+            insertName($connection, $personId, $firstName, $middlename, $surname, $suffix);
+            insertAddress($connection, $barangayId, $barangay, $address);
+            insertPersonAddress($connection, $personId, $barangayId);
+            insertLandline($connection, $personId, $landline);
+            insertTelephone($connection, $personId, $mobileNumber);
+            insertGender($connection, $personId, $gender);
+            insertReligion($connection, $personId, $religion);
+            insertMaritalStatus($connection, $personId, $maritalStatus);
+            insertBloodType($connection, $personId, $bloodType);
+            insertEducationalAttainment($connection, $personId, $educationalAttainment);
+            insertGovernmentMembership($connection, $personId, $isActiveVoter, $is4psMember);
+            insertEmploymentStatus($connection, $personId, $employmentStatus, $categoryOfEmployment, $natureOfEmployment);
+            if($employmentStatus == "Employed" || $employmentStatus == "Self-employed") {
+                if($occupation == "Other") {
+                    insertJob($connection, $personId, NULL, $otherOccupation);
+                } else {
+                    insertJob($connection, $personId, $occupation, NULL);
+                }
+                insertIncome($connection, $personId, $income, NULL);
+            } else {
+                insertJob($connection, $personId, NULL, NULL);
+                insertIncome($connection, $personId, NULL, NULL);
+            }
+            insertOrganization($connection, $personId, $organization, $organizationContactPerson, $organizationOfficeAddress, $organizationTelephoneNumber);
+            insertIdReferenceNumber($connection, $personId, $SSSNo, $GSISNo, $PSNNo, $isPhilhealthMember, $philhealthNumber);
+            insertPerson($connection, $fatherId, NULL, NULL);
+            insertName($connection, $fatherId, $fatherFirstName, $fatherMiddleName, $fatherSurname, $fatherSuffix);
+            insertRelationship($connection, $personId, $fatherId, "Father");
+            insertPerson($connection, $motherId, NULL, NULL);
+            insertName($connection, $motherId, $motherFirstName, $motherMiddleName, $motherSurname, $motherSuffix);
+            insertRelationship($connection, $personId, $motherId, "Mother");
+            if (!empty($guardianFirstName)) {
+                insertPerson($connection, $guardianId, NULL, NULL);
+                insertName($connection, $guardianId, $guardianFirstName, $guardianMiddleName, $guardianSurname, $guardianSuffix);
+                insertRelationship($connection, $personId, $guardianId, "Guardian");
+                insertTelephone($connection, $guardianId, $guardianContactNumber);
+            }
+            insertPWDDisease($connection, $personId, $typeOfDisability, $medicalCondition, $causeOfDisability, $inborn, $acquired, $statusOfDisability);
+            insertPWDPhysician($connection, $personId, $physicianName, $physicianLicence);
+            insertPWDApplicationAccomplisher($connection, $personId, $accomplishedBy, $accomplisherName);
+            // Commit the transaction
+            $connection->commit();
+            echo "All queries executed successfully";
+        } catch (Exception $e) {
+            // Rollback the transaction in case of any errors
+            $connection->rollback();
+            $errorMessage =  "Error: " . $e->getMessage();
+            header("location: ../error.html?error_message=" . urlencode($errorMessage));
             exit();
         }
+        header("location: ../home.html?success=true");
+        exit();
+    } else {
+        header("Location: ../home.html?error=invalidaccess");
+        exit();
     }
-    updatePWDData($connection, $username, $registrationType, $transferID, $changeInfoID, $pwdNumber, $dateApplied, $pwdLastName, $pwdFirstName, $pwdMiddleName, $pwdSuffix, $typeOfDisability, $medicalCondition,
-                $causeOfDisability, $congenitalInborn, $acquired, $statusOfDisability, $address, $barangay, $landline, $mobileNumber, $email, $dateOfBirth, $sex, $religion, $civilStatus,
-                $educationalAttainment, $isVoter, $employmentStatus, $income, $categoryOfEmployment, $natureOfEmployment, $occupation, $otherOccupation, $is4PsBeneficiary, $bloodType,
-                $organizationAffiliated, $contactPerson, $officeAddress, $telNumber, $sssNumber, $gsisNumber, $psnNumber, $philHealthNumber, $philHealthMemberType, $fatherLastName, 
-                $fatherFirstName, $fatherMiddleName, $motherLastName, $motherFirstName, $motherMiddleName, $guardianLastName, $guardianFirstName, $guardianMiddleName, $guardianRelationship,
-                $guardianContactNumber, $accomplishedBy, $nameOfAccomplisher, $nameOfPhysician, $licenseNumber, $status, $columnName);
-
-} 
-else if(isset($_POST['senior-citizen-register'])) {
-    session_start();
-    require_once 'dbh.inc.php';
-    require_once 'functions.inc.php';
-
-    $username = $_SESSION['username'];
-    $registration_type = $_POST['typeOfApplication'];
-    $lostNumber = $_POST['lostNumber'];
-    $sr_citizen_num = $_POST['IDnum'];
-    $sr_citizen_first_name = $_POST['FName'];
-    $sr_citizen_middle_name = $_POST['MName'];
-    $sr_citizen_last_name = $_POST['LName'];
-    $sr_citizen_suffix = $_POST['suffix'];
-    $barangay = $_POST['barangay'];
-    $tirahan = $_POST['tirahan'];
-    $sex = $_POST['sex'];
-    $marital_status = $_POST['status'];
-    $edad = $_POST['edad'];
-    $date_of_birth = $_POST['srCitizenDOB'];
-    $lugar_ng_kapanganakan = $_POST['birthplace'];
-    $telepono = $_POST['telepono'];
-    $relihiyon = $_POST['relihiyon'];
-    $hanapbuhay = $_POST['hanapbuhay'];
-    $pensyon = $_POST['pensyon'];
-    $saan = $_POST['saan'];
-    $magkano = $_POST['magkano'];
-    $pangalan_ng_asawa = $_POST['asawa'];
-    $edad_asawa = $_POST['edad-asawa'];
-    $ilan_ang_anak = $_POST['anak'];
-    $kasama = $_POST['kasama'];
-    $columnName = "is_sr_citizen";
-    $status = "Pending";
-    $family_composition_name = $_POST['relativeName'];
-    $family_composition_age = $_POST['relativeAge'];
-    $family_composition_address = $_POST['relativeAddress'];
-    $family_composition_contact = $_POST['relativeContact'];
-
-    insertSeniorCitizenData($connection, $username, $registration_type, $lostNumber, $sr_citizen_num, $sr_citizen_first_name, $sr_citizen_middle_name, $sr_citizen_last_name, 
-                            $sr_citizen_suffix, $barangay, $tirahan, $sex, $marital_status, $edad, $date_of_birth, $lugar_ng_kapanganakan, $telepono, $relihiyon, $hanapbuhay, $pensyon, 
-                            $saan, $magkano, $pangalan_ng_asawa, $edad_asawa, $ilan_ang_anak, $kasama, $columnName, $family_composition_name, $family_composition_age, $family_composition_address,
-                            $family_composition_contact, $status);
-
-} 
-else if(isset($_POST['senior-citizen-update'])) {
-    session_start();
-    require_once 'dbh.inc.php';
-    require_once 'functions.inc.php';
-
-    $username = $_SESSION['username'];
-    $registration_type = $_POST['typeOfApplication'];
-    $lostNumber = $_POST['lostNumber'];
-    $sr_citizen_num = $_POST['IDnum'];
-    $sr_citizen_first_name = $_POST['FName'];
-    $sr_citizen_middle_name = $_POST['MName'];
-    $sr_citizen_last_name = $_POST['LName'];
-    $sr_citizen_suffix = $_POST['suffix'];
-    $barangay = $_POST['barangay'];
-    $tirahan = $_POST['tirahan'];
-    $sex = $_POST['sex'];
-    $marital_status = $_POST['status'];
-    $edad = $_POST['edad'];
-    $date_of_birth = $_POST['srCitizenDOB'];
-    $lugar_ng_kapanganakan = $_POST['birthplace'];
-    $telepono = $_POST['telepono'];
-    $relihiyon = $_POST['relihiyon'];
-    $hanapbuhay = $_POST['hanapbuhay'];
-    $pensyon = $_POST['pensyon'];
-    $saan = $_POST['saan'];
-    $magkano = $_POST['magkano'];
-    $pangalan_ng_asawa = $_POST['asawa'];
-    $edad_asawa = $_POST['edad-asawa'];
-    $ilan_ang_anak = $_POST['anak'];
-    $kasama = $_POST['kasama'];
-    $columnName = "is_sr_citizen";
-    $status = "Pending";
-    $id = $_POST['id'];
-    $family_composition_name = $_POST['relativeName'];
-    $family_composition_age = $_POST['relativeAge'];
-    $family_composition_address = $_POST['relativeAddress'];
-    $family_composition_contact = $_POST['relativeContact'];
-
-    updateSeniorCitizenData($connection, $username, $registration_type, $lostNumber, $sr_citizen_num, $sr_citizen_first_name, $sr_citizen_middle_name, $sr_citizen_last_name, 
-                            $sr_citizen_suffix, $barangay, $tirahan, $sex, $marital_status, $edad, $date_of_birth, $lugar_ng_kapanganakan, $telepono, $relihiyon, $hanapbuhay, $pensyon, 
-                            $saan, $magkano, $pangalan_ng_asawa, $edad_asawa, $ilan_ang_anak, $kasama, $columnName, $family_composition_name, $family_composition_age, $family_composition_address,
-                            $family_composition_contact, $status, $id);
-
-} 
-else if(isset($_POST['solo-parent-register'])) {
-    session_start();
-    require_once 'dbh.inc.php';
-    require_once 'functions.inc.php';
-    
-    $username = $_SESSION['username'];
-    $solo_parent_name = $_POST['name'];
-    $age = $_POST['age'];
-    $sex = $_POST['sex'];
-    $date_of_birth = date('Y-m-d', strtotime($_POST['soloParentDOB']));
-    $place_of_birth = $_POST['birthplace'];
-    $address = $_POST['soloParentAddress'];
-    $barangay = $_POST['soloParentBarangay'];
-    $educ_attainment = $_POST['educational'];
-    $occupation = $_POST['occupation'];
-    $income = $_POST['income'];
-    $fam_income = $_POST['famincome'];
-    $tenurial = $_POST['tenurial'];
-    $religion = $_POST['soloParentReligion'];
-    $contact_number = $_POST['contact'];
-    $marital_status = $_POST['marital-status'];
-    $classification_incidence = $_POST['incidence'];
-    $classification_when = $_POST['when'];
-    $problems = $_POST ['problem'];
-    $family_resources = $_POST['resources'];
-    $date_applied = date('Y-m-d', strtotime($_POST['date']));
-
-    $family_composition_name = $_POST['family-composition-name'];
-    $family_composition_relationship = $_POST['family-composition-relationship'];
-    $family_composition_age = $_POST['family-composition-age'];
-    $family_composition_civil_status = $_POST['family-composition-civil-status'];
-    $family_composition_educ_attainment = $_POST['family-composition-educ-attainment'];
-    $family_composition_occupation = $_POST['family-composition-occupation'];
-    $family_composition_monthly_income = $_POST['family-composition-monthly-income'];
-    $combinedArray = array_merge($family_composition_name, $family_composition_relationship, $family_composition_age, $family_composition_civil_status, $family_composition_educ_attainment, $family_composition_occupation, $family_composition_monthly_income);
-    $columnName = "is_solo_parent";
-
-    insertSoloParentData($connection, $username, $solo_parent_name, $age, $sex, $date_of_birth, $place_of_birth, $address, $barangay, 
-                        $educ_attainment, $occupation, $income, $fam_income, $tenurial, $religion, $contact_number, $marital_status, $classification_incidence,
-                        $classification_when, $problems, $family_resources, $date_applied, $family_composition_name, $family_composition_relationship, $family_composition_age, $family_composition_civil_status, $family_composition_educ_attainment, $family_composition_occupation, 
-                        $family_composition_monthly_income, $combinedArray, $columnName);
-}
-else if(isset($_POST['solo-parent-update'])) {
-    session_start();
-    require_once 'dbh.inc.php';
-    require_once 'functions.inc.php';
-    
-    $username = $_SESSION['username'];
-    $solo_parent_name = $_POST['name'];
-    $age = $_POST['age'];
-    $sex = $_POST['sex'];
-    $date_of_birth = date('Y-m-d', strtotime($_POST['soloParentDOB']));
-    $place_of_birth = $_POST['birthplace'];
-    $address = $_POST['soloParentAddress'];
-    $barangay = $_POST['soloParentBarangay'];
-    $educ_attainment = $_POST['educational'];
-    $occupation = $_POST['occupation'];
-    $income = $_POST['income'];
-    $fam_income = $_POST['famincome'];
-    $tenurial = $_POST['tenurial'];
-    $religion = $_POST['soloParentReligion'];
-    $contact_number = $_POST['contact'];
-    $marital_status = $_POST['marital-status'];
-    $classification_incidence = $_POST['incidence'];
-    $classification_when = $_POST['when'];
-    $problems = $_POST ['problem'];
-    $family_resources = $_POST['resources'];
-    $date_applied = date('Y-m-d', strtotime($_POST['date']));
-    $id = $_POST['id'];
-
-    $family_composition_name = $_POST['family-composition-name'];
-    $family_composition_relationship = $_POST['family-composition-relationship'];
-    $family_composition_age = $_POST['family-composition-age'];
-    $family_composition_civil_status = $_POST['family-composition-civil-status'];
-    $family_composition_educ_attainment = $_POST['family-composition-educ-attainment'];
-    $family_composition_occupation = $_POST['family-composition-occupation'];
-    $family_composition_monthly_income = $_POST['family-composition-monthly-income'];
-    $combinedArray = array_merge($family_composition_name, $family_composition_relationship, $family_composition_age, $family_composition_civil_status, $family_composition_educ_attainment, $family_composition_occupation, $family_composition_monthly_income);
-    $columnName = "is_solo_parent";
-
-    updateSoloParentData($connection, $username, $solo_parent_name, $age, $sex, $date_of_birth, $place_of_birth, $address, $barangay, 
-                        $educ_attainment, $occupation, $income, $fam_income, $tenurial, $religion, $contact_number, $marital_status, $classification_incidence,
-                        $classification_when, $problems, $family_resources, $date_applied, $family_composition_name, $family_composition_relationship, $family_composition_age, $family_composition_civil_status, $family_composition_educ_attainment, $family_composition_occupation, 
-                        $family_composition_monthly_income, $combinedArray, $columnName, $id);
-}
 ?>

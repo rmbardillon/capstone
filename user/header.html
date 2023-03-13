@@ -14,6 +14,9 @@
             $userType = "Solo Parent";
         }
         $data = getApplicantData($connection, $username, $userType);
+        $totalPWD = (int) getTotalCitizen($connection, "PWD");
+        $totalSoloParent = (int) getTotalCitizen($connection, "SoloParent");
+        $totalSeniorCitizen = (int) getTotalCitizen($connection, "SeniorCitizen");
     } else {
         header("location: ../login/citizen.html");
         exit();
@@ -57,9 +60,9 @@
                 <ul class="navbar-nav text-light" id="accordionSidebar">
                     <li class="nav-item"><a class="nav-link <?php if ($page == 'home') {echo 'active';} ?>" href="home.html"><i class="fas fa-tachometer-alt"></i><span>Home</span></a></li>
                     <?php if($userType == "PWD"){ ?>
-                    <li class="nav-item"><a class="nav-link <?php if ($page == 'id-applications') {echo 'active';} ?>" href="pwd-renewal-form-filled-up.html"><i class="fas fa-user"></i><span>Renewal</span></a></li>
+                    <li class="nav-item"><a class="nav-link <?php if ($page == 'pwdRenewal') {echo 'active';} ?>" href="pwd-renewal-form-filled-up.html"><i class="fas fa-user"></i><span>Renewal</span></a></li>
                     <?php } else if($userType == "Solo Parent"){ ?>
-                    <li class="nav-item"><a class="nav-link <?php if ($page == 'id-applications') {echo 'active';} ?>" href="solo-parent-renewal-form-filled-up.html"><i class="fas fa-user"></i><span>Renewal</span></a></li>
+                    <li class="nav-item"><a class="nav-link <?php if ($page == 'soloParentRenewal') {echo 'active';} ?>" href="solo-parent-renewal-form-filled-up.html"><i class="fas fa-user"></i><span>Renewal</span></a></li>
                     <?php } ?>
                     <li class="nav-item"><a class="nav-link <?php if ($page == 'applications') {echo 'active';} ?>" href="applications.html"><i class="fas fa-users"></i><span>Applications</span></a></li>
                     <li class="nav-item"><a class="nav-link <?php if ($page == 'announcements') {echo 'active';} ?>" href="announcements.html" style="height: 52.4px;"><i class="fas fa-volume-up"></i><span>Events</span></a></li>

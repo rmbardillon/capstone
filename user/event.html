@@ -18,7 +18,8 @@
                             <?php foreach($announcement as $user): ?>
                             <div class="mb-3">
                                 <label class="form-label" for="">Event Title</label>
-                                <input class="form-control" type="text" id="announcement" name="announcement" placeholder="Event Title" value="<?php echo($user['TITLE']); ?>" disabled></div>
+                                <input class="form-control" type="text" id="announcement" name="announcement" placeholder="Event Title" value="<?php echo($user['TITLE']); ?>" disabled>
+                            </div>
                             <div class="mb-3">
                                 <label class="form-label" for="">Event Citizen Participants</label>
                                 <select class="form-select" id="announcementFor" name="announcementFor" disabled>
@@ -34,18 +35,15 @@
                                             }
                                         }
                                     ?>
-                                </select></div>
+                                </select>
+                            </div>
                             <div class="mb-3" id="coveredMonths" style="display: none;">
                                 <label for="">Covered Birthday Months</label>
-                                <div class="row">
-                                    <div class="col">
-                                        <select class="form-select" id="from" name="from" required disabled>
-                                            <option disabled selected value="">Date</option>
-                                            <option value="01" <?php echo ($user['DATE_FROM'] == '01') ? 'selected' : ''; ?> >January - June</option>
-                                            <option value="02" <?php echo ($user['DATE_FROM'] == '02') ? 'selected' : ''; ?> >July - December</option>
-                                        </select>
-                                    </div>
-                                </div>
+                                <select class="form-select" id="from" name="from" required disabled>
+                                    <option disabled selected value="">Date</option>
+                                    <option value="01" <?php echo ($user['DATE_FROM'] == '01') ? 'selected' : ''; ?> >January - June</option>
+                                    <option value="02" <?php echo ($user['DATE_FROM'] == '02') ? 'selected' : ''; ?> >July - December</option>
+                                </select>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="">Event Barangay Participants</label>
@@ -63,7 +61,8 @@
                                             }
                                         }
                                     ?>
-                                </select></div>
+                                </select>
+                            </div>
                             <div class="mb-3">
                                 <label for="announcementDate">Set Date for event</label>
                                 <input class="form-control" type="date" name="announcementDate" id="announcementDate" min="1900-01-01" required value="<?php echo($user['DATE']); ?>" disabled>

@@ -82,7 +82,19 @@ $(document).ready( function () {
     announcementsTable.buttons().container().appendTo('#announcements_wrapper .col-md-6:eq(0)');
     
 });
-
+// Print Button
+$("#printBtn").click(function() {
+    var printContents = $(".printPage").html();
+    var originalContents = $("body").html();
+    $("body").empty().html(printContents);
+    window.print();
+    $("body").html(originalContents);
+});
+// Form Control Number
+$(document).ready(function() {
+    var formControlNumber = $("h5.heading").text();
+    $("#formControlNumber").val(formControlNumber);
+});
 // Email validation
 $(".email").on("change", function() {
     var email = $(this).val();
@@ -517,6 +529,7 @@ $(document).ready(function() {
                 url: "includes/submit.inc.php?applicantType=" + encodeURIComponent(applicantType),
                 data: $(this).serialize(),
                 success: function(response) {
+                    console.log(success);
                     // Remove record from database and JSON file
                     $.ajax({
                         type: "GET",
@@ -537,10 +550,15 @@ $(document).ready(function() {
             });
         });
     } else {
-        // Save Form Data
         $("#saveForm").click(function() {
-            $('#name-modal').modal('show');
-        })
+            if(formChanged) {
+                $('#name-modal').modal('show');
+            }
+        });
+        // Save Form Data
+        // $("#saveForm").click(function() {
+        //     $('#name-modal').modal('show');
+        // })
     }
 });
 // Profile Picture
@@ -656,58 +674,46 @@ $(document).ready(function() {
             $("#confirmpassworderror").html("");
         }
     });
+
+    $(".toggle-password").click(function() {
+        const passwordField = $('.password');
+
+        if (passwordField.attr("type") === "password") {
+            passwordField.attr("type", "text");
+            $("#showPasswordLabel").text("Hide Password");
+        } else {
+            passwordField.attr("type", "password");
+            $("#showPasswordLabel").text("Show Password");
+        }
+    });
+    var passwordField = $('.password[type=password]:not(#old_password)');
+    // Attach a keyup event listener to the password field
+    passwordField.on('keyup', function() {
+        // Get the password value
+        var password = $(this).val();
+
+        // Set the regular expressions for each password requirement
+        var regexCapitalLetter = /[A-Z]/;
+        var regexSymbol = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+        var regexNumber = /\d/;
+        var regexSpace = /\s/;
+
+        // Check if the password meets all requirements
+        if (password.length < 8) {
+            $('#error-message').text('Password must be at least 8 characters long');
+        } else if (regexSpace.test(password)) {
+            $('#error-message').text('Password must not contain spaces');
+        } else if (!regexCapitalLetter.test(password)) {
+            $('#error-message').text('Password must contain at least one capital letter');
+        } else if (!regexSymbol.test(password)) {
+            $('#error-message').text('Password must contain at least one symbol');
+        } else if (!regexNumber.test(password)) {
+            $('#error-message').text('Password must contain at least one number');
+        } else {
+            $('#error-message').text('');
+        }
+    });
 });
-$(".toggle-password").click(function() {
-    const passwordField = $('.password');
-
-    if (passwordField.attr("type") === "password") {
-        passwordField.attr("type", "text");
-        $("#showPasswordLabel").text("Hide Password");
-    } else {
-        passwordField.attr("type", "password");
-        $("#showPasswordLabel").text("Show Password");
-    }
-});
-
-$("#repeat_password").on('change', function() {
-    if($(this).val() != $("#password").val()) {
-        $("#error-message").text("Password does not match.");
-    } else {
-        $("#error-message").text("");
-    }
-});
-// Select the password input field
-// var passwordField = $('.password[type=password]');
-var passwordField = $('.password[type=password]:not(#old_password)');
-
-// Attach a keyup event listener to the password field
-passwordField.on('keyup', function() {
-    // Get the password value
-    var password = $(this).val();
-
-    // Set the regular expressions for each password requirement
-    var regexCapitalLetter = /[A-Z]/;
-    var regexSymbol = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
-    var regexNumber = /\d/;
-    var regexSpace = /\s/;
-
-    // Check if the password meets all requirements
-    if (password.length < 8) {
-        $('#error-message').text('Password must be at least 8 characters long');
-    } else if (regexSpace.test(password)) {
-        $('#error-message').text('Password must not contain spaces');
-    } else if (!regexCapitalLetter.test(password)) {
-        $('#error-message').text('Password must contain at least one capital letter');
-    } else if (!regexSymbol.test(password)) {
-        $('#error-message').text('Password must contain at least one symbol');
-    } else if (!regexNumber.test(password)) {
-        $('#error-message').text('Password must contain at least one number');
-    } else {
-        $('#error-message').text('');
-    }
-});
-
-
 
 $(document).on('keyup change', 'input[type="text"]:not(.password[type="text"]),textarea', function() {
     $(this).val($(this).val().toUpperCase());
@@ -724,18 +730,6 @@ $(document).on('keyup', '.telephone', function() {
     if ($(this).val().length > 11) {
         $(this).val($(this).val().substring(0, 11));
     }
-});
-$("#numberOfChildren").on("keypress", function(event) {
-  var currentValue = parseInt($(this).val() + event.key);
-  if (currentValue > 20) {
-    event.preventDefault();
-  }
-});
-$("#totalHousemate").on("keypress", function(event) {
-  var currentValue = parseInt($(this).val() + event.key);
-  if (currentValue > 100) {
-    event.preventDefault();
-  }
 });
 // World Time API
 function getDataFromAPI() {
@@ -866,7 +860,18 @@ $(document).ready(function() {
         $("#childBarangay").prop("disabled", true);
         $("#childAddress").prop("disabled", true);
     }
-
+    $("#numberOfChildren").on("keypress", function(event) {
+        var currentValue = parseInt($(this).val() + event.key);
+        if (currentValue > 20) {
+            event.preventDefault();
+        }
+    });
+    $("#totalHousemate").on("keypress", function(event) {
+        var currentValue = parseInt($(this).val() + event.key);
+        if (currentValue > 100) {
+            event.preventDefault();
+        }
+    });
     // listen for changes to the number input field
     $('#numberOfChildren').on('input', function() {
         // get the current number of relatives entered by the user
@@ -1226,16 +1231,36 @@ $(document).ready(function() {
   });
 });
 
+function isFormEmpty() {
+  var isEmpty = true;
+  $('form :input').not(':submit, :button, :hidden, :disabled').each(function() {
+    var field = $(this);
+    if (field.is(':checkbox') || field.is(':radio')) {
+      if (field.is(':checked')) {
+        isEmpty = false;
+      }
+    } else if (field.is('select')) {
+      if (field.val()) {
+        isEmpty = false;
+      }
+    } else if (field.val()) {
+      isEmpty = false;
+    }
+  });
+  return isEmpty;
+}
+
 // Form warning before leaving
 $(document).ready(function() {
     // Add an event listener to the form
     $('form').on('change', function() {
-        formChanged = true;
+        formChanged = !isFormEmpty();
+        console.log(formChanged);
+        // formChanged = true;
     });
-
+    
     // Add an event listener to all links on the page
     $('a:not([id="newApplication"], .profileDropdown)').on('click', function(e) {
-        console.log("test")
         // Check if the form has unsaved changes
         if (formChanged) {
             e.preventDefault(); // Prevent the link from being followed

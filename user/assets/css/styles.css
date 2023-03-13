@@ -42,3 +42,27 @@ section {
     cursor: pointer;
     display: none;
 }
+
+/* Application Form */
+.form {
+  margin-top: 15vh;
+  margin-bottom: 15vh;
+  padding: 20px;
+  border: 1px solid black;
+  border-radius: 30px;
+  min-height: 70vh;
+}
+
+.row {
+  margin: 15px;
+}
+
+.required:after {
+  content: "*";
+  color: red;
+}
+
+.soloParentRelative, .srCitizenRelative {
+  border: 1px solid black;
+  padding: 15px;
+}

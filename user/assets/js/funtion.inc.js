@@ -1,3 +1,469 @@
+// Form Control Number
+$(document).ready(function() {
+    var formControlNumber = $("h5.heading").text();
+    $("#formControlNumber").val(formControlNumber);
+});
+
+// Email validation
+$(".email").on("change", function() {
+    var email = $(this).val();
+    if (email) {
+        $.ajax({
+            url: "includes/email-validation.inc.php",
+            type: "POST",
+            data: {
+                email: email
+            },
+            success: function(data) {
+                if (data == 0) {
+                    $(".email").removeClass("is-invalid");
+                    $(".email").addClass("is-valid");
+                    $(".email").attr("value", email);
+                    $("#emailError").html("");
+                    console.log(data);
+                } else {
+                    $(".email").removeClass("is-valid");
+                    $(".email").addClass("is-invalid");
+                    $(".email").attr("value", "");
+                    $("#emailError").html("Email is already in use");
+                    console.log(data);
+                }
+            }
+        });
+    } else {
+        $(".email").removeClass("is-valid");
+        $(".email").removeClass("is-invalid");
+        $(".email").attr("value", "");
+    }
+});
+var formChanged = false;
+// CLEAR BUTTON
+// When the "Clear" button is clicked
+$('#clear-button').click(function() {
+    Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: 'Are you sure you want to empty the form?',
+        showConfirmButton: true,
+        showCancelButton: true, // show "Cancel" button
+        confirmButtonColor: '#dc3545', // set color of "OK" button
+        cancelButtonColor: '#6c757d', // set color of "Cancel" button
+        confirmButtonText: 'Yes, empty the form',
+        cancelButtonText: 'Cancel' // customize text of "Cancel" button
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Clear all text input fields
+            $('input[type="text"]').val('');
+            $('input[type="email"]').val('');
+            $('input[type="number"]').val('');
+            $('input[type="date"]').val('');
+            // Clear all select fields
+            $('select').val('');
+            // Clear all checkboxes and radio buttons
+            $('input[type="checkbox"], input[type="radio"]').prop('checked', false);
+            // Clear all textareas
+            $('textarea').val('');
+            swal.fire("Success!", "The form has been successfully cleared.", "success");
+            formChanged = false;
+        }
+    });
+});
+// GENERATE UUID
+function generateUUID() {
+  var cryptoObj = window.crypto || window.msCrypto;
+  var uuid = '';
+  var byteArray = new Uint8Array(8);
+  cryptoObj.getRandomValues(byteArray);
+  for (var i = 0; i < byteArray.length; i++) {
+    uuid += byteArray[i].toString(16).padStart(2, '0');
+  }
+  return uuid;
+}
+
+// Announcement
+if($('#announcementFor').val() == "Senior Citizen"){
+    $("#coveredMonths").show();
+    $("#from").prop("disabled", false);
+} else {
+    $("#coveredMonths").hide();
+    $("#from").prop("disabled", true);
+}
+$('#announcementFor').change(function() {
+    if($(this).val() == "Senior Citizen") {
+        $("#coveredMonths").show();
+        $("#from").prop("disabled", false);
+    } else {
+        $("#coveredMonths").hide();
+        $("#from").prop("disabled", true);
+    }
+});
+
+// Sweet Alert
+$(".deleteAnnouncement").click(function(event) {
+    event.preventDefault(); // prevent the default behavior of the anchor tag
+
+    const deleteUrl = $(this).attr('href'); // store the URL of the anchor tag
+
+    Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: 'Are you sure you want to delete?',
+        showConfirmButton: true,
+        showCancelButton: true, // show "Cancel" button
+        confirmButtonColor: '#dc3545', // set color of "OK" button
+        cancelButtonColor: '#6c757d', // set color of "Cancel" button
+        confirmButtonText: 'Yes, delete it',
+        cancelButtonText: 'Cancel' // customize text of "Cancel" button
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // User clicked "OK", perform deletion here
+            $.ajax({
+                url: deleteUrl, // use the stored URL for the AJAX request
+                method: 'POST',
+                data: {
+                    delete: "<?php echo $announcement['ANNOUNCEMENT_ID']; ?>"
+                },
+                success: function(response) {
+                    // Handle successful deletion here
+                    console.log(response);
+                    // Redirect to the URL specified in the href attribute
+                    window.location.href = deleteUrl;
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Handle error here
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        }
+    });
+});
+
+$(".deleteDraft").click(function(event) {
+    console.log("Clicked 1")
+    event.preventDefault(); // prevent the default behavior of the anchor tag
+
+    const deleteUrl = $(this).attr('href'); // store the URL of the anchor tag
+
+    Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: 'Are you sure you want to delete?',
+        showConfirmButton: true,
+        showCancelButton: true, // show "Cancel" button
+        confirmButtonColor: '#dc3545', // set color of "OK" button
+        cancelButtonColor: '#6c757d', // set color of "Cancel" button
+        confirmButtonText: 'Yes, delete it',
+        cancelButtonText: 'Cancel' // customize text of "Cancel" button
+    }).then((result) => {
+        if (result.isConfirmed) {
+            console.log("Clicked 2")
+            // User clicked "OK", perform deletion here
+            $.ajax({
+                url: deleteUrl, // use the stored URL for the AJAX request
+                method: 'POST',
+                data: {
+                    delete: "<?php echo $draft['DRAFT_ID']; ?>"
+                },
+                success: function(response) {
+                    // Handle successful deletion here
+                    console.log(response);
+                    // Redirect to the URL specified in the href attribute
+                    window.location.href = deleteUrl;
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Handle error here
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        }
+    });
+});
+
+$(".deleteAdmin").click(function(event) {
+    event.preventDefault(); // prevent the default behavior of the anchor tag
+
+    const deleteUrl = $(this).attr('href'); // store the URL of the anchor tag
+
+    Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: 'Are you sure you want to delete?',
+        showConfirmButton: true,
+        showCancelButton: true, // show "Cancel" button
+        confirmButtonColor: '#dc3545', // set color of "OK" button
+        cancelButtonColor: '#6c757d', // set color of "Cancel" button
+        confirmButtonText: 'Yes, delete it',
+        cancelButtonText: 'Cancel' // customize text of "Cancel" button
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // User clicked "OK", perform deletion here
+            $.ajax({
+                url: deleteUrl, // use the stored URL for the AJAX request
+                method: 'POST',
+                data: {
+                    delete: "<?php echo $admin['id']; ?>"
+                },
+                success: function(response) {
+                    // Handle successful deletion here
+                    console.log(response);
+                    // Redirect to the URL specified in the href attribute
+                    window.location.href = deleteUrl;
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Handle error here
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        }
+    });
+});
+
+$("#logout").click(function(event) {
+    event.preventDefault(); // prevent the default behavior of the anchor tag
+
+    const deleteUrl = $(this).attr('href'); // store the URL of the anchor tag
+
+    Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: 'Are you sure you want to logout?',
+        showConfirmButton: true,
+        showCancelButton: true, // show "Cancel" button
+        confirmButtonColor: '#dc3545', // set color of "OK" button
+        cancelButtonColor: '#6c757d', // set color of "Cancel" button
+        confirmButtonText: 'Yes, log out',
+        cancelButtonText: 'Cancel' // customize text of "Cancel" button
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // User clicked "OK", perform deletion here
+            $.ajax({
+                url: deleteUrl, // use the stored URL for the AJAX request
+                method: 'POST',
+                data: {
+                    delete: "<?php echo $announcement['ANNOUNCEMENT_ID']; ?>"
+                },
+                success: function(response) {
+                    // Handle successful deletion here
+                    console.log(response);
+                    // Redirect to the URL specified in the href attribute
+                    window.location.href = deleteUrl;
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Handle error here
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        }
+    });
+});
+
+// Save Drafts
+var formName; // declare a variable to store formName
+$("#save_name").click(function(){
+    // Get applicant's name, save form data to JSON file, and submit form
+    var applicantName = new URLSearchParams(window.location.search).get('name');
+    var applicantBarangay = new URLSearchParams(window.location.search).get('barangay');
+    var applicantType = $('#applicantType').val();
+    
+    if(applicantName === null || applicantBarangay === null) {
+        if($('#applicant-name').val() == "" || $('#applicant-barangay').val() == null) {
+            console.log("empty name and barangay")
+            return;
+        }
+    }
+    // Check if formName already exists
+    if(formName === undefined) {
+        var applicantName = $('#applicant-name').val();
+        var applicantBarangay = $('#applicant-barangay').val();
+        formName = generateUUID();
+    }
+
+    var formData = $('form').serializeArray();
+    var jsonData = {
+        "formName": formName,
+        "formData": formData,
+        "applicantName": applicantName,
+        "applicantBarangay": applicantBarangay,
+        "applicantType": applicantType
+    };
+    $.ajax({
+        type: "POST",
+        url: "includes/save-data.inc.php",
+        data: JSON.stringify(jsonData),
+        success: function(response) {
+            $('#name-modal').modal('hide');
+            $('form').attr('action', 'includes/save-drafts.inc.php?applicant_name=' + encodeURIComponent(applicantName) + '&form_name=' + encodeURIComponent(formName) + '&applicant_type=' + encodeURIComponent(applicantType) + '&applicant_barangay=' + encodeURIComponent(applicantBarangay));
+            $('form').submit();
+            alert("Data saved successfully.");
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+            alert("Failed to save data.");
+        },
+        dataType: "json"
+    });
+});
+
+// Edit Draft Form
+$('.edit-draft').click(function(event) {
+    // Get the value of the "draftid" parameter
+    var draftId = $(this).data('draftid');
+    var page = $(this).data('page');
+    var userName = $(this).data('name');
+    var userBarangay = $(this).data('barangay');
+    // alert(page + draftId + "&name=" + userName);
+    window.location.href = page + draftId + "&name=" + userName + "&barangay=" + userBarangay;
+});
+
+// Populate form with draft data
+$(document).ready(function() {
+    // Get user ID from URL parameters
+    var userId = new URLSearchParams(window.location.search).get('userId');
+    
+    if(userId != null) {
+        $("#saveForm").click(function() {
+            $("#save_name").click();
+        });
+        // Get saved form data and populate fields
+        $.ajax({
+            type: "GET",
+            url: "includes/get-json.inc.php?userId=" + userId,
+            dataType: "json",
+            success: function(data) {
+                if (data) {
+                    // Store formName value from retrieved data
+                    formName = data.formName;
+
+                    $.each(data.formData, function(index, item) {
+                        $('[name="' + item.name + '"]').val(item.value);
+                    });
+                    alert('Draft loaded!');
+                    // Senior Citizen Form
+                    if($("#numberOfChildren").val() > 0) {
+                        $("#childLastName").prop("required", true);
+                        $("#childFirstName").prop("required", true);
+                        $("#srCitizenChildDOB").prop("required", true);
+                        $("#childBarangay").prop("required", true);
+                        $("#childAddress").prop("required", true);
+                        $("#childLastName").removeAttr("disabled");
+                        $("#childFirstName").removeAttr("disabled");
+                        $("#childMiddlename").removeAttr("disabled");
+                        $("#childSuffix").removeAttr("disabled");
+                        $("#childTelephone").removeAttr("disabled");
+                        $("#srCitizenChildDOB").removeAttr("disabled");
+                        $("#childBarangay").removeAttr("disabled");
+                        $("#childAddress").removeAttr("disabled");
+                    }
+                    if ($('#hasPension').val() == "Y") {
+                        $("#whatPension").prop("required", true);
+                        $("#whatPension").removeAttr("disabled");
+                        $(".whatPension").addClass("required");
+                        $("#howMuchPension").prop("required", true);
+                        $("#howMuchPension").removeAttr("disabled");
+                        $(".howMuchPension").addClass("required");
+                    }
+                    // Solo Parent Form
+                    if ($("#job").val() != "Unemployed") {
+                        $("#company").removeAttr("disabled");
+                        $("#monthlyIncome").removeAttr("disabled");
+                        $("#monthlyIncome").prop("required", true);
+                        $("#company").prop("required", true);
+                    } 
+                    if($("#job").val() == "Others") {
+                        $("#otherOccupation").show();
+                        $("#otherOccupation").prop("required", true);
+                    }
+                    if ($("#childOccupation").val() == "Others") {
+                        $("#otherChildOccupation").show();
+                        $("#otherChildOccupation").prop("required", true);
+                    }
+                    // PWD Application Form
+                    if ($("#employmentStatus").val() == "Employed" || $(this).val() == "Self-employed") {
+                        $("#categoryOfEmploymentDiv").show();
+                        $("#natureOfEmploymentDiv").show();
+                        $("#occupationDiv").show();
+                        $("#incomeDiv").show();
+                        $("#categoryOfEmployment").prop("required", true);
+                        $("#natureOfEmployment").prop("required", true);
+                        $("#occupation").prop("required", true);
+                        $("#income").prop("required", true);
+                    }
+                    if ($("#occupation").val() == "Others") {
+                        $("#otherOccupation").show();
+                        $("#otherOccupation").prop("required", true);
+                    }
+                    if ($("#organization").val().trim() !== "") {
+                        $(".organizationDiv").show();
+                        $("#organizationContactPerson").prop("required", true);
+                        $("#organizationOfficeAddress").prop("required", true);
+                        $("#organizationTelephoneNumber").prop("required", true);
+                    }
+                    if ($("#isPhilhealthMember").val() != "No") {
+                        $("#philhealthNumber").show();
+                        $("#philhealthNumber").prop("required", true);
+                    }
+                    if ($("#guardianSurname").val().trim() !== "") {
+                        $("#guardian").show();
+                        $("#guardianFirstName").prop("required", true);
+                        $("#guardianRelationship").prop("required", true);
+                        $("#guardianContactNumber").prop("required", true);
+                    }
+                    if ($("#accomplishedBy").val() == "Representative") {
+                        $("#accomplisherName").show();
+                        $("#accomplisherName").focus();
+                        $("#accomplisherName").prop("required", true);
+                    }
+                    if ($("#accomplishedBy").val() == "Guardian") {
+                        $("#guardianSurname").prop("required", true);
+                        $("#guardianFirstName").prop("required", true);
+                    }
+                    if ($("#accomplishedBy").val() == "Guardian" || $("#accomplishedBy").val() == "Representative") {
+                        $("#accomID").show();
+                        $("#accomID").prop("required", true);
+                    }
+                }
+            },
+            error: function() {
+                alert("Failed to load draft.");
+            }
+        });
+        // Set up form submission event handler
+        $("form").submit(function(event) {
+            var applicantType = $('#applicantType').val();
+            event.preventDefault(); // Prevent default form submission
+
+            // Send form data to server
+            $.ajax({
+                type: "POST",
+                url: "includes/submit.inc.php?applicantType=" + encodeURIComponent(applicantType),
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Remove record from database and JSON file
+                    $.ajax({
+                        type: "GET",
+                        url: "includes/delete-draft.inc.php",
+                        data: { delete: userId },
+                        success: function() {
+                            console.log("Record deleted.");
+                            window.location.href = "dashboard.html?success=true";
+                        },
+                        error: function() {
+                            alert("Failed to delete record.");
+                        }
+                    });
+                },
+                error: function() {
+                    alert("Failed to submit form.");
+                }
+            });
+        });
+    } else {
+        // Save Form Data
+        $("#saveForm").click(function() {
+            $('#name-modal').modal('show');
+        })
+    }
+});
 // Profile Picture
 const imgDiv = document.querySelector('#profilePicDiv');
 if (imgDiv !== null) {
@@ -29,92 +495,7 @@ if (imgDiv !== null) {
         }
     });
 }
-// On Load
-// $(document).ready(function() {
-//     // Senior Citizen Form
-//     if($("#numberOfChildren").val() > 0) {
-//         $("#childLastName").prop("required", true);
-//         $("#childFirstName").prop("required", true);
-//         $("#srCitizenChildDOB").prop("required", true);
-//         $("#childBarangay").prop("required", true);
-//         $("#childAddress").prop("required", true);
-//         $("#childLastName").removeAttr("disabled");
-//         $("#childFirstName").removeAttr("disabled");
-//         $("#childMiddlename").removeAttr("disabled");
-//         $("#childSuffix").removeAttr("disabled");
-//         $("#childTelephone").removeAttr("disabled");
-//         $("#srCitizenChildDOB").removeAttr("disabled");
-//         $("#childBarangay").removeAttr("disabled");
-//         $("#childAddress").removeAttr("disabled");
-//     }
-//     if ($('#hasPension').val() == "Y") {
-//         $("#whatPension").prop("required", true);
-//         $("#whatPension").removeAttr("disabled");
-//         $(".whatPension").addClass("required");
-//         $("#howMuchPension").prop("required", true);
-//         $("#howMuchPension").removeAttr("disabled");
-//         $(".howMuchPension").addClass("required");
-//     }
-//     // Solo Parent Form
-//     if ($("#job").val() != "Unemployed") {
-//         $("#company").removeAttr("disabled");
-//         $("#monthlyIncome").removeAttr("disabled");
-//         $("#monthlyIncome").prop("required", true);
-//         $("#company").prop("required", true);
-//     } 
-//     if($("#job").val() == "Others") {
-//         $("#otherOccupation").show();
-//         $("#otherOccupation").prop("required", true);
-//     }
-//     if ($("#childOccupation").val() == "Others") {
-//         $("#otherChildOccupation").show();
-//         $("#otherChildOccupation").prop("required", true);
-//     }
-//     // PWD Application Form
-//     if ($("#employmentStatus").val() == "Employed" || $(this).val() == "Self-employed") {
-//         $("#categoryOfEmploymentDiv").show();
-//         $("#natureOfEmploymentDiv").show();
-//         $("#occupationDiv").show();
-//         $("#incomeDiv").show();
-//         $("#categoryOfEmployment").prop("required", true);
-//         $("#natureOfEmployment").prop("required", true);
-//         $("#occupation").prop("required", true);
-//         $("#income").prop("required", true);
-//     }
-//     if ($("#occupation").val() == "Others") {
-//         $("#otherOccupation").show();
-//         $("#otherOccupation").prop("required", true);
-//     }
-//     if ($("#organization").val().trim() !== "") {
-//         $(".organizationDiv").show();
-//         $("#organizationContactPerson").prop("required", true);
-//         $("#organizationOfficeAddress").prop("required", true);
-//         $("#organizationTelephoneNumber").prop("required", true);
-//     }
-//     if ($("#isPhilhealthMember").val() != "No") {
-//         $("#philhealthNumber").show();
-//         $("#philhealthNumber").prop("required", true);
-//     }
-//     if ($("#guardianSurname").val().trim() !== "") {
-//         $("#guardian").show();
-//         $("#guardianFirstName").prop("required", true);
-//         $("#guardianRelationship").prop("required", true);
-//         $("#guardianContactNumber").prop("required", true);
-//     }
-//     if ($("#accomplishedBy").val() == "Representative") {
-//         $("#accomplisherName").show();
-//         $("#accomplisherName").focus();
-//         $("#accomplisherName").prop("required", true);
-//     }
-//     if ($("#accomplishedBy").val() == "Guardian") {
-//         $("#guardianSurname").prop("required", true);
-//         $("#guardianFirstName").prop("required", true);
-//     }
-//     if ($("#accomplishedBy").val() == "Guardian" || $("#accomplishedBy").val() == "Representative") {
-//         $("#accomID").show();
-//         $("#accomID").prop("required", true);
-//     }
-// });
+
 // Forms Validation
 const forms = document.querySelectorAll("form");
 forms.forEach(function(form) {
@@ -125,18 +506,119 @@ forms.forEach(function(form) {
         form.classList.add('was-validated');
     });
 });
-// Print Button
-$("#printBtn").click(function() {
-    var divToPrint = $(".printPage").html();
-    var newWin = window.open("");
-    newWin.document.write(divToPrint);
-    newWin.print();
-    newWin.close();
+
+// Name validation
+$('.name').on('keyup blur',function(){ 
+    var node = $(this);
+    node.val(node.val().replace(/[^A-Za-z\s]/g,'') ); }
+);
+
+// Password validation
+$(document).ready(function() {
+    // Get the input fields
+    var username = $("#username");
+    var oldPassword = $("#old_password");
+    var newPassword = $("#new_password");
+    var confirmNewPassword = $("#confirm_new_password");
+
+    // Add event listener to old password
+    oldPassword.on("change", function() {
+        $.ajax({
+            url: "includes/get_user_password.php",
+            method: "POST",
+            dataType: "json",
+            data: {
+                username: username.val(),
+                oldPassword: oldPassword.val(),
+            },
+            success: function(response) {
+                // Handle the response from the server
+                if (response === "Correct Old Password") {
+                    $("#oldpassworderror").html("");
+                    $("#old_password").removeClass("is-invalid");
+                    $("#old_password").addClass("is-valid");
+                } else {
+                    $("#oldpassworderror").html("Old password is incorrect.");
+                    $("#old_password").removeClass("is-valid");
+                    $("#old_password").addClass("is-invalid");
+
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                // Show an error message to the user
+                Swal.fire({
+                    title: "Error",
+                    text: "Failed to make the request to the server.",
+                    icon: "error"
+                });
+            }
+        });
+    });
+
+    // Add event listeners to the input fields
+    newPassword.on("input", function() {
+        // Compare the values of newPassword and oldPassword
+        if (newPassword.val() === oldPassword.val()) {
+            // Display an error message
+            $("#newpassworderror").html("New password cannot be the same as old password.");
+        } else {
+            // Clear the error message
+            $("#newpassworderror").html("");
+        }
+    });
+
+    confirmNewPassword.on("input", function() {
+        // Compare the values of newPassword and confirmNewPassword
+        if (newPassword.val() !== confirmNewPassword.val()) {
+            // Display an error message
+            $("#confirmpassworderror").html("New password and confirmed password do not match.");
+        } else {
+            // Clear the error message
+            $("#confirmpassworderror").html("");
+        }
+    });
+
+    $(".toggle-password").click(function() {
+        const passwordField = $('.password');
+
+        if (passwordField.attr("type") === "password") {
+            passwordField.attr("type", "text");
+            $("#showPasswordLabel").text("Hide Password");
+        } else {
+            passwordField.attr("type", "password");
+            $("#showPasswordLabel").text("Show Password");
+        }
+    });
+    var passwordField = $('.password[type=password]:not(#old_password)');
+    // Attach a keyup event listener to the password field
+    passwordField.on('keyup', function() {
+        // Get the password value
+        var password = $(this).val();
+
+        // Set the regular expressions for each password requirement
+        var regexCapitalLetter = /[A-Z]/;
+        var regexSymbol = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+        var regexNumber = /\d/;
+        var regexSpace = /\s/;
+
+        // Check if the password meets all requirements
+        if (password.length < 8) {
+            $('#error-message').text('Password must be at least 8 characters long');
+        } else if (regexSpace.test(password)) {
+            $('#error-message').text('Password must not contain spaces');
+        } else if (!regexCapitalLetter.test(password)) {
+            $('#error-message').text('Password must contain at least one capital letter');
+        } else if (!regexSymbol.test(password)) {
+            $('#error-message').text('Password must contain at least one symbol');
+        } else if (!regexNumber.test(password)) {
+            $('#error-message').text('Password must contain at least one number');
+        } else {
+            $('#error-message').text('');
+        }
+    });
 });
 
-let formControlNumber = $('h5.heading').text();
-$("#formControlNumber").val(formControlNumber);
-$(document).on('keyup change', 'input[type="text"],textarea', function() {
+$(document).on('keyup change', 'input[type="text"]:not(.password[type="text"]),textarea', function() {
     $(this).val($(this).val().toUpperCase());
 });
 $(document).on('keypress', '.numbers', function(e) {
@@ -151,18 +633,6 @@ $(document).on('keyup', '.telephone', function() {
     if ($(this).val().length > 11) {
         $(this).val($(this).val().substring(0, 11));
     }
-});
-$("#numberOfChildren").on("keypress", function(event) {
-  var currentValue = parseInt($(this).val() + event.key);
-  if (currentValue > 20) {
-    event.preventDefault();
-  }
-});
-$("#totalHousemate").on("keypress", function(event) {
-  var currentValue = parseInt($(this).val() + event.key);
-  if (currentValue > 100) {
-    event.preventDefault();
-  }
 });
 // World Time API
 function getDataFromAPI() {
@@ -248,6 +718,16 @@ $(document).ready(function() {
             $(".howMuchPension").removeClass("required");
         }
     });
+    $("#maritalStatus").on('change', function() {
+        if ($('#maritalStatus').val() != "Single") {
+            $("#hiddenSpouseData").show();
+            $("#spouseFirstName").prop("required", true);
+            $("#spouseLastName").prop("required", true);
+            $("#spouseDOB").prop("required", true);
+        } else {
+            $("#hiddenSpouseData").hide();
+        }
+    });
     $("#seniorCitizenDuplicateButton").click(function() {
         var originalDiv = $("#child").parent().clone();
         newId = "srCitizenRelative" + (++counter);
@@ -261,17 +741,19 @@ $(document).ready(function() {
         }
     });
     $("#spouseLastName, #spouseFirstName, #spouseMiddlename, #spouseSuffix").change(function() {
-        if ($(this).val().trim() !== "") {
+        if ($('#spouseLastName').val().trim() !== "" || $('#spouseFirstName').val().trim() !== "" ) {
             $("#dobSpouse").show();
             $("#spouseFirstName").prop("required", true);
+            $("#spouseLastName").prop("required", true);
             $("#spouseDOB").prop("required", true);
         } else {
             $("#dobSpouse").hide();
             $("#spouseFirstName").prop("required", false);
+            $("#spouseLastName").prop("required", false);
             $("#spouseDOB").prop("required", false);
         }
     });
-    if($('#numberOfChildren').val() === "") {
+    if ($('#numberOfChildren').val() === "") {
         $("#childLastName").prop("disabled", true);
         $("#childFirstName").prop("disabled", true);
         $("#childMiddlename").prop("disabled", true);
@@ -281,6 +763,18 @@ $(document).ready(function() {
         $("#childBarangay").prop("disabled", true);
         $("#childAddress").prop("disabled", true);
     }
+    $("#numberOfChildren").on("keypress", function(event) {
+        var currentValue = parseInt($(this).val() + event.key);
+        if (currentValue > 20) {
+            event.preventDefault();
+        }
+    });
+    $("#totalHousemate").on("keypress", function(event) {
+        var currentValue = parseInt($(this).val() + event.key);
+        if (currentValue > 100) {
+            event.preventDefault();
+        }
+    });
     // listen for changes to the number input field
     $('#numberOfChildren').on('input', function() {
         // get the current number of relatives entered by the user
@@ -334,6 +828,18 @@ $(document).ready(function() {
             newDiv.find('input[type="text"],input[type="date"],input[type="tel"],select').val('');
             // add the new div to the container
             $('#relativesContainer').append(newDiv);
+            $('.childLastName').on('keyup blur',function(){ 
+                var node = $(this);
+                node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
+            );
+            $('.childFirstName').on('keyup blur',function(){ 
+                var node = $(this);
+                node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
+            );
+            $('.childMiddlename').on('keyup blur',function(){ 
+                var node = $(this);
+                node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
+            );
         }
     });
     $("#job").change(function() {
@@ -361,8 +867,8 @@ $(document).ready(function() {
         var soloParentDOBNow = new Date(data.datetime);
         var soloParentChildDOBNow = new Date(data.datetime);
         var now = new Date(data.datetime);
-        const soloParentDOBMaxDate = new Date(soloParentDOBNow.setFullYear(soloParentDOBNow.getFullYear() - 6));
-        const soloParentChildDOBMaxDate = new Date(soloParentChildDOBNow.setFullYear(soloParentChildDOBNow.getFullYear() - 1));
+        const soloParentDOBMaxDate = new Date(soloParentDOBNow.setFullYear(soloParentDOBNow.getFullYear() - 13));
+        const soloParentChildDOBMaxDate = new Date(soloParentChildDOBNow.setFullYear(soloParentChildDOBNow.getFullYear()));
         const soloParentDOBMax = soloParentDOBMaxDate.toISOString().split('T')[0];
         const soloParentChildDOBMax = soloParentChildDOBMaxDate.toISOString().split('T')[0];
         $("#soloParentDOB").attr("max", soloParentDOBMax);
@@ -379,9 +885,12 @@ $(document).ready(function() {
     $("#job").change(function() {
         if ($(this).val() == "Unemployed") {
             $("#company").prop("disabled", true);
+            $("#monthlyIncome").prop("disabled", true);
         } else {
             $("#company").removeAttr("disabled");
+            $("#monthlyIncome").removeAttr("disabled");
             $("#company").focus();
+            $("#monthlyIncome").prop("required", true);
             $("#company").prop("required", true);
         }
     });
@@ -413,6 +922,18 @@ $(document).ready(function() {
             var id = soloParentNewId.replace(soloParentRelativeCounter, soloParentRelativeCounter - 1);
             originalDiv.insertAfter($("#" + id));
         }
+        $('.childLastName').on('keyup blur',function(){ 
+            var node = $(this);
+            node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
+        );
+        $('.childFirstName').on('keyup blur',function(){ 
+            var node = $(this);
+            node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
+        );
+        $('.childMiddlename').on('keyup blur',function(){ 
+            var node = $(this);
+            node.val(node.val().replace(/[^A-Za-z]/g,'') ); }
+        );
     });
 });
 function soloParentRemoveRelative(button) {
@@ -598,32 +1119,70 @@ $('input[name="acquired[]"]').click(function() {
 $('input[name="statusOfDisability"]').click(function() {
     $("input[name='statusOfDisability']").removeAttr("required");
 });
-$(document).ready(function() {
-    // Get the input fields
-    var oldPassword = $("#old_password");
-    var newPassword = $("#new_password");
-    var confirmNewPassword = $("#confirm_new_password");
 
-    // Add event listeners to the input fields
-    newPassword.on("input", function() {
-        // Compare the values of newPassword and oldPassword
-        if (newPassword.val() === oldPassword.val()) {
-            // Display an error message
-            $("#error-message").html("New password cannot be the same as old password.");
-        } else {
-            // Clear the error message
-            $("#error-message").html("");
-        }
+// security question validation
+$(document).ready(function() {
+  var selectedOptions = []; // stores the previously selected option for each select element
+  $('.security_question').change(function() {
+    var selectedOption = $(this).find(':selected').val();
+    var index = $('.security_question').index(this);
+    if (selectedOptions[index]) {
+      $('.security_question').not(this).append('<option value="' + selectedOptions[index] + '">' + selectedOptions[index] + '</option>');
+    }
+    selectedOptions[index] = selectedOption;
+    $('.security_question').not(this).find('option[value="' + selectedOption + '"]').remove();
+  });
+});
+
+// Form warning before leaving
+$(document).ready(function() {
+    // Add an event listener to the form
+    $('form').on('change', function() {
+        formChanged = true;
     });
 
-    confirmNewPassword.on("input", function() {
-        // Compare the values of newPassword and confirmNewPassword
-        if (newPassword.val() !== confirmNewPassword.val()) {
-            // Display an error message
-            $("#error-message").html("New password and confirmed password do not match.");
+    // Add an event listener to all links on the page
+    $('a:not([id="newApplication"], .profileDropdown)').on('click', function(e) {
+        console.log("test")
+        // Check if the form has unsaved changes
+        if (formChanged) {
+            e.preventDefault(); // Prevent the link from being followed
+            Swal.fire({
+                title: 'Unsaved Changes',
+                text: 'You have unsaved changes. Are you sure you want to leave?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, leave anyway',
+                cancelButtonText: 'No, stay here'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // User clicked "Yes, leave anyway"
+                    window.location = this.href;
+                }
+            });
+        }
+    });
+    
+    // Add an event listener to all links on the page
+    $('.cancelButton').on('click', function(e) {
+        // Check if the form has unsaved changes
+        if (formChanged) {
+            e.preventDefault(); // Prevent the link from being followed
+            Swal.fire({
+                title: 'Unsaved Changes',
+                text: 'You have unsaved changes. Are you sure you want to leave?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, leave anyway',
+                cancelButtonText: 'No, stay here'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // User clicked "Yes, leave anyway"
+                    window.location = "dashboard.html";
+                }
+            });
         } else {
-            // Clear the error message
-            $("#error-message").html("");
+            window.location = "dashboard.html";
         }
     });
 });
