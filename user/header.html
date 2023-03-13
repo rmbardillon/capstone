@@ -15,8 +15,8 @@
         }
         $data = getApplicantData($connection, $username, $userType);
         $totalPWD = (int) getTotalCitizen($connection, "PWD");
-        $totalSoloParent = (int) getTotalCitizen($connection, "SoloParent");
-        $totalSeniorCitizen = (int) getTotalCitizen($connection, "SeniorCitizen");
+        $totalSoloParent = (int) getTotalCitizen($connection, "Solo Parent");
+        $totalSeniorCitizen = (int) getTotalCitizen($connection, "Senior Citizen");
     } else {
         header("location: ../login/citizen.html");
         exit();
@@ -45,7 +45,6 @@
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap2.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
-    <link rel="stylesheet" href="assets/css/Login-Form-Basic-icons.css">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="../administrator/assets/bootstrap/css/style.css">
     <link rel="shortcut icon" href="assets/img/santarosa-logo.ico" type="image/x-icon">

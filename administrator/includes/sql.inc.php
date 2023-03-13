@@ -983,14 +983,13 @@ function getEvents($connection, $event_id, $for, $barangay) {
 
 function getEventsPer($connection, $event_id, $for, $barangay) {
     $data = [];
-    $sql = "SELECT FIRST_NAME,MIDDLE_NAME,LAST_NAME,SUFFIX,BARANGAY,APPLICANT_TYPE,person.PERSON_ID,applicant.CITIZEN_ID,claimed_benefits.STATUS_OF_CLAIMS, STATUS
-            FROM PERSON 
+    $sql = "SELECT FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, BARANGAY, APPLICANT_TYPE, person.PERSON_ID, applicant.CITIZEN_ID, STATUS
+            FROM person
             JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
             JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
             JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
             JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
             JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
-            LEFT JOIN claimed_benefits ON person.PERSON_ID = claimed_benefits.PERSON_ID
             WHERE
             STATUS = 'APPROVED' AND
             (barangay = '$barangay' OR '$barangay' = 'All') AND 
@@ -1025,6 +1024,37 @@ function getEventsPer($connection, $event_id, $for, $barangay) {
     $connection->close();
 }
 
+function getClaimedBenefits($connection, $event_id, $person_id) {
+    $data = [];
+    $sql = "SELECT * FROM claimed_benefits WHERE EVENT_ID = '$event_id' AND PERSON_ID = '$person_id'";
+    try {
+        $stmt = $connection->prepare($sql);
+
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0){
+        while($row = $result->fetch_assoc()) {
+            array_push($data, $row);
+        }
+        return $data;
+    } else{
+        return $data;
+    }
+
+    $stmt->close();
+    $connection->close();
+}
 // GET APPLICANT DATA
 function getApplicantData($connection, $username, $userType) {
     $data = [];
@@ -1986,10 +2016,10 @@ function insertClaimedBenefits($connection, $personId, $applicantType, $event_id
     global $isDeleted;
     global $getActiveUser;
     $status = "CLAIMED";
-    $stmt = $connection->prepare("INSERT INTO claimed_benefits (CLAIMED_BENEFITS_ID , PERSON_ID, APPLICATION_TYPE, STATUS_OF_CLAIMS, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO claimed_benefits (CLAIMED_BENEFITS_ID , PERSON_ID, EVENT_ID, APPLICATION_TYPE, STATUS_OF_CLAIMS, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
-    $stmt->bind_param("sss", $personId, $applicantType, $status);
+    $stmt->bind_param("ssss", $personId, $event_id, $applicantType, $status);
 
     // Execute the query
     if($stmt->execute() === TRUE){

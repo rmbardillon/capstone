@@ -14,8 +14,8 @@
         $adminType = implode(" ", array_slice(explode(" ", $adminData['admin_type']), 0, -1));
         $announcements = $_SESSION['announcements'] = getUserData($connection, "announcement", "", "");
         $totalPWD = (int) getTotalCitizen($connection, "PWD");
-        $totalSoloParent = (int) getTotalCitizen($connection, "SoloParent");
-        $totalSeniorCitizen = (int) getTotalCitizen($connection, "SeniorCitizen");
+        $totalSoloParent = (int) getTotalCitizen($connection, "Solo Parent");
+        $totalSeniorCitizen = (int) getTotalCitizen($connection, "Senior Citizen");
         if ($adminData['admin_type'] == "Main Administrator") {
             $mainAdmin = $_SESSION['mainAdmin'] = getUserData($connection, "administrator", "admin_type", "Main Administrator");
             $pwdAdmin = $_SESSION['pwdAdmin'] = getUserData($connection, "administrator", "admin_type", "PWD Administrator");

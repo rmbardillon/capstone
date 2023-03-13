@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 10, 2023 at 03:21 PM
+-- Generation Time: Mar 13, 2023 at 04:38 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -115,6 +115,7 @@ CREATE TABLE `blood_type` (
 CREATE TABLE `claimed_benefits` (
   `CLAIMED_BENEFITS_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
+  `EVENT_ID` varchar(16) NOT NULL,
   `APPLICATION_TYPE` varchar(32) NOT NULL,
   `STATUS_OF_CLAIMS` varchar(16) NOT NULL,
   `DATE_CREATED` date NOT NULL,
@@ -271,7 +272,7 @@ CREATE TABLE `income` (
   `INCOME_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
   `MONTHLY_INCOME` varchar(128) DEFAULT NULL,
-  `TOTAL_FAMILY_INCOME` decimal(19,6) DEFAULT NULL,
+  `TOTAL_FAMILY_INCOME` decimal(19,2) DEFAULT NULL,
   `DATE_CREATED` datetime(6) NOT NULL,
   `DATE_UPDATED` datetime(6) NOT NULL,
   `IS_DELETED` char(1) NOT NULL,
@@ -689,7 +690,8 @@ ALTER TABLE `blood_type`
 --
 ALTER TABLE `claimed_benefits`
   ADD PRIMARY KEY (`CLAIMED_BENEFITS_ID`),
-  ADD KEY `FK_PERSON_CLAIMED_BENEFITS` (`PERSON_ID`);
+  ADD KEY `FK_PERSON_CLAIMED_BENEFITS` (`PERSON_ID`),
+  ADD KEY `FK_CLAIMED_EVENT` (`EVENT_ID`);
 
 --
 -- Indexes for table `company`
@@ -824,6 +826,12 @@ ALTER TABLE `previous_address`
   ADD KEY `FK_PERSON_PREVIOUS_ADDRESS_idx` (`PERSON_ID`);
 
 --
+-- Indexes for table `pwdreset`
+--
+ALTER TABLE `pwdreset`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `pwd_application_accomplisher`
 --
 ALTER TABLE `pwd_application_accomplisher`
@@ -924,6 +932,7 @@ ALTER TABLE `blood_type`
 -- Constraints for table `claimed_benefits`
 --
 ALTER TABLE `claimed_benefits`
+  ADD CONSTRAINT `FK_CLAIMED_EVENT` FOREIGN KEY (`EVENT_ID`) REFERENCES `announcement` (`ANNOUNCEMENT_ID`),
   ADD CONSTRAINT `FK_PERSON_CLAIMED_BENEFITS` FOREIGN KEY (`PERSON_ID`) REFERENCES `person` (`PERSON_ID`);
 
 --

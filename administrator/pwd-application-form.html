@@ -8,7 +8,7 @@
 ?>
     <div class="container form">
         <h5 class="heading">PWDF-043-<?php echo($totalPWD+1); ?></h5>
-        <form action="includes/register.inc.php" method="post" novalidate="">
+        <form action="includes/register.inc.php" method="post" enctype="multipart/form-data" novalidate="">
           <input type="hidden" name="formControlNumber" id="formControlNumber">
         <div class="row">
             <div class="col">
@@ -1135,7 +1135,11 @@
         </div>
         <div class="row">
             <div class="col">
-                <label for="applicantID" class="form-label required">INPUT APPLICANT 1X1 ID</label>
+                <label for="applicantSignature" class="form-label required">INPUT APPLICANT Signature</label>
+                <input class="form-control mt-1" type="file" name="applicantSignature" id="applicantSignature">
+            </div>
+            <div class="col">
+                <label for="applicantID" class="form-label required">INPUT APPLICANT 1X1 Picture</label>
                 <input class="form-control mt-1" type="file" name="applicantID" id="applicantID">
             </div>
             <div class="col">

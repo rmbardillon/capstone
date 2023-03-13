@@ -5,9 +5,9 @@
 
     if(isset($_POST['soloParentRenew'])) {
         $formControlNumber = $_POST['formControlNumber'];
-        $applicationType = "New Application";
-        $personId = generateUUID();
-        $id_number = date("Y") . "-" . generateSoloParentID()[0];
+        $applicationType = "Renewal";
+        $person_id = $_POST['person_id'];
+        $id_number = $_POST['username'];
         $applicantType = "Solo Parent";
         $surname = $_POST['surname'];
         $firstName = $_POST['firstName'];
@@ -17,7 +17,7 @@
         $age = $_POST['age'];
         $placeOfBirth = $_POST['placeOfBirth'];
         $gender = $_POST['gender'];
-        $barangayId = generateUUID();
+        $barangayId = 
         $barangay = $_POST['barangay'];
         $address = $_POST['address'];
         $educationalAttainment = $_POST['educationalAttainment'];
@@ -28,6 +28,7 @@
         $totalFamilyIncome = $_POST['totalFamilyIncome'];
         $telephone = $_POST['telephone'];
         $email = $_POST['email'];
+        $childID = $_POST['child_id'];
         $childLastName = $_POST['childLastName'];
         $childFirstName = $_POST['childFirstName'];
         $childMiddleName = $_POST['childMiddleName'];
@@ -52,13 +53,12 @@
         try {
             // Begin transaction
             $connection->begin_transaction();
-
-            // Call your functions to insert data
+            // Call your functions to update data
             updatePerson($connection, $person_id, $email);
             updateApplicant($connection, $person_id, $formControlNumber);
-            insertTransactionType($connection, $personId, $applicationType, $id_number);
-            insertName($connection, $personId, $firstName, $middlename, $surname, $suffix);
-            insertAddress($connection, $barangayId, $barangay, $address);
+            updateTransactionType($connection, $person_id, $applicationType, $id_number);
+            updateName($connection, $personId, $firstName, $middlename, $surname, $suffix);
+            updateAddress($connection, $address_id, $barangay, $address);
             insertPersonAddress($connection, $personId, $barangayId);
             insertGender($connection, $personId, $gender);
             insertEducationalAttainment($connection, $personId, $educationalAttainment);

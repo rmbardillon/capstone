@@ -7,7 +7,10 @@
         exit();
     }
 ?>
-    <?php if($adminData['admin_type'] == "Main Administrator") { ?>
+    <?php if($adminData['admin_type'] == "Main Administrator" 
+    || ($adminData['admin_type'] == "Solo Parent Administrator" && $adminData['barangay'] == "City Hall")
+    || ($adminData['admin_type'] == "Senior Citizen Administrator" && $adminData['barangay'] == "City Hall")
+    || ($adminData['admin_type'] == "PWD Administrator" && $adminData['barangay'] == "City Hall")) { ?>
     <div class="container-fluid">
         <div class="row">
             <div class="col">
@@ -78,8 +81,8 @@
                                 <th style="text-align: center;">Event For</th>
                                 <th style="text-align: center;">Event Address</th>
                                 <th style="text-align: center;">Show Information</th>
-                                <th style="text-align: center;">Edit</th>
-                                <th style="text-align: center;">Delete</th>
+                                <!-- <th style="text-align: center;">Edit</th> -->
+                                <!-- <th style="text-align: center;">Delete</th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -91,8 +94,8 @@
                                 <td style="text-align: center;"><?php echo($announcement['ANNOUNCEMENT_FOR']) ?></td>
                                 <td style="text-align: center;">Barangay <?php echo($announcement['BARANGAY']) ?>&nbsp;</td>
                                 <td style="text-align: center;"><a class="btn btn-primary" href="event.html?id=<?php echo($announcement['ANNOUNCEMENT_ID']) ?>">Show Information</a></td>
-                                <td style="text-align: center;"><a class="btn btn-primary" href="update-announcement.html?edit=<?php echo($announcement['ANNOUNCEMENT_ID']) ?>">Edit</a></td>
-                                <td style="text-align: center;"><a class="btn btn-danger deleteAnnouncement" id="deleteAnnouncement" href="includes/delete-announcement.inc.php?delete=<?php echo($announcement['ANNOUNCEMENT_ID']) ?>">Delete</a></td>
+                                <!-- <td style="text-align: center;"><a class="btn btn-primary" href="update-announcement.html?edit=<?php echo($announcement['ANNOUNCEMENT_ID']) ?>">Edit</a></td> -->
+                                <!-- <td style="text-align: center;"><a class="btn btn-danger deleteAnnouncement" id="deleteAnnouncement" href="includes/delete-announcement.inc.php?delete=<?php echo($announcement['ANNOUNCEMENT_ID']) ?>">Delete</a></td> -->
                             </tr>
                             <?php endforeach; ?>
                         </tbody>

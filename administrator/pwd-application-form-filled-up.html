@@ -1238,12 +1238,13 @@
           </div>
         <?php }} else {?>
             <div class="col">
-                <input class="form-control" type="file" name="" id="">
-            <a
-              class="btn btn-success w-100"
-              href="includes/claim.inc.php?event_id=<?php echo($event_id); ?>&application_type=PWD&person_id=<?php echo($PERSON_ID); ?>">
-              Claim
-            </a>
+                <label class="form-label" for="claimantID"></label>
+                <input class="form-control mb-2" type="file" name="claimantID" id="claimantID">
+                <a
+                class="btn btn-success w-100"
+                href="includes/claim.inc.php?event_id=<?php echo($event_id); ?>&application_type=PWD&person_id=<?php echo($PERSON_ID); ?>">
+                Claim
+                </a>
           </div>
         <?php } ?>
         </div>

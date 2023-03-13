@@ -33,7 +33,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach($events as $event): ?>
+                            <?php 
+                                foreach($events as $event):
+                                    $statusOfClaims = getClaimedBenefits($connection, $event_id, $event['PERSON_ID']);
+                                    if (empty($statusOfClaims)) {
+                                        $event['STATUS_OF_CLAIMS'] = 'NOT CLAIMED';
+                                    } else {
+                                        $event['STATUS_OF_CLAIMS'] = 'CLAIMED';
+                                    }
+                            ?>
                             <tr>
                                 <td style="text-align: center;"><?php echo($event['CITIZEN_ID']) ?></td>
                                 <td style="text-align: center;"><?php echo($event['FIRST_NAME']." ".$event['LAST_NAME']) ?></td>
