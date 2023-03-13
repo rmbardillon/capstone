@@ -220,7 +220,7 @@
               id="monthlyIncome"
               name="monthlyIncome"
               disabled
-                value="<?php echo($data['MONTHLY_INCOME']); ?>"
+                value="<?php echo number_format($data['MONTHLY_INCOME']); ?>"
             />
           </div>
           <div class="col">
@@ -236,7 +236,7 @@
               id="totalFamilyIncome"
               name="totalFamilyIncome"
               disabled
-                value="<?php echo($data['TOTAL_FAMILY_INCOME']); ?>"
+                value="<?php echo number_format($data['TOTAL_FAMILY_INCOME']); ?>"
             />
           </div>
           <div class="col">
@@ -385,8 +385,60 @@
                 value="<?php echo($familyData['EDUCATIONAL_ATTAINMENT']); ?>"
               />
             </div>
-            <div class="col col-3 d-flex align-items-center">
-              <h6 class="text-start">OCCUPATION/MONTHLY&nbsp;INCOME</h6>
+            <div class="col col d-flex align-items-center">
+              <h6 class="text-start required">OCCUPATION</h6>
+            </div>
+            <div class="col">
+              <select
+              id="childOccupation"
+              class="form-select"
+              name="childOccupation[]"
+              disabled
+            >
+              <option disabled selected value="">Please Select</option>
+              <option value="Unemployed" <?php echo ($familyData['JOB'] == 'Unemployed') ? 'selected' : ''; ?> >Unemployed</option>
+                <option value="Managers" <?php echo ($familyData['JOB'] == 'Managers') ? 'selected' : ''; ?> >Managers</option>
+                <option value="Professionals" <?php echo ($familyData['JOB'] == 'Professionals') ? 'selected' : ''; ?> >Professionals</option>
+                <option value="Technician & Associate Professionals" <?php echo ($familyData['JOB'] == 'Technician & Associate Professionals') ? 'selected' : ''; ?> >
+                    Technician & Associate Professionals
+                </option>
+                <option value="Clerical Support Workers" <?php echo ($familyData['JOB'] == 'Clerical Support Workers') ? 'selected' : ''; ?> >
+                    Clerical Support Workers
+                </option>
+                <option value="Service & Sales Workers" <?php echo ($familyData['JOB'] == 'Service & Sales Workers') ? 'selected' : ''; ?> >
+                    Service & Sales Workers
+                </option>
+                <option value="Skilled Agricultural, Forestry & Fishery Workers" <?php echo ($familyData['JOB'] == 'Skilled Agricultural, Forestry & Fishery Workers') ? 'selected' : ''; ?> >
+                    Skilled Agricultural, Forestry & Fishery Workers
+                </option>
+                <option value="Craft & Related Trade Workers" <?php echo ($familyData['JOB'] == 'Craft & Related Trade Workers') ? 'selected' : ''; ?> >
+                    Craft & Related Trade Workers
+                </option>
+                <option value="Plant & Machine Operators & Assemblers" <?php echo ($familyData['JOB'] == 'Plant & Machine Operators & Assemblers') ? 'selected' : ''; ?> >
+                    Plant & Machine Operators & Assemblers
+                </option>
+                <option value="Elementary Occupations" <?php echo ($familyData['JOB'] == 'Elementary Occupations') ? 'selected' : ''; ?> >
+                    Elementary Occupations
+                </option>
+                <option value="Armed Forces Occupations" <?php echo ($familyData['JOB'] == 'Armed Forces Occupations') ? 'selected' : ''; ?> >
+                    Armed Forces Occupations
+                </option>
+                <option value="Others" <?php echo ($familyData['JOB'] == 'Others') ? 'selected' : ''; ?> >Others</option>
+            </select>
+            </div>
+            <div class="col">
+                <input
+              class="form-control mt-1"
+              type="text"
+              id="otherChildOccupation"
+              placeholder="specify"
+              name="otherChildOccupation[]"
+              style="display: none;"
+              value="<?php (!empty($familyData['OTHER_JOB'])) ? $data['OTHER_JOB'] : '' ?>"
+            />
+            </div>
+            <div class="col col d-flex align-items-center">
+              <h6 class="text-start required">MONTHLY&nbsp;INCOME</h6>
             </div>
             <div class="col">
               <input
@@ -394,8 +446,9 @@
                 type="text"
                 id="childIncome"
                 name="childIncome[]"
+                oninput="javascript: if (this.value.length > 1 && this.value.charAt(0) === '0') this.value = this.value.substr(1);"
+                value="<?php echo number_format($familyData['MONTHLY_INCOME']); ?>"
                 readonly
-                value="<?php echo($familyData['MONTHLY_INCOME']); ?>"
               />
             </div>
           </div>

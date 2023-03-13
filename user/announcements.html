@@ -20,6 +20,7 @@
                         <thead>
                             <tr>
                                 <th style="text-align: center;">Event Title</th>
+                                <th style="text-align: center;">Event Date</th>
                                 <th style="text-align: center;">Message</th>
                                 <th style="text-align: center;">Event For</th>
                                 <th style="text-align: center;">Address</th>
@@ -30,6 +31,7 @@
                             <?php foreach($specificAnnouncements as $announcement): ?>
                             <tr>
                                 <td style="text-align: center;"><?php echo($announcement['TITLE']) ?></td>
+                                <td style="text-align: center;"><?php echo($announcement['DATE']) ?></td>
                                 <td style="text-align: center;"><?php echo($announcement['MESSAGE']) ?></td>
                                 <td style="text-align: center;"><?php echo($announcement['ANNOUNCEMENT_FOR']) ?></td>
                                 <td style="text-align: center;">Barangay <?php echo($announcement['BARANGAY']) ?>&nbsp;</td>

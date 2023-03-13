@@ -357,12 +357,13 @@ function getSoloParentGender($connection, $personID) {
 
 function getFamilyMemberData($connection, $personID) {
     $data = [];
-    $sql = "SELECT LAST_NAME AS CHILD_LAST_NAME, FIRST_NAME AS CHILD_FIRST_NAME, MIDDLE_NAME AS CHILD_MIDDLE_NAME, SUFFIX AS CHILD_SUFFIX, DATE_OF_BIRTH AS CHILD_DOB, MARITAL_STATUS AS FAMILY_MARITAL_STATUS, EDUCATIONAL_ATTAINMENT, MONTHLY_INCOME, RELATIONSHIP_TYPE
+    $sql = "SELECT LAST_NAME AS CHILD_LAST_NAME, FIRST_NAME AS CHILD_FIRST_NAME, MIDDLE_NAME AS CHILD_MIDDLE_NAME, SUFFIX AS CHILD_SUFFIX, DATE_OF_BIRTH AS CHILD_DOB, MARITAL_STATUS AS FAMILY_MARITAL_STATUS, EDUCATIONAL_ATTAINMENT, MONTHLY_INCOME, RELATIONSHIP_TYPE, JOB, OTHER_JOB
     FROM person
     JOIN name ON person.PERSON_ID = name.PERSON_ID
     JOIN relationship ON person.PERSON_ID = relationship.PERSON_ID
     JOIN marital_status ON person.PERSON_ID = marital_status.PERSON_ID
     JOIN educational_attainment ON person.PERSON_ID = educational_attainment.PERSON_ID
+    JOIN job ON person.PERSON_ID = job.PERSON_ID
     JOIN income ON person.PERSON_ID = income.PERSON_ID
     WHERE (relationship.RELATIONSHIP_TYPE = 'Son' OR relationship.RELATIONSHIP_TYPE = 'Daughter')
     AND relationship.APPLICANT_ID = ?
@@ -1321,7 +1322,7 @@ function generateRandomPassword() {
     $uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     $lowercase = "abcdefghijklmnopqrstuvwxyz";
     $numbers = "0123456789";
-    $symbols = "!@$%^&*()_+-={}[]|\\:;\"'<>,.?/";
+    $symbols = "!@$^*()?/";
     $all = $uppercase . $lowercase . $numbers . $symbols;
     $password = "";
     $password .= substr($uppercase, rand(0, strlen($uppercase) - 1), 1);
