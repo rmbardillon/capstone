@@ -1,21 +1,20 @@
 <?php 
     $page = "approved-requests";
     include("header.html");
-    $approvedPWD = getPWDStatus($connection, "APPROVED", "", "NEW ID");
-    $approvedSoloParent = getSoloParentStatus($connection, "APPROVED", "", "New Application");
-    $approvedSrCitizen = getSeniorCitizenStatus($connection, "APPROVED", "", "BAGO");
-    $approvedPWDPerBarangay = getPWDStatus($connection, "APPROVED", $adminData['barangay'], "NEW ID");
-    $approvedSoloParentPerBarangay = getSoloParentStatus($connection, "APPROVED", $adminData['barangay'], "New Application");
-    $approvedSrCitizenPerBarangay = getSeniorCitizenStatus($connection, "APPROVED", $adminData['barangay'], "BAGO");
+    $approvedPWD = getPWDStatus($connection, "APPROVED", "", "Renewal");
+    $approvedSoloParent = getSoloParentStatus($connection, "APPROVED", "", "Renewal");
+    $approvedSrCitizen = getSeniorCitizenStatus($connection, "APPROVED", "", "Renewal");
+    $approvedPWDPerBarangay = getPWDStatus($connection, "APPROVED", $adminData['barangay'], "Renewal");
+    $approvedSoloParentPerBarangay = getSoloParentStatus($connection, "APPROVED", $adminData['barangay'], "Renewal");
+    $approvedSrCitizenPerBarangay = getSeniorCitizenStatus($connection, "APPROVED", $adminData['barangay'], "Renewal");
     if (!isset($_SESSION['admin-data'])) {
         header("location: ../login/admin.html");
         exit();
     }
 ?>
-            <?php if($adminData['admin_type'] == "Main Administrator"){
-                echo <<<HTML
+            <?php if($adminData['admin_type'] == "Main Administrator"){ ?>
                 <div class="container-fluid">
-                    <h3 class="text-dark mb-4">Approved Requests</h3>
+                    <h3 class="text-dark mb-4">Renewal Approved Requests</h3>
                     <div class="card shadow">
                         <div class="card-header py-3">
                             <p class="text-primary m-0 fw-bold">Recent Registrants : Person With Disability&nbsp;</p>
@@ -32,7 +31,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                HTML; ?>
                                         <?php foreach($approvedPWD as $user): ?>
                                         <tr>
                                             <td style="text-align: center;">
@@ -41,51 +39,13 @@
                                             <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
                                             <td style="text-align: center;"><a class="btn btn-secondary" href="pwd-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>">View Information</a></td>
                                         </tr>
-                                        <?php endforeach; 
-                echo <<<HTML
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                HTML;
-                echo <<<HTML
-                <div class="container-fluid">
-                    <h3 class="text-dark mb-4"></h3>
-                    <div class="card shadow">
-                        <div class="card-header py-3">
-                            <p class="text-primary m-0 fw-bold">Recent Registrants : Senior Citizen</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive table mt-2" id="dataTable-3" role="grid" aria-describedby="dataTable_info">
-                                <table class="table my-0" id="scDataTable">
-                                    <thead>
-                                        <tr>
-                                            <th style="text-align: center;">Name</th>
-                                            <th style="text-align: center;">Address</th>
-                                            <th style="text-align: center;">Registration Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                HTML; ?>
-                                        <?php foreach($approvedSrCitizen as $user): ?>
-                                        <tr>
-                                            <td style="text-align: center;">
-                                                <?php echo($user['NAME']); ?></td>
-                                            <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
-                                            <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
-                                        </tr>
-                                        <?php endforeach; 
-                echo <<<HTML
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                HTML;
-                echo <<<HTML
                 <div class="container-fluid">
                     <h3 class="text-dark mb-4"></h3>
                     <div class="card shadow">
@@ -104,7 +64,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                HTML; ?>
                                         <?php foreach($approvedSoloParent as $user): ?>
                                         <tr>
                                             <td style="text-align: center;">
@@ -113,20 +72,16 @@
                                             <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
                                             <td style="text-align: center;"><a class="btn btn-secondary" href="solo-parent-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>">View Information</a></td>
                                         </tr>
-                                        <?php endforeach; 
-                echo <<<HTML
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                HTML; }
-                ?>
-            <?php if($adminData['admin_type'] == "PWD Administrator"){
-                echo <<<HTML
-                <div class="container-fluid">
-                    <h3 class="text-dark mb-4">Approved Requests</h3>
+                <?php } else { ?>
+                    <div class="container-fluid">
+                    <h3 class="text-dark mb-4">Renewal Approved Requests</h3>
                     <div class="card shadow">
                         <div class="card-header py-3">
                             <p class="text-primary m-0 fw-bold">Recent Registrants : Person With Disability&nbsp;</p>
@@ -143,7 +98,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                HTML; ?>
                                         <?php foreach($approvedPWDPerBarangay as $user): ?>
                                         <tr>
                                             <td style="text-align: center;">
@@ -152,55 +106,13 @@
                                             <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
                                             <td style="text-align: center;"><a class="btn btn-secondary" href="pwd-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>">View Information</a></td>
                                         </tr>
-                                        <?php endforeach; 
-                echo <<<HTML
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                HTML; }
-                ?>
-                <?php if($adminData['admin_type'] == "Senior Citizen Administrator"){
-                echo <<<HTML
-                <div class="container-fluid">
-                    <h3 class="text-dark mb-4"></h3>
-                    <div class="card shadow">
-                        <div class="card-header py-3">
-                            <p class="text-primary m-0 fw-bold">Recent Registrants : Senior Citizen</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive table mt-2" id="dataTable-3" role="grid" aria-describedby="dataTable_info">
-                                <table class="table my-0" id="scDataTable">
-                                    <thead>
-                                        <tr>
-                                            <th style="text-align: center;">Name</th>
-                                            <th style="text-align: center;">Address</th>
-                                            <th style="text-align: center;">Registration Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                HTML; ?>
-                                        <?php foreach($approvedSrCitizenPerBarangay as $user): ?>
-                                        <tr>
-                                            <td style="text-align: center;">
-                                                <?php echo($user['NAME']); ?></td>
-                                            <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
-                                            <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
-                                        </tr>
-                                        <?php endforeach; 
-                echo <<<HTML
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                HTML; }
-                ?>
-                <?php if($adminData['admin_type'] == "Solo Parent Administrator"){
-                echo <<<HTML
                 <div class="container-fluid">
                     <h3 class="text-dark mb-4"></h3>
                     <div class="card shadow">
@@ -219,7 +131,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                HTML; ?>
                                         <?php foreach($approvedSoloParentPerBarangay as $user): ?>
                                         <tr>
                                             <td style="text-align: center;">
@@ -228,16 +139,14 @@
                                             <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
                                             <td style="text-align: center;"><a class="btn btn-secondary" href="solo-parent-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>">View Information</a></td>
                                         </tr>
-                                        <?php endforeach;
-                echo <<<HTML
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                HTML; }
-                ?>
+                <?php } ?>
 <?php
     include "footer.html";
 ?>

@@ -589,28 +589,28 @@ function getChildrenData($connection, $personID) {
 }
 
 // GET APPLICATIONS
-function getPWDStatus($connection, $status, $barangay) {
+function getPWDStatus($connection, $status, $barangay, $transactionType) {
     $data = [];
     if(!empty($barangay)) {
         $sql = "SELECT person.PERSON_ID, applicant.APPLICANT_TYPE, CONCAT(LAST_NAME, ' ', CASE WHEN SUFFIX IS NOT NULL THEN CONCAT(' ', SUFFIX) ELSE '' END, FIRST_NAME,' ',
-              CASE WHEN MIDDLE_NAME IS NOT NULL AND MIDDLE_NAME <> '' THEN CONCAT(LEFT(MIDDLE_NAME, 1), '. ') ELSE '' END) AS NAME, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS, transaction_type.DATE_UPDATED, transaction_type.UPDATED_BY
+              CASE WHEN MIDDLE_NAME IS NOT NULL AND MIDDLE_NAME <> '' THEN CONCAT(LEFT(MIDDLE_NAME, 1), '. ') ELSE '' END) AS NAME, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS, transaction_type.TRANSACTION_TYPE, transaction_type.DATE_UPDATED, transaction_type.UPDATED_BY
         FROM person 
         JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
         JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
         JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
         JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
         JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
-        WHERE applicant.APPLICANT_TYPE = 'PWD' AND STATUS = '$status' AND (address.BARANGAY = '$barangay' OR '$barangay' = 'City Hall') AND person.IS_DELETED = 'N'";
+        WHERE applicant.APPLICANT_TYPE = 'PWD' AND STATUS = '$status' AND (address.BARANGAY = '$barangay' OR '$barangay' = 'City Hall') AND transaction_type.TRANSACTION_TYPE = '$transactionType' AND person.IS_DELETED = 'N'";
     } else {
         $sql = "SELECT person.PERSON_ID, applicant.APPLICANT_TYPE, CONCAT(LAST_NAME, ' ', CASE WHEN SUFFIX IS NOT NULL THEN CONCAT(' ', SUFFIX) ELSE '' END, FIRST_NAME,' ',
-              CASE WHEN MIDDLE_NAME IS NOT NULL AND MIDDLE_NAME <> '' THEN CONCAT(LEFT(MIDDLE_NAME, 1), '. ') ELSE '' END) AS NAME, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS, transaction_type.DATE_UPDATED, transaction_type.UPDATED_BY
+              CASE WHEN MIDDLE_NAME IS NOT NULL AND MIDDLE_NAME <> '' THEN CONCAT(LEFT(MIDDLE_NAME, 1), '. ') ELSE '' END) AS NAME, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS, transaction_type.TRANSACTION_TYPE, transaction_type.DATE_UPDATED, transaction_type.UPDATED_BY
         FROM person 
         JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
         JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
         JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
         JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
         JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
-        WHERE applicant.APPLICANT_TYPE = 'PWD' AND STATUS = '$status' AND person.IS_DELETED = 'N'";
+        WHERE applicant.APPLICANT_TYPE = 'PWD' AND STATUS = '$status' AND transaction_type.TRANSACTION_TYPE = '$transactionType' AND person.IS_DELETED = 'N'";
     }
     
     try {
@@ -643,28 +643,28 @@ function getPWDStatus($connection, $status, $barangay) {
 
 }
 
-function getSoloParentStatus($connection, $status, $barangay) {
+function getSoloParentStatus($connection, $status, $barangay, $transactionType) {
     $data = [];
     if(!empty($barangay)) {
         $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, CONCAT(LAST_NAME, ' ', CASE WHEN SUFFIX IS NOT NULL THEN CONCAT(' ', SUFFIX) ELSE '' END, FIRST_NAME,' ',
-              CASE WHEN MIDDLE_NAME IS NOT NULL AND MIDDLE_NAME <> '' THEN CONCAT(LEFT(MIDDLE_NAME, 1), '. ') ELSE '' END) AS NAME, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS, transaction_type.DATE_UPDATED, transaction_type.UPDATED_BY
+              CASE WHEN MIDDLE_NAME IS NOT NULL AND MIDDLE_NAME <> '' THEN CONCAT(LEFT(MIDDLE_NAME, 1), '. ') ELSE '' END) AS NAME, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS, transaction_type.TRANSACTION_TYPE, transaction_type.DATE_UPDATED, transaction_type.UPDATED_BY
         FROM person 
         JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
         JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
         JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
         JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
         JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
-        WHERE APPLICANT_TYPE = 'Solo Parent' AND STATUS = '$status' AND (address.BARANGAY = '$barangay' OR '$barangay' = 'City Hall') AND person.IS_DELETED = 'N'";
+        WHERE APPLICANT_TYPE = 'Solo Parent' AND STATUS = '$status' AND (address.BARANGAY = '$barangay' OR '$barangay' = 'City Hall') AND transaction_type.TRANSACTION_TYPE = '$transactionType' AND person.IS_DELETED = 'N'";
     } else {
         $sql = "SELECT person.PERSON_ID, applicant.APPLICANT_TYPE, CONCAT(LAST_NAME, ' ', CASE WHEN SUFFIX IS NOT NULL THEN CONCAT(' ', SUFFIX) ELSE '' END, FIRST_NAME,' ',
-              CASE WHEN MIDDLE_NAME IS NOT NULL AND MIDDLE_NAME <> '' THEN CONCAT(LEFT(MIDDLE_NAME, 1), '. ') ELSE '' END) AS NAME, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS, transaction_type.DATE_UPDATED, transaction_type.UPDATED_BY
+              CASE WHEN MIDDLE_NAME IS NOT NULL AND MIDDLE_NAME <> '' THEN CONCAT(LEFT(MIDDLE_NAME, 1), '. ') ELSE '' END) AS NAME, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS, transaction_type.TRANSACTION_TYPE, transaction_type.DATE_UPDATED, transaction_type.UPDATED_BY
         FROM person 
         JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
         JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
         JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
         JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
         JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
-        WHERE applicant.APPLICANT_TYPE = 'Solo Parent' AND STATUS = '$status' AND person.IS_DELETED = 'N'";
+        WHERE applicant.APPLICANT_TYPE = 'Solo Parent' AND STATUS = '$status' AND transaction_type.TRANSACTION_TYPE = '$transactionType' AND person.IS_DELETED = 'N'";
     }
     try {
         $stmt = $connection->prepare($sql);
@@ -696,28 +696,28 @@ function getSoloParentStatus($connection, $status, $barangay) {
 
 }
 
-function getSeniorCitizenStatus($connection, $status, $barangay) {
+function getSeniorCitizenStatus($connection, $status, $barangay, $transactionType) {
     $data = [];
     if(!empty($barangay)) {
         $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, CONCAT(LAST_NAME, ' ', CASE WHEN SUFFIX IS NOT NULL THEN CONCAT(' ', SUFFIX) ELSE '' END, FIRST_NAME,' ',
-              CASE WHEN MIDDLE_NAME IS NOT NULL AND MIDDLE_NAME <> '' THEN CONCAT(LEFT(MIDDLE_NAME, 1), '. ') ELSE '' END) AS NAME, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS, transaction_type.DATE_UPDATED, transaction_type.UPDATED_BY
+              CASE WHEN MIDDLE_NAME IS NOT NULL AND MIDDLE_NAME <> '' THEN CONCAT(LEFT(MIDDLE_NAME, 1), '. ') ELSE '' END) AS NAME, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS, transaction_type.TRANSACTION_TYPE, transaction_type.DATE_UPDATED, transaction_type.UPDATED_BY
         FROM person 
         JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
         JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
         JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
         JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
         JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
-        WHERE APPLICANT_TYPE = 'Senior Citizen' AND STATUS = '$status' AND (address.BARANGAY = '$barangay' OR '$barangay' = 'City Hall') AND person.IS_DELETED = 'N'";
+        WHERE APPLICANT_TYPE = 'Senior Citizen' AND STATUS = '$status' AND (address.BARANGAY = '$barangay' OR '$barangay' = 'City Hall') AND transaction_type.TRANSACTION_TYPE = '$transactionType' AND person.IS_DELETED = 'N'";
     } else {
         $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, CONCAT(LAST_NAME, ' ', CASE WHEN SUFFIX IS NOT NULL THEN CONCAT(' ', SUFFIX) ELSE '' END, FIRST_NAME,' ',
-              CASE WHEN MIDDLE_NAME IS NOT NULL AND MIDDLE_NAME <> '' THEN CONCAT(LEFT(MIDDLE_NAME, 1), '. ') ELSE '' END) AS NAME, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS, transaction_type.DATE_UPDATED, transaction_type.UPDATED_BY
+              CASE WHEN MIDDLE_NAME IS NOT NULL AND MIDDLE_NAME <> '' THEN CONCAT(LEFT(MIDDLE_NAME, 1), '. ') ELSE '' END) AS NAME, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS, transaction_type.TRANSACTION_TYPE, transaction_type.DATE_UPDATED, transaction_type.UPDATED_BY
         FROM person 
         JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
         JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
         JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
         JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
         JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
-        WHERE APPLICANT_TYPE = 'Senior Citizen' AND STATUS = '$status' AND person.IS_DELETED = 'N'";
+        WHERE APPLICANT_TYPE = 'Senior Citizen' AND STATUS = '$status' AND transaction_type.TRANSACTION_TYPE = '$transactionType' AND person.IS_DELETED = 'N'";
     }
     try {
         $stmt = $connection->prepare($sql);
@@ -2059,7 +2059,7 @@ function insertDrafts($connection, $applicationType, $applicantName, $applicantB
 
 function updateEmail($connection, $person_id) {
     // Prepare the SQL query
-    $stmt = $connection->prepare("UPDATE person SET EMAIL = NULL WHERE PERSON_ID = ?");
+    $stmt = $connection->prepare("UPDATE person SET EMAIL = NULL, DATE_OF_BIRTH = NULL WHERE PERSON_ID = ?");
 
     // Bind the values to the placeholders
     $stmt->bind_param("s", $person_id);
@@ -2077,10 +2077,10 @@ function updateEmail($connection, $person_id) {
     $stmt->close();
 }
 
-function deleteUserData($connection, $person_id, $applicantType) {
+function deleteUserData($connection, $person_id, $applicantType, $application_type) {
     updateEmail($connection, $person_id);
     if ($applicantType == "pwd") {
-        $sql = "DELETE previous_address, landline, telephone, gender, religion, marital_status, blood_type, educational_attainment, government_membership, employment_status, job, income, organization, id_reference_number, relationship, pwd_disease, pwd_physician, pwd_application_accomplisher
+        $sql = "DELETE previous_address, landline, telephone, gender, religion, marital_status, blood_type, educational_attainment, government_membership, employment_status, job, income, organization, id_reference_number, relationship, pwd_disease, pwd_physician, pwd_application_accomplisher, user_account
         FROM person
         LEFT JOIN previous_address ON person.PERSON_ID = previous_address.PERSON_ID
         LEFT JOIN landline ON person.PERSON_ID = landline.PERSON_ID
@@ -2100,6 +2100,7 @@ function deleteUserData($connection, $person_id, $applicantType) {
         LEFT JOIN pwd_disease ON person.PERSON_ID = pwd_disease.PERSON_ID
         LEFT JOIN pwd_physician ON person.PERSON_ID = pwd_physician.PERSON_ID
         LEFT JOIN pwd_application_accomplisher ON person.PERSON_ID = pwd_application_accomplisher.PERSON_ID
+        LEFT JOIN user_account ON person.PERSON_ID = user_account.PERSON_ID
         WHERE person.PERSON_ID = '$person_id'";
     } else if ($applicantType == "seniorCitizen") {
         $sql = "DELETE gender, marital_status, telephone, religion, job, pension, relationship
@@ -2113,7 +2114,7 @@ function deleteUserData($connection, $person_id, $applicantType) {
         LEFT JOIN relationship ON person.PERSON_ID = relationship.PERSON_ID
         WHERE person.PERSON_ID = '$person_id'";
     } else if ($applicantType == "soloParent") {
-        $sql = "DELETE gender, educational_attainment, company, income, telephone, job, relationship, solo_parent_long_text
+        $sql = "DELETE gender, educational_attainment, company, income, telephone, job, relationship, solo_parent_long_text, user_account
         FROM person
         LEFT JOIN gender ON person.PERSON_ID = gender.PERSON_ID
         LEFT JOIN educational_attainment ON person.PERSON_ID = educational_attainment.PERSON_ID
@@ -2123,12 +2124,18 @@ function deleteUserData($connection, $person_id, $applicantType) {
         LEFT JOIN job ON person.PERSON_ID = job.PERSON_ID
         LEFT JOIN relationship ON person.PERSON_ID = relationship.PERSON_ID
         LEFT JOIN solo_parent_long_text ON person.PERSON_ID = solo_parent_long_text.PERSON_ID
+        LEFT JOIN user_account ON person.PERSON_ID = user_account.PERSON_ID
         WHERE person.PERSON_ID = '$person_id'";
     }
     $stmt = $connection->prepare($sql);
     if($stmt->execute() === TRUE){
-        header("location: ../rejected-requests.html");
-        exit();
+        if ($application_type == "renewal") {
+            header("location: ../renewal-rejected-requests.html");
+            exit();
+        } else {
+            header("location: ../rejected-requests.html");
+            exit();
+        }
     } else {
         $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
         header("location: ../error.html?error_message=" . urlencode($errorMessage));

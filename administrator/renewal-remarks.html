@@ -1,0 +1,36 @@
+<?php 
+    $page = "profile";
+    include("header.html");
+    $PERSON_ID = $_GET['person_id'];
+    $applicationType = $_GET['application_type'];
+    if (!isset($_SESSION['admin-data'])) {
+        header("location: ../login/admin.html");
+        exit();
+    }
+?>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title text-danger mb-4">Account Renewal Request Rejected</h5>
+                    <p>We regret to inform you that your request to renew your account in the CSWD has been rejected due to the following reason(s):</p>
+                    <form action="includes/approved.inc.php" method="post" novalidate="">
+                        <input type="hidden" name="person_id" value="<?php echo($PERSON_ID); ?>">
+                        <input type="hidden" name="application_type" value="<?php echo($applicationType); ?>">
+                        <input type="hidden" name="applicationType" value="<?php echo isset($_GET['applicationType']) ? $_GET['applicationType'] : ''; ?>">
+                        <div class="mb-3">
+                            <label for="reason" class="form-label">Reason for rejection</label>
+                            <textarea class="form-control" id="reason" name="reason" rows="10" required></textarea>
+                        </div>
+                        <p>Please review your information and eligibility, and resubmit your application with all required information.</p>
+                        <input class="btn btn-primary w-100" type="submit" value="Submit" name="reject">
+                    </form>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php
+    include "footer.html";
+?>

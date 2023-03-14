@@ -378,7 +378,7 @@ function addAnnouncement($connection, $title, $for, $where, $message, $date, $fr
     session_start();
     global $isDeleted;
     $getActiveUser = $_SESSION['admin-username'];
-    $sql = "INSERT INTO announcement (ANNOUNCEMENT_ID, TITLE, ANNOUNCEMENT_FOR, BARANGAY, DATE, MESSAGE, DATE_FROM, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser');";
+    $sql = "INSERT INTO announcement (ANNOUNCEMENT_ID, TITLE, ANNOUNCEMENT_FOR, BARANGAY, DATE, MESSAGE, DATE_FROM, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser');";
     $stmt = $connection->prepare($sql);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../announcement.html?error=stmterror");
@@ -396,7 +396,7 @@ function updateAnnouncement($connection, $title, $for, $from, $where, $message, 
     session_start();
     global $isDeleted;
     $getActiveUser = $_SESSION['admin-username'];
-    $sql = "UPDATE announcement SET TITLE = ?, ANNOUNCEMENT_FOR = ?, BARANGAY = ?, DATE_FROM = ?, DATE = ?, MESSAGE = ?, DATE_UPDATED = CURDATE(), UPDATED_BY = '$getActiveUser' WHERE ANNOUNCEMENT_ID = ?;";
+    $sql = "UPDATE announcement SET TITLE = ?, ANNOUNCEMENT_FOR = ?, BARANGAY = ?, DATE_FROM = ?, DATE = ?, MESSAGE = ?, DATE_UPDATED = NOW(), UPDATED_BY = '$getActiveUser' WHERE ANNOUNCEMENT_ID = ?;";
     $stmt = $connection->prepare($sql);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         header("location: ../announcement.html?error=stmterror");

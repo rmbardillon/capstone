@@ -53,10 +53,6 @@ section {
   min-height: 70vh;
 }
 
-.row {
-  margin: 15px;
-}
-
 .required:after {
   content: "*";
   color: red;

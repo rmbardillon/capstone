@@ -216,11 +216,11 @@
 
             // Call your functions to insert data
             // insertPerson($connection, $personId, $pwdDOB, $emailAddress);
-            updatePersonEmail($connection, $person_id, $email);
+            updatePersonEmail($connection, $personId, $emailAddress);
             // insertApplicant($connection, $personId, $applicantType, $id_number, NULL, $formControlNumber);
-            updateApplicant($connection, $person_id, $formControlNumber);
+            updateApplicant($connection, $personId, $formControlNumber);
             // insertTransactionType($connection, $personId, $applicationType, $id_number);
-            updateTransactionType($connection, $person_id, $applicationType, $status);
+            updateTransactionType($connection, $personId, $applicationType, $status);
             // insertPreviousAddress($connection, $personId, $old_region, $old_province, $old_city, $old_barangay, $previousAddress);
             // insertName($connection, $personId, $firstName, $middlename, $surname, $suffix);
             updateName($connection, $personId, $firstName, $middlename, $surname, $suffix);

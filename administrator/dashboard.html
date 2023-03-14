@@ -9,8 +9,7 @@
             <?php if($adminData['admin_type'] == "Main Administrator"){
                 $pwdData = getPWDPerBarangay($connection, "");
                 $seniorCitizenData = getSeniorCitizenPerBarangay($connection, "");
-                $soloParentData = getSoloParentPerBarangay($connection, "");
-                echo <<<HTML
+                $soloParentData = getSoloParentPerBarangay($connection, ""); ?>
                 <div class="container-fluid">
                     <h3 class="text-dark mb-4">Dashboard</h3>
                     <div class="card shadow">
@@ -30,8 +29,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                HTML; ?>
-                                        <?php foreach($pwdData as $user):?>
+                                        <?php foreach($pwdData as $user): ?>
                                         <tr>
                                             <td style="text-align: center;">
                                             <?php echo($user['NAME']); ?></td>
@@ -40,15 +38,13 @@
                                             <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
                                             <td style="text-align: center;" class="<?php if($user['STATUS'] == 'APPROVED') echo'text-success'; else if($user['STATUS'] == 'PENDING') echo'text-warning'; else echo'text-danger'; ?>"><?php echo($user['STATUS']); ?></td>
                                         </tr>
-                                        <?php endforeach; 
-                echo <<<HTML
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                HTML; echo <<<HTML
                 <div class="container-fluid">
                     <h3 class="text-dark mb-4"></h3>
                     <div class="card shadow">
@@ -68,7 +64,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                HTML; ?>
                                         <?php foreach($soloParentData as $user): ?>
                                         <tr>
                                             <td style="text-align: center;">
@@ -78,15 +73,13 @@
                                             <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
                                             <td style="text-align: center;" class="<?php if($user['STATUS'] == 'APPROVED') echo'text-success'; else if($user['STATUS'] == 'PENDING') echo'text-warning'; else echo'text-danger'; ?>"><?php echo($user['STATUS']); ?></td>
                                         </tr>
-                                        <?php endforeach; 
-                echo <<<HTML
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                HTML; echo <<<HTML
                 <div class="container-fluid">
                     <h3 class="text-dark mb-4"></h3>
                     <div class="card shadow">
@@ -106,7 +99,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                HTML; ?>
                                         <?php foreach($seniorCitizenData as $user): ?>
                                         <tr>
                                             <td style="text-align: center;">
@@ -116,20 +108,15 @@
                                             <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
                                             <td style="text-align: center;" class="<?php if($user['STATUS'] == 'APPROVED') echo'text-success'; else if($user['STATUS'] == 'PENDING') echo'text-warning'; else echo'text-danger'; ?>"><?php echo($user['STATUS']); ?></td>
                                         </tr>
-                                        <?php endforeach; 
-                echo <<<HTML
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                HTML; }
-                ?>
-
-            <?php if($adminData['admin_type'] == "PWD Administrator"){
-                $pwdDataPerBarangay = getPWDPerBarangay($connection, $adminData['barangay']);
-                echo <<<HTML
+            <?php } if($adminData['admin_type'] == "PWD Administrator"){
+                $pwdDataPerBarangay = getPWDPerBarangay($connection, $adminData['barangay']); ?>
                 <div class="container-fluid">
                     <h3 class="text-dark mb-4">Dashboard</h3>
                     <div class="card shadow">
@@ -149,7 +136,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                HTML; ?>
                                         <?php foreach($pwdDataPerBarangay as $user): ?>
                                         <tr>
                                             <td style="text-align: center;">
@@ -159,19 +145,15 @@
                                             <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
                                             <td style="text-align: center;" class="<?php if($user['STATUS'] == 'APPROVED') echo'text-success'; else if($user['STATUS'] == 'PENDING') echo'text-warning'; else echo'text-danger'; ?>"><?php echo($user['STATUS']); ?></td>
                                         </tr>
-                                        <?php endforeach; 
-                echo <<<HTML
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                HTML; }
-                ?>
-                <?php if($adminData['admin_type'] == "Solo Parent Administrator"){
-                    $soloParentDataPerBarangay = getSoloParentPerBarangay($connection, $adminData['barangay']);
-                echo <<<HTML
+                <?php } if($adminData['admin_type'] == "Solo Parent Administrator"){
+                    $soloParentDataPerBarangay = getSoloParentPerBarangay($connection, $adminData['barangay']); ?>
                 <div class="container-fluid">
                     <h3 class="text-dark mb-4"></h3>
                     <div class="card shadow">
@@ -191,7 +173,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                HTML; ?>
                                         <?php foreach($soloParentDataPerBarangay as $user): ?>
                                         <tr>
                                             <td style="text-align: center;">
@@ -201,19 +182,15 @@
                                             <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
                                             <td style="text-align: center;" class="<?php if($user['STATUS'] == 'APPROVED') echo'text-success'; else if($user['STATUS'] == 'PENDING') echo'text-warning'; else echo'text-danger'; ?>"><?php echo($user['STATUS']); ?></td>
                                         </tr>
-                                        <?php endforeach; 
-                echo <<<HTML
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                HTML; }
-                ?>
-                <?php if($adminData['admin_type'] == "Senior Citizen Administrator"){
-                    $seniorCitizenDataPerBarangay = getSeniorCitizenPerBarangay($connection, $adminData['barangay']);
-                echo <<<HTML
+                <?php } if($adminData['admin_type'] == "Senior Citizen Administrator"){
+                    $seniorCitizenDataPerBarangay = getSeniorCitizenPerBarangay($connection, $adminData['barangay']); ?>
                 <div class="container-fluid">
                     <h3 class="text-dark mb-4"></h3>
                     <div class="card shadow">
@@ -233,7 +210,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                HTML; ?>
                                         <?php foreach($seniorCitizenDataPerBarangay as $user): ?>
                                         <tr>
                                             <td style="text-align: center;">
@@ -243,16 +219,14 @@
                                             <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
                                             <td style="text-align: center;" class="<?php if($user['STATUS'] == 'APPROVED') echo'text-success'; else if($user['STATUS'] == 'PENDING') echo'text-warning'; else echo'text-danger'; ?>"><?php echo($user['STATUS']); ?></td>
                                         </tr>
-                                        <?php endforeach;
-                echo <<<HTML
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                HTML; }
-                ?>
+                <?php } ?>
                 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
                 <script>
                     var result = '<?php echo $_GET["success"]; ?>';

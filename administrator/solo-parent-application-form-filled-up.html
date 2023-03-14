@@ -532,6 +532,7 @@
         <div class="row">
           <div class="col">
             <input type="hidden" name="person_id" value="<?php echo($PERSON_ID); ?>">
+            <input type="hidden" name="application_type" value="<?php echo isset($_GET['applicationType']) ? $_GET['applicationType'] : ''; ?>">
             <button
               class="btn btn-primary w-100"
               type="submit"
@@ -540,6 +541,16 @@
               Approve
             </button>
           </div>
+          <?php if( isset($_GET['applicationType']) && $_GET['applicationType'] == 'renewal') {?>
+          <div class="col">
+            <a
+              class="btn btn-danger w-100"
+              href="renewal-remarks.html?application_type=soloParent&person_id=<?php echo($PERSON_ID); ?>&applicationType=renewal"
+            >
+              Reject
+            </a>
+          </div>
+          <?php } else {?>
           <div class="col">
             <a
               class="btn btn-danger w-100"
@@ -548,7 +559,7 @@
               Reject
             </a>
           </div>
-          <?php } } else {?>
+          <?php }} } else {?>
             <div class="col">
                 <label class="form-label" for="claimantID"></label>
                 <input class="form-control mb-2" type="file" name="claimantID" id="claimantID">

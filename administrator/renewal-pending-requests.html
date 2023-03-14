@@ -1,21 +1,20 @@
 <?php 
     $page = "pending-requests";
     include("header.html");
-    $pendingPWD = getPWDStatus($connection, "PENDING", "", "NEW ID");
-    $pendingSoloParent = getSoloParentStatus($connection, "PENDING", "", "New Application");
-    $pendingSrCitizen = getSeniorCitizenStatus($connection, "PENDING", "", "BAGO");
-    $pendingPWDPerBarangay = getPWDStatus($connection, "PENDING", $adminData['barangay'], "NEW ID");
-    $pendingSoloParentPerBarangay = getSoloParentStatus($connection, "PENDING", $adminData['barangay'], "New Application");
-    $pendingSrCitizenPerBarangay = getSeniorCitizenStatus($connection, "PENDING", $adminData['barangay'], "BAGO");
+    $pendingPWD = getPWDStatus($connection, "PENDING", "", "Renewal");
+    $pendingSoloParent = getSoloParentStatus($connection, "PENDING", "", "Renewal");
+    $pendingSrCitizen = getSeniorCitizenStatus($connection, "PENDING", "", "Renewal");
+    $pendingPWDPerBarangay = getPWDStatus($connection, "PENDING", $adminData['barangay'], "Renewal");
+    $pendingSoloParentPerBarangay = getSoloParentStatus($connection, "PENDING", $adminData['barangay'], "Renewal");
+    $pendingSrCitizenPerBarangay = getSeniorCitizenStatus($connection, "PENDING", $adminData['barangay'], "Renewal");
     if (!isset($_SESSION['admin-data'])) {
         header("location: ../login/admin.html");
         exit();
     }
 ?>
-            <?php if($adminData['admin_type'] == "Main Administrator"){
-                echo <<<HTML
+            <?php if($adminData['admin_type'] == "Main Administrator"){ ?>
                 <div class="container-fluid">
-                    <h3 class="text-dark mb-4">Pending Requests</h3>
+                    <h3 class="text-dark mb-4">Renewal Pending Requests</h3>
                     <div class="card shadow">
                         <div class="card-header py-3">
                             <p class="text-primary m-0 fw-bold">Recent Registrants : Person With Disability&nbsp;</p>
@@ -31,59 +30,20 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                HTML; ?>
                                         <?php foreach($pendingPWD as $user): ?>
                                         <tr>
                                             <td style="text-align: center;">
                                                 <?php echo($user['NAME']); ?></td>
                                             <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
-                                            <td style="text-align: center;"><a class="btn btn-secondary" href="pwd-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>">View Information</a></td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="pwd-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>&applicationType=renewal">View Information</a></td>
                                         </tr>
-                                        <?php endforeach; 
-                echo <<<HTML
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                HTML;
-                echo <<<HTML
-                <div class="container-fluid">
-                    <h3 class="text-dark mb-4"></h3>
-                    <div class="card shadow">
-                        <div class="card-header py-3">
-                            <p class="text-primary m-0 fw-bold">Recent Registrants : Senior Citizen</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive table mt-2" id="dataTable-3" role="grid" aria-describedby="dataTable_info">
-                                <table class="table my-0" id="scDataTable">
-                                    <thead>
-                                        <tr>
-                                            <th style="text-align: center;">Name</th>
-                                            <th style="text-align: center;">Address</th>
-                                            <th style="text-align: center;">View Information</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                HTML; ?>
-                                        <?php foreach($pendingSrCitizen as $user): ?>
-                                        <tr>
-                                            <td style="text-align: center;">
-                                                <?php echo($user['NAME']); ?></td>
-                                            <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
-                                            <td style="text-align: center;"><a class="btn btn-secondary" href="senior-citizen-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>">View Information</a></td>
-                                        </tr>
-                                        <?php endforeach; 
-                echo <<<HTML
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                HTML;
-                echo <<<HTML
                 <div class="container-fluid">
                     <h3 class="text-dark mb-4"></h3>
                     <div class="card shadow">
@@ -101,28 +61,23 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                HTML; ?>
                                         <?php foreach($pendingSoloParent as $user): ?>
                                         <tr>
                                             <td style="text-align: center;">
                                                 <?php echo($user['NAME']); ?></td>
                                             <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
-                                            <td style="text-align: center;"><a class="btn btn-secondary" href="solo-parent-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>">View Information</a></td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="solo-parent-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>&applicationType=renewal">View Information</a></td>
                                         </tr>
-                                        <?php endforeach; 
-                echo <<<HTML
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                HTML; }
-                ?>
-            <?php if($adminData['admin_type'] == "PWD Administrator"){
-                echo <<<HTML
-                <div class="container-fluid">
-                    <h3 class="text-dark mb-4">Pending Requests</h3>
+                <?php } else { ?>
+                    <div class="container-fluid">
+                    <h3 class="text-dark mb-4">Renewal Pending Requests</h3>
                     <div class="card shadow">
                         <div class="card-header py-3">
                             <p class="text-primary m-0 fw-bold">Recent Registrants : Person With Disability&nbsp;</p>
@@ -138,63 +93,20 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                HTML; ?>
                                         <?php foreach($pendingPWDPerBarangay as $user): ?>
                                         <tr>
                                             <td style="text-align: center;">
                                                 <?php echo($user['NAME']); ?></td>
                                             <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
-                                            <td style="text-align: center;"><a class="btn btn-secondary" href="pwd-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>">View Information</a></td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="pwd-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>&applicationType=renewal">View Information</a></td>
                                         </tr>
-                                        <?php endforeach; 
-                echo <<<HTML
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                HTML; }
-                ?>
-                <?php if($adminData['admin_type'] == "Senior Citizen Administrator"){
-                echo <<<HTML
-                <div class="container-fluid">
-                    <h3 class="text-dark mb-4"></h3>
-                    <div class="card shadow">
-                        <div class="card-header py-3">
-                            <p class="text-primary m-0 fw-bold">Recent Registrants : Senior Citizen</p>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive table mt-2" id="dataTable-3" role="grid" aria-describedby="dataTable_info">
-                                <table class="table my-0" id="scDataTable">
-                                    <thead>
-                                        <tr>
-                                            <th style="text-align: center;">Name</th>
-                                            <th style="text-align: center;">Address</th>
-                                            <th style="text-align: center;">View Information</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                HTML; ?>
-                                        <?php foreach($pendingSrCitizenPerBarangay as $user): ?>
-                                        <tr>
-                                            <td style="text-align: center;">
-                                                <?php echo($user['NAME']); ?></td>
-                                            <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
-                                            <td style="text-align: center;"><a class="btn btn-secondary" href="senior-citizen-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>">View Information</a></td>
-                                        </tr>
-                                        <?php endforeach; 
-                echo <<<HTML
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                HTML; }
-                ?>
-                <?php if($adminData['admin_type'] == "Solo Parent Administrator"){
-                echo <<<HTML
                 <div class="container-fluid">
                     <h3 class="text-dark mb-4"></h3>
                     <div class="card shadow">
@@ -212,24 +124,21 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                HTML; ?>
                                         <?php foreach($pendingSoloParentPerBarangay as $user): ?>
                                         <tr>
                                             <td style="text-align: center;">
                                                 <?php echo($user['NAME']); ?></td>
                                             <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
-                                            <td style="text-align: center;"><a class="btn btn-secondary" href="solo-parent-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>">View Information</a></td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary" href="solo-parent-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>&applicationType=renewal">View Information</a></td>
                                         </tr>
-                                        <?php endforeach;
-                echo <<<HTML
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                HTML; }
-                ?>
+                <?php } ?>
 <?php
     include "footer.html";
 ?>
