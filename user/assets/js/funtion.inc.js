@@ -1,3 +1,35 @@
+// Monitor Form Changes
+$(document).ready(function() {
+    // Store initial form values on page load
+    var initialFormData = $('form').serialize();
+
+    // Monitor changes to form fields
+    $('form').on('change', function() {
+        // Store updated form values
+        var updatedFormData = $(this).serialize();
+
+        // Compare initial and updated form values to identify changes
+        var changes = getFormChanges(initialFormData, updatedFormData);
+
+        console.log(changes); // Output changes to console
+    });
+});
+
+// Function to compare initial and updated form values and identify changes
+function getFormChanges(initialFormData, updatedFormData) {
+    var initialData = initialFormData.split('&');
+    var updatedData = updatedFormData.split('&');
+    var changes = [];
+
+    for (var i = 0; i < updatedData.length; i++) {
+        if (updatedData[i] !== initialData[i]) {
+        changes.push(updatedData[i]);
+        }
+    }
+
+    return changes;
+}
+
 // Form Control Number
 $(document).ready(function() {
     var formControlNumber = $("h5.heading").text();

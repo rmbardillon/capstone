@@ -23,6 +23,7 @@
         <input type="hidden" name="formControlNumber" id="formControlNumber">
         <input type="hidden" name="person_id" id="person_id" value="<?php echo($PERSON_ID); ?>">
         <input type="hidden" name="username" id="username" value="<?php echo($username); ?>">
+        <input type="hidden" name="address_id" id="address_id" value="<?php echo($data['ADDRESS_ID']); ?>">
         <div class="row">
           <div class="col">
             <label class="form-label required" for="surname">SURNAME</label>
@@ -319,8 +320,8 @@
           </div>
         </div>
         <?php foreach($family as $familyData): ?>
+        <input type="hidden" name="child_id[]" id="child_id" value="<?php echo($familyData['PERSON_ID']); ?>">
         <div id="soloParentRelative" class="soloParentRelative">
-            <input type="hidden" name="child_id" value="<?php echo($familyData['PERSON_ID']); ?>">
           <div class="row" id="child">
             <div class="col col-2 d-flex align-items-center">
               <h6 class="text-nowrap text-start required">NAME</h6>

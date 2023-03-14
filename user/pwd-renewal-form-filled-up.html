@@ -5,6 +5,7 @@
     $page = "pwdRenewal";
     include("header.html");
     $PERSON_ID = $_SESSION['userData']['PERSON_ID'];
+    $username = $_SESSION['username'];
     $userData = getPWDData($connection, $PERSON_ID);
     $genderData = getPWDGender($connection, $PERSON_ID);
     $mother = getMotherData($connection, $PERSON_ID);
@@ -25,6 +26,12 @@
         <h5 class="heading">PWDF-043-<?php echo($totalPWD+1); ?></h5>
         <form action="includes/register.inc.php" method="post" enctype="multipart/form-data" novalidate="">
           <input type="hidden" name="formControlNumber" id="formControlNumber">
+          <input type="hidden" name="person_id" id="person_id" value="<?php echo($PERSON_ID); ?>">
+        <input type="hidden" name="username" id="username" value="<?php echo($username); ?>">
+        <input type="hidden" name="address_id" id="address_id" value="<?php echo($data['ADDRESS_ID']); ?>">
+        <input type="hidden" name="father_id" id="father_id" value="<?php echo($father['PERSON_ID']); ?>">
+        <input type="hidden" name="mopther_id" id="mopther_id" value="<?php echo($mother['PERSON_ID']); ?>">
+        <input type="hidden" name="guardian_id" id="guardian_id" value="<?php echo($guardian['PERSON_ID']); ?>">
         <div class="row">
             <div class="col-2">
                 <label class="form-label required" for="">TRANSACTION TYPE</label>
