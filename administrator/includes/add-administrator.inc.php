@@ -2,7 +2,9 @@
     require_once 'dbh.inc.php';
     require_once 'functions.inc.php';
     require_once 'sql.inc.php';
+    session_start();
     if (isset($_POST['add_admin_submit'])) {
+        $adminUsername = $_SESSION['admin-username'];
         $lastName = $_POST['last_name'];
         $firstName = $_POST['first_name'];
         $adminType = $_POST['admin-type'];
@@ -31,7 +33,7 @@
             header("location: ../add-administrator.html?error=emailtaken");
             exit();
         }
-        insertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $currentUsername, $email, $password);
+        insertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $currentUsername, $email, $password, $adminUsername);
     
     } else if (isset($_POST['add_admin'])) {
         $lastName = $_POST['last_name'];

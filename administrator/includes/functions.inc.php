@@ -298,18 +298,18 @@ function updateSecurityQuestions($connection, $id, $securityQ1, $securityAnswer1
     $stmt->close();
 }
 
-function insertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $username, $email, $password){
+function insertAdmin($connection, $firstName, $lastName, $adminType, $barangay, $username, $email, $password, $adminUsername){
     $message =  "Thank you for creating an account in our CSWD System!<br><br>" .
             "Your account details are:<br>" .
             "<b>Username</b>: $username<br>" .
             "<b>Password</b>: $password<br><br>" .
             "Please remember to update your security questions in your profile page to ensure the security of your account.";
-    $sql = "INSERT INTO administrator (id, admin_type, barangay, username, first_name, last_name, email, password) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, ?, ?);";
+    $sql = "INSERT INTO administrator (id, admin_type, barangay, username, first_name, last_name, email, password, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, ?, ?, ?);";
     $stmt = $connection->prepare($sql);
 
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-    mysqli_stmt_bind_param($stmt, "sssssss", $adminType, $barangay, $username, $firstName, $lastName, $email, $hashedPassword);
+    mysqli_stmt_bind_param($stmt, "ssssssss", $adminType, $barangay, $username, $firstName, $lastName, $email, $hashedPassword, $adminUsername);
     mysqli_stmt_execute($stmt); 
     mysqli_stmt_close($stmt);
 
@@ -326,7 +326,7 @@ function adminInsertAdmin($connection, $firstName, $lastName, $adminType, $baran
             "Username: $username<br>" .
             "Password: $password<br><br>" .
             "Please remember to update your security questions in your profile page to ensure the security of your account.";
-    $sql = "INSERT INTO administrator (id, admin_type, barangay, username, first_name, last_name, email, password) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, ?, ?);";
+    $sql = "INSERT INTO administrator (id, admin_type, barangay, username, first_name, last_name, email, password, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, ?, ?, 'SUPERADMIN');";
     $stmt = $connection->prepare($sql);
 
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);

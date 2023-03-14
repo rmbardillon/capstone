@@ -95,8 +95,7 @@
             // Rollback the transaction in case of any errors
             $connection->rollback();
             $errorMessage =  "Error: " . $e->getMessage();
-            header("location: ../error.html?error_message=" . urlencode($errorMessage));
-            exit();
+            return "Failed";
         }
         return "Success";
     }
@@ -193,8 +192,7 @@
             // Rollback the transaction in case of any errors
             $connection->rollback();
             $errorMessage =  "Error: " . $e->getMessage();
-            header("location: ../error.html?error_message=" . urlencode($errorMessage));
-            exit();
+            return "Failed";
         }
         return "Success";
     }
@@ -354,8 +352,7 @@
             // Rollback the transaction in case of any errors
             $connection->rollback();
             $errorMessage =  "Error: " . $e->getMessage();
-            header("location: ../error.html?error_message=" . urlencode($errorMessage));
-            exit();
+            return "Failed";
         }
         return "Success";
     }

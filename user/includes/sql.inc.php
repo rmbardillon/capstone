@@ -994,9 +994,9 @@ function getEventsPer($connection, $event_id, $for, $barangay) {
             LEFT JOIN claimed_benefits ON person.PERSON_ID = claimed_benefits.PERSON_ID
             WHERE
             STATUS = 'APPROVED' AND
-            (barangay = '$barangay' OR '$barangay' = 'All') AND 
+            (BARANGAY = '$barangay' OR '$barangay' = 'All') AND 
             (APPLICANT_TYPE = '$for' OR '$for' = 'All') AND 
-            ('$barangay' = 'All' OR ('$for' != 'PWD' AND '$for' != 'Senior citizen' AND '$for' != 'Solo parent') OR (BARANGAY = 'Tagapo' AND ('$for' = 'PWD' OR '$for' = 'Senior citizen' OR '$for' = 'Solo parent')));";
+            ('$barangay' = 'All' OR ('$for' != 'PWD' AND '$for' != 'Senior citizen' AND '$for' != 'Solo parent') OR (BARANGAY = 'All' AND ('$for' = 'PWD' OR '$for' = 'Senior citizen' OR '$for' = 'Solo parent')));";
     try {
         $stmt = $connection->prepare($sql);
 

@@ -84,66 +84,66 @@ $(document).ready( function () {
 });
 // User exists checker
 $(document).ready(function() {
-  // Bind keyup and change events to the input fields
-  $('#firstName, #surname, .birthday, #barangay').on('change', function() {
-    if ($('#firstName').val() != '' && $('#surname').val() != '' && $('.birthday').val() != '' && $('#barangay').val() != ''){
-        checkUser();
-    }
-  });
+    // Bind keyup and change events to the input fields
+    $('#firstName, #surname, .birthday, #barangay').on('change', function() {
+        if ($('#firstName').val() != '' && $('#surname').val() != '' && $('.birthday').val() != '' && $('#barangay').val() != ''){
+            checkUser();
+        }
+    });
 });
 
 function checkUser() {
-  var first_name = $('#firstName').val();
-  var last_name = $('#surname').val();
-  var birthday = $('.birthday').val();
-  var barangay = $('#barangay').val();
+    var first_name = $('#firstName').val();
+    var last_name = $('#surname').val();
+    var birthday = $('.birthday').val();
+    var barangay = $('#barangay').val();
 
-  $.ajax({
-    url: 'includes/check-user.inc.php',
-    type: 'POST',
-    data: {
-      first_name: first_name,
-      last_name: last_name,
-      birthday: birthday,
-      barangay: barangay
-    },
-    success: function(response) {
-      if(response == 'exists') {
-        // Show SweetAlert modal with two buttons
-        Swal.fire({
-          title: 'User already exists in the database.',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Go to Dashboard',
-          cancelButtonText: 'Reset Form',
-          allowOutsideClick: false,
-          allowEscapeKey: false,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            // Redirect to dashboard page
-            window.location.href = 'dashboard.html';
-          } else {
-            // Clear all text input fields
-            $('input[type="text"]').val('');
-            $('input[type="tel"]').val('');
-            $('input[type="email"]').val('');
-            $('input[type="number"]').val('');
-            $('input[type="date"]').val('');
-            // Clear all select fields
-            $('select').val('');
-            // Clear all checkboxes and radio buttons
-            $('input[type="checkbox"], input[type="radio"]').prop('checked', false);
-            // Clear all textareas
-            $('textarea').val('');
-            swal.fire("Success!", "The form has been successfully cleared.", "success");
-            formChanged = false;
-          }
-        });
-      } else {
-        // alert('User does not exist in the database.');
-      }
-    }
-  });
+    $.ajax({
+        url: 'includes/check-user.inc.php',
+        type: 'POST',
+        data: {
+        first_name: first_name,
+        last_name: last_name,
+        birthday: birthday,
+        barangay: barangay
+        },
+        success: function(response) {
+        if(response == 'exists') {
+            // Show SweetAlert modal with two buttons
+            Swal.fire({
+            title: 'User already exists in the database.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Go to Dashboard',
+            cancelButtonText: 'Reset Form',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect to dashboard page
+                window.location.href = 'dashboard.html';
+            } else {
+                // Clear all text input fields
+                $('input[type="text"]').val('');
+                $('input[type="tel"]').val('');
+                $('input[type="email"]').val('');
+                $('input[type="number"]').val('');
+                $('input[type="date"]').val('');
+                // Clear all select fields
+                $('select').val('');
+                // Clear all checkboxes and radio buttons
+                $('input[type="checkbox"], input[type="radio"]').prop('checked', false);
+                // Clear all textareas
+                $('textarea').val('');
+                swal.fire("Success!", "The form has been successfully cleared.", "success");
+                formChanged = false;
+            }
+            });
+        } else {
+            // alert('User does not exist in the database.');
+        }
+        }
+    });
 }
 
 // Print Button
@@ -448,9 +448,24 @@ $("#save_name").click(function(){
         data: JSON.stringify(jsonData),
         success: function(response) {
             $('#name-modal').modal('hide');
-            $('form').attr('action', 'includes/save-drafts.inc.php?applicant_name=' + encodeURIComponent(applicantName) + '&form_name=' + encodeURIComponent(formName) + '&applicant_type=' + encodeURIComponent(applicantType) + '&applicant_barangay=' + encodeURIComponent(applicantBarangay));
-            $('form').submit();
-            alert("Data saved successfully.");
+            // $('form').attr('action', 'includes/save-drafts.inc.php?applicant_name=' + encodeURIComponent(applicantName) + '&form_name=' + encodeURIComponent(formName) + '&applicant_type=' + encodeURIComponent(applicantType) + '&applicant_barangay=' + encodeURIComponent(applicantBarangay));
+            // $('form').submit();
+            $.ajax({
+                type: "GET",
+                url: "includes/save-drafts.inc.php",
+                data: {
+                    form_name: formName,
+                    formData: formData,
+                    applicant_name: applicantName,
+                    applicant_barangay: applicantBarangay,
+                    applicant_type: applicantType
+                },
+                success: function(response) {
+                    alert("Data saved successfully.");
+                    window.location.href = "drafts.html";
+                }
+            })
+            
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(textStatus, errorThrown);
@@ -586,32 +601,41 @@ $(document).ready(function() {
         // Set up form submission event handler
         $("form").submit(function(event) {
             var applicantType = $('#applicantType').val();
-            event.preventDefault(); // Prevent default form submission
-
-            // Send form data to server
-            $.ajax({
-                type: "POST",
-                url: "includes/submit.inc.php?applicantType=" + encodeURIComponent(applicantType),
-                data: $(this).serialize(),
-                success: function(response) {
-                    console.log(success);
-                    // Remove record from database and JSON file
-                    $.ajax({
-                        type: "GET",
-                        url: "includes/delete-draft.inc.php",
-                        data: { delete: userId },
-                        success: function() {
-                            console.log("Record deleted.");
-                            window.location.href = "dashboard.html?success=true";
-                        },
-                        error: function() {
-                            alert("Failed to delete record.");
-                        }
-                    });
-                },
-                error: function() {
-                    alert("Failed to submit form.");
-                }
+            const forms = document.querySelectorAll("form");
+            forms.forEach(function(form) {
+                form.addEventListener('submit', e => {
+                    if (!form.checkValidity()) {
+                        e.preventDefault();
+                    } else {
+                        // Send form data to server
+                        $.ajax({
+                            type: "POST",
+                            url: "includes/submit.inc.php?applicantType=" + encodeURIComponent(applicantType),
+                            data: $(this).serialize(),
+                            success: function(response) {
+                                // alert("Form submitted successfully.")
+                                // console.log(response);
+                                // Remove record from database and JSON file
+                                $.ajax({
+                                    type: "GET",
+                                    url: "includes/delete-draft.inc.php",
+                                    data: { delete: userId },
+                                    success: function() {
+                                        console.log("Record deleted.");
+                                        window.location.href = "dashboard.html?success=true";
+                                    },
+                                    error: function() {
+                                        alert("Failed to delete record.");
+                                    }
+                                });
+                            },
+                            error: function() {
+                                alert("Failed to submit form.");
+                            }
+                        });
+                    }
+                    form.classList.add('was-validated');
+                });
             });
         });
     } else {

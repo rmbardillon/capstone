@@ -992,9 +992,8 @@ function getEventsPer($connection, $event_id, $for, $barangay) {
             JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
             WHERE
             STATUS = 'APPROVED' AND
-            (barangay = '$barangay' OR '$barangay' = 'All') AND 
-            (APPLICANT_TYPE = '$for' OR '$for' = 'All') AND 
-            ('$barangay' = 'All' OR ('$for' != 'PWD' AND '$for' != 'Senior citizen' AND '$for' != 'Solo parent') OR (BARANGAY = 'Tagapo' AND ('$for' = 'PWD' OR '$for' = 'Senior citizen' OR '$for' = 'Solo parent')));";
+            (BARANGAY = '$barangay' OR '$barangay' = 'All') AND 
+            (APPLICANT_TYPE = '$for' OR '$for' = 'All');";
     try {
         $stmt = $connection->prepare($sql);
 
@@ -1297,7 +1296,6 @@ function checkUser($connection, $first_name, $last_name, $birthday, $barangay) {
 }
 
 // Inserting User Data
-
 $isDeleted =  'N';
 if (isset($_SESSION['admin-data'])) {
     $getActiveUser = $_SESSION['admin-data']['username'];
@@ -1369,7 +1367,7 @@ function insertPerson($connection, $personId, $dateOfBirth, $email) {
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO person (PERSON_ID, DATE_OF_BIRTH, EMAIL, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES ('$personId', ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO person (PERSON_ID, DATE_OF_BIRTH, EMAIL, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES ('$personId', ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("ss", $dateOfBirth, $email);
@@ -1413,7 +1411,7 @@ function insertAddress($connection, $barangayId, $barangay, $address) {
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO address (ADDRESS_ID, BARANGAY, ADDRESS, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES ('$barangayId', ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO address (ADDRESS_ID, BARANGAY, ADDRESS, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES ('$barangayId', ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("ss", $barangay, $address);
@@ -1457,7 +1455,7 @@ function insertBloodType($connection, $personId, $bloodType) {
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO blood_type (BLOOD_TYPE_ID, PERSON_ID, BLOOD_TYPE, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO blood_type (BLOOD_TYPE_ID, PERSON_ID, BLOOD_TYPE, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("ss", $personId, $bloodType);
@@ -1479,7 +1477,7 @@ function insertCompany($connection, $personId, $company) {
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO company (COMPANY_ID, PERSON_ID, COMPANY, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO company (COMPANY_ID, PERSON_ID, COMPANY, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("ss", $personId, $company);
@@ -1501,7 +1499,7 @@ function insertEducationalAttainment($connection, $personId, $educationalAttainm
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO educational_attainment (EDUCATIONAL_ATTAINMENT_ID, PERSON_ID, EDUCATIONAL_ATTAINMENT, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO educational_attainment (EDUCATIONAL_ATTAINMENT_ID, PERSON_ID, EDUCATIONAL_ATTAINMENT, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("ss", $personId, $educationalAttainment);
@@ -1523,7 +1521,7 @@ function insertEmploymentStatus($connection, $personId, $employmentStatus, $cate
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO employment_status (EMPLOYMENT_STATUS_ID, PERSON_ID, EMPLOYMENT_STATUS, CATEGORY_OF_EMPLOYMENT, NATURE_OF_EMPLOYMENT, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO employment_status (EMPLOYMENT_STATUS_ID, PERSON_ID, EMPLOYMENT_STATUS, CATEGORY_OF_EMPLOYMENT, NATURE_OF_EMPLOYMENT, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("ssss", $personId, $employmentStatus, $categoryOfEmployment, $natureOfEmployment);
@@ -1545,7 +1543,7 @@ function insertGender($connection, $personId, $gender) {
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO gender (GENDER_ID, PERSON_ID, GENDER, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO gender (GENDER_ID, PERSON_ID, GENDER, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("ss", $personId, $gender);
@@ -1567,7 +1565,7 @@ function insertGovernmentMembership($connection, $personId, $isActiveVoter, $is4
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO government_membership (GOVERNMENT_MEMBERSHIP_ID, PERSON_ID, IS_ACTIVE_VOTER, IS_4PS_MEMBER, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO government_membership (GOVERNMENT_MEMBERSHIP_ID, PERSON_ID, IS_ACTIVE_VOTER, IS_4PS_MEMBER, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("sss", $personId, $isActiveVoter, $is4psMember);
@@ -1589,7 +1587,7 @@ function insertIdReferenceNumber($connection, $personId, $sssNumber, $gsisNumber
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO id_reference_number (ID_REFERENCE_NUMBER_ID, PERSON_ID, SSS_NUMBER, GSIS_NUMBER, PSN_NUMBER, IS_PHILHEALTH_MEMBER, PHILHEALTH_NUMBER, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO id_reference_number (ID_REFERENCE_NUMBER_ID, PERSON_ID, SSS_NUMBER, GSIS_NUMBER, PSN_NUMBER, IS_PHILHEALTH_MEMBER, PHILHEALTH_NUMBER, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("ssssss", $personId, $sssNumber, $gsisNumber, $psnNumber, $isPhilhealthMember, $philhealthNumber);
@@ -1611,7 +1609,7 @@ function insertIncome($connection, $personId, $monthlyIncome, $totalFamilyIncome
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO income (INCOME_ID, PERSON_ID, MONTHLY_INCOME, TOTAL_FAMILY_INCOME, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO income (INCOME_ID, PERSON_ID, MONTHLY_INCOME, TOTAL_FAMILY_INCOME, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("sis", $personId, $monthlyIncome, $totalFamilyIncome);
@@ -1633,7 +1631,7 @@ function insertJob($connection, $personId, $job, $otherJob) {
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO job (JOB_ID, PERSON_ID, JOB, OTHER_JOB, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO job (JOB_ID, PERSON_ID, JOB, OTHER_JOB, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("sss", $personId, $job, $otherJob);
@@ -1655,7 +1653,7 @@ function insertMaritalStatus($connection, $personId, $maritalStatus) {
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO marital_status (MARITAL_STATUS_ID, PERSON_ID, MARITAL_STATUS, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO marital_status (MARITAL_STATUS_ID, PERSON_ID, MARITAL_STATUS, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("ss", $personId, $maritalStatus);
@@ -1677,7 +1675,7 @@ function insertName($connection, $personId, $firstName, $middleName, $lastName, 
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO name (NAME_ID, PERSON_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO name (NAME_ID, PERSON_ID, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("sssss", $personId, $firstName, $middleName, $lastName, $suffix);
@@ -1699,7 +1697,7 @@ function insertOrganization($connection, $personId, $organizationAffiliated, $co
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO organization (ORGANIZATION_ID, PERSON_ID, ORGANIZATION_AFFILIATED, CONTACT_PERSON, OFFICE_ADDRESS, TELEPHONE_NUMBER, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO organization (ORGANIZATION_ID, PERSON_ID, ORGANIZATION_AFFILIATED, CONTACT_PERSON, OFFICE_ADDRESS, TELEPHONE_NUMBER, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("sssss", $personId, $organizationAffiliated, $contactPerson, $officeAddress, $telephoneNumber);
@@ -1721,7 +1719,7 @@ function insertPension($connection, $personId, $hasPension, $type, $amount) {
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO pension (PENSION_ID, PERSON_ID, HAS_PENSION, TYPE, AMOUNT, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO pension (PENSION_ID, PERSON_ID, HAS_PENSION, TYPE, AMOUNT, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("sssd", $personId, $hasPension, $type, $amount);
@@ -1743,7 +1741,7 @@ function insertPreviousAddress($connection, $personId, $region, $province, $city
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO previous_address (PREVIOUS_ADDRESS_ID, PERSON_ID, REGION, PROVINCE, CITY, BARANGAY, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO previous_address (PREVIOUS_ADDRESS_ID, PERSON_ID, REGION, PROVINCE, CITY, BARANGAY, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("sssss", $personId, $region, $province, $city, $barangay);
@@ -1765,7 +1763,7 @@ function insertPWDDisease($connection, $personId, $typeOfDisability, $medicalCon
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO pwd_disease (PWD_DISEASE_ID, PERSON_ID, TYPE_OF_DISABILITY, MEDICAL_CONDITION, CAUSE_OF_DISABILITY, CONGENITAL_INBORN, ACQUIRED, STATUS_OF_DISABILITY, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO pwd_disease (PWD_DISEASE_ID, PERSON_ID, TYPE_OF_DISABILITY, MEDICAL_CONDITION, CAUSE_OF_DISABILITY, CONGENITAL_INBORN, ACQUIRED, STATUS_OF_DISABILITY, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("sssssss", $personId, $typeOfDisability, $medicalCondition, $causeOfDisability, $congenitalInborn, $acquired, $statusOfDisability);
@@ -1787,7 +1785,7 @@ function insertPWDPhysician($connection, $personId, $pwdPhysicianName, $physicia
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO pwd_physician (PWD_PHYSICIAN_ID, PERSON_ID, PWD_PHYSICIAN_NAME, PHYSICIAN_LICENSE_NUMBER, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO pwd_physician (PWD_PHYSICIAN_ID, PERSON_ID, PWD_PHYSICIAN_NAME, PHYSICIAN_LICENSE_NUMBER, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("sss", $personId, $pwdPhysicianName, $physicianLicenseNumber);
@@ -1831,7 +1829,7 @@ function insertReligion($connection, $personId, $religion) {
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO religion (RELIGION_ID, PERSON_ID, RELIGION, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO religion (RELIGION_ID, PERSON_ID, RELIGION, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("ss", $personId, $religion);
@@ -1853,7 +1851,7 @@ function insertSoloParentLongText($connection, $personId, $classificationCircums
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO solo_parent_long_text (SOLO_PARENT_LONG_TEXT_ID, PERSON_ID, CLASSIFICATION_CIRCUMSTANCES, NEEDS_PROBLEMS, FAMILY_RESOURCES, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, CURDATE(), CURDATE(), 'N', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO solo_parent_long_text (SOLO_PARENT_LONG_TEXT_ID, PERSON_ID, CLASSIFICATION_CIRCUMSTANCES, NEEDS_PROBLEMS, FAMILY_RESOURCES, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, NOW(), NOW(), 'N', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("ssss", $personId, $classificationCircumstances, $needsProblems, $familyResources);
@@ -1875,7 +1873,7 @@ function insertTelephone($connection, $personId, $telephoneNumber) {
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO telephone (TELEPHONE_ID, PERSON_ID, TELEPHONE_NUMBER, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO telephone (TELEPHONE_ID, PERSON_ID, TELEPHONE_NUMBER, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
     
     // Bind the values to the placeholders
     $stmt->bind_param("ss", $personId, $telephoneNumber);
@@ -1898,7 +1896,7 @@ function insertLandline($connection, $personId, $landline) {
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO landline (LANDLINE_ID, PERSON_ID, LANDLINE_NUMBER, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO landline (LANDLINE_ID, PERSON_ID, LANDLINE_NUMBER, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
     
     // Bind the values to the placeholders
     $stmt->bind_param("ss", $personId, $landline);
@@ -1924,7 +1922,7 @@ function insertUserAccount($connection, $id_number, $applicantType, $personId, $
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO user_account (USER_ACCOUNT_ID, PERSON_ID, USERNAME, PASSWORD, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (?, ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO user_account (USER_ACCOUNT_ID, PERSON_ID, USERNAME, PASSWORD, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (?, ?, ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("ssss", $id_number, $personId, $id_number, $passwordHashed);
@@ -1948,7 +1946,7 @@ function insertTransactionType($connection, $personId, $transactionType, $IDNumb
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO transaction_type (TRANSACTION_TYPE_ID, PERSON_ID, TRANSACTION_TYPE, ID_NUMBER, STATUS, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, 'PENDING', CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO transaction_type (TRANSACTION_TYPE_ID, PERSON_ID, TRANSACTION_TYPE, ID_NUMBER, STATUS, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, 'PENDING', NOW(), NOW(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("sss", $personId, $transactionType, $IDNumber);
@@ -1971,7 +1969,7 @@ function insertPWDApplicationAccomplisher($connection, $personId, $accomplishedB
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
-    $stmt = $connection->prepare("INSERT INTO pwd_application_accomplisher (PWD_APLICATION_ACCOMPLISHER_ID, PERSON_ID, ACCOMPLISHED_BY, ACCOMPLISHER_NAME, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO pwd_application_accomplisher (PWD_APLICATION_ACCOMPLISHER_ID, PERSON_ID, ACCOMPLISHED_BY, ACCOMPLISHER_NAME, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("sss", $personId, $accomplishedBy, $accomplisherName);
@@ -1993,7 +1991,7 @@ function insertPWDApplicationAccomplisher($connection, $personId, $accomplishedB
 function insertIssuedId($connection, $personId, $applicantType, $currentDate, $expirationDate, $adminUsername) {
     // Prepare the SQL query
     global $isDeleted;
-    $stmt = $connection->prepare("INSERT INTO issued_id (ISSUED_ID_ID , PERSON_ID, APPLICANT_TYPE, DATE_ISSUED, EXPIRATION_DATE, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$adminUsername')");
+    $stmt = $connection->prepare("INSERT INTO issued_id (ISSUED_ID_ID , PERSON_ID, APPLICANT_TYPE, DATE_ISSUED, EXPIRATION_DATE, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, NOW(), NOW(), '$isDeleted', '$adminUsername')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("ssss", $personId, $applicantType, $currentDate, $expirationDate);
@@ -2016,7 +2014,7 @@ function insertClaimedBenefits($connection, $personId, $applicantType, $event_id
     global $isDeleted;
     global $getActiveUser;
     $status = "CLAIMED";
-    $stmt = $connection->prepare("INSERT INTO claimed_benefits (CLAIMED_BENEFITS_ID , PERSON_ID, EVENT_ID, APPLICATION_TYPE, STATUS_OF_CLAIMS, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO claimed_benefits (CLAIMED_BENEFITS_ID , PERSON_ID, EVENT_ID, APPLICATION_TYPE, STATUS_OF_CLAIMS, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("ssss", $personId, $event_id, $applicantType, $status);
@@ -2040,7 +2038,7 @@ function insertDrafts($connection, $applicationType, $applicantName, $applicantB
     global $isDeleted;
     global $getActiveUser;
     $status = "CLAIMED";
-    $stmt = $connection->prepare("INSERT INTO draft(DRAFT_ID, APPLICATION_TYPE, APPLICANT_NAME, APPLICANT_BARANGAY, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (?, ?, ?, ?, CURDATE(), CURDATE(), '$isDeleted', '$getActiveUser')");
+    $stmt = $connection->prepare("INSERT INTO draft(DRAFT_ID, APPLICATION_TYPE, APPLICANT_NAME, APPLICANT_BARANGAY, DATE_CREATED, DATE_UPDATED, IS_DELETED, UPDATED_BY) VALUES (?, ?, ?, ?, NOW(), NOW(), '$isDeleted', '$getActiveUser')");
 
     // Bind the values to the placeholders
     $stmt->bind_param("ssss", $formID, $applicationType, $applicantName, $applicantBarangay);
