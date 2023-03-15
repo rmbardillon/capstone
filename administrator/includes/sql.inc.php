@@ -1092,11 +1092,11 @@ function getApplicantData($connection, $username, $userType) {
 // Get Print ID
 function getPrintID($connection, $type) {
     $data = [];
-    $sql = "SELECT transaction_type.PERSON_ID, CONCAT(FIRST_NAME, ' ', LAST_NAME) AS NAME, APPLICANT_TYPE 
+    $sql = "SELECT transaction_type.PERSON_ID, TRANSACTION_TYPE, CONCAT(FIRST_NAME, ' ', LAST_NAME) AS NAME, APPLICANT_TYPE 
     FROM transaction_type 
     JOIN name ON transaction_type.PERSON_ID = name.PERSON_ID
     JOIN applicant ON transaction_type.PERSON_ID = applicant.APPLICANT_ID
-    WHERE transaction_type IN ('New Application', 'NEW ID', 'BAGO') AND APPLICANT_TYPE = '$type' AND STATUS = 'APPROVED' AND transaction_type.IS_DELETED = 'N';";
+    WHERE transaction_type IN ('New Application', 'NEW ID', 'BAGO', 'Renewal') AND APPLICANT_TYPE = '$type' AND STATUS = 'APPROVED' AND transaction_type.IS_DELETED = 'N';";
     try {
         $stmt = $connection->prepare($sql);
 
@@ -1134,7 +1134,7 @@ function getIDData($connection, $person_id) {
     JOIN name ON transaction_type.PERSON_ID = name.PERSON_ID
     JOIN applicant ON transaction_type.PERSON_ID = applicant.APPLICANT_ID
     JOIN user_account ON transaction_type.PERSON_ID = user_account.PERSON_ID
-    WHERE transaction_type IN ('New Application', 'NEW ID', 'BAGO') AND transaction_type.PERSON_ID = '$person_id' AND STATUS = 'APPROVED' AND transaction_type.IS_DELETED = 'N';";
+    WHERE transaction_type IN ('New Application', 'NEW ID', 'BAGO', 'Renewal') AND transaction_type.PERSON_ID = '$person_id' AND STATUS = 'APPROVED' AND transaction_type.IS_DELETED = 'N';";
     
     try {
         $stmt = $connection->prepare($sql);
@@ -1915,10 +1915,15 @@ function insertLandline($connection, $personId, $landline) {
 
 }
 
-function insertUserAccount($connection, $id_number, $applicantType, $personId, $username) {
+function insertUserAccount($connection, $id_number, $applicantType, $personId, $username, $email, $firstName, $surname) {
     // Generate a random password
     $password = generateRandomPassword();
     $passwordHashed = password_hash($password, PASSWORD_DEFAULT);
+    $message =  "Thank you for creating an account in our CSWD System!<br><br>" .
+            "Your account details are:<br>" .
+            "Username: $username<br>" .
+            "Password: $password<br><br>" .
+            "Please remember to update your security questions in your profile page to ensure the security of your account.";
     // Prepare the SQL query
     global $isDeleted;
     global $getActiveUser;
@@ -1929,6 +1934,7 @@ function insertUserAccount($connection, $id_number, $applicantType, $personId, $
 
     // Execute the query
     if($stmt->execute() === TRUE){
+        email("CSWDO Santa Rosa", "Account Creation", "populationmanagementsystem@gmail.com", "$firstName $surname", $email, $message);
         header("location: ../success.html?username=$username&password=$password");
         exit();
     } else {
@@ -2055,6 +2061,48 @@ function insertDrafts($connection, $applicationType, $applicantName, $applicantB
 
     // Close the statement
     $stmt->close();
+}
+
+// Insert Files
+function uploadFile($connection, $file, $personId, $docType) {
+    $fileName = $file['name'];
+    $fileTmpName = $file['tmp_name'];
+    $fileType = $file['type'];
+    $fileSize = $file['size'];
+    $fileError = $file['error'];
+
+    // Check if file was uploaded successfully
+    if ($fileError === UPLOAD_ERR_OK) {
+        // Create a unique name for the file
+        $newFileName = uniqid('', true) . '.' . pathinfo($fileName, PATHINFO_EXTENSION);
+
+        // Move the file to the documents folder
+        $uploadPath = '../documents/' . $docType . $newFileName;
+        if (move_uploaded_file($fileTmpName, $uploadPath)) {
+            // Prepare the SQL query
+            global $isDeleted;
+            global $getActiveUser;
+            $stmt = $connection->prepare("INSERT INTO document (DOCUMENT_ID, PERSON_ID, LOCATION, NAME, TYPE, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), '$personId', '$uploadPath', '$newFileName', '$fileType', '$getActiveUser')");
+            // Execute the query
+            if(!$stmt->execute() === TRUE){
+                $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+                header("location: ../error.html?error_message=" . urlencode($errorMessage));
+                exit();
+            }
+
+            // Close the statement
+            $stmt->close();
+
+            // Return the file name
+            return $newFileName;
+        } else {
+            // Return an error message
+            return 'Error uploading file';
+        }
+    } else {
+        // Return an error message
+        return 'Error uploading file';
+    }
 }
 
 function updateEmail($connection, $person_id) {

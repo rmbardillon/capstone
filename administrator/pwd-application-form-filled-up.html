@@ -266,7 +266,7 @@
               class="form-control"
               type="email"
               id="emailAddress"
-              name="emailAddress"
+              name="email"
               readonly
                 value="<?php echo($data['EMAIL']); ?>"
             />
@@ -1216,7 +1216,8 @@
           </div>
         </div>
         <?php endforeach; if(!isset($_GET['event'])){
-            if($adminData['admin_type'] == "Main Administrator" || ($adminData['admin_type'] == "PWD Administrator" && $adminData['barangay'] == "City Hall")){ ?>
+            if($adminData['admin_type'] == "Main Administrator" || ($adminData['admin_type'] == "PWD Administrator" && $adminData['barangay'] == "City Hall")){ 
+                if(!isset($_GET['approved'])) {?>
         <div class="row">
             <input type="hidden" name="person_id" value="<?php echo($PERSON_ID); ?>">
             <input type="hidden" name="application_type" value="<?php echo isset($_GET['applicationType']) ? $_GET['applicationType'] : ''; ?>">
@@ -1248,7 +1249,7 @@
               Reject
             </a>
           </div>
-        <?php }}} else { ?>
+        <?php }}}} else { ?>
             <div class="col">
                 <label class="form-label" for="claimantID"></label>
                 <input class="form-control mb-2" type="file" name="claimantID" id="claimantID">

@@ -5,6 +5,9 @@
     session_start();
     if (isset($_POST['pwdSubmit'])) {
         $PERSON_ID = $_POST['person_id'];
+        $email = $_POST['email'];
+        $firstName = $_POST['firstName'];
+        $surname = $_POST['surname'];
         $userData = getPWDData($connection, $PERSON_ID);
         $id_number = $userData[0]['CITIZEN_ID'];
         $applicantType = $_POST['APPLICANT_TYPE'];
@@ -26,11 +29,14 @@
             header("location: ../renewal-approved-requests.html?success=true");
             exit();
         } else {
-            insertUserAccount($connection, $id_number, $applicantType, $PERSON_ID, $id_number);
+            insertUserAccount($connection, $id_number, $applicantType, $PERSON_ID, $id_number, $email, $firstName, $surname);
         }
 
     } else if (isset($_POST['srCitizenApprove'])) {
         $PERSON_ID = $_POST['person_id'];
+        $email = $_POST['email'];
+        $firstName = $_POST['firstName'];
+        $surname = $_POST['surname'];
         $userData = getSeniorCitizenData($connection, $PERSON_ID);
         $id_number = $userData[0]['CITIZEN_ID'];
         $applicantType = $_POST['APPLICANT_TYPE'];
@@ -47,10 +53,13 @@
         }
         // Close the statement and the connection
         $stmt->close();
-        insertUserAccount($connection, $id_number, $applicantType, $PERSON_ID, $id_number);
+        insertUserAccount($connection, $id_number, $applicantType, $PERSON_ID, $id_number, $email, $firstName, $surname);
 
     } else if (isset($_POST['soloParentApprove'])) {
         $PERSON_ID = $_POST['person_id'];
+        $email = $_POST['email'];
+        $firstName = $_POST['firstName'];
+        $surname = $_POST['surname'];
         $userData = getSoloParentData($connection, $PERSON_ID);
         $id_number = $userData[0]['CITIZEN_ID'];
         $applicantType = $_POST['APPLICANT_TYPE'];
@@ -72,7 +81,7 @@
             header("location: ../renewal-approved-requests.html?success=true");
             exit();
         } else {
-            insertUserAccount($connection, $id_number, $applicantType, $PERSON_ID, $id_number);
+            insertUserAccount($connection, $id_number, $applicantType, $PERSON_ID, $id_number, $email, $firstName, $surname);
         }
     } 
 

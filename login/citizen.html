@@ -41,61 +41,80 @@
                     <h2><strong>CSWDO</strong>&nbsp;CITIZEN PORTAL</h2>
                     <p>Sign in to start your session</p>
                     <form action="../user/includes/login.inc.php" method="post">
-                        <div class="input-group"><span class="input-group-text"><i class="fas fa-user-alt fa-user"></i></span><input class="form-control" type="text" placeholder="Username/ID Number..." name="email" required></div>
-                        <div class="input-group" required><span class="input-group-text"><i class="fas fa-lock"></i></span><input class="form-control" type="password" placeholder="Password" id="password" name="password"><span class="input-group-text toggle-password"><i class="fas fa-eye"></i></span></div>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-user-alt fa-user"></i></span>
+                            <input class="form-control" type="text" placeholder="Username" name="email" required maxlength="64">
+                        </div>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                            <input class="form-control" type="password" placeholder="Password" id="password" name="password" required maxlength="64">
+                            <span class="input-group-text toggle-password"><i class="fas fa-eye"></i></span>
+                        </div>
+                        <div class="mb-3">
                         <?php
-                            if (isset($_GET["error"])) {
-                                if ($_GET["error"] == "wrongaccount"){
-                                echo "<div class='alert alert-danger d-flex align-items-center alert-dismissible fade show' role='alert'>
+                                if (isset($_GET["error"])) {
+                                    if ($_GET["error"] == "error"){
+                                    echo "<div class='alert alert-danger d-flex align-items-center alert-dismissible fade show' role='alert'>
+                                            <svg class='bi flex-shrink-0 me-2' width='24' height='24' role='img' aria-label='Danger:'><use xlink:href='#exclamation-triangle-fill'/></svg>
+                                            <div>
+                                                Username and Password does not match.
+                                            </div>
+                                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                            </div>";
+                                    }
+                                    else if ($_GET["error"] == "accountlocked"){
+                                    echo "<div class='alert alert-danger d-flex align-items-center alert-dismissible fade show' role='alert'>
+                                            <svg class='bi flex-shrink-0 me-2' width='24' height='24' role='img' aria-label='Danger:'><use xlink:href='#exclamation-triangle-fill'/></svg>
+                                            <div>
+                                                Your account is locked. Please contact the administrator.
+                                            </div>
+                                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                            </div>";
+                                    }
+                                    else if ($_GET["error"] == "notverified"){
+                                    echo "<div class='alert alert-danger d-flex align-items-center alert-dismissible fade show' role='alert'>
+                                            <svg class='bi flex-shrink-0 me-2' width='24' height='24' role='img' aria-label='Danger:'><use xlink:href='#exclamation-triangle-fill'/></svg>
+                                            <div>
+                                                Please verify your email to login.
+                                            </div>
+                                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                            </div>";
+                                    }
+                                }
+                                if (isset($_GET["newpwd"])) {
+                                    if ($_GET["newpwd"] == "passwordupdated") {
+                                        echo "<div class='alert alert-success d-flex align-items-center alert-dismissible fade show' role='alert'>
+                                            <svg class='bi flex-shrink-0 me-2' width='24' height='24' role='img' aria-label='Danger:'><use xlink:href='#exclamation-triangle-fill'/></svg>
+                                            <div>
+                                                Your password has been reset.
+                                            </div>
+                                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                            </div>";
+                                    }
+                                }
+                                if (isset($_GET["email"])) {
+                                    if ($_GET["email"] == "success") {
+                                        echo "<div class='alert alert-success d-flex align-items-center alert-dismissible fade show' role='alert'>
+                                            <svg class='bi flex-shrink-0 me-2' width='24' height='24' role='img' aria-label='Danger:'><use xlink:href='#exclamation-triangle-fill'/></svg>
+                                            <div>
+                                                Please validate your email address. We sent a link to your given email.
+                                            </div>
+                                            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+                                            </div>";
+                                    }
+                                }
+                                if (isset($_GET["login_attempts"])) {
+                                    $loginAttempts = 3 - (int)$_GET["login_attempts"];
+                                    echo "<div class='alert alert-danger d-flex align-items-center alert-dismissible fade show' role='alert'>
                                         <svg class='bi flex-shrink-0 me-2' width='24' height='24' role='img' aria-label='Danger:'><use xlink:href='#exclamation-triangle-fill'/></svg>
                                         <div>
-                                            User not existing.
+                                            You have $loginAttempts attempts left.
                                         </div>
                                         <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
                                         </div>";
                                 }
-                                else if ($_GET["error"] == "wrongpassword"){
-                                echo "<div class='alert alert-danger d-flex align-items-center alert-dismissible fade show' role='alert'>
-                                        <svg class='bi flex-shrink-0 me-2' width='24' height='24' role='img' aria-label='Danger:'><use xlink:href='#exclamation-triangle-fill'/></svg>
-                                        <div>
-                                            Password is incorrect.
-                                        </div>
-                                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                                        </div>";
-                                }
-                                else if ($_GET["error"] == "notverified"){
-                                echo "<div class='alert alert-danger d-flex align-items-center alert-dismissible fade show' role='alert'>
-                                        <svg class='bi flex-shrink-0 me-2' width='24' height='24' role='img' aria-label='Danger:'><use xlink:href='#exclamation-triangle-fill'/></svg>
-                                        <div>
-                                            Please verify your email to login.
-                                        </div>
-                                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                                        </div>";
-                                }
-                            }
-                            if (isset($_GET["newpwd"])) {
-                                if ($_GET["newpwd"] == "passwordupdated") {
-                                    echo "<div class='alert alert-success d-flex align-items-center alert-dismissible fade show' role='alert'>
-                                        <svg class='bi flex-shrink-0 me-2' width='24' height='24' role='img' aria-label='Danger:'><use xlink:href='#exclamation-triangle-fill'/></svg>
-                                        <div>
-                                            Your password has been reset.
-                                        </div>
-                                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                                        </div>";
-                                }
-                            }
-                            if (isset($_GET["email"])) {
-                                if ($_GET["email"] == "success") {
-                                    echo "<div class='alert alert-success d-flex align-items-center alert-dismissible fade show' role='alert'>
-                                        <svg class='bi flex-shrink-0 me-2' width='24' height='24' role='img' aria-label='Danger:'><use xlink:href='#exclamation-triangle-fill'/></svg>
-                                        <div>
-                                            Please validate your email address. We sent a link to your given email.
-                                        </div>
-                                        <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
-                                        </div>";
-                                }
-                            }
-                        ?>
+                            ?>
+                        </div>
                         <button class="btn btn-primary w-100 mb-2" type="submit" name="login">Log In</button>
                         <a class="text-danger" href="../user/forgot-password.html"><i class="fas fa-key"></i><b>&nbsp;Forgot Password</b></a>
                     </form>

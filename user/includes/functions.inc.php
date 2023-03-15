@@ -134,13 +134,58 @@ function loginCredentialsExists($connection, $username, $email) {
     mysqli_stmt_close($stmt);
 }
 
+function updateLoginAttempt($connection, $loginAttempts, $id) {
+    $sql = "UPDATE user_account SET LOGIN_ATTEMPTS = ? WHERE PERSON_ID = ?;";
+    try {
+        $stmt = $connection->prepare($sql);
+
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "ss", $loginAttempts, $id);
+    mysqli_stmt_execute($stmt); 
+    mysqli_stmt_close($stmt);
+}
+
+function updateAccountStatus($connection, $isLocked, $id) {
+    $sql = "UPDATE user_account SET IS_LOCKED = ? WHERE PERSON_ID = ?;";
+    try {
+        $stmt = $connection->prepare($sql);
+
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "ss", $isLocked, $id);
+    mysqli_stmt_execute($stmt); 
+    mysqli_stmt_close($stmt);
+}
+
 function loginUser($connection, $username, $password){
     $loginCredentialsExists = loginCredentialsExists($connection, $username, $username);
     if ($loginCredentialsExists === false) {
-        header("location: ../../login/citizen.html?error=wrongaccount");
+        header("location: ../../login/citizen.html?error=error");
         exit();
-    } else if ($loginCredentialsExists['is_verified'] == "0") {
-        header("location: ../../login/citizen.html?error=notverified");
+    }
+    if ($loginCredentialsExists['IS_LOCKED'] === 1) {
+        header("location: ../../login/citizen.html?error=accountlocked");
         exit();
     }
     
@@ -148,11 +193,20 @@ function loginUser($connection, $username, $password){
     $checkPassword = password_verify($password, $passwordhashed);
 
     if ($checkPassword === false) {
-        header("location: ../../login/citizen.html?error=wrongpassword");
+        $loginAttempts = $loginCredentialsExists['LOGIN_ATTEMPTS'] + 1;
+        updateLoginAttempt($connection, $loginAttempts, $loginCredentialsExists['PERSON_ID']);
+        $loginCredentialsExists = loginCredentialsExists($connection, $username, $username);
+        if($loginCredentialsExists['LOGIN_ATTEMPTS'] == 3) {
+            updateAccountStatus($connection, 1, $loginCredentialsExists['PERSON_ID']);
+            header("location: ../../login/citizen.html?error=accountlocked");
+            exit();
+        }
+        header("location: ../../login/citizen.html?login_attempts=$loginAttempts");
         exit();
     }
     else if($checkPassword === true) {
         session_start();
+        updateLoginAttempt($connection, 0, $loginCredentialsExists['PERSON_ID']);
         $_SESSION['username'] = $loginCredentialsExists['USERNAME'];
         $_SESSION['userData'] = $loginCredentialsExists;
         header("location: ../home.html");
@@ -595,26 +649,4 @@ function validatePassword($password) {
     }
 
     return $hasNumber && $hasUppercase && $hasSpecialChar && strlen($password) <= 64;
-}
-
-function updateLoginAttempt($connection, $loginAttempts, $id) {
-    $sql = "UPDATE user_account SET LOGIN_ATTEMPTS = ? WHERE PERSON_ID = ?;";
-    try {
-        $stmt = $connection->prepare($sql);
-
-        if (!$stmt) {
-            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
-            header("location: error.html?error_message=" . urlencode($errorMessage));
-            exit();
-        }
-    
-    } catch (Exception $e) {
-        $errorMessage =  "Error: " . $e->getMessage();
-        header("location: error.html?error_message=" . urlencode($errorMessage));
-        exit();
-    }
-
-    mysqli_stmt_bind_param($stmt, "ss", $loginAttempts, $id);
-    mysqli_stmt_execute($stmt); 
-    mysqli_stmt_close($stmt);
 }

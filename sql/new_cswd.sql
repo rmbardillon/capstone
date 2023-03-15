@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 14, 2023 at 03:55 PM
+-- Generation Time: Mar 15, 2023 at 04:20 PM
 -- Server version: 10.4.25-MariaDB
 -- PHP Version: 8.1.10
 
@@ -73,7 +73,7 @@ CREATE TABLE `announcement` (
   `BARANGAY` enum('All','City Hall','Aplaya','Balibago','Caingin','Dila','Dita','Don Jose','Ibaba','Kanluran','Labas','Macabling','Malitlit','Malusak','Market Area','Pook','Pulong Santa Cruz','Santo Domingo','Sinalhan','Tagapo') NOT NULL,
   `MESSAGE` varchar(1024) NOT NULL,
   `DATE_FROM` varchar(8) DEFAULT NULL,
-  `DATE` datetime NOT NULL DEFAULT current_timestamp(),
+  `DATE` date NOT NULL,
   `DATE_CREATED` datetime NOT NULL DEFAULT current_timestamp(),
   `DATE_UPDATED` datetime NOT NULL DEFAULT current_timestamp(),
   `IS_DELETED` char(1) NOT NULL DEFAULT 'N',
@@ -157,9 +157,9 @@ CREATE TABLE `company` (
 CREATE TABLE `document` (
   `DOCUMENT_ID` varchar(16) NOT NULL,
   `PERSON_ID` varchar(16) NOT NULL,
+  `LOCATION` varchar(64) NOT NULL,
   `NAME` varchar(128) NOT NULL,
   `TYPE` varchar(128) NOT NULL,
-  `CONTENT` varchar(128) NOT NULL,
   `DATE_CREATED` datetime NOT NULL DEFAULT current_timestamp(),
   `DATE_UPDATED` datetime NOT NULL DEFAULT current_timestamp(),
   `IS_DELETED` char(1) NOT NULL DEFAULT 'N',
@@ -575,7 +575,8 @@ CREATE TABLE `religion` (
 
 CREATE TABLE `security_questions` (
   `SECURITY_QUESTIONS_ID` varchar(16) NOT NULL,
-  `ADMINISTRATOR_ID` varchar(16) NOT NULL,
+  `ADMINISTRATOR_ID` varchar(16) DEFAULT NULL,
+  `PERSON_ID` varchar(16) DEFAULT NULL,
   `SECURITY_QUESTION_1` varchar(64) NOT NULL,
   `SECURITY_ANSWER_1` varchar(128) NOT NULL,
   `SECURITY_QUESTION_2` varchar(64) NOT NULL,
@@ -891,7 +892,8 @@ ALTER TABLE `religion`
 --
 ALTER TABLE `security_questions`
   ADD PRIMARY KEY (`SECURITY_QUESTIONS_ID`),
-  ADD KEY `FK_ADMINISTRATOR_SEC_QUESTIONS` (`ADMINISTRATOR_ID`);
+  ADD KEY `FK_ADMINISTRATOR_SEC_QUESTIONS` (`ADMINISTRATOR_ID`),
+  ADD KEY `FK_PERSON_SECURITY_QUESTIONS` (`PERSON_ID`);
 
 --
 -- Indexes for table `solo_parent_long_text`
@@ -1092,7 +1094,8 @@ ALTER TABLE `religion`
 -- Constraints for table `security_questions`
 --
 ALTER TABLE `security_questions`
-  ADD CONSTRAINT `FK_ADMINISTRATOR_SEC_QUESTIONS` FOREIGN KEY (`ADMINISTRATOR_ID`) REFERENCES `administrator` (`id`);
+  ADD CONSTRAINT `FK_ADMINISTRATOR_SECURITY_QUESTIONS` FOREIGN KEY (`ADMINISTRATOR_ID`) REFERENCES `administrator` (`id`),
+  ADD CONSTRAINT `FK_PERSON_SECURITY_QUESTIONS` FOREIGN KEY (`PERSON_ID`) REFERENCES `person` (`PERSON_ID`);
 
 --
 -- Constraints for table `solo_parent_long_text`
