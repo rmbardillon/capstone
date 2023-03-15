@@ -2,11 +2,19 @@
 
     require_once 'dbh.inc.php';
     require_once 'functions.inc.php';
+    require_once 'sql.inc.php';
 
     if (isset($_POST['update-profile'])) {
         session_start();
         $username = $_SESSION['username'];
+        $id = $_POST['person_id'];
         $image = $_FILES['file'];
+        $securityQuestion1 = $_POST["security_question1"];
+        $securityQuestion2 = $_POST["security_question2"];
+        $securityQuestion3 = $_POST["security_question3"];
+        $securityAnswer1 = $_POST["securityAnswer1"];
+        $securityAnswer2 = $_POST["securityAnswer2"];
+        $securityAnswer3 = $_POST["securityAnswer3"];
 
         if ($image['name'] != "") {
             $fileName = $image['name'];
@@ -33,4 +41,12 @@
                 exit();
             }
         }
+        $securityQuestions = getUserData($connection, "security_questions", "PERSON_ID", $id);
+        if($securityQuestions == null) {
+            insertSecurityQuestions($connection, $id, $securityQuestion1, $securityAnswer1, $securityQuestion2, $securityAnswer2, $securityQuestion3, $securityAnswer3);
+        } else {
+            updateSecurityQuestions($connection, $id, $securityQuestion1, $securityAnswer1, $securityQuestion2, $securityAnswer2, $securityQuestion3, $securityAnswer3);
+        }
+        header("location: ../profile.html?error=none");
+        exit();
     }

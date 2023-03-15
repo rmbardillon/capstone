@@ -1030,7 +1030,7 @@ function getEventsPer($connection, $event_id, $for, $barangay) {
 function getApplicantData($connection, $username, $userType) {
     $data = [];
     $username = $_SESSION['username'];
-    $sql = "SELECT APPLICANT_TYPE, TRANSACTION_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, EMAIL, DATE_OF_BIRTH, transaction_type.DATE_UPDATED, transaction_type.UPDATED_BY, STATUS
+    $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, TRANSACTION_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, EMAIL, DATE_OF_BIRTH, transaction_type.DATE_UPDATED, transaction_type.UPDATED_BY, STATUS
     FROM person 
     JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
     JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
@@ -1215,7 +1215,7 @@ function getSecurityQuestions($connection, $person_id) {
     $data = [];
     $sql = "SELECT *
     FROM security_questions 
-    WHERE ADMINISTRATOR_ID='$person_id';";
+    WHERE PERSON_ID='$person_id';";
     try {
         $stmt = $connection->prepare($sql);
 
@@ -2002,6 +2002,42 @@ function insertDrafts($connection, $applicationType, $applicantName, $applicantB
         $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
         header("location: ../error.html?error_message=" . urlencode($errorMessage));
         exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+function insertSecurityQuestions($connection, $id, $securityQ1, $securityAnswer1, $securityQ2, $securityAnswer2,  $securityQ3, $securityAnswer3) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("INSERT INTO security_questions(SECURITY_QUESTIONS_ID, PERSON_ID, SECURITY_QUESTION_1, SECURITY_ANSWER_1, SECURITY_QUESTION_2, SECURITY_ANSWER_2, SECURITY_QUESTION_3, SECURITY_ANSWER_3) VALUES (LEFT(REPLACE(UUID(),'-',''),16), ?, ?, ?, ?, ?, ?, ?)");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("sssssss", $id, $securityQ1, $securityAnswer1, $securityQ2, $securityAnswer2, $securityQ3, $securityAnswer3);
+
+    // Execute the query
+    if($stmt->execute() === FALSE){
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();        
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+function updateSecurityQuestions($connection, $id, $securityQ1, $securityAnswer1, $securityQ2, $securityAnswer2,  $securityQ3, $securityAnswer3) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE security_questions SET SECURITY_QUESTION_1 = ?, SECURITY_ANSWER_1 = ?, SECURITY_QUESTION_2 = ?, SECURITY_ANSWER_2 = ?, SECURITY_QUESTION_3 = ?, SECURITY_ANSWER_3 = ? WHERE PERSON_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("sssssss", $securityQ1, $securityAnswer1, $securityQ2, $securityAnswer2, $securityQ3, $securityAnswer3, $id);
+
+    // Execute the query
+    if($stmt->execute() === FALSE){
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();        
     }
 
     // Close the statement

@@ -577,3 +577,44 @@ function getAnnouncements($connection, $barangay, $for, $userBirthday) {
     }
     return $data;
 }
+
+//password validation
+function validatePassword($password) {
+    $hasNumber = false;
+    $hasUppercase = false;
+    $hasSpecialChar = false;
+
+    for ($i = 0; $i < strlen($password); $i++) {
+        if (is_numeric($password[$i])) {
+            $hasNumber = true;
+        } else if (ctype_upper($password[$i])) {
+            $hasUppercase = true;
+        } else if (ctype_punct($password[$i])) {
+            $hasSpecialChar = true;
+        }
+    }
+
+    return $hasNumber && $hasUppercase && $hasSpecialChar && strlen($password) <= 64;
+}
+
+function updateLoginAttempt($connection, $loginAttempts, $id) {
+    $sql = "UPDATE user_account SET LOGIN_ATTEMPTS = ? WHERE PERSON_ID = ?;";
+    try {
+        $stmt = $connection->prepare($sql);
+
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "ss", $loginAttempts, $id);
+    mysqli_stmt_execute($stmt); 
+    mysqli_stmt_close($stmt);
+}

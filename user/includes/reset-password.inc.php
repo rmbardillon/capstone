@@ -1,24 +1,37 @@
 <?php
-
+require 'dbh.inc.php';
+require 'functions.inc.php';
 if(isset($_POST["reset-password-submit"])){
 
     $selector = $_POST["selector"];
     $validator = $_POST["validator"];
+    $email = $_POST["email"];
     $password = $_POST["pwd"];
     $passwordRepeat = $_POST["pwd-repeat"];
 
     if(empty($password) || empty($passwordRepeat)){
-        header("Location: ../create-new-password.html?newpwd=empty");
+        header("Location: ../create-new-password.html?error=empty&selector=" . $selector . "&validator=" . $validator . "&email=" . $email);
         exit();
     }
     else if($password != $passwordRepeat){
-        header("Location: ../create-new-password.html?newpwd=pwdnotsame");
+        header("Location: ../create-new-password.html?error=passwordcheck&selector=" . $selector . "&validator=" . $validator . "&email=" . $email);
+        exit();
+    }
+    if(!validatePassword($password)) {
+        header("Location: ../create-new-password.html?error=invalidpassword&selector=" . $selector . "&validator=" . $validator . "&email=" . $email);
+        exit();
+    }
+    $userdata = loginCredentialsExists($connection, $email, $email);
+
+    $passwordhashed = $userdata['password'];
+    $checkPassword = password_verify($password, $passwordhashed);
+
+    if($checkPassword){
+        header("Location: ../create-new-password.html?error=useoldpassword&selector=" . $selector . "&validator=" . $validator . "&email=" . $email);
         exit();
     }
 
     $currentDate = date("U");
-
-    require 'dbh.inc.php';
 
     $sql = "SELECT * FROM pwdReset WHERE pwdResetSelector =? AND pwdResetExpires >= ?";
     $stmt = mysqli_stmt_init($connection);
@@ -45,7 +58,9 @@ if(isset($_POST["reset-password-submit"])){
             }
             else if ($tokenCheck === true){
                 $tokenEmail = $row['pwdResetEmail'];
-                $sql = "SELECT * FROM user_account WHERE EMAIl=?;";
+                $sql = "SELECT * FROM user_account 
+                JOIN person ON user_account.PERSON_ID = person.PERSON_ID
+                WHERE person.EMAIL=?;";
                 $stmt = mysqli_stmt_init($connection);
                 if(!mysqli_stmt_prepare($stmt, $sql)){
                     echo "There was an error!";
@@ -60,7 +75,10 @@ if(isset($_POST["reset-password-submit"])){
                         exit();
                     }
                     else{
-                        $sql = "UPDATE user_account SET PASSWORD=? WHERE EMAIL=?";
+                        $sql = "UPDATE user_account 
+                        JOIN person ON user_account.PERSON_ID = person.PERSON_ID
+                        SET PASSWORD=? 
+                        WHERE person.EMAIL=?;";
                         $stmt = mysqli_stmt_init($connection);
                         if(!mysqli_stmt_prepare($stmt, $sql)){
                             echo "There was an error!";
@@ -78,8 +96,15 @@ if(isset($_POST["reset-password-submit"])){
                                 exit();
                             }
                             else{
+                                $message =  "Your password has been successfully reset.<br><br>" .
+                                            "Please log in to your account with your new password.<br>" .
+                                            "If you have any further questions or concerns, please contact our support team.<br><br>" .
+                                            "Thank you.";
                                 mysqli_stmt_bind_param($stmt, "s", $tokenEmail);
                                 mysqli_stmt_execute($stmt);
+                                $loginCredentialsExists = loginCredentialsExists($connection, $tokenEmail, $tokenEmail);
+                                updateLoginAttempt($connection, 0, $loginCredentialsExists['PERSON_ID']);
+                                email("CSWDO Santa Rosa", "Reset Password Sucessfull", "populationmanagementsystem@gmail.com", "", $tokenEmail, $message);
                                 header("Location: ../../login/citizen.html?newpwd=passwordupdated");
                             }
                         }
@@ -89,10 +114,6 @@ if(isset($_POST["reset-password-submit"])){
             }
         }
     }
-
-
-
-
 }
 else{
     header ("Location: ../index.php");

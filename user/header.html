@@ -14,6 +14,7 @@
             $userType = "Solo Parent";
         }
         $data = getApplicantData($connection, $username, $userType);
+        $securityQuestions = getSecurityQuestions($connection, $data[0]['PERSON_ID']);
         $totalPWD = (int) getTotalCitizen($connection, "PWD");
         $totalSoloParent = (int) getTotalCitizen($connection, "Solo Parent");
         $totalSeniorCitizen = (int) getTotalCitizen($connection, "Senior Citizen");
