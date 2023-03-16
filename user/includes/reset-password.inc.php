@@ -21,9 +21,26 @@ if(isset($_POST["reset-password-submit"])){
         header("Location: ../create-new-password.html?error=invalidpassword&selector=" . $selector . "&validator=" . $validator . "&email=" . $email);
         exit();
     }
-    $userdata = loginCredentialsExists($connection, $email, $email);
+    $sql = "SELECT * FROM user_account 
+        JOIN person ON user_account.PERSON_ID = person.PERSON_ID
+        WHERE EMAIL = '$email' OR USERNAME = '$email'";
+    $stmt = mysqli_stmt_init($connection);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../index.html?error=stmterror");
+        exit();
+    }
 
-    $passwordhashed = $userdata['password'];
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+    if ($row = mysqli_fetch_assoc($result)) {
+        $passwordhashed = $row['PASSWORD'];
+    } 
+    else {
+        $result = false;
+    }
+
+    mysqli_stmt_close($stmt);
     $checkPassword = password_verify($password, $passwordhashed);
 
     if($checkPassword){

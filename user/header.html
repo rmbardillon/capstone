@@ -81,9 +81,9 @@
                         <button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
                         <ul class="navbar-nav flex-nowrap ms-auto">
                             <div class="d-none d-sm-block topbar-divider"></div>
-                            <li class="nav-item dropdown no-arrow">
-                                <div class="nav-item dropdown no-arrow">
-                                    <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
+                            <li class="nav-item dropdown no-arrow profileDropdown">
+                                <div class="nav-item dropdown no-arrow profileDropdown">
+                                    <a class="dropdown-toggle nav-link profileDropdown" aria-expanded="false" data-bs-toggle="dropdown" href="#">
                                         <span class="d-none d-lg-inline me-2 text-gray-600 small"><?php foreach($data as $userData) echo($userData['FIRST_NAME']." ".$userData['LAST_NAME']) ?></span>
                                         <?php if(!empty($profile)) foreach($profile as $image): ?>
                                             <img class="border rounded-circle img-profile" src="uploads/<?php echo($image['IMAGE_LOCATION']); ?>">
