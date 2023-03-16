@@ -1,3 +1,37 @@
+// Sweet Alert
+$("#logout").click(function(event) {
+    event.preventDefault(); // prevent the default behavior of the anchor tag
+
+    Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: 'Are you sure you want to logout?',
+        showConfirmButton: true,
+        showCancelButton: true, // show "Cancel" button
+        confirmButtonColor: '#dc3545', // set color of "OK" button
+        cancelButtonColor: '#6c757d', // set color of "Cancel" button
+        confirmButtonText: 'Yes, log out',
+        cancelButtonText: 'Cancel' // customize text of "Cancel" button
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // User clicked "OK", perform deletion here
+            $.ajax({
+                url: "includes/logout.inc.php", // use the stored URL for the AJAX request
+                method: 'POST',
+                success: function(response) {
+                    // Handle successful deletion here
+                    console.log(response);
+                    // Redirect to the URL specified in the href attribute
+                    window.location.href = "../login/citizen.html";
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    // Handle error here
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        }
+    });
+});
 // Monitor Form Changes
 $(document).ready(function() {
     // Store initial form values on page load

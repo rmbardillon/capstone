@@ -402,8 +402,6 @@ $(".deleteAdmin").click(function(event) {
 $("#logout").click(function(event) {
     event.preventDefault(); // prevent the default behavior of the anchor tag
 
-    const deleteUrl = $(this).attr('href'); // store the URL of the anchor tag
-
     Swal.fire({
         position: 'center',
         icon: 'warning',
@@ -418,16 +416,13 @@ $("#logout").click(function(event) {
         if (result.isConfirmed) {
             // User clicked "OK", perform deletion here
             $.ajax({
-                url: deleteUrl, // use the stored URL for the AJAX request
+                url: "includes/logout.inc.php", // use the stored URL for the AJAX request
                 method: 'POST',
-                data: {
-                    delete: "<?php echo $announcement['ANNOUNCEMENT_ID']; ?>"
-                },
                 success: function(response) {
                     // Handle successful deletion here
                     console.log(response);
                     // Redirect to the URL specified in the href attribute
-                    window.location.href = deleteUrl;
+                    window.location.href = "../login/admin.html";
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     // Handle error here
