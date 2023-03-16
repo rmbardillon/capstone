@@ -1033,8 +1033,8 @@ function getApplicantData($connection, $username, $userType) {
     $sql = "SELECT p.PERSON_ID, a.APPLICANT_TYPE, t.TRANSACTION_TYPE, n.FIRST_NAME, n.MIDDLE_NAME, n.LAST_NAME, n.SUFFIX, ad.BARANGAY, ad.ADDRESS, p.EMAIL, p.DATE_OF_BIRTH, t.DATE_UPDATED, t.UPDATED_BY, t.STATUS, i.EXPIRATION_DATE
     FROM person p
     JOIN applicant a ON p.PERSON_ID = a.APPLICANT_ID
-    JOIN issued_id i ON p.PERSON_ID = i.PERSON_ID
-    JOIN (
+    LEFT JOIN issued_id i ON p.PERSON_ID = i.PERSON_ID
+    LEFT JOIN (
     SELECT PERSON_ID, MAX(EXPIRATION_DATE) AS MAX_EXPIRATION_DATE
     FROM issued_id
     GROUP BY PERSON_ID

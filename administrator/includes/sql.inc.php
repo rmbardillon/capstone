@@ -2235,17 +2235,16 @@ function checkExpiration($connection, $person_id) {
 }
 
 function lockExpiredAccounts($connection) {
-    $stmt = $connection->prepare("UPDATE user_account SET IS_LOCKED = 1 
-    WHERE PERSON_ID IN 
-    (SELECT PERSON_ID
-    FROM issued_id
-    WHERE EXPIRATION_DATE < NOW()
-    AND EXPIRATION_DATE = (
-    SELECT MAX(EXPIRATION_DATE)
-    FROM issued_id
-    WHERE PERSON_ID = issued_id.PERSON_ID
-    )
-    );");
+    $stmt = $connection->prepare("UPDATE user_account 
+        LEFT JOIN (
+            SELECT PERSON_ID, MAX(EXPIRATION_DATE) AS MAX_EXPIRATION_DATE
+            FROM issued_id
+            GROUP BY PERSON_ID
+        ) AS issued_max
+        ON user_account.PERSON_ID = issued_max.PERSON_ID
+        SET user_account.IS_LOCKED = 1 
+        WHERE issued_max.MAX_EXPIRATION_DATE < NOW()
+        AND user_account.PERSON_ID IS NOT NULL;");
     // Execute the query
     if($stmt->execute() === TRUE){
         echo "Successfully updated";
