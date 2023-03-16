@@ -609,6 +609,13 @@
                 </div>
             </div>
         </div>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script>
+            var result = '<?php echo $_GET["warning"]; ?>';
+            if(result == "true") {
+                swal("Warning!", "Your account will lock in <?php echo($_GET['expirationDate']) ?>. Please process your renewal.", "warning");
+            }
+        </script>
     <?php
         include "footer.html";
     ?>

@@ -593,24 +593,40 @@ function getPWDStatus($connection, $status, $barangay, $transactionType) {
     $data = [];
     if(!empty($barangay)) {
         $sql = "SELECT person.PERSON_ID, applicant.APPLICANT_TYPE, CONCAT(LAST_NAME, ' ', CASE WHEN SUFFIX IS NOT NULL THEN CONCAT(' ', SUFFIX) ELSE '' END, FIRST_NAME,' ',
-              CASE WHEN MIDDLE_NAME IS NOT NULL AND MIDDLE_NAME <> '' THEN CONCAT(LEFT(MIDDLE_NAME, 1), '. ') ELSE '' END) AS NAME, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS, transaction_type.TRANSACTION_TYPE, transaction_type.DATE_UPDATED, transaction_type.UPDATED_BY
+              CASE WHEN MIDDLE_NAME IS NOT NULL AND MIDDLE_NAME <> '' THEN CONCAT(LEFT(MIDDLE_NAME, 1), '. ') ELSE '' END) AS NAME, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS, transaction_type.TRANSACTION_TYPE, transaction_type.DATE_UPDATED, transaction_type.UPDATED_BY, EXPIRATION_DATE
         FROM person 
         JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
         JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
         JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        JOIN issued_id ON person.PERSON_ID = issued_id.PERSON_ID
         JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
         JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
         WHERE applicant.APPLICANT_TYPE = 'PWD' AND STATUS = '$status' AND (address.BARANGAY = '$barangay' OR '$barangay' = 'City Hall') AND transaction_type.TRANSACTION_TYPE = '$transactionType' AND person.IS_DELETED = 'N'";
     } else {
-        $sql = "SELECT person.PERSON_ID, applicant.APPLICANT_TYPE, CONCAT(LAST_NAME, ' ', CASE WHEN SUFFIX IS NOT NULL THEN CONCAT(' ', SUFFIX) ELSE '' END, FIRST_NAME,' ',
-              CASE WHEN MIDDLE_NAME IS NOT NULL AND MIDDLE_NAME <> '' THEN CONCAT(LEFT(MIDDLE_NAME, 1), '. ') ELSE '' END) AS NAME, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS, transaction_type.TRANSACTION_TYPE, transaction_type.DATE_UPDATED, transaction_type.UPDATED_BY
+        $sql = "SELECT 
+        person.PERSON_ID, 
+        applicant.APPLICANT_TYPE, 
+        CONCAT(LAST_NAME, ' ', CASE WHEN SUFFIX IS NOT NULL THEN CONCAT(' ', SUFFIX) ELSE '' END, FIRST_NAME,' ', CASE WHEN MIDDLE_NAME IS NOT NULL AND MIDDLE_NAME <> '' THEN CONCAT(LEFT(MIDDLE_NAME, 1), '. ') ELSE '' END) AS NAME, 
+        address.BARANGAY, 
+        ADDRESS, 
+        DATE_OF_BIRTH, 
+        STATUS, 
+        transaction_type.TRANSACTION_TYPE, 
+        transaction_type.DATE_UPDATED, 
+        transaction_type.UPDATED_BY, 
+        MAX(issued_id.EXPIRATION_DATE) AS EXPIRATION_DATE
         FROM person 
         JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
         JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
         JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        LEFT JOIN issued_id ON person.PERSON_ID = issued_id.PERSON_ID
         JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
         JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
-        WHERE applicant.APPLICANT_TYPE = 'PWD' AND STATUS = '$status' AND transaction_type.TRANSACTION_TYPE = '$transactionType' AND person.IS_DELETED = 'N'";
+        WHERE applicant.APPLICANT_TYPE = 'PWD' 
+        AND STATUS = '$status' 
+        AND transaction_type.TRANSACTION_TYPE = '$transactionType' 
+        AND person.IS_DELETED = 'N'
+        GROUP BY person.PERSON_ID";
     }
     
     try {
@@ -657,14 +673,15 @@ function getSoloParentStatus($connection, $status, $barangay, $transactionType) 
         WHERE APPLICANT_TYPE = 'Solo Parent' AND STATUS = '$status' AND (address.BARANGAY = '$barangay' OR '$barangay' = 'City Hall') AND transaction_type.TRANSACTION_TYPE = '$transactionType' AND person.IS_DELETED = 'N'";
     } else {
         $sql = "SELECT person.PERSON_ID, applicant.APPLICANT_TYPE, CONCAT(LAST_NAME, ' ', CASE WHEN SUFFIX IS NOT NULL THEN CONCAT(' ', SUFFIX) ELSE '' END, FIRST_NAME,' ',
-              CASE WHEN MIDDLE_NAME IS NOT NULL AND MIDDLE_NAME <> '' THEN CONCAT(LEFT(MIDDLE_NAME, 1), '. ') ELSE '' END) AS NAME, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS, transaction_type.TRANSACTION_TYPE, transaction_type.DATE_UPDATED, transaction_type.UPDATED_BY
+              CASE WHEN MIDDLE_NAME IS NOT NULL AND MIDDLE_NAME <> '' THEN CONCAT(LEFT(MIDDLE_NAME, 1), '. ') ELSE '' END) AS NAME, address.BARANGAY, ADDRESS, DATE_OF_BIRTH, STATUS, transaction_type.TRANSACTION_TYPE, transaction_type.DATE_UPDATED, transaction_type.UPDATED_BY, MAX(issued_id.EXPIRATION_DATE) AS EXPIRATION_DATE
         FROM person 
         JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
         JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
         JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
+        LEFT JOIN issued_id ON person.PERSON_ID = issued_id.PERSON_ID
         JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
         JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
-        WHERE applicant.APPLICANT_TYPE = 'Solo Parent' AND STATUS = '$status' AND transaction_type.TRANSACTION_TYPE = '$transactionType' AND person.IS_DELETED = 'N'";
+        WHERE applicant.APPLICANT_TYPE = 'Solo Parent' AND STATUS = '$status' AND transaction_type.TRANSACTION_TYPE = '$transactionType' AND person.IS_DELETED = 'N' GROUP BY person.PERSON_ID";
     }
     try {
         $stmt = $connection->prepare($sql);
@@ -1092,11 +1109,12 @@ function getApplicantData($connection, $username, $userType) {
 // Get Print ID
 function getPrintID($connection, $type) {
     $data = [];
-    $sql = "SELECT transaction_type.PERSON_ID, TRANSACTION_TYPE, CONCAT(FIRST_NAME, ' ', LAST_NAME) AS NAME, APPLICANT_TYPE 
+    $sql = "SELECT transaction_type.PERSON_ID AS PERSON, TRANSACTION_TYPE, CONCAT(FIRST_NAME, ' ', LAST_NAME) AS NAME, applicant.APPLICANT_TYPE, issued_id.PERSON_ID
     FROM transaction_type 
     JOIN name ON transaction_type.PERSON_ID = name.PERSON_ID
+    LEFT JOIN issued_id ON transaction_type.PERSON_ID = issued_id.PERSON_ID
     JOIN applicant ON transaction_type.PERSON_ID = applicant.APPLICANT_ID
-    WHERE transaction_type IN ('New Application', 'NEW ID', 'BAGO', 'Renewal') AND APPLICANT_TYPE = '$type' AND STATUS = 'APPROVED' AND transaction_type.IS_DELETED = 'N';";
+    WHERE transaction_type IN ('New Application', 'NEW ID', 'BAGO', 'Renewal') AND applicant.APPLICANT_TYPE = '$type' AND STATUS = 'APPROVED' AND issued_id.IS_DELETED = 'N';";
     try {
         $stmt = $connection->prepare($sql);
 
@@ -2189,4 +2207,75 @@ function deleteUserData($connection, $person_id, $applicantType, $application_ty
         header("location: ../error.html?error_message=" . urlencode($errorMessage));
         exit();
     }
+}
+
+function checkExpiration($connection, $person_id) {
+    $sql = "SELECT *
+            FROM issued_id
+            WHERE EXPIRATION_DATE BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH) AND DATE_ADD(NOW(), INTERVAL 1 YEAR);";
+
+    $stmt = mysqli_stmt_init($connection);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../index.html?error=stmterror");
+        exit();
+    }
+
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+    if ($row = mysqli_fetch_assoc($result)) {
+        return $row;
+    } 
+    else {
+        $result = false;
+        return $result;
+    }
+
+    mysqli_stmt_close($stmt);
+}
+
+function lockExpiredAccounts($connection) {
+    $stmt = $connection->prepare("UPDATE user_account SET IS_LOCKED = 1 
+    WHERE PERSON_ID IN 
+    (SELECT PERSON_ID
+    FROM issued_id
+    WHERE EXPIRATION_DATE < NOW()
+    AND EXPIRATION_DATE = (
+    SELECT MAX(EXPIRATION_DATE)
+    FROM issued_id
+    WHERE PERSON_ID = issued_id.PERSON_ID
+    )
+    );");
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+// Update Transaction Type
+function updateIssuedID($connection, $person_id) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE issued_id SET IS_DELETED = 'Y' WHERE PERSON_ID = ? AND IS_DELETED = 'N';");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("s", $person_id);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
 }

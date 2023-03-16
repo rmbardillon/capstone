@@ -29,17 +29,22 @@
                                 <th>Application Type</th>
                                 <th>Print Front</th>
                                 <th>Print Back</th>
+                                <th>Mark as Done</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php $i = 1; foreach($pwdPrintID as $print): ?>
                             <tr>
+                                <input type="hidden" id="applicant_type" value="<?php echo($print['APPLICANT_TYPE']); ?>">
+                                <input type="hidden" id="person_id" value="<?php echo($print['PERSON']); ?>">
+                                <input type="hidden" id="admin_username" value="<?php echo($_SESSION['admin-data']['username']); ?>">
                                 <td><?php echo($i); ?></td>
                                 <td><?php echo($print['NAME']); ?></td>
                                 <td><?php echo($print['APPLICANT_TYPE']); ?></td>
                                 <td><?php echo($print['TRANSACTION_TYPE']); ?></td>
                                 <td><a class="btn btn-secondary" href="id/pwd-id-front.html?person_id=<?php echo($print['PERSON_ID']); ?>" target="_blank">Print</a></td>
                                 <td><a class="btn btn-secondary" href="id/pwd-id-back.html?person_id=<?php echo($print['PERSON_ID']); ?>" target="_blank">Print</a></td>
+                                <td><button class="btn btn-secondary markAsDone">Mark As Done</button></td>
                             </tr>
                             <?php $i++; endforeach; ?>
                         </tbody>
@@ -66,17 +71,22 @@
                                 <th>Application Type</th>
                                 <th>Print Front</th>
                                 <th>Print Back</th>
+                                <th>Mark as Done</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php $i = 1; foreach($soloParentPrintID as $print): ?>
                             <tr>
+                                <input type="hidden" id="applicant_type" value="<?php echo($print['APPLICANT_TYPE']); ?>">
+                                <input type="hidden" id="person_id" value="<?php echo($print['PERSON']); ?>">
+                                <input type="hidden" id="admin_username" value="<?php echo($_SESSION['admin-data']['username']); ?>">
                                 <td><?php echo($i); ?></td>
                                 <td><?php echo($print['NAME']); ?></td>
                                 <td><?php echo($print['APPLICANT_TYPE']); ?></td>
                                 <td><?php echo($print['TRANSACTION_TYPE']); ?></td>
                                 <td><a class="btn btn-secondary" href="id/sp-id-front.html?person_id=<?php echo($print['PERSON_ID']); ?>" target="_blank">Print</a></td>
                                 <td><a class="btn btn-secondary" href="id/sp-id-back.html?person_id=<?php echo($print['PERSON_ID']); ?>" target="_blank">Print</a></td>
+                                <td><button class="btn btn-secondary markAsDone">Mark As Done</button></td>
                             </tr>
                             <?php $i++; endforeach; ?>
                         </tbody>
@@ -103,17 +113,22 @@
                                 <th>Application Type</th>
                                 <th>Print Front</th>
                                 <th>Print Back</th>
+                                <th>Mark as Done</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php $i = 1; foreach($seniorCitizenPrintID as $print): ?>
                             <tr>
+                                <input type="hidden" id="applicant_type" value="<?php echo($print['APPLICANT_TYPE']); ?>">
+                                <input type="hidden" id="person_id" value="<?php echo($print['PERSON']); ?>">
+                                <input type="hidden" id="admin_username" value="<?php echo($_SESSION['admin-data']['username']); ?>">
                                 <td><?php echo($i); ?></td>
                                 <td><?php echo($print['NAME']); ?></td>
                                 <td><?php echo($print['APPLICANT_TYPE']); ?></td>
                                 <td><?php echo($print['TRANSACTION_TYPE']); ?></td>
                                 <td><a class="btn btn-secondary" href="id/sc-id-front.html?person_id=<?php echo($print['PERSON_ID']); ?>" target="_blank">Print</a></td>
                                 <td><a class="btn btn-secondary" href="id/sc-id-back.html?person_id=<?php echo($print['PERSON_ID']); ?>" target="_blank">Print</a></td>
+                                <td><button class="btn btn-secondary markAsDone">Mark As Done</button></td>
                             </tr>
                             <?php $i++; endforeach; ?>
                         </tbody>
@@ -123,6 +138,15 @@
         </div>
     </div>
     <?php } ?>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        var result = '<?php echo $_GET["success"]; ?>';
+        if(result == "true") {
+            swal("Success!", "Your ID has been printed successfully!", "success");
+        } else {
+            swal("Error!", "Something went wrong!", "error");
+        }
+    </script>
 <?php
     include "footer.html";
 ?>

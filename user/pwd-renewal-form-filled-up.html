@@ -13,7 +13,7 @@
     $guardian = getGuardianData($connection, $PERSON_ID);
 
     $result = array_map(null, $userData, $genderData, $mother, $father, $guardian);
-    if (!isset($_SESSION['admin-data'])) {
+    if (!isset($_SESSION['username'])) {
         header("location: ../login/admin.html");
         exit();
     }

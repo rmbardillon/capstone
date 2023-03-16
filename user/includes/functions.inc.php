@@ -207,11 +207,42 @@ function loginUser($connection, $username, $password){
     else if($checkPassword === true) {
         session_start();
         updateLoginAttempt($connection, 0, $loginCredentialsExists['PERSON_ID']);
+        $_SESSION['isNearingExpiration'] = $isNearingExpiration = checkExpiration($connection, $loginCredentialsExists['PERSON_ID']);
         $_SESSION['username'] = $loginCredentialsExists['USERNAME'];
         $_SESSION['userData'] = $loginCredentialsExists;
+        if($isNearingExpiration != false) {
+            header("location: ../home.html?warning=true&expirationDate=".$_SESSION['isNearingExpiration']['EXPIRATION_DATE']);
+            exit();
+        }
         header("location: ../home.html");
         exit();
     }
+}
+
+function checkExpiration($connection, $person_id) {
+    $sql = "SELECT *
+            FROM issued_id
+            WHERE EXPIRATION_DATE > CURRENT_DATE() AND EXPIRATION_DATE < DATE_ADD(CURRENT_DATE(), INTERVAL 1 MONTH) AND PERSON_ID = ?;";
+
+    $stmt = mysqli_stmt_init($connection);
+    if (!mysqli_stmt_prepare($stmt, $sql)) {
+        header("location: ../index.html?error=stmterror");
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "s", $person_id);
+    mysqli_stmt_execute($stmt);
+
+    $result = mysqli_stmt_get_result($stmt);
+    if ($row = mysqli_fetch_assoc($result)) {
+        return $row;
+    } 
+    else {
+        $result = false;
+        return $result;
+    }
+
+    mysqli_stmt_close($stmt);
 }
 
 function ageCalculator($dob){

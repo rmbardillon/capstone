@@ -1,6 +1,7 @@
 <?php
     use PHPMailer\PHPMailer\PHPMailer;
     use PHPMailer\PHPMailer\Exception;
+    require_once 'sql.inc.php';
     $isDeleted =  'N';
     if (isset($_SESSION['admin-data'])) {
         $getActiveUser = $_SESSION['admin-data']['username'];
@@ -199,6 +200,28 @@ function updateAccountStatus($connection, $isLocked, $id) {
     mysqli_stmt_close($stmt);
 }
 
+function updateUserAccountStatus($connection, $isLocked, $id) {
+    $sql = "UPDATE user_account SET IS_LOCKED = ? WHERE PERSON_ID = ?;";
+    try {
+        $stmt = $connection->prepare($sql);
+
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    mysqli_stmt_bind_param($stmt, "ss", $isLocked, $id);
+    mysqli_stmt_execute($stmt); 
+    mysqli_stmt_close($stmt);
+}
+
 function loginUser($connection, $username, $password){
     $loginCredentialsExists = loginCredentialsExists($connection, $username, $username);
     if ($loginCredentialsExists === false) {
@@ -227,6 +250,7 @@ function loginUser($connection, $username, $password){
     else if($checkPassword === true) {
         session_start();
         updateLoginAttempt($connection, 0, $loginCredentialsExists['id']);
+        lockExpiredAccounts($connection);
         $adminData = $_SESSION['admin-data'] = $loginCredentialsExists;
         header("location: ../dashboard.html");
         exit();

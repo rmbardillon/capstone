@@ -14,7 +14,9 @@
             $userType = "Solo Parent";
         }
         $data = getApplicantData($connection, $username, $userType);
+        $isNearingExpiration = $_SESSION['isNearingExpiration'];
         $securityQuestions = getSecurityQuestions($connection, $data[0]['PERSON_ID']);
+        $transactionType = getUserData($connection, "transaction_type", "PERSON_ID", $data[0]['PERSON_ID']);
         $totalPWD = (int) getTotalCitizen($connection, "PWD");
         $totalSoloParent = (int) getTotalCitizen($connection, "Solo Parent");
         $totalSeniorCitizen = (int) getTotalCitizen($connection, "Senior Citizen");
@@ -59,12 +61,14 @@
                 <hr class="sidebar-divider my-0" style="background: rgba(0,0,0,0.99);">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
                     <li class="nav-item"><a class="nav-link <?php if ($page == 'home') {echo 'active';} ?>" href="home.html"><i class="fas fa-tachometer-alt"></i><span>Home</span></a></li>
+                    <?php if($isNearingExpiration != false && $transactionType[0]['STATUS'] != "PENDING") { ?>
                     <?php if($userType == "PWD"){ ?>
                     <li class="nav-item"><a class="nav-link <?php if ($page == 'pwdRenewal') {echo 'active';} ?>" href="pwd-renewal-form-filled-up.html"><i class="fas fa-user"></i><span>Renewal</span></a></li>
                     <?php } else if($userType == "Solo Parent"){ ?>
                     <li class="nav-item"><a class="nav-link <?php if ($page == 'soloParentRenewal') {echo 'active';} ?>" href="solo-parent-renewal-form-filled-up.html"><i class="fas fa-user"></i><span>Renewal</span></a></li>
                     <?php } ?>
-                    <li class="nav-item"><a class="nav-link <?php if ($page == 'applications') {echo 'active';} ?>" href="applications.html"><i class="fas fa-users"></i><span>Applications</span></a></li>
+                    <?php } ?>
+                    <!-- <li class="nav-item"><a class="nav-link <?php if ($page == 'applications') {echo 'active';} ?>" href="applications.html"><i class="fas fa-users"></i><span>Applications</span></a></li> -->
                     <li class="nav-item"><a class="nav-link <?php if ($page == 'announcements') {echo 'active';} ?>" href="announcements.html" style="height: 52.4px;"><i class="fas fa-volume-up"></i><span>Events</span></a></li>
                 </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button" style="background: rgba(255, 255, 255, 0.2);"></button></div>

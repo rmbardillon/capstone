@@ -154,6 +154,31 @@ $("#printBtn").click(function() {
     window.print();
     $("body").html(originalContents);
 });
+
+// Issued ID
+$(".markAsDone").click(function(){
+    const person_id = $("#person_id").val();
+    const applicant_type = $("#applicant_type").val();
+    const admin_username = $("#admin_username").val();
+    $.ajax({
+        type: "POST",
+        url: "includes/insertid.inc.php",
+        data:{
+            person_id: person_id,
+            applicant_type: applicant_type,
+            admin_username: admin_username
+        },
+        success: function (response) 
+        {
+            alert(response);
+            window.location.href = "print-id.html?success=true";
+        },
+        error: function(xhr, status, error) {
+            window.location.href = "print-id.html?success=false";
+        }
+    });
+});
+
 // Form Control Number
 $(document).ready(function() {
     var formControlNumber = $("h5.heading").text();

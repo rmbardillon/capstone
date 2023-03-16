@@ -1030,15 +1030,22 @@ function getEventsPer($connection, $event_id, $for, $barangay) {
 function getApplicantData($connection, $username, $userType) {
     $data = [];
     $username = $_SESSION['username'];
-    $sql = "SELECT person.PERSON_ID, APPLICANT_TYPE, TRANSACTION_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, EMAIL, DATE_OF_BIRTH, transaction_type.DATE_UPDATED, transaction_type.UPDATED_BY, STATUS
-    FROM person 
-    JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
-    JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
-    JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
-    JOIN person_address ON person.PERSON_ID = person_address.PERSON_ID
-    JOIN address ON person_address.ADDRESS_ID = address.ADDRESS_ID AND address.IS_DELETED = 'N'
-    JOIN user_account ON person.PERSON_ID = user_account.PERSON_ID AND user_account.IS_DELETED = 'N'
-    WHERE USERNAME = ? AND APPLICANT_TYPE = ? AND person.IS_DELETED = 'N'";
+    $sql = "SELECT p.PERSON_ID, a.APPLICANT_TYPE, t.TRANSACTION_TYPE, n.FIRST_NAME, n.MIDDLE_NAME, n.LAST_NAME, n.SUFFIX, ad.BARANGAY, ad.ADDRESS, p.EMAIL, p.DATE_OF_BIRTH, t.DATE_UPDATED, t.UPDATED_BY, t.STATUS, i.EXPIRATION_DATE
+    FROM person p
+    JOIN applicant a ON p.PERSON_ID = a.APPLICANT_ID
+    JOIN issued_id i ON p.PERSON_ID = i.PERSON_ID
+    JOIN (
+    SELECT PERSON_ID, MAX(EXPIRATION_DATE) AS MAX_EXPIRATION_DATE
+    FROM issued_id
+    GROUP BY PERSON_ID
+    ) i2 ON i.PERSON_ID = i2.PERSON_ID AND i.EXPIRATION_DATE = i2.MAX_EXPIRATION_DATE
+    JOIN transaction_type t ON p.PERSON_ID = t.PERSON_ID AND t.IS_DELETED = 'N'
+    JOIN name n ON p.PERSON_ID = n.PERSON_ID AND n.IS_DELETED = 'N'
+    JOIN person_address pa ON p.PERSON_ID = pa.PERSON_ID
+    JOIN address ad ON pa.ADDRESS_ID = ad.ADDRESS_ID AND ad.IS_DELETED = 'N'
+    JOIN user_account u ON p.PERSON_ID = u.PERSON_ID AND u.IS_DELETED = 'N'
+    WHERE u.USERNAME = ? AND a.APPLICANT_TYPE = ? AND p.IS_DELETED = 'N'
+    ";
     $stmt = $connection->prepare($sql);
 
     if (!$stmt) {
