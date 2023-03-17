@@ -2093,7 +2093,7 @@ function uploadFile($connection, $file, $personId, $docType) {
     // Check if file was uploaded successfully
     if ($fileError === UPLOAD_ERR_OK) {
         // Create a unique name for the file
-        $newFileName = uniqid('', true) . '.' . pathinfo($fileName, PATHINFO_EXTENSION);
+        $newFileName = $docType . uniqid('', true) . '.' . pathinfo($fileName, PATHINFO_EXTENSION);
 
         // Move the file to the documents folder
         $uploadPath = '../documents/' . $docType . $newFileName;
