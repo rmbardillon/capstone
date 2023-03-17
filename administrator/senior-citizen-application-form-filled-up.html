@@ -579,6 +579,28 @@
             </div>
           </div>
         </div>
+        <div class="row">
+            <div class="col">
+                <label for="applicantSignature" class="form-label required">INPUT APPLICANT Signature</label>
+                <input class="form-control mt-1" type="file" name="applicantSignature" id="applicantSignature">
+            </div>
+            <div class="col">
+                <label for="applicantID" class="form-label required">INPUT APPLICANT 1X1 Picture</label>
+                <input class="form-control mt-1" type="file" name="applicantID" id="applicantID">
+            </div>
+            <div class="col">
+                <label for="applicantValidID" class="form-label required">INPUT APPLICANT VALID ID</label>
+                <input class="form-control mt-1" type="file" name="applicantValidID" id="applicantValidID">
+            </div>
+            <!-- <div class="col">
+                <label for="applicantMedicalCertificate" class="form-label required">MEDICAL CERTIFICATE</label>
+                <input class="form-control mt-1" type="file" name="applicantMedicalCertificate" id="applicantMedicalCertificate">
+            </div> -->
+            <div class="col">
+                <label for="applicantBarangayResidency" class="form-label required">BARANGAY RESIDENCY</label>
+                <input class="form-control mt-1" type="file" name="applicantBarangayResidency" id="applicantBarangayResidency">
+            </div>
+        </div>
         <?php endforeach; ?>
         <?php endforeach; if(!isset($_GET['event'])){ 
             if($adminData['admin_type'] == "Main Administrator" || ($adminData['admin_type'] == "Senior Citizen Administrator" && $adminData['barangay'] == "City Hall")){ 
