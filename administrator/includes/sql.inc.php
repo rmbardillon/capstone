@@ -11,7 +11,7 @@ function getTotalCitizen($connection, $applicationType) {
 function getPWDData($connection, $personID) {
     $data = [];
     if(!empty($personID)) {
-        $sql = "SELECT APPLICANT_TYPE, CITIZEN_ID, TRANSACTION_TYPE, REGION, CITY, PROVINCE, previous_address.BARANGAY, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, LANDLINE_NUMBER, telephone.TELEPHONE_NUMBER AS MOBILE_NUMBER, EMAIL, DATE_OF_BIRTH, RELIGION, BLOOD_TYPE, IS_ACTIVE_VOTER, IS_4PS_MEMBER, EMPLOYMENT_STATUS, CATEGORY_OF_EMPLOYMENT, NATURE_OF_EMPLOYMENT, JOB, OTHER_JOB, MONTHLY_INCOME, ORGANIZATION_AFFILIATED, CONTACT_PERSON, OFFICE_ADDRESS, organization.TELEPHONE_NUMBER, SSS_NUMBER, GSIS_NUMBER,PSN_NUMBER, IS_PHILHEALTH_MEMBER, PHILHEALTH_NUMBER, TYPE_OF_DISABILITY, MEDICAL_CONDITION, CAUSE_OF_DISABILITY, CONGENITAL_INBORN, ACQUIRED, STATUS_OF_DISABILITY, PWD_PHYSICIAN_NAME, PHYSICIAN_LICENSE_NUMBER, ACCOMPLISHED_BY, ACCOMPLISHER_NAME, transaction_type.DATE_UPDATED, STATUS
+        $sql = "SELECT APPLICANT_TYPE, CITIZEN_ID, TRANSACTION_TYPE, REGION, CITY, PROVINCE, previous_address.BARANGAY, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, address.BARANGAY, ADDRESS, person_address.ADDRESS_ID, LANDLINE_NUMBER, telephone.TELEPHONE_NUMBER AS MOBILE_NUMBER, EMAIL, DATE_OF_BIRTH, RELIGION, BLOOD_TYPE, IS_ACTIVE_VOTER, IS_4PS_MEMBER, EMPLOYMENT_STATUS, CATEGORY_OF_EMPLOYMENT, NATURE_OF_EMPLOYMENT, JOB, OTHER_JOB, MONTHLY_INCOME, ORGANIZATION_AFFILIATED, CONTACT_PERSON, OFFICE_ADDRESS, organization.TELEPHONE_NUMBER, SSS_NUMBER, GSIS_NUMBER,PSN_NUMBER, IS_PHILHEALTH_MEMBER, PHILHEALTH_NUMBER, TYPE_OF_DISABILITY, MEDICAL_CONDITION, CAUSE_OF_DISABILITY, CONGENITAL_INBORN, ACQUIRED, STATUS_OF_DISABILITY, PWD_PHYSICIAN_NAME, PHYSICIAN_LICENSE_NUMBER, ACCOMPLISHED_BY, ACCOMPLISHER_NAME, transaction_type.DATE_UPDATED, STATUS
         FROM person 
         JOIN applicant ON person.PERSON_ID = applicant.APPLICANT_ID
         JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
@@ -133,7 +133,7 @@ function getPWDGender($connection, $personID) {
 
 function getFatherData($connection, $personID) {
     $data = [];
-    $sql = "SELECT LAST_NAME, FIRST_NAME, MIDDLE_NAME, SUFFIX, RELATIONSHIP_TYPE
+    $sql = "SELECT person.PERSON_ID, LAST_NAME, FIRST_NAME, MIDDLE_NAME, SUFFIX, RELATIONSHIP_TYPE
     FROM person
     JOIN name ON person.PERSON_ID = name.PERSON_ID
     JOIN relationship ON person.PERSON_ID = relationship.PERSON_ID
@@ -173,7 +173,7 @@ function getFatherData($connection, $personID) {
 
 function getMotherData($connection, $personID) {
     $data = [];
-    $sql = "SELECT LAST_NAME, FIRST_NAME, MIDDLE_NAME, SUFFIX, RELATIONSHIP_TYPE
+    $sql = "SELECT person.PERSON_ID, LAST_NAME, FIRST_NAME, MIDDLE_NAME, SUFFIX, RELATIONSHIP_TYPE
     FROM person
     JOIN name ON person.PERSON_ID = name.PERSON_ID
     JOIN relationship ON person.PERSON_ID = relationship.PERSON_ID
@@ -213,10 +213,11 @@ function getMotherData($connection, $personID) {
 
 function getGuardianData($connection, $personID) {
     $data = [];
-    $sql = "SELECT LAST_NAME, FIRST_NAME, MIDDLE_NAME, SUFFIX, RELATIONSHIP_TYPE
+    $sql = "SELECT person.PERSON_ID, LAST_NAME, FIRST_NAME, MIDDLE_NAME, SUFFIX, RELATIONSHIP_TYPE, TELEPHONE_NUMBER
     FROM person
     JOIN name ON person.PERSON_ID = name.PERSON_ID
     JOIN relationship ON person.PERSON_ID = relationship.PERSON_ID
+    JOIN telephone ON person.PERSON_ID = telephone.PERSON_ID
     WHERE relationship.RELATIONSHIP_TYPE = 'Guardian'
     AND relationship.APPLICANT_ID = ?
     AND person.IS_DELETED = 'N'
@@ -254,7 +255,7 @@ function getGuardianData($connection, $personID) {
 function getSoloParentData($connection, $personID) {
     $data = [];
     if(!empty($personID)) {
-        $sql = "SELECT APPLICANT_TYPE, CITIZEN_ID, TRANSACTION_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, BARANGAY, ADDRESS, DATE_OF_BIRTH, PLACE_OF_BIRTH, EMAIL, TELEPHONE_NUMBER, JOB, COMPANY, MONTHLY_INCOME, TOTAL_FAMILY_INCOME, CLASSIFICATION_CIRCUMSTANCES, NEEDS_PROBLEMS, FAMILY_RESOURCES, transaction_type.DATE_UPDATED, STATUS
+        $sql = "SELECT APPLICANT_TYPE, CITIZEN_ID, TRANSACTION_TYPE, FIRST_NAME, MIDDLE_NAME, LAST_NAME, SUFFIX, BARANGAY, ADDRESS,person_address.ADDRESS_ID, DATE_OF_BIRTH, PLACE_OF_BIRTH, EMAIL, TELEPHONE_NUMBER, JOB, COMPANY, MONTHLY_INCOME, TOTAL_FAMILY_INCOME, CLASSIFICATION_CIRCUMSTANCES, NEEDS_PROBLEMS, FAMILY_RESOURCES, transaction_type.DATE_UPDATED, STATUS
         FROM person 
         JOIN name ON person.PERSON_ID = name.PERSON_ID AND name.IS_DELETED = 'N'
         JOIN transaction_type ON person.PERSON_ID = transaction_type.PERSON_ID AND transaction_type.IS_DELETED = 'N'
@@ -357,7 +358,7 @@ function getSoloParentGender($connection, $personID) {
 
 function getFamilyMemberData($connection, $personID) {
     $data = [];
-    $sql = "SELECT LAST_NAME AS CHILD_LAST_NAME, FIRST_NAME AS CHILD_FIRST_NAME, MIDDLE_NAME AS CHILD_MIDDLE_NAME, SUFFIX AS CHILD_SUFFIX, DATE_OF_BIRTH AS CHILD_DOB, MARITAL_STATUS AS FAMILY_MARITAL_STATUS, EDUCATIONAL_ATTAINMENT, MONTHLY_INCOME, RELATIONSHIP_TYPE, JOB, OTHER_JOB
+    $sql = "SELECT person.PERSON_ID, LAST_NAME AS CHILD_LAST_NAME, FIRST_NAME AS CHILD_FIRST_NAME, MIDDLE_NAME AS CHILD_MIDDLE_NAME, SUFFIX AS CHILD_SUFFIX, DATE_OF_BIRTH AS CHILD_DOB, MARITAL_STATUS AS FAMILY_MARITAL_STATUS, EDUCATIONAL_ATTAINMENT, MONTHLY_INCOME, RELATIONSHIP_TYPE, JOB, OTHER_JOB
     FROM person
     JOIN name ON person.PERSON_ID = name.PERSON_ID
     JOIN relationship ON person.PERSON_ID = relationship.PERSON_ID
@@ -2265,6 +2266,469 @@ function updateIssuedID($connection, $person_id) {
 
     // Bind the values to the placeholders
     $stmt->bind_param("s", $person_id);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+// Update Data
+// Update Person Email
+function updatePersonEmail($connection, $person_id, $email) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE person SET EMAIL = ? WHERE PERSON_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("ss",$email, $person_id);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+
+}
+
+// Update Applicant
+function updateApplicant($connection, $person_id, $formControlNumber) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE applicant SET FORM_CONTROL_NUMBER = ? WHERE APPLICANT_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("ss",$formControlNumber, $person_id);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+// Update Transaction Type
+function updateTransactionType($connection, $person_id, $applicationType, $status) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE transaction_type SET TRANSACTION_TYPE = ?, STATUS = ? WHERE PERSON_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("sss",$applicationType, $status, $person_id);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+// Update Name
+function updateName($connection, $person_id, $firstName, $middleName, $lastName, $suffix) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE name SET FIRST_NAME = ?, MIDDLE_NAME = ?, LAST_NAME = ?, SUFFIX = ? WHERE PERSON_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("sssss", $firstName, $middleName, $lastName, $suffix, $person_id);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+// Update Address
+function updateAddress($connection, $address_id, $barangay, $address) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE address SET BARANGAY = ?, ADDRESS = ? WHERE ADDRESS_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("sss",$barangay, $address, $address_id);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+// Update Landline
+function updateLandline($connection, $person_id, $landline) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE landline SET LANDLINE_NUMBER = ? WHERE PERSON_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("ss",$landline, $person_id);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+// Update Telephone
+function updateTelephone($connection, $person_id, $telephone) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE telephone SET TELEPHONE_NUMBER = ? WHERE PERSON_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("ss",$telephone, $person_id);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+// Update Gender
+function updateGender($connection, $person_id, $gender) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE gender SET GENDER = ? WHERE PERSON_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("ss",$gender, $person_id);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+// Update Religion
+function updateReligion($connection, $person_id, $religion) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE religion SET RELIGION = ? WHERE PERSON_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("ss",$religion, $person_id);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+// Update Educational Attainment
+function updateEducationalAttainment($connection, $person_id, $educationalAttainment) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE educational_attainment SET EDUCATIONAL_ATTAINMENT = ? WHERE PERSON_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("ss",$educationalAttainment, $person_id);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+// Update GovernmentMembership
+function updateGovernmentMembership($connection, $person_id, $isActiveVoter, $is4psMember) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE government_membership SET IS_ACTIVE_VOTER = ?, IS_4PS_MEMBER = ? WHERE PERSON_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("sss",$isActiveVoter, $is4psMember, $person_id);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+// Update Employment Status
+function updateEmploymentStatus($connection, $person_id, $employmentStatus, $categoryOfEmployment, $natureOfEmployment) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE employment_status SET EMPLOYMENT_STATUS = ?, CATEGORY_OF_EMPLOYMENT = ?, NATURE_OF_EMPLOYMENT = ? WHERE PERSON_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("ssss",$employmentStatus, $categoryOfEmployment, $natureOfEmployment, $person_id);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+// Update Company
+function updateCompany($connection, $person_id, $company) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE company SET COMPANY = ? WHERE PERSON_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("ss",$company, $person_id);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+// Update Income
+function updateIncome($connection, $person_id, $monthlyIncome, $totalFamilyIncome) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE income SET MONTHLY_INCOME = ?, TOTAL_FAMILY_INCOME = ? WHERE PERSON_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("sss", $monthlyIncome, $totalFamilyIncome, $person_id);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+// Update Job
+function updateJob($connection, $person_id, $job, $otherJob) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE job SET JOB = ?, OTHER_JOB = ? WHERE PERSON_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("sss", $job, $otherJob, $person_id);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+// Update Marital Status
+function updateMaritalStatus($connection, $person_id, $maritalStatus) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE marital_status SET MARITAL_STATUS = ? WHERE PERSON_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("ss", $maritalStatus, $person_id);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+// Update Solo Parent Long Text
+function updateSoloParentLongText($connection, $person_id, $soloParentClassification, $soloParentNeeds, $soloParentFamilyResources) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE solo_parent_long_text SET CLASSIFICATION_CIRCUMSTANCES = ?, NEEDS_PROBLEMS = ?, FAMILY_RESOURCES = ? WHERE PERSON_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("ssss", $soloParentClassification, $soloParentNeeds, $soloParentFamilyResources, $person_id);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+// Update Organization
+function updateOrganization($connection, $personId, $organization, $organizationContactPerson, $organizationOfficeAddress, $organizationTelephoneNumber) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE organization SET ORGANIZATION_AFFILIATED = ?, CONTACT_PERSON = ?,OFFICE_ADDRESS = ?,TELEPHONE_NUMBER = ? WHERE PERSON_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("sssss", $organization, $organizationContactPerson, $organizationOfficeAddress, $organizationTelephoneNumber, $personId);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+// Update ID Reference Number
+function updateIdReferenceNumber($connection, $personId, $SSSNo, $GSISNo, $PSNNo, $isPhilhealthMember, $philhealthNumber) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE id_reference_number SET SSS_NUMBER = ?, GSIS_NUMBER = ?,PSN_NUMBER = ?,IS_PHILHEALTH_MEMBER = ?, PHILHEALTH_NUMBER = ? WHERE PERSON_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("ssssss", $SSSNo, $GSISNo, $PSNNo, $isPhilhealthMember, $philhealthNumber, $personId);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+// Update PWD Disease
+function updatePWDDisease($connection, $personId, $typeOfDisability, $medicalCondition, $causeOfDisability, $inborn, $acquired, $statusOfDisability) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE pwd_disease SET TYPE_OF_DISABILITY = ?, MEDICAL_CONDITION = ?,CAUSE_OF_DISABILITY = ?,CONGENITAL_INBORN = ?, ACQUIRED = ?, STATUS_OF_DISABILITY = ? WHERE PERSON_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("sssssss", $typeOfDisability, $medicalCondition, $causeOfDisability, $inborn, $acquired, $statusOfDisability, $personId);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+// Update Physician
+function updatePWDPhysician($connection, $personId, $physicianName, $physicianLicence) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE pwd_physician SET PWD_PHYSICIAN_NAME = ?, PHYSICIAN_LICENSE_NUMBER = ? WHERE PERSON_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("sss", $physicianName, $physicianLicence, $personId);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+// Update Accomplisher
+function updatePWDApplicationAccomplisher($connection, $personId, $accomplishedBy, $accomplisherName) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE pwd_application_accomplisher SET ACCOMPLISHED_BY = ?, ACCOMPLISHER_NAME = ? WHERE PERSON_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("sss", $accomplishedBy, $accomplisherName, $personId);
 
     // Execute the query
     if($stmt->execute() === TRUE){

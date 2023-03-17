@@ -4,8 +4,7 @@
     require_once 'includes/sql.inc.php';
     $page = "pwdRenewal";
     include("header.html");
-    $PERSON_ID = $_SESSION['userData']['PERSON_ID'];
-    $username = $_SESSION['username'];
+    $PERSON_ID = $_GET['PERSON_ID'];
     $userData = getPWDData($connection, $PERSON_ID);
     $genderData = getPWDGender($connection, $PERSON_ID);
     $mother = getMotherData($connection, $PERSON_ID);
@@ -13,7 +12,7 @@
     $guardian = getGuardianData($connection, $PERSON_ID);
 
     $result = array_map(null, $userData, $genderData, $mother, $father, $guardian);
-    if (!isset($_SESSION['username'])) {
+    if (!isset($_SESSION['admin-data'])) {
         header("location: ../login/admin.html");
         exit();
     }
@@ -24,7 +23,7 @@
 ?>
     <div class="container form">
         <h5 class="heading">PWDF-043-<?php echo($totalPWD+1); ?></h5>
-        <form action="includes/register.inc.php" method="post" enctype="multipart/form-data" novalidate="">
+        <form action="includes/renew.inc.php" method="post" enctype="multipart/form-data" novalidate="">
           <input type="hidden" name="formControlNumber" id="formControlNumber">
           <input type="hidden" name="person_id" id="person_id" value="<?php echo($PERSON_ID); ?>">
         <input type="hidden" name="username" id="username" value="<?php echo($username); ?>">

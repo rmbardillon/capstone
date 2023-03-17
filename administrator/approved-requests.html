@@ -40,8 +40,15 @@
                                                 <?php echo($user['NAME']); ?></td>
                                             <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
                                             <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
-                                            <td style="text-align: center;"><?php echo($user['EXPIRATION_DATE']); ?></td>
-                                            <td style="text-align: center;"><a class="btn btn-secondary" href="pwd-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>&approved=true">View Information</a></td>
+                                            <td class="<?php 
+                                            if(strtotime($user['EXPIRATION_DATE']) < time()) 
+                                                echo 'text-danger'; 
+                                            else if(strtotime($user['EXPIRATION_DATE']) < strtotime('+1 month')) 
+                                                echo 'text-warning'; 
+                                            ?>" style="text-align: center;"><?php echo($user['EXPIRATION_DATE']); ?></td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary <?php 
+                                            if(strtotime($user['EXPIRATION_DATE']) > strtotime('+1 month')) 
+                                                echo 'disabled'; ?>" href="pwd-renewal-form-filled-up.html?PERSON_ID=<?php echo($user['PERSON_ID']); ?>">View Information</a></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -114,8 +121,15 @@
                                                 <?php echo($user['NAME']); ?></td>
                                             <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
                                             <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
-                                            <td style="text-align: center;"><?php echo($user['EXPIRATION_DATE']); ?></td>
-                                            <td style="text-align: center;"><a class="btn btn-secondary" href="solo-parent-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>&approved=true">View Information</a></td>
+                                            <td class="<?php 
+                                            if(strtotime($user['EXPIRATION_DATE']) < time()) 
+                                                echo 'text-danger'; 
+                                            else if(strtotime($user['EXPIRATION_DATE']) < strtotime('+1 month')) 
+                                                echo 'text-warning'; 
+                                            ?>" style="text-align: center;"><?php echo($user['EXPIRATION_DATE']); ?></td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary <?php 
+                                            if(strtotime($user['EXPIRATION_DATE']) > strtotime('+1 month')) 
+                                                echo 'disabled'; ?>" href="solo-parent-renewal-form-filled-up.html?PERSON_ID=<?php echo($user['PERSON_ID']); ?>">View Information</a></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -155,8 +169,15 @@
                                                 <?php echo($user['NAME']); ?></td>
                                             <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
                                             <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
-                                            <td style="text-align: center;"><?php echo($user['EXPIRATION_DATE']); ?></td>
-                                            <td style="text-align: center;"><a class="btn btn-secondary" href="pwd-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>&approved=true">View Information</a></td>
+                                            <td class="<?php 
+                                            if(strtotime($user['EXPIRATION_DATE']) < time()) 
+                                                echo 'text-danger'; 
+                                            else if(strtotime($user['EXPIRATION_DATE']) < strtotime('+1 month')) 
+                                                echo 'text-warning'; 
+                                            ?>" style="text-align: center;"><?php echo($user['EXPIRATION_DATE']); ?></td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary <?php 
+                                            if(strtotime($user['EXPIRATION_DATE']) > strtotime('+1 month')) 
+                                                echo 'disabled'; ?>" href="pwd-renewal-form-filled-up.html?PERSON_ID=<?php echo($user['PERSON_ID']); ?>">View Information</a></td>
                                         </tr>
                                         <?php endforeach; 
                 echo <<<HTML
@@ -233,8 +254,15 @@
                                                 <?php echo($user['NAME']); ?></td>
                                             <td style="text-align: center;">Barangay <?php echo($user['BARANGAY']); ?>&nbsp;</td>
                                             <td style="text-align: center;"><?php echo($user['DATE_UPDATED']); ?></td>
-                                            <td style="text-align: center;"><?php echo($user['EXPIRATION_DATE']); ?></td>
-                                            <td style="text-align: center;"><a class="btn btn-secondary" href="solo-parent-application-form-filled-up.html?id=<?php echo($user['PERSON_ID']); ?>&approved=true">View Information</a></td>
+                                            <td class="<?php 
+                                            if(strtotime($user['EXPIRATION_DATE']) < time()) 
+                                                echo 'text-danger'; 
+                                            else if(strtotime($user['EXPIRATION_DATE']) < strtotime('+1 month')) 
+                                                echo 'text-warning'; 
+                                            ?>" style="text-align: center;"><?php echo($user['EXPIRATION_DATE']); ?></td>
+                                            <td style="text-align: center;"><a class="btn btn-secondary <?php 
+                                            if(strtotime($user['EXPIRATION_DATE']) > strtotime('+1 month')) 
+                                                echo 'disabled'; ?>" href="solo-parent-renewal-form-filled-up.html?PERSON_ID=<?php echo($user['PERSON_ID']); ?>">View Information</a></td>
                                         </tr>
                                         <?php endforeach;
                 echo <<<HTML
