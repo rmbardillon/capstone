@@ -210,8 +210,8 @@ function loginUser($connection, $username, $password){
         $_SESSION['isNearingExpiration'] = $isNearingExpiration = checkExpiration($connection, $loginCredentialsExists['PERSON_ID']);
         $_SESSION['username'] = $loginCredentialsExists['USERNAME'];
         $_SESSION['userData'] = $loginCredentialsExists;
-        if($isNearingExpiration != false) {
-            header("location: ../home.html?warning=true&expirationDate=".$_SESSION['isNearingExpiration']['EXPIRATION_DATE']);
+        if (strtotime($isNearingExpiration['EXPIRATION_DATE']) < strtotime('+30 days now')) {
+            header("location: ../home.html?warning=true&expirationDate=".$isNearingExpiration['EXPIRATION_DATE']);
             exit();
         }
         header("location: ../home.html");
@@ -222,7 +222,10 @@ function loginUser($connection, $username, $password){
 function checkExpiration($connection, $person_id) {
     $sql = "SELECT *
             FROM issued_id
-            WHERE EXPIRATION_DATE > CURRENT_DATE() AND EXPIRATION_DATE < DATE_ADD(CURRENT_DATE(), INTERVAL 1 MONTH) AND PERSON_ID = ?;";
+            WHERE PERSON_ID = ?
+            AND EXPIRATION_DATE > CURRENT_DATE()
+            ORDER BY EXPIRATION_DATE DESC
+            LIMIT 1;";
 
     $stmt = mysqli_stmt_init($connection);
     if (!mysqli_stmt_prepare($stmt, $sql)) {

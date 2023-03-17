@@ -1,5 +1,5 @@
 <?php 
-    $page = "approved-requests";
+    $page = "approved-renewal-requests";
     include("header.html");
     $approvedPWD = getPWDStatus($connection, "APPROVED", "", "Renewal");
     $approvedSoloParent = getSoloParentStatus($connection, "APPROVED", "", "Renewal");
@@ -189,6 +189,8 @@
                     var result = '<?php echo $_GET["success"]; ?>';
                     if(result == "true") {
                         swal("Success!", "Your renewal has been approved successfully!", "success");
+                    } else {
+                        swal("Error!", "Your renewal has not been approved!", "error");
                     }
                 </script>
 <?php

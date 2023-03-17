@@ -9,7 +9,6 @@
         $id = $_POST['adminID'];
         $firstName = $_POST['first_name'];
         $lastName = $_POST['last_name']; 
-        $barangay = $_POST['barangay'];
         $email = $_POST['email'];
         $image = $_FILES['file'];
         $securityQuestion1 = $_POST["security_question1"];

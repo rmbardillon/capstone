@@ -71,9 +71,10 @@ $(document).ready(function() {
 });
 
 // Email validation
+var originalEmail = $(".email").val();
 $(".email").on("change", function() {
     var email = $(this).val();
-    if (email) {
+    if (email != originalEmail) {
         $.ajax({
             url: "includes/email-validation.inc.php",
             type: "POST",
@@ -100,6 +101,7 @@ $(".email").on("change", function() {
         $(".email").removeClass("is-valid");
         $(".email").removeClass("is-invalid");
         $(".email").attr("value", "");
+        $("#emailError").html("");
     }
 });
 var formChanged = false;

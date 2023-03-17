@@ -8,6 +8,7 @@
         session_start();
         $username = $_SESSION['username'];
         $id = $_POST['person_id'];
+        $email = $_POST['email'];
         $image = $_FILES['file'];
         $securityQuestion1 = $_POST["security_question1"];
         $securityQuestion2 = $_POST["security_question2"];
@@ -41,6 +42,9 @@
                 exit();
             }
         }
+        $stmt = $connection->prepare("UPDATE person SET EMAIL = '$email' WHERE PERSON_ID = '$id'");
+        // Execute the query
+        $stmt->execute();
         $securityQuestions = getUserData($connection, "security_questions", "PERSON_ID", $id);
         if($securityQuestions == null) {
             insertSecurityQuestions($connection, $id, $securityQuestion1, $securityAnswer1, $securityQuestion2, $securityAnswer2, $securityQuestion3, $securityAnswer3);

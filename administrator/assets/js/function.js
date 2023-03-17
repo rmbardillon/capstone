@@ -170,7 +170,6 @@ $(".markAsDone").click(function(){
         },
         success: function (response) 
         {
-            alert(response);
             window.location.href = "print-id.html?success=true";
         },
         error: function(xhr, status, error) {
@@ -185,9 +184,10 @@ $(document).ready(function() {
     $("#formControlNumber").val(formControlNumber);
 });
 // Email validation
+var originalEmail = $(".email").val();
 $(".email").on("change", function() {
     var email = $(this).val();
-    if (email) {
+    if (email != originalEmail) {
         $.ajax({
             url: "includes/email-validation.inc.php",
             type: "POST",
@@ -214,6 +214,39 @@ $(".email").on("change", function() {
         $(".email").removeClass("is-valid");
         $(".email").removeClass("is-invalid");
         $(".email").attr("value", "");
+    }
+});
+
+var originalEmail = $(".adminEmail").val();
+$(".adminEmail").on("change", function() {
+    var email = $(this).val();
+    if (email != originalEmail) {
+        $.ajax({
+            url: "includes/admin-email-validation.inc.php",
+            type: "POST",
+            data: {
+                email: email
+            },
+            success: function(data) {
+                if (data == 0) {
+                    $(".adminEmail").removeClass("is-invalid");
+                    $(".adminEmail").addClass("is-valid");
+                    $(".adminEmail").attr("value", email);
+                    $("#emailError").html("");
+                    console.log(data);
+                } else {
+                    $(".adminEmail").removeClass("is-valid");
+                    $(".adminEmail").addClass("is-invalid");
+                    $(".adminEmail").attr("value", "");
+                    $("#emailError").html("Email is already in use");
+                    console.log(data);
+                }
+            }
+        });
+    } else {
+        $(".adminEmail").removeClass("is-valid");
+        $(".adminEmail").removeClass("is-invalid");
+        $(".adminEmail").attr("value", "");
     }
 });
 var formChanged = false;

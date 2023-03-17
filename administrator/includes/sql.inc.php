@@ -2214,6 +2214,26 @@ function uploadFile($connection, $file, $personId, $docType) {
     }
 }
 
+// Update Old Files
+function updateFiles($connection, $person_id) {
+    // Prepare the SQL query
+    $stmt = $connection->prepare("UPDATE document SET IS_DELETED = 'Y' WHERE PERSON_ID = ?");
+
+    // Bind the values to the placeholders
+    $stmt->bind_param("s", $person_id);
+
+    // Execute the query
+    if($stmt->execute() === TRUE){
+        echo "Successfully updated";
+    } else {
+        $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+        header("location: ../error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+
+    // Close the statement
+    $stmt->close();
+}
 function updateEmail($connection, $person_id) {
     // Prepare the SQL query
     $stmt = $connection->prepare("UPDATE person SET EMAIL = NULL, DATE_OF_BIRTH = NULL WHERE PERSON_ID = ?");
@@ -2287,10 +2307,10 @@ function deleteUserData($connection, $person_id, $applicantType, $application_ty
     $stmt = $connection->prepare($sql);
     if($stmt->execute() === TRUE){
         if ($application_type == "renewal") {
-            header("location: ../renewal-rejected-requests.html");
+            header("location: ../renewal-rejected-requests.html?success=false");
             exit();
         } else {
-            header("location: ../rejected-requests.html");
+            header("location: ../rejected-requests.html?success=false");
             exit();
         }
     } else {

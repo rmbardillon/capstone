@@ -103,6 +103,7 @@
                 }
             }
             updateSoloParentLongText($connection, $personId, $soloParentClassification, $soloParentNeeds, $soloParentFamilyResources);
+            updateFiles($connection, $personId);
             // Insert Files
             if (isset($_FILES['applicantSignature'])) {
                 uploadFile($connection, $_FILES['applicantSignature'], $personId, "Applicant Signature");
@@ -290,7 +291,7 @@
             updatePWDDisease($connection, $personId, $typeOfDisability, $medicalCondition, $causeOfDisability, $inborn, $acquired, $statusOfDisability);
             updatePWDPhysician($connection, $personId, $physicianName, $physicianLicence);
             updatePWDApplicationAccomplisher($connection, $personId, $accomplishedBy, $accomplisherName);
-
+            updateFiles($connection, $personId);
             // Insert Files
             if (isset($_FILES['accomplisherID'])) {
                 uploadFile($connection, $_FILES['accomplisherID'], $personId, "Accomplisher ID");

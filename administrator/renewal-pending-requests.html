@@ -1,5 +1,5 @@
 <?php 
-    $page = "pending-requests";
+    $page = "pending-renewal-requests";
     include("header.html");
     $pendingPWD = getPWDStatus($connection, "PENDING", "", "Renewal");
     $pendingSoloParent = getSoloParentStatus($connection, "PENDING", "", "Renewal");
@@ -139,6 +139,15 @@
                     </div>
                 </div>
                 <?php } ?>
+                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                <script>
+                    var result = '<?php echo $_GET["success"]; ?>';
+                    if(result == "true") {
+                        swal("Success!", "Your renewal has been submitted successfully!", "success");
+                    } else {
+                        swal("Error!", "Your renewal has not been submitted!", "error");
+                    }
+                </script>
 <?php
     include "footer.html";
 ?>

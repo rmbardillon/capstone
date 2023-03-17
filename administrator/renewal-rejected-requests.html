@@ -1,5 +1,5 @@
 <?php 
-    $page = "rejected-requests";
+    $page = "rejected-renewal-requests";
     include("header.html");
     $rejectedPWD = getPWDStatus($connection, "REJECTED", "", "Renewal");
     $rejectedSoloParent = getSoloParentStatus($connection, "REJECTED", "", "Renewal");
@@ -147,6 +147,15 @@
                     </div>
                 </div>
                 <?php } ?>
+                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                <script>
+                    var result = '<?php echo $_GET["success"]; ?>';
+                    if(result == "true") {
+                        swal("Success!", "Your renewal has been approved successfully!", "success");
+                    } else {
+                        swal("Error!", "Your renewal has not been approved!", "error");
+                    }
+                </script>
 <?php
     include "footer.html";
 ?>

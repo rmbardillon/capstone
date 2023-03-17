@@ -84,7 +84,7 @@
                                             <div class="mb-3"><label class="form-label" for="username"><strong>Username</strong></label><input class="form-control" type="text" id="username" placeholder="user.name" name="username" value="<?php echo($adminData['username']); ?>" readonly></div>
                                         </div>
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label" for="email"><strong>Email Address</strong></label><input class="form-control" type="email" id="email" placeholder="user@example.com" name="email" value="<?php echo($adminData['email']); ?>" required></div>
+                                            <div class="mb-3"><label class="form-label" for="email"><strong>Email Address</strong></label><input class="form-control adminEmail" type="email" id="email" placeholder="user@example.com" name="email" value="<?php echo($adminData['email']); ?>" required><span id="emailError" class="text-danger"></span></div>
                                         </div>
                                     </div>
                                     <div class="row">
