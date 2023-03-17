@@ -1208,7 +1208,7 @@ $(document).ready(function() {
     });
 
     // Add an event listener to all links on the page
-    $('a:not([id="newApplication"], .profileDropdown)').on('click', function(e) {
+    $('a:not([id="newApplication"], .file, .profileDropdown)').on('click', function(e) {
         console.log("test")
         // Check if the form has unsaved changes
         if (formChanged) {

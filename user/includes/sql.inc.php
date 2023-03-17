@@ -1108,21 +1108,22 @@ function getEventsPer($connection, $event_id, $for, $barangay) {
 function getApplicantData($connection, $username, $userType) {
     $data = [];
     $username = $_SESSION['username'];
-    $sql = "SELECT p.PERSON_ID, a.APPLICANT_TYPE, t.TRANSACTION_TYPE, n.FIRST_NAME, n.MIDDLE_NAME, n.LAST_NAME, n.SUFFIX, ad.BARANGAY, ad.ADDRESS, p.EMAIL, p.DATE_OF_BIRTH, t.DATE_UPDATED, t.UPDATED_BY, t.STATUS, i.EXPIRATION_DATE
+    $sql = "SELECT p.PERSON_ID, a.APPLICANT_TYPE, t.TRANSACTION_TYPE, n.FIRST_NAME, n.MIDDLE_NAME, n.LAST_NAME, n.SUFFIX, ad.BARANGAY, ad.ADDRESS, p.EMAIL, p.DATE_OF_BIRTH, t.DATE_UPDATED, t.UPDATED_BY, t.STATUS, MAX(i.EXPIRATION_DATE) as EXPIRATION_DATE
     FROM person p
     JOIN applicant a ON p.PERSON_ID = a.APPLICANT_ID
-    LEFT JOIN issued_id i ON p.PERSON_ID = i.PERSON_ID
-    LEFT JOIN (
-    SELECT PERSON_ID, MAX(EXPIRATION_DATE) AS MAX_EXPIRATION_DATE
-    FROM issued_id
-    GROUP BY PERSON_ID
-    ) i2 ON i.PERSON_ID = i2.PERSON_ID AND i.EXPIRATION_DATE = i2.MAX_EXPIRATION_DATE
     JOIN transaction_type t ON p.PERSON_ID = t.PERSON_ID AND t.IS_DELETED = 'N'
     JOIN name n ON p.PERSON_ID = n.PERSON_ID AND n.IS_DELETED = 'N'
     JOIN person_address pa ON p.PERSON_ID = pa.PERSON_ID
     JOIN address ad ON pa.ADDRESS_ID = ad.ADDRESS_ID AND ad.IS_DELETED = 'N'
     JOIN user_account u ON p.PERSON_ID = u.PERSON_ID AND u.IS_DELETED = 'N'
+    LEFT JOIN (
+        SELECT PERSON_ID, MAX(EXPIRATION_DATE) AS EXPIRATION_DATE
+        FROM issued_id
+        GROUP BY PERSON_ID
+    ) i ON p.PERSON_ID = i.PERSON_ID
     WHERE u.USERNAME = ? AND a.APPLICANT_TYPE = ? AND p.IS_DELETED = 'N'
+    GROUP BY p.PERSON_ID, a.APPLICANT_TYPE, t.TRANSACTION_TYPE, n.FIRST_NAME, n.MIDDLE_NAME, n.LAST_NAME, n.SUFFIX, ad.BARANGAY, ad.ADDRESS, p.EMAIL, p.DATE_OF_BIRTH, t.DATE_UPDATED, t.UPDATED_BY, t.STATUS;
+    
     ";
     $stmt = $connection->prepare($sql);
 

@@ -183,6 +183,13 @@
                     </div>
                 </div>
                 <?php } ?>
+                <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+                <script>
+                    var result = '<?php echo $_GET["success"]; ?>';
+                    if(result == "true") {
+                        swal("Success!", "Your renewal has been approved successfully!", "success");
+                    }
+                </script>
 <?php
     include "footer.html";
 ?>
