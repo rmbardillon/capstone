@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .pdf-link {
+            display: none;
+        }
+    </style>
+
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="pdf-file">
+        <button type="submit">Upload</button>
+    </form>
+    <div class="pdf-link"></div>
+<script>
+  const form = document.querySelector('form');
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const formData = new FormData(form);
+    fetch('upload.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.text())
+    .then(pdfLink => {
+      const pdfLinkElement = document.querySelector('.pdf-link');
+      pdfLinkElement.innerHTML = pdfLink;
+      pdfLinkElement.style.display = 'block';
+    });
+  });
+</script>
+</body>
+</html>

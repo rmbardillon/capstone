@@ -589,6 +589,41 @@ function getChildrenData($connection, $personID) {
     $connection->close();
 }
 
+// GET FILES
+function getFiles($connection, $personID) {
+    $data = [];
+    $sql = "SELECT *
+    FROM document
+    WHERE PERSON_ID = ? AND IS_DELETED = 'N' ORDER BY NAME";
+    try {
+        $stmt = $connection->prepare($sql);
+
+        if (!$stmt) {
+            $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+            header("location: error.html?error_message=" . urlencode($errorMessage));
+            exit();
+        }
+    
+    } catch (Exception $e) {
+        $errorMessage =  "Error: " . $e->getMessage();
+        header("location: error.html?error_message=" . urlencode($errorMessage));
+        exit();
+    }
+    $stmt->bind_param("s", $personID);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0){
+        while($row = $result->fetch_assoc()) {
+            array_push($data, $row);
+        }
+        return $data;
+    } else{
+        return $data;
+    }
+
+    $stmt->close();
+    $connection->close();
+}
 // GET APPLICATIONS
 function getPWDStatus($connection, $status, $barangay, $transactionType) {
     $data = [];
@@ -2096,7 +2131,7 @@ function uploadFile($connection, $file, $personId, $docType) {
         $newFileName = $docType . uniqid('', true) . '.' . pathinfo($fileName, PATHINFO_EXTENSION);
 
         // Move the file to the documents folder
-        $uploadPath = '../documents/' . $docType . $newFileName;
+        $uploadPath = '../documents/' . $newFileName;
         if (move_uploaded_file($fileTmpName, $uploadPath)) {
             // Prepare the SQL query
             global $isDeleted;

@@ -9,6 +9,7 @@
     $userData = getSoloParentData($connection, $PERSON_ID);
     $genderData = getSoloParentGender($connection, $PERSON_ID);
     $family = getFamilyMemberData($connection, $PERSON_ID);
+    $files = getFiles($connection, $PERSON_ID);
     if (!isset($_SESSION['username'])) {
         header("location: ../login/citizen.html");
         exit();
@@ -674,6 +675,32 @@
               </div>
             </div>
           </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="applicantSignature" class="form-label required">INPUT APPLICANT Signature</label>
+                <input class="form-control mt-1" type="file" name="applicantSignature" id="applicantSignature">
+                <a class="btn btn-info w-100" href="documents/<?php echo($files[2]['NAME']); ?>" target="_blank">View File</a>
+            </div>
+            <div class="col">
+                <label for="applicantID" class="form-label required">INPUT APPLICANT 1X1 Picture</label>
+                <input class="form-control mt-1" type="file" name="applicantID" id="applicantID">
+                <a class="btn btn-info w-100" href="documents/<?php echo($files[1]['NAME']); ?>" target="_blank">View File</a>
+            </div>
+            <div class="col">
+                <label for="applicantValidID" class="form-label required">INPUT APPLICANT VALID ID</label>
+                <input class="form-control mt-1" type="file" name="applicantValidID" id="applicantValidID">
+                <a class="btn btn-info w-100" href="documents/<?php echo($files[3]['NAME']); ?>" target="_blank">View File</a>
+            </div>
+            <!-- <div class="col">
+                <label for="applicantMedicalCertificate" class="form-label required">MEDICAL CERTIFICATE</label>
+                <input class="form-control mt-1" type="file" name="applicantMedicalCertificate" id="applicantMedicalCertificate">
+            </div> -->
+            <div class="col">
+                <label for="applicantBarangayResidency" class="form-label required">BARANGAY RESIDENCY</label>
+                <input class="form-control mt-1" type="file" name="applicantBarangayResidency" id="applicantBarangayResidency">
+                <a class="btn btn-info w-100" href="documents/<?php echo($files[0]['NAME']); ?>" target="_blank">View File</a>
+            </div>
         </div>
         <?php endforeach; ?>
         <div class="row">

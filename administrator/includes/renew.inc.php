@@ -41,6 +41,11 @@
         $childOccupation = $_POST['childOccupation'];
         $otherChildOccupation = $_POST['otherChildOccupation'];
         $childIncome = $_POST['childIncome'];
+        $applicantSignature = $_FILES['applicantSignature'];
+        $applicantID = $_FILES['applicantID'];
+        $applicantValidID = $_FILES['applicantValidID'];
+        $applicantBarangayResidency = $_FILES['applicantBarangayResidency'];
+
 
         $soloParentClassification = $_POST['soloParentClassification'];
         if (isset($_POST['soloParentClassification'])) {
@@ -98,6 +103,19 @@
                 }
             }
             updateSoloParentLongText($connection, $personId, $soloParentClassification, $soloParentNeeds, $soloParentFamilyResources);
+            // Insert Files
+            if (isset($_FILES['applicantSignature'])) {
+                uploadFile($connection, $_FILES['applicantSignature'], $personId, "Applicant Signature");
+            }
+            if (isset($_FILES['applicantID'])) {
+                uploadFile($connection, $_FILES['applicantID'], $personId, "Applicant ID");
+            }
+            if (isset($_FILES['applicantValidID'])) {
+                uploadFile($connection, $_FILES['applicantValidID'], $personId, "Applicant Valid ID");
+            }
+            if (isset($_FILES['applicantBarangayResidency'])) {
+                uploadFile($connection, $_FILES['applicantBarangayResidency'], $personId, "Applicant Barangay Residency");
+            }
             // Commit the transaction
             $connection->commit();
             echo "All queries executed successfully";
@@ -173,6 +191,12 @@
         $guardianSuffix = $_POST['guardianSuffix'];
         $guardianRelationship = $_POST['guardianRelationship'];
         $guardianContactNumber = $_POST['guardianContactNumber'];
+        $accomplisherID = $_FILES['accomplisherID'];
+        $applicantSignature = $_FILES['applicantSignature'];
+        $applicantID = $_FILES['applicantID'];
+        $applicantValidID = $_FILES['applicantValidID'];
+        $applicantBarangayResidency = $_FILES['applicantBarangayResidency'];
+        $applicantMedicalCertificate = $_FILES['applicantMedicalCertificate'];
 
         if (isset($_POST['typeOfDisability'])) {
             $str = $_POST['typeOfDisability'];
@@ -266,6 +290,26 @@
             updatePWDDisease($connection, $personId, $typeOfDisability, $medicalCondition, $causeOfDisability, $inborn, $acquired, $statusOfDisability);
             updatePWDPhysician($connection, $personId, $physicianName, $physicianLicence);
             updatePWDApplicationAccomplisher($connection, $personId, $accomplishedBy, $accomplisherName);
+
+            // Insert Files
+            if (isset($_FILES['accomplisherID'])) {
+                uploadFile($connection, $_FILES['accomplisherID'], $personId, "Accomplisher ID");
+            }
+            if (isset($_FILES['applicantSignature'])) {
+                uploadFile($connection, $_FILES['applicantSignature'], $personId, "Applicant Signature");
+            }
+            if (isset($_FILES['applicantID'])) {
+                uploadFile($connection, $_FILES['applicantID'], $personId, "Applicant ID");
+            }
+            if (isset($_FILES['applicantValidID'])) {
+                uploadFile($connection, $_FILES['applicantValidID'], $personId, "Applicant Valid ID");
+            }
+            if (isset($_FILES['applicantMedicalCertificate'])) {
+                uploadFile($connection, $_FILES['applicantMedicalCertificate'], $personId, "Applicant Medical Certificate");
+            }
+            if (isset($_FILES['applicantBarangayResidency'])) {
+                uploadFile($connection, $_FILES['applicantBarangayResidency'], $personId, "Applicant Barangay Residency");
+            }
             // Commit the transaction
             $connection->commit();
             echo "All queries executed successfully";
