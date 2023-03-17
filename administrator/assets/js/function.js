@@ -610,7 +610,9 @@ $(document).ready(function() {
                     }
                     if ($("#accomplishedBy").val() == "Guardian" || $("#accomplishedBy").val() == "Representative") {
                         $("#accomID").show();
-                        $("#accomID").prop("required", true);
+                        $("#accomplisherID").prop("required", true);
+                    } else {
+                        $("#accomplisherID").prop("required", false);
                     }
                 }
             },
@@ -1268,11 +1270,9 @@ $("#accomplishedBy").change(function() {
     }
 
     if ($(this).val() == "Guardian" || $(this).val() == "Representative") {
-        $("#accomID").show();
         $("#accomID").prop("required", true);
     } else {
-        $("#accomID").hide();
-        $("#accomID").prop("required", false);
+        $("#accomplisherID").prop("required", false);
     }
 });
 $('input[name="typeOfDisability[]"]').click(function() {
