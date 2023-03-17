@@ -97,7 +97,7 @@
                         </div>
                     </div>
                 </div>
-                <?php } else { ?>
+                <?php } else if($adminData['admin_type'] == "PWD Administrator"){ ?>
                     <div class="container-fluid">
                     <h3 class="text-dark mb-4">Renewal Approved Application</h3>
                     <div class="card shadow">
@@ -140,6 +140,7 @@
                         </div>
                     </div>
                 </div>
+                <?php } else { ?>
                 <div class="container-fluid">
                     <h3 class="text-dark mb-4"></h3>
                     <div class="card shadow">
