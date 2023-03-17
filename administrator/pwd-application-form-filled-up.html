@@ -1202,7 +1202,7 @@
               <option value="Guardian" <?php echo ($data['ACCOMPLISHED_BY'] == 'Guardian') ? 'selected' : ''; ?> >Guardian</option>
               <option value="Representative" <?php echo ($data['ACCOMPLISHED_BY'] == 'Representative') ? 'selected' : ''; ?> >Representative</option>
             </select>
-            <?php if($data['ACCOMPLISHED_BY'] == 'Guardian') { ?>
+            <?php if($data['ACCOMPLISHED_BY'] != 'Applicant') { ?>
             <input
               class="form-control numbers mt-1"
               type="text"
@@ -1212,7 +1212,7 @@
               readonly
                 value="<?php echo $data['ACCOMPLISHER_NAME']; ?>"
             />
-            <div class="mt-1" id="accomID" style="display: none;">
+            <div class="mt-1" id="accomID">
                 <label for="accomplisherID" class="form-label">Input Representative/Guardian ID</label>
                 <a class="btn btn-info w-100" href="documents/<?php echo($files[0]['NAME']); ?>" target="_blank">View File</a>
             </div>
