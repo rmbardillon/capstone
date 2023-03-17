@@ -750,6 +750,48 @@ function getSeniorCitizenStatus($connection, $status, $barangay) {
 
 }
 
+// Insert Files
+function uploadFile($connection, $file, $personId, $docType) {
+    $fileName = $file['name'];
+    $fileTmpName = $file['tmp_name'];
+    $fileType = $file['type'];
+    $fileSize = $file['size'];
+    $fileError = $file['error'];
+
+    // Check if file was uploaded successfully
+    if ($fileError === UPLOAD_ERR_OK) {
+        // Create a unique name for the file
+        $newFileName = $docType . uniqid('', true) . '.' . pathinfo($fileName, PATHINFO_EXTENSION);
+
+        // Move the file to the documents folder
+        $uploadPath = '../../administrator/documents/' . $newFileName;
+        if (move_uploaded_file($fileTmpName, $uploadPath)) {
+            // Prepare the SQL query
+            global $isDeleted;
+            global $getActiveUser;
+            $stmt = $connection->prepare("INSERT INTO document (DOCUMENT_ID, PERSON_ID, LOCATION, NAME, TYPE, UPDATED_BY) VALUES (LEFT(REPLACE(UUID(),'-',''),16), '$personId', '$uploadPath', '$newFileName', '$fileType', '$getActiveUser')");
+            // Execute the query
+            if(!$stmt->execute() === TRUE){
+                $errorMessage =  "Error: " . $stmt . "<br>" . $connection->error;
+                header("location: ../error.html?error_message=" . urlencode($errorMessage));
+                exit();
+            }
+
+            // Close the statement
+            $stmt->close();
+
+            // Return the file name
+            return $newFileName;
+        } else {
+            // Return an error message
+            return 'Error uploading file';
+        }
+    } else {
+        // Return an error message
+        return 'Error uploading file';
+    }
+}
+
 // GET FILES
 function getFiles($connection, $personID) {
     $data = [];
